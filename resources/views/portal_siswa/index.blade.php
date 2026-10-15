@@ -53,7 +53,7 @@
         }
 
         /* -------------------------------------------------------------
-           1. TOP HORIZONTAL NAVBAR (KHUSUS PORTAL SISWA - TANPA SIDEBAR)
+           1. TOP HORIZONTAL NAVBAR (PORTAL SISWA - TANPA SIDEBAR)
            ------------------------------------------------------------- */
         .portal-navbar {
             position: sticky;
@@ -68,7 +68,7 @@
         }
 
         .nav-container {
-            max-width: 1200px;
+            max-width: 1240px;
             margin: 0 auto;
             padding: 0 24px;
             height: 74px;
@@ -135,7 +135,7 @@
         .nav-menu-links {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             list-style: none;
         }
 
@@ -238,11 +238,11 @@
         }
 
         /* -------------------------------------------------------------
-           2. MAIN CONTAINER & SECTIONS
+           2. MAIN CONTENT WRAPPER
            ------------------------------------------------------------- */
         .main-content {
             flex: 1;
-            max-width: 1200px;
+            max-width: 1240px;
             width: 100%;
             margin: 0 auto;
             padding: 24px 24px 60px;
@@ -265,138 +265,242 @@
         .alert-danger { background: var(--red-bg); border: 1px solid #fecaca; color: var(--red); }
         .alert-info { background: #e0f2fe; border: 1px solid #bae6fd; color: #0369a1; }
 
-        /* HERO SECTION */
-        .hero-banner {
-            background: linear-gradient(135deg, #0d2259 0%, #173c91 55%, #1e4bb8 100%);
+        /* -------------------------------------------------------------
+           3. HERO SECTION (PROFESIONAL LANDING PAGE DENGAN FOTO ASLI SEKOLAH)
+           ------------------------------------------------------------- */
+        .hero-section {
+            background: var(--white);
+            border: 1px solid var(--border-color);
             border-radius: 24px;
-            color: #ffffff;
-            padding: 56px 44px;
+            padding: 48px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 48px;
             position: relative;
             overflow: hidden;
-            box-shadow: var(--shadow-lg);
-            margin-bottom: 40px;
         }
 
-        .hero-banner::after {
+        .hero-section::before {
             content: '';
             position: absolute;
-            top: -40%;
-            right: -10%;
-            width: 450px;
-            height: 450px;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary) 0%, #38bdf8 100%);
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 40px;
+            align-items: center;
         }
 
         .hero-badge {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: rgba(255, 255, 255, 0.16);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: var(--primary-light);
+            border: 1px solid rgba(23, 60, 145, 0.15);
             padding: 6px 14px;
             border-radius: 999px;
             font-size: 12.5px;
-            font-weight: 600;
-            color: #e0ecff;
+            font-weight: 700;
+            color: var(--primary);
             margin-bottom: 20px;
         }
 
         .hero-title {
-            font-size: 34px;
+            font-size: 38px;
             font-weight: 800;
-            line-height: 1.25;
-            letter-spacing: -0.5px;
-            margin-bottom: 16px;
-            max-width: 820px;
+            line-height: 1.22;
+            letter-spacing: -0.6px;
+            color: var(--primary-dark);
+            margin-bottom: 18px;
         }
 
-        .hero-subtitle {
-            font-size: 16px;
-            line-height: 1.65;
-            color: #dbe7ff;
-            max-width: 760px;
-            margin-bottom: 32px;
-            font-weight: 400;
+        .hero-desc {
+            font-size: 15.5px;
+            line-height: 1.7;
+            color: var(--text-muted);
+            margin-bottom: 30px;
         }
 
-        .hero-cta-group {
+        .hero-btn-group {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 14px;
             flex-wrap: wrap;
+            margin-bottom: 36px;
         }
 
-        .hero-btn-primary {
+        .btn-hero-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: #ffffff;
+            font-size: 14.5px;
+            font-weight: 700;
+            padding: 13px 26px;
+            border-radius: 12px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            box-shadow: 0 6px 18px rgba(23, 60, 145, 0.25);
+            transition: all 0.2s ease;
+        }
+
+        .btn-hero-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(23, 60, 145, 0.35);
+            color: #ffffff;
+        }
+
+        .btn-hero-secondary {
             background: #ffffff;
             color: var(--primary-dark);
+            border: 1.5px solid var(--border-color);
             font-size: 14.5px;
             font-weight: 700;
-            padding: 13px 26px;
+            padding: 13px 24px;
             border-radius: 12px;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 9px;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
             transition: all 0.2s ease;
         }
 
-        .hero-btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+        .btn-hero-secondary:hover {
+            border-color: var(--primary);
             color: var(--primary);
-        }
-
-        .hero-btn-secondary {
-            background: rgba(255, 255, 255, 0.14);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.35);
-            font-size: 14.5px;
-            font-weight: 700;
-            padding: 13px 26px;
-            border-radius: 12px;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 9px;
-            transition: all 0.2s ease;
-        }
-
-        .hero-btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.25);
+            background: var(--primary-soft);
             transform: translateY(-2px);
-            color: #ffffff;
         }
 
-        /* Pill features on hero */
-        .hero-features {
+        /* Hero Highlights / Value Props */
+        .hero-highlights {
             display: flex;
             gap: 20px;
-            margin-top: 36px;
             padding-top: 24px;
-            border-top: 1px solid rgba(255, 255, 255, 0.18);
+            border-top: 1px solid var(--border-color);
             flex-wrap: wrap;
         }
 
-        .hero-feature-item {
+        .highlight-item {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 13px;
-            color: #dbe7ff;
-            font-weight: 500;
+            gap: 10px;
         }
 
-        .hero-feature-item i {
-            color: #38bdf8;
+        .highlight-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--primary-light);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
         }
 
-        /* SECTION STYLING */
+        .highlight-text strong {
+            display: block;
+            font-size: 12.5px;
+            color: var(--text-main);
+        }
+
+        .highlight-text span {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* Hero Media / Authentic Photo */
+        .hero-media-wrapper {
+            position: relative;
+        }
+
+        .hero-photo-frame {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            border: 3px solid #ffffff;
+            aspect-ratio: 4/3;
+            background: #e2e8f0;
+        }
+
+        .hero-photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .hero-photo-frame:hover img {
+            transform: scale(1.03);
+        }
+
+        .photo-floating-badge {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(23, 60, 145, 0.12);
+            border-radius: 12px;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: var(--shadow-md);
+            z-index: 2;
+        }
+
+        .photo-floating-badge.badge-top {
+            top: 16px;
+            left: 16px;
+        }
+
+        .photo-floating-badge.badge-bottom {
+            bottom: 16px;
+            right: 16px;
+        }
+
+        .badge-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--primary-light);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .badge-icon.green {
+            background: var(--green-bg);
+            color: var(--green);
+        }
+
+        .badge-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .badge-sub {
+            font-size: 10.5px;
+            color: var(--text-muted);
+        }
+
+        /* -------------------------------------------------------------
+           4. SECTION HEADERS
+           ------------------------------------------------------------- */
         .section-header {
             text-align: center;
-            margin-bottom: 34px;
+            margin-bottom: 36px;
         }
 
         .section-tag {
@@ -406,54 +510,76 @@
             letter-spacing: 1.2px;
             color: var(--primary);
             background: var(--primary-light);
-            padding: 4px 12px;
+            padding: 4px 14px;
             border-radius: 999px;
             display: inline-block;
             margin-bottom: 10px;
         }
 
         .section-title {
-            font-size: 26px;
+            font-size: 28px;
             font-weight: 800;
-            color: var(--text-main);
+            color: var(--primary-dark);
             letter-spacing: -0.4px;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
         .section-desc {
             font-size: 15px;
             color: var(--text-muted);
-            max-width: 650px;
+            max-width: 680px;
             margin: 0 auto;
         }
 
-        /* 4 LAYANAN BK GRID */
+        /* -------------------------------------------------------------
+           5. SECTION LAYANAN BK (GRID 4 KARTU)
+           ------------------------------------------------------------- */
+        .layanan-section {
+            margin-bottom: 56px;
+        }
+
         .layanan-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin-bottom: 48px;
+            gap: 22px;
         }
 
         .layanan-card {
             background: var(--white);
             border: 1px solid var(--border-color);
             border-radius: 18px;
-            padding: 28px 22px;
+            padding: 28px 24px;
             box-shadow: var(--shadow-sm);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .layanan-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: transparent;
+            transition: background 0.2s ease;
         }
 
         .layanan-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-5px);
             border-color: rgba(23, 60, 145, 0.3);
             box-shadow: var(--shadow-md);
         }
 
-        .layanan-icon-box {
+        .layanan-card:hover::before {
+            background: var(--primary);
+        }
+
+        .layanan-icon-wrap {
             width: 52px;
             height: 52px;
             border-radius: 14px;
@@ -462,31 +588,31 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 18px;
+            margin-bottom: 20px;
         }
 
-        .layanan-title {
-            font-size: 17px;
+        .layanan-card-title {
+            font-size: 18px;
             font-weight: 700;
             color: var(--primary-dark);
             margin-bottom: 10px;
         }
 
-        .layanan-text {
-            font-size: 13px;
+        .layanan-card-desc {
+            font-size: 13.5px;
             color: var(--text-muted);
-            line-height: 1.55;
-            margin-bottom: 20px;
+            line-height: 1.6;
+            margin-bottom: 22px;
             flex-grow: 1;
         }
 
-        .layanan-btn-action {
+        .layanan-btn-cta {
             background: var(--primary-soft);
             color: var(--primary);
             border: 1px solid rgba(23, 60, 145, 0.15);
-            padding: 9px 14px;
+            padding: 9px 16px;
             border-radius: 10px;
-            font-size: 12.5px;
+            font-size: 13px;
             font-weight: 700;
             text-align: center;
             text-decoration: none;
@@ -498,42 +624,59 @@
             cursor: pointer;
         }
 
-        .layanan-btn-action:hover {
+        .layanan-btn-cta:hover {
             background: var(--primary);
             color: #ffffff;
             border-color: var(--primary);
         }
 
-        /* ALUR PENGAJUAN BANNER */
+        /* -------------------------------------------------------------
+           6. SECTION ALUR PENGAJUAN (5 LANGKAH VISUAL MUDAH DIPAHAMI)
+           ------------------------------------------------------------- */
         .alur-section {
             background: var(--white);
             border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 36px 32px;
+            border-radius: 22px;
+            padding: 44px 36px;
             box-shadow: var(--shadow-sm);
-            margin-bottom: 48px;
+            margin-bottom: 56px;
         }
 
-        .alur-grid {
+        .alur-steps-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
-            margin-top: 24px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 18px;
+            margin-top: 32px;
             position: relative;
         }
 
-        .alur-step-item {
+        .step-card {
+            background: var(--primary-soft);
+            border: 1px solid rgba(23, 60, 145, 0.08);
+            border-radius: 16px;
+            padding: 24px 18px;
+            text-align: center;
             position: relative;
-            text-align: left;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.2s ease;
         }
 
-        .alur-number {
+        .step-card:hover {
+            transform: translateY(-3px);
+            background: #ffffff;
+            border-color: var(--primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .step-number-pill {
             width: 38px;
             height: 38px;
-            border-radius: 10px;
+            border-radius: 50%;
             background: var(--primary);
             color: #ffffff;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 800;
             display: flex;
             align-items: center;
@@ -542,21 +685,88 @@
             box-shadow: 0 4px 10px rgba(23, 60, 145, 0.25);
         }
 
-        .alur-step-title {
-            font-size: 15px;
-            font-weight: 700;
-            color: var(--text-main);
-            margin-bottom: 6px;
+        .step-icon-wrap {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: #ffffff;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
         }
 
-        .alur-step-desc {
-            font-size: 12.5px;
+        .step-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 6px;
+            line-height: 1.35;
+        }
+
+        .step-desc {
+            font-size: 12px;
             color: var(--text-muted);
             line-height: 1.5;
         }
 
         /* -------------------------------------------------------------
-           3. NIS VERIFICATION CARD (KONDISIONAL: JIKA BELUM TERVERIFIKASI)
+           7. AJAKAN / CALL TO ACTION BANNER
+           ------------------------------------------------------------- */
+        .ajakan-banner {
+            background: linear-gradient(135deg, #102d70 0%, #173c91 60%, #2563eb 100%);
+            border-radius: 22px;
+            padding: 44px 38px;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 28px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 56px;
+            flex-wrap: wrap;
+        }
+
+        .ajakan-text h3 {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+            margin-bottom: 8px;
+        }
+
+        .ajakan-text p {
+            font-size: 14.5px;
+            color: #dbeafe;
+            max-width: 620px;
+            line-height: 1.6;
+        }
+
+        .btn-ajakan-action {
+            background: #ffffff;
+            color: var(--primary-dark);
+            font-size: 14.5px;
+            font-weight: 700;
+            padding: 13px 26px;
+            border-radius: 12px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .btn-ajakan-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+            color: var(--primary);
+        }
+
+        /* -------------------------------------------------------------
+           8. SECTION FORMULIR / STATUS / VERIFIKASI NIS
            ------------------------------------------------------------- */
         .verification-anchor-card {
             background: var(--white);
@@ -565,7 +775,7 @@
             box-shadow: var(--shadow-md);
             padding: 44px 36px;
             max-width: 600px;
-            margin: 0 auto 50px;
+            margin: 0 auto 56px;
             text-align: center;
             position: relative;
         }
@@ -663,9 +873,7 @@
             gap: 8px;
         }
 
-        /* -------------------------------------------------------------
-           4. AUTHENTICATED STUDENT PORTAL DASHBOARD (JIKA SUDAH MASUK)
-           ------------------------------------------------------------- */
+        /* Mode Siswa Terverifikasi */
         .student-profile-bar {
             background: var(--white);
             border: 1px solid var(--border-color);
@@ -737,7 +945,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 28px;
-            margin-bottom: 48px;
+            margin-bottom: 56px;
         }
 
         .workspace-card {
@@ -766,7 +974,6 @@
             gap: 10px;
         }
 
-        /* Slot Checker Box */
         .slot-checker-box {
             background: var(--primary-soft);
             border: 1px solid rgba(23, 60, 145, 0.12);
@@ -794,7 +1001,6 @@
             align-items: center;
         }
 
-        /* Forms */
         .form-row-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -948,13 +1154,13 @@
         }
 
         /* -------------------------------------------------------------
-           5. SECTION TENTANG
+           9. SECTION TENTANG
            ------------------------------------------------------------- */
         .tentang-card {
             background: var(--white);
             border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 38px 34px;
+            border-radius: 22px;
+            padding: 40px 36px;
             box-shadow: var(--shadow-sm);
             margin-bottom: 40px;
         }
@@ -1001,17 +1207,17 @@
         }
 
         /* -------------------------------------------------------------
-           6. FOOTER
+           10. FOOTER
            ------------------------------------------------------------- */
         .portal-footer {
             background: #0d1e4a;
             color: #ffffff;
-            padding: 44px 24px 28px;
+            padding: 48px 24px 28px;
             margin-top: auto;
         }
 
         .footer-inner {
-            max-width: 1200px;
+            max-width: 1240px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
@@ -1060,7 +1266,7 @@
         }
 
         .footer-bottom {
-            max-width: 1200px;
+            max-width: 1240px;
             margin: 20px auto 0;
             font-size: 12px;
             color: #64748b;
@@ -1071,8 +1277,9 @@
            RESPONSIVE STYLES
            ------------------------------------------------------------- */
         @media (max-width: 1024px) {
+            .hero-grid { grid-template-columns: 1fr; gap: 32px; }
             .layanan-grid { grid-template-columns: repeat(2, 1fr); }
-            .alur-grid { grid-template-columns: repeat(2, 1fr); }
+            .alur-steps-grid { grid-template-columns: repeat(3, 1fr); }
             .tentang-grid { grid-template-columns: 1fr; }
             .portal-workspace-grid { grid-template-columns: 1fr; }
         }
@@ -1100,25 +1307,31 @@
                 display: block;
             }
 
-            .hero-banner {
-                padding: 38px 24px;
+            .hero-section {
+                padding: 32px 20px;
             }
 
             .hero-title {
-                font-size: 26px;
+                font-size: 28px;
             }
 
             .layanan-grid {
                 grid-template-columns: 1fr;
             }
 
-            .alur-grid {
+            .alur-steps-grid {
                 grid-template-columns: 1fr;
             }
 
             .student-profile-bar {
                 flex-direction: column;
                 align-items: flex-start;
+            }
+
+            .ajakan-banner {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 32px 24px;
             }
 
             .footer-inner {
@@ -1132,7 +1345,7 @@
 <body>
 
     {{-- -------------------------------------------------------------
-         1. TOP HORIZONTAL NAVBAR (TANPA SIDEBAR)
+         1. TOP HORIZONTAL NAVBAR (KHUSUS PORTAL SISWA - TANPA SIDEBAR)
          ------------------------------------------------------------- --}}
     <header class="portal-navbar">
         <div class="nav-container">
@@ -1240,125 +1453,178 @@
         @endif
 
         {{-- ---------------------------------------------------------
-             SECTION A: HERO BANNER & SAMBUTAN (BERANDA)
+             SECTION A: HERO SECTION (INSPIRASI LANDING PAGE PROFESIONAL)
              --------------------------------------------------------- --}}
-        <section class="hero-banner" id="beranda">
-            <span class="hero-badge">
-                <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i>
-                Layanan Bimbingan & Konseling Terpadu SMP Negeri 2 Dramaga
-            </span>
+        <section class="hero-section" id="beranda">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i>
+                        <span>Layanan Bimbingan & Konseling Terpadu SMP Negeri 2 Dramaga</span>
+                    </div>
 
-            <h1 class="hero-title">Selamat Datang di Portal Siswa SIRASI-BK</h1>
+                    <h1 class="hero-title">
+                        Temukan Solusi dan Kembangkan Potensi Dirimu
+                    </h1>
 
-            <p class="hero-subtitle">
-                Ruang aman, nyaman, dan terpercaya bagi seluruh peserta didik SMP Negeri 2 Dramaga untuk berkonsultasi,
-                menemukan solusi, serta mengembangkan potensi diri belajar, pribadi, sosial, dan karier bersama Guru BK.
-            </p>
+                    <p class="hero-desc">
+                        Layanan Bimbingan dan Konseling di SMP Negeri 2 Dramaga hadir sebagai ruang aman, nyaman, dan terpercaya bagi setiap siswa untuk berkonsultasi, menemukan solusi atas tantangan belajar maupun pribadi, serta merencanakan masa depan dengan percaya diri bersama Guru BK.
+                    </p>
 
-            <div class="hero-cta-group">
-                <a href="#ajukan-bimbingan" class="hero-btn-primary" onclick="handleLayananClick('ajukan')">
-                    <i data-lucide="calendar-plus" style="width: 18px; height: 18px;"></i>
-                    Ajukan Bimbingan
-                </a>
+                    <div class="hero-btn-group">
+                        <a href="#ajukan-bimbingan" class="btn-hero-primary" onclick="handleLayananClick('ajukan')">
+                            <i data-lucide="calendar-plus" style="width: 18px; height: 18px;"></i>
+                            <span>Ajukan Bimbingan</span>
+                        </a>
 
-                <a href="#status-pengajuan" class="hero-btn-secondary" onclick="handleLayananClick('status')">
-                    <i data-lucide="clipboard-list" style="width: 18px; height: 18px;"></i>
-                    Cek Status Pengajuan
-                </a>
-            </div>
+                        <a href="#status-pengajuan" class="btn-hero-secondary" onclick="handleLayananClick('status')">
+                            <i data-lucide="clipboard-list" style="width: 18px; height: 18px;"></i>
+                            <span>Cek Status Pengajuan</span>
+                        </a>
+                    </div>
 
-            <div class="hero-features">
-                <div class="hero-feature-item">
-                    <i data-lucide="shield-check" style="width: 16px; height: 16px;"></i>
-                    <span>100% Rahasia & Sesuai Kode Etik BK</span>
+                    <div class="hero-highlights">
+                        <div class="highlight-item">
+                            <div class="highlight-icon">
+                                <i data-lucide="shield-check" style="width: 18px; height: 18px;"></i>
+                            </div>
+                            <div class="highlight-text">
+                                <strong>100% Rahasia</strong>
+                                <span>Privasi Dijamin Kode Etik</span>
+                            </div>
+                        </div>
+
+                        <div class="highlight-item">
+                            <div class="highlight-icon">
+                                <i data-lucide="user-check" style="width: 18px; height: 18px;"></i>
+                            </div>
+                            <div class="highlight-text">
+                                <strong>Izin Wali Kelas</strong>
+                                <span>Koordinasi Jam Belajar</span>
+                            </div>
+                        </div>
+
+                        <div class="highlight-item">
+                            <div class="highlight-icon">
+                                <i data-lucide="clock" style="width: 18px; height: 18px;"></i>
+                            </div>
+                            <div class="highlight-text">
+                                <strong>Jadwal Fleksibel</strong>
+                                <span>Bebas Antre & Pasti</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="hero-feature-item">
-                    <i data-lucide="user-check" style="width: 16px; height: 16px;"></i>
-                    <span>Terkoordinasi dengan Wali Kelas</span>
-                </div>
-                <div class="hero-feature-item">
-                    <i data-lucide="clock" style="width: 16px; height: 16px;"></i>
-                    <span>Jadwal Pasti Tanpa Antre</span>
+
+                {{-- Hero Media: Foto Asli Gedung SMP Negeri 2 Dramaga --}}
+                <div class="hero-media-wrapper">
+                    <div class="hero-photo-frame">
+                        <img
+                            src="{{ asset('images/gedung-smpn2-dramaga-3.jpg') }}"
+                            alt="Gedung Utama SMP Negeri 2 Dramaga"
+                            loading="lazy"
+                        >
+
+                        <div class="photo-floating-badge badge-top">
+                            <div class="badge-icon">
+                                <i data-lucide="school" style="width: 16px; height: 16px;"></i>
+                            </div>
+                            <div>
+                                <div class="badge-label">SMP Negeri 2 Dramaga</div>
+                                <div class="badge-sub">Kampus Babakan Dramaga</div>
+                            </div>
+                        </div>
+
+                        <div class="photo-floating-badge badge-bottom">
+                            <div class="badge-icon green">
+                                <i data-lucide="heart-handshake" style="width: 16px; height: 16px;"></i>
+                            </div>
+                            <div>
+                                <div class="badge-label">Ruang Bimbingan Konseling</div>
+                                <div class="badge-sub">Layanan Ramah Siswa</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
         {{-- ---------------------------------------------------------
-             SECTION B: PENJELASAN 4 BIDANG LAYANAN BK
+             SECTION B: BAGIAN LAYANAN BK (SUSUNAN KARTU GRID)
              --------------------------------------------------------- --}}
-        <section id="layanan">
+        <section class="layanan-section" id="layanan">
             <div class="section-header">
-                <span class="section-tag">Bidang Bimbingan</span>
+                <span class="section-tag">Bidang Layanan</span>
                 <h2 class="section-title">Layanan Bimbingan Konseling yang Tersedia</h2>
                 <p class="section-desc">
-                    Guru Bimbingan Konseling (BK) siap mendampingi Anda melewati berbagai dinamika belajar dan kehidupan remaja sekolah.
+                    Pilihlah bidang layanan konseling yang sesuai dengan kebutuhan, tantangan, atau perencanaan yang ingin kamu konsultasikan bersama Guru BK.
                 </p>
             </div>
 
             <div class="layanan-grid">
-                {{-- Layanan 1: Belajar --}}
+                {{-- 1. Bimbingan Pribadi --}}
                 <div class="layanan-card">
                     <div>
-                        <div class="layanan-icon-box">
-                            <i data-lucide="book-open" style="width: 26px; height: 26px;"></i>
-                        </div>
-                        <h3 class="layanan-title">Konseling Belajar</h3>
-                        <p class="layanan-text">
-                            Konsultasikan kesulitan memahami pelajaran, kejenuhan belajar, cara mengatur waktu belajar dan ekskul, serta strategi menghadapi ujian.
-                        </p>
-                    </div>
-                    <button type="button" class="layanan-btn-action" onclick="handleLayananClick('ajukan', 'Konseling Belajar')">
-                        <span>Pilih Layanan Ini</span>
-                        <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
-                    </button>
-                </div>
-
-                {{-- Layanan 2: Pribadi --}}
-                <div class="layanan-card">
-                    <div>
-                        <div class="layanan-icon-box" style="background: #eef2ff; color: #4338ca;">
+                        <div class="layanan-icon-wrap" style="background: #eef2ff; color: #4338ca;">
                             <i data-lucide="smile" style="width: 26px; height: 26px;"></i>
                         </div>
-                        <h3 class="layanan-title">Konseling Pribadi</h3>
-                        <p class="layanan-text">
-                            Ruang bercerita tentang pengelolaan emosi, rasa cemas, membangun kepercayaan diri, kebiasaan positif, dan pengenalan potensi diri Anda.
+                        <h3 class="layanan-card-title">Bimbingan Pribadi</h3>
+                        <p class="layanan-card-desc">
+                            Membantu mengelola emosi, kecemasan, rasa percaya diri, pembentukan kebiasaan positif, dan pemahaman potensi diri agar kamu tumbuh menjadi pribadi yang tangguh.
                         </p>
                     </div>
-                    <button type="button" class="layanan-btn-action" onclick="handleLayananClick('ajukan', 'Konseling Pribadi')">
+                    <button type="button" class="layanan-btn-cta" onclick="handleLayananClick('ajukan', 'Konseling Pribadi')">
                         <span>Pilih Layanan Ini</span>
                         <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
                     </button>
                 </div>
 
-                {{-- Layanan 3: Sosial --}}
+                {{-- 2. Bimbingan Sosial --}}
                 <div class="layanan-card">
                     <div>
-                        <div class="layanan-icon-box" style="background: #ecfdf5; color: #047857;">
+                        <div class="layanan-icon-wrap" style="background: #ecfdf5; color: #047857;">
                             <i data-lucide="users" style="width: 26px; height: 26px;"></i>
                         </div>
-                        <h3 class="layanan-title">Konseling Sosial</h3>
-                        <p class="layanan-text">
-                            Membantu penyelesaian konflik dengan teman sebaya, adaptasi di kelas baru, komunikasi dengan guru atau orang tua, dan pergaulan yang sehat.
+                        <h3 class="layanan-card-title">Bimbingan Sosial</h3>
+                        <p class="layanan-card-desc">
+                            Membantu mengatasi permasalahan pertemanan di sekolah, adaptasi di kelas baru, komunikasi dengan guru maupun keluarga, serta penyelesaian kesalahpahaman.
                         </p>
                     </div>
-                    <button type="button" class="layanan-btn-action" onclick="handleLayananClick('ajukan', 'Konseling Sosial')">
+                    <button type="button" class="layanan-btn-cta" onclick="handleLayananClick('ajukan', 'Konseling Sosial')">
                         <span>Pilih Layanan Ini</span>
                         <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
                     </button>
                 </div>
 
-                {{-- Layanan 4: Karier --}}
+                {{-- 3. Bimbingan Belajar --}}
                 <div class="layanan-card">
                     <div>
-                        <div class="layanan-icon-box" style="background: #fff7ed; color: #c2410c;">
-                            <i data-lucide="compass" style="width: 26px; height: 26px;"></i>
+                        <div class="layanan-icon-wrap" style="background: var(--primary-light); color: var(--primary);">
+                            <i data-lucide="book-open" style="width: 26px; height: 26px;"></i>
                         </div>
-                        <h3 class="layanan-title">Bimbingan Karier</h3>
-                        <p class="layanan-text">
-                            Eksplorasi minat, bakat, dan cita-cita masa depan, serta bimbingan terarah dalam merencanakan studi lanjutan ke jenjang SMA/SMK/MA.
+                        <h3 class="layanan-card-title">Bimbingan Belajar</h3>
+                        <p class="layanan-card-desc">
+                            Membantu mengatasi kesulitan belajar, kejenuhan, manajemen waktu antara belajar dan kegiatan sekolah, serta strategi belajar efektif menjelang ujian.
                         </p>
                     </div>
-                    <button type="button" class="layanan-btn-action" onclick="handleLayananClick('ajukan', 'Bimbingan Karier')">
+                    <button type="button" class="layanan-btn-cta" onclick="handleLayananClick('ajukan', 'Konseling Belajar')">
+                        <span>Pilih Layanan Ini</span>
+                        <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+                    </button>
+                </div>
+
+                {{-- 4. Bimbingan Karier --}}
+                <div class="layanan-card">
+                    <div>
+                        <div class="layanan-icon-wrap" style="background: #fff7ed; color: #c2410c;">
+                            <i data-lucide="compass" style="width: 26px; height: 26px;"></i>
+                        </div>
+                        <h3 class="layanan-card-title">Bimbingan Karier</h3>
+                        <p class="layanan-card-desc">
+                            Membimbing eksplorasi bakat, minat, dan cita-cita, serta memberikan wawasan dalam merencanakan pilihan sekolah lanjutan ke jenjang SMA, SMK, atau MA.
+                        </p>
+                    </div>
+                    <button type="button" class="layanan-btn-cta" onclick="handleLayananClick('ajukan', 'Bimbingan Karier')">
                         <span>Pilih Layanan Ini</span>
                         <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
                     </button>
@@ -1367,41 +1633,88 @@
         </section>
 
         {{-- ---------------------------------------------------------
-             SECTION C: ALUR PENGAJUAN
+             SECTION C: BAGIAN ALUR PENGAJUAN (5 LANGKAH MUDAH DIPAHAMI)
              --------------------------------------------------------- --}}
         <section class="alur-section">
-            <div class="section-header" style="margin-bottom: 24px;">
+            <div class="section-header" style="margin-bottom: 20px;">
                 <span class="section-tag">Alur Pengajuan</span>
-                <h2 class="section-title">4 Langkah Mudah Pengajuan Konseling Mandiri</h2>
-                <p class="section-desc">Proses bimbingan terintegrasi dengan koordinasi Wali Kelas demi kelancaran akademik siswa.</p>
+                <h2 class="section-title">5 Langkah Alur Pengajuan Konseling Siswa</h2>
+                <p class="section-desc">
+                    Proses pengajuan terstruktur dan terintegrasi dengan koordinasi Wali Kelas serta penetapan jadwal resmi oleh Guru BK.
+                </p>
             </div>
 
-            <div class="alur-grid">
-                <div class="alur-step-item">
-                    <div class="alur-number">1</div>
-                    <h4 class="alur-step-title">Verifikasi NIS</h4>
-                    <p class="alur-step-desc">Masukkan Nomor Induk Siswa (NIS) aktif untuk membuka akses pengajuan bimbingan.</p>
+            <div class="alur-steps-grid">
+                {{-- Langkah 1 --}}
+                <div class="step-card">
+                    <div class="step-number-pill">1</div>
+                    <div class="step-icon-wrap">
+                        <i data-lucide="user-check" style="width: 22px; height: 22px;"></i>
+                    </div>
+                    <h4 class="step-title">Verifikasi Identitas</h4>
+                    <p class="step-desc">Siswa memasukkan NIS untuk verifikasi identitas dan data kelas binaan.</p>
                 </div>
-                <div class="alur-step-item">
-                    <div class="alur-number">2</div>
-                    <h4 class="alur-step-title">Pilih Slot Jadwal</h4>
-                    <p class="alur-step-desc">Pilih tanggal dan jam konsultasi yang tidak bertabrakan dengan jadwal Guru BK lain.</p>
+
+                {{-- Langkah 2 --}}
+                <div class="step-card">
+                    <div class="step-number-pill">2</div>
+                    <div class="step-icon-wrap">
+                        <i data-lucide="calendar-plus" style="width: 22px; height: 22px;"></i>
+                    </div>
+                    <h4 class="step-title">Ajukan Bimbingan</h4>
+                    <p class="step-desc">Siswa mengajukan bimbingan konseling dan memilih waktu serta topik bimbingan.</p>
                 </div>
-                <div class="alur-step-item">
-                    <div class="alur-number">3</div>
-                    <h4 class="alur-step-title">Verifikasi Wali Kelas</h4>
-                    <p class="alur-step-desc">Wali Kelas memeriksa jadwal dan mengoordinasikan izin jam pelajaran apabila diperlukan.</p>
+
+                {{-- Langkah 3 --}}
+                <div class="step-card">
+                    <div class="step-number-pill">3</div>
+                    <div class="step-icon-wrap">
+                        <i data-lucide="check-square" style="width: 22px; height: 22px;"></i>
+                    </div>
+                    <h4 class="step-title">Pemeriksaan Wali Kelas</h4>
+                    <p class="step-desc">Wali Kelas memeriksa dan menyetujui atau menolak pengajuan bimbingan.</p>
                 </div>
-                <div class="alur-step-item">
-                    <div class="alur-number">4</div>
-                    <h4 class="alur-step-title">Jadwal Definitif</h4>
-                    <p class="alur-step-desc">Guru BK mengonfirmasi jadwal bimbingan resmi dan sesi konseling siap dilaksanakan.</p>
+
+                {{-- Langkah 4 --}}
+                <div class="step-card">
+                    <div class="step-number-pill">4</div>
+                    <div class="step-icon-wrap">
+                        <i data-lucide="calendar-clock" style="width: 22px; height: 22px;"></i>
+                    </div>
+                    <h4 class="step-title">Penyesuaian Jadwal BK</h4>
+                    <p class="step-desc">Guru BK menyesuaikan jadwal berdasarkan ketersediaan dan jadwal siswa.</p>
+                </div>
+
+                {{-- Langkah 5 --}}
+                <div class="step-card">
+                    <div class="step-number-pill">5</div>
+                    <div class="step-icon-wrap">
+                        <i data-lucide="bell" style="width: 22px; height: 22px;"></i>
+                    </div>
+                    <h4 class="step-title">Lihat Status & Jadwal</h4>
+                    <p class="step-desc">Siswa melihat status dan jadwal bimbingan resmi secara transparan di portal.</p>
                 </div>
             </div>
         </section>
 
         {{-- ---------------------------------------------------------
-             SECTION D: AREA LAYANAN (FORM PENGAJUAN / STATUS / NIS)
+             SECTION D: BAGIAN AJAKAN (CALL TO ACTION BANNER)
+             --------------------------------------------------------- --}}
+        <section class="ajakan-banner">
+            <div class="ajakan-text">
+                <h3>Jangan Ragu untuk Memulai Langkah Pertamamu!</h3>
+                <p>
+                    Setiap tantangan dan kesulitan yang kamu hadapi memiliki jalan keluar. Guru BK SMP Negeri 2 Dramaga selalu siap mendengarkan, mendampingi, dan membantumu tumbuh menjadi pribadi yang lebih baik.
+                </p>
+            </div>
+            <a href="#ajukan-bimbingan" class="btn-ajakan-action" onclick="handleLayananClick('ajukan')">
+                <i data-lucide="send" style="width: 17px; height: 17px;"></i>
+                <span>Ajukan Konseling Sekarang</span>
+            </a>
+        </section>
+
+        {{-- ---------------------------------------------------------
+             SECTION E: AREA LAYANAN (FORM PENGAJUAN / STATUS / NIS)
              --------------------------------------------------------- --}}
         @if (!$siswa)
             {{-- MODE BELUM VERIFIKASI: SISWA DIMINTA MEMASUKKAN NIS KETIKA MEMILIH LAYANAN --}}
@@ -1697,14 +2010,14 @@
         @endif
 
         {{-- ---------------------------------------------------------
-             SECTION E: TENTANG LAYANAN BK SMPN 2 DRAMAGA
+             SECTION F: TENTANG LAYANAN BK SMPN 2 DRAMAGA
              --------------------------------------------------------- --}}
         <section class="tentang-card" id="tentang">
             <div class="section-header" style="margin-bottom: 24px;">
                 <span class="section-tag">Tentang Layanan</span>
                 <h2 class="section-title">Bimbingan Konseling SMP Negeri 2 Dramaga</h2>
                 <p class="section-desc">
-                    Komitmen kami adalah menciptakan iklim sekolah yang kondusif, inklusif, dan ramah anak demi kemakmuran akademik dan emosional siswa.
+                    Komitmen kami adalah menciptakan iklim sekolah yang kondusif, inklusif, dan ramah anak demi perkembangan akademik dan pembentukan karakter mulia siswa.
                 </p>
             </div>
 
@@ -1715,7 +2028,7 @@
                     </div>
                     <h4>Asas Kerahasiaan (Confidentiality)</h4>
                     <p>
-                        Setiap hal yang Anda sampaikan dalam sesi bimbingan dijamin kerahasiaannya sesuai kode etik profesi Bimbingan dan Konseling.
+                        Setiap cerita, konsultasi, dan catatan kasus konseling dijaga kerahasiaannya oleh Guru BK sesuai kode etik profesi Bimbingan dan Konseling.
                     </p>
                 </div>
 
@@ -1735,7 +2048,7 @@
                     </div>
                     <h4>Lokasi Ruang BK</h4>
                     <p>
-                        Gedung Utama Lantai 1, SMP Negeri 2 Dramaga, Jalan Babakan Dramaga, Kabupaten Bogor. Ruangan tenang, sejuk, dan ramah siswa.
+                        Gedung Utama Lantai 1, SMP Negeri 2 Dramaga, Jalan Raya Dramaga KM. 07, Desa Dramaga, Kabupaten Bogor. Ruang konsultasi yang tenang, sejuk, dan ramah siswa.
                     </p>
                 </div>
             </div>
@@ -1744,7 +2057,7 @@
     </main>
 
     {{-- -------------------------------------------------------------
-         6. FOOTER
+         11. FOOTER
          ------------------------------------------------------------- --}}
     <footer class="portal-footer">
         <div class="footer-inner">
