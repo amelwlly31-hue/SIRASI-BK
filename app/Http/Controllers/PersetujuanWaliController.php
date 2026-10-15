@@ -6,6 +6,7 @@ use App\Models\Penjadwalan;
 use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 class PersetujuanWaliController extends Controller
@@ -94,26 +95,53 @@ class PersetujuanWaliController extends Controller
             'catatan_wali' => 'nullable|string|max:500',
         ]);
 
-        // 4. Update Status Persetujuan & Audit Trail
-        $penjadwalan->update([
-            'status' => 'Disetujui_Wali',
-            'id_wali' => $user->id_user,
-            'waktu_persetujuan_wali' => now(),
-            'catatan_wali' => $validated['catatan_wali'] ?? null,
-        ]);
+        // 4. Periksa Bentrok Jadwal & Update Status Persetujuan dalam Transaksi (Anti-Bentrok)
+        $conflict = null;
+        $approved = DB::transaction(function () use ($penjadwalan, $user, $validated, &$conflict) {
+            // Cek apakah ada jadwal lain yang sudah disetujui, terjadwal, atau selesai pada waktu yang sama
+            $conflict = Penjadwalan::findConflict(
+                $penjadwalan->tanggal,
+                $penjadwalan->waktu_mulai,
+                $penjadwalan->waktu_selesai,
+                $penjadwalan->id_penjadwalan,
+                ['Terjadwal', 'Disetujui_Wali', 'Selesai'],
+                true // lockForUpdate
+            );
 
-        // 5. Terbitkan Notifikasi untuk Guru BK
-        $namaSiswa = $penjadwalan->siswa->nama_siswa ?? 'Siswa';
-        $namaKelas = $penjadwalan->siswa->kelas->nama_kelas ?? '-';
-        $tglFormatted = Carbon::parse($penjadwalan->tanggal)->isoFormat('D MMMM Y');
+            if ($conflict) {
+                return false;
+            }
 
-        Notifikasi::create([
-            'judul' => 'Pengajuan Disetujui Wali Kelas',
-            'pesan' => "Pengajuan bimbingan {$penjadwalan->jenis_bimbingan} untuk {$namaSiswa} (Kelas {$namaKelas}) pada tanggal {$tglFormatted} telah disetujui oleh Wali Kelas. Silakan tetapkan jadwal final.",
-            'tipe' => 'jadwal',
-            'dibaca' => false,
-            'id_konseling' => null,
-        ]);
+            $penjadwalan->update([
+                'status' => 'Disetujui_Wali',
+                'id_wali' => $user->id_user,
+                'waktu_persetujuan_wali' => now(),
+                'catatan_wali' => $validated['catatan_wali'] ?? null,
+            ]);
+
+            // Terbitkan Notifikasi untuk Guru BK
+            $namaSiswa = $penjadwalan->siswa->nama_siswa ?? 'Siswa';
+            $namaKelas = $penjadwalan->siswa->kelas->nama_kelas ?? '-';
+            $tglFormatted = Carbon::parse($penjadwalan->tanggal)->isoFormat('D MMMM Y');
+
+            Notifikasi::create([
+                'judul' => 'Pengajuan Disetujui Wali Kelas',
+                'pesan' => "Pengajuan bimbingan {$penjadwalan->jenis_bimbingan} untuk {$namaSiswa} (Kelas {$namaKelas}) pada tanggal {$tglFormatted} telah disetujui oleh Wali Kelas. Silakan tetapkan jadwal final.",
+                'tipe' => 'jadwal',
+                'dibaca' => false,
+                'id_konseling' => null,
+            ]);
+
+            return true;
+        });
+
+        if (!$approved && $conflict) {
+            $waktu = substr($conflict->waktu_mulai, 0, 5) . ' - ' . substr($conflict->waktu_selesai, 0, 5);
+            $namaSiswa = $conflict->siswa->nama_siswa ?? 'siswa lain';
+            $statusLabel = str_replace('_', ' ', $conflict->status);
+
+            return back()->with('error', "Pengajuan tidak dapat disetujui karena bertabrakan dengan jadwal bimbingan ({$statusLabel}) untuk {$namaSiswa} pada pukul {$waktu}. Silakan koordinasikan perubahan waktu dengan Guru BK atau tolak pengajuan.");
+        }
 
         return redirect()->route('wali.pengajuan.index')
             ->with('success', 'Pengajuan konseling siswa berhasil disetujui.');

@@ -2297,6 +2297,35 @@
                 </button>
             </div>
 
+            {{-- Alert Notifikasi Session / Validasi --}}
+            @if (session('success'))
+                <div style="background: #eaf8ef; border: 1px solid #c3ebd2; color: #159447; padding: 14px 18px; border-radius: 12px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; font-size: 13.5px; font-weight: 600;">
+                    <i data-lucide="check-circle" style="width: 18px; height: 18px; flex-shrink: 0;"></i>
+                    <span>{{ session('success') }}</span>
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div style="background: #fff0f0; border: 1px solid #ffd1d1; color: #d64545; padding: 14px 18px; border-radius: 12px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; font-size: 13.5px; font-weight: 600;">
+                    <i data-lucide="alert-circle" style="width: 18px; height: 18px; flex-shrink: 0;"></i>
+                    <span>{{ session('error') }}</span>
+                </div>
+            @endif
+
+            @if ($errors->any())
+                <div style="background: #fff0f0; border: 1px solid #ffd1d1; color: #d64545; padding: 14px 18px; border-radius: 12px; margin-bottom: 20px; font-size: 13.5px;">
+                    <div style="font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 8px;">
+                        <i data-lucide="alert-triangle" style="width: 18px; height: 18px;"></i>
+                        Perhatian: Terdapat kesalahan input jadwal
+                    </div>
+                    <ul style="margin-left: 24px; margin-top: 4px;">
+                        @foreach ($errors->all() as $err)
+                            <li>{{ $err }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             {{-- summary --}}
 
             <div class="summary-grid">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Penjadwalan;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PenjadwalanController extends Controller
 {
@@ -70,8 +71,34 @@ class PenjadwalanController extends Controller
             'catatan' => 'nullable|string',
         ]);
 
-        $validated['status'] = 'Terjadwal';
-        Penjadwalan::create($validated);
+        $targetStatus = $request->input('status', 'Terjadwal');
+
+        $conflict = null;
+        $penjadwalan = DB::transaction(function () use ($validated, $targetStatus, &$conflict) {
+            $conflict = Penjadwalan::findConflict(
+                $validated['tanggal'],
+                $validated['waktu_mulai'],
+                $validated['waktu_selesai'],
+                null,
+                Penjadwalan::ACTIVE_STATUSES,
+                true // lockForUpdate
+            );
+
+            if ($conflict) {
+                return null;
+            }
+
+            $validated['status'] = $targetStatus;
+            return Penjadwalan::create($validated);
+        });
+
+        if (!$penjadwalan && $conflict) {
+            $errorMessage = Penjadwalan::formatConflictMessage($conflict);
+            return back()
+                ->withInput()
+                ->withErrors(['waktu_mulai' => $errorMessage])
+                ->with('error', $errorMessage);
+        }
 
         return redirect()
             ->route('penjadwalan.index')
@@ -110,7 +137,36 @@ class PenjadwalanController extends Controller
             'status' => 'required|in:Diajukan,Disetujui_Wali,Ditolak_Wali,Terjadwal,Selesai,Dibatalkan',
         ]);
 
-        $penjadwalan->update($validated);
+        $isSlotReleasing = in_array($validated['status'], ['Dibatalkan', 'Ditolak_Wali']);
+
+        $conflict = null;
+        $updated = DB::transaction(function () use ($penjadwalan, $validated, $isSlotReleasing, &$conflict) {
+            if (!$isSlotReleasing) {
+                $conflict = Penjadwalan::findConflict(
+                    $validated['tanggal'],
+                    $validated['waktu_mulai'],
+                    $validated['waktu_selesai'],
+                    $penjadwalan->id_penjadwalan,
+                    Penjadwalan::ACTIVE_STATUSES,
+                    true // lockForUpdate
+                );
+
+                if ($conflict) {
+                    return false;
+                }
+            }
+
+            $penjadwalan->update($validated);
+            return true;
+        });
+
+        if (!$updated && $conflict) {
+            $errorMessage = Penjadwalan::formatConflictMessage($conflict);
+            return back()
+                ->withInput()
+                ->withErrors(['waktu_mulai' => $errorMessage])
+                ->with('error', $errorMessage);
+        }
 
         return redirect()
             ->route('penjadwalan.show', $penjadwalan->id_penjadwalan)
