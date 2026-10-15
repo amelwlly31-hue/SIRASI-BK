@@ -25,6 +25,11 @@ class Kelas extends Model
         return $this->hasMany(Siswa::class, 'id_kelas', 'id_kelas');
     }
 
+    public function waliKelas()
+    {
+        return $this->hasOne(User::class, 'id_kelas', 'id_kelas')->where('role', 'wali_kelas');
+    }
+
     protected static function booted()
     {
         static::addGlobalScope('order_numerik', function ($builder) {

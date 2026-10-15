@@ -11,6 +11,7 @@ use App\Http\Controllers\PenjadwalanController;
 use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PersetujuanWaliController;
+use App\Http\Controllers\PortalSiswaController;
 /* | | web routes | | | here is where you can register web routes for your application. these | routes are loaded by the routeserviceprovider within a group which | contains the "web" middleware group. now create something great! | */
 
 // Rute Publik (Guest / Autentikasi)
@@ -21,6 +22,14 @@ Route::get('/', function () {
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.process');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// Portal Bimbingan Konseling Siswa Mandiri (Publik / Verifikasi NIS)
+Route::prefix('portal-siswa')->name('portal.siswa.')->group(function () {
+    Route::get('/', [PortalSiswaController::class, 'index'])->name('index');
+    Route::post('/login', [PortalSiswaController::class, 'login'])->name('login');
+    Route::post('/logout', [PortalSiswaController::class, 'logout'])->name('logout');
+    Route::post('/ajukan', [PortalSiswaController::class, 'ajukan'])->name('ajukan');
+});
 
 // Rute Terproteksi Autentikasi (Semua User Login)
 Route::middleware(['auth'])->group(function () {

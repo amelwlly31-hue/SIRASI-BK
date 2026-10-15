@@ -1375,6 +1375,14 @@
 
             </p>
 
+            <div style="margin-top: 20px; padding: 12px 16px; border-radius: 12px; background: rgba(23, 60, 145, 0.05); border: 1px dashed rgba(23, 60, 145, 0.22); text-align: center;">
+                <span style="font-size: 11.5px; color: #5a667f; display: block;">Apakah Anda siswa SMPN 2 Dramaga?</span>
+                <a href="{{ route('portal.siswa.index') }}" style="font-size: 13px; font-weight: 700; color: #173c91; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-top: 4px;">
+                    <i data-lucide="calendar-heart" style="width: 15px; height: 15px;"></i>
+                    Ajukan Konseling di Portal Siswa &rarr;
+                </a>
+            </div>
+
         </div>
 
     </section>

@@ -18,6 +18,11 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
+        // 0. Pengalihan Khusus Siswa ke Portal Siswa Mandiri
+        if ($user && $user->isSiswa()) {
+            return redirect()->route('portal.siswa.index');
+        }
+
         // 1. Tampilan Khusus Admin
         if ($user && $user->isAdmin()) {
             $totalUser = User::count();
