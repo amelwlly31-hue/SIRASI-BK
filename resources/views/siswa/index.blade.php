@@ -3031,13 +3031,15 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
                                     <td>
 
                                         <div class="actions">
+                                            @if (auth()->user() && auth()->user()->isGuruBk())
                                             <a
                                                 href="{{ route('siswa.show', [$item->id_siswa, 'from' => 'siswa']) }}"
                                                 class="action-link"
-                                                title="Lihat Detail"
+                                                title="Lihat Detail Riwayat Konseling"
                                             >
                                                 <i data-lucide="eye"></i>
                                             </a>
+                                            @endif
 
                                             <a
                                                 href="{{ route('siswa.edit', $item->id_siswa) }}"

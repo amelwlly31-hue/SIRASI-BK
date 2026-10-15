@@ -10,13 +10,7 @@ class TindakLanjutController extends Controller
 {
     public function index()
     {
-        $tindakLanjut = TindakLanjut::with([
-            'konseling.siswa.kelas'
-        ])
-            ->orderByDesc('tanggal')
-            ->paginate(8);
-
-        return view('tindak_lanjut.index', compact('tindakLanjut'));
+        return redirect()->route('konseling.index');
     }
 
     public function create(Request $request)
@@ -54,12 +48,8 @@ class TindakLanjutController extends Controller
 
     public function show($id)
     {
-        $tindakLanjut = TindakLanjut::with([
-            'konseling.siswa.kelas',
-            'konseling.jenisMasalah'
-        ])->findOrFail($id);
-
-        return view('tindak_lanjut.show', compact('tindakLanjut'));
+        $tindakLanjut = TindakLanjut::findOrFail($id);
+        return redirect()->route('konseling.show', $tindakLanjut->id_konseling);
     }
 
     public function edit($id)

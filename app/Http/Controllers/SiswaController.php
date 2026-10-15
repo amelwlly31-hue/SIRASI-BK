@@ -100,6 +100,10 @@ class SiswaController extends Controller
 
     public function show(Request $request, $id)
     {
+        if (!auth()->user() || !auth()->user()->isGuruBk()) {
+            abort(403, 'Akses ditolak. Rekam riwayat konseling siswa bersifat rahasia dan hanya dapat diakses oleh Guru BK.');
+        }
+
         $siswa = Siswa::with('kelas')
             ->findOrFail($id);
 
