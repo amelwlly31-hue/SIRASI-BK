@@ -538,6 +538,33 @@
             background: var(--success);
         }
 
+        .status-badge.diajukan {
+            background: #fff7e8;
+            color: #c98516;
+        }
+
+        .status-badge.diajukan .status-dot {
+            background: #f39c12;
+        }
+
+        .status-badge.disetujui_wali {
+            background: #eaf8f0;
+            color: #16894a;
+        }
+
+        .status-badge.disetujui_wali .status-dot {
+            background: #2ecc71;
+        }
+
+        .status-badge.ditolak_wali {
+            background: #fff0f0;
+            color: #d64545;
+        }
+
+        .status-badge.ditolak_wali .status-dot {
+            background: #e74c3c;
+        }
+
         .status-badge.dibatalkan {
             background: var(--danger-bg);
             color: var(--danger);
@@ -1199,6 +1226,29 @@
                         </div>
 
                     </div>
+
+                    {{-- persetujuan wali kelas --}}
+                    @if ($penjadwalan->waliKelas || $penjadwalan->catatan_wali)
+                    <div class="note-section" style="margin-top: 18px;">
+                        <div class="section-title">
+                            <i data-lucide="user-check"></i>
+                            Persetujuan Wali Kelas
+                        </div>
+                        <div class="note-box" style="border-left: 3px solid var(--primary); background: #f8faff;">
+                            <p style="margin-bottom: 6px;"><strong>Wali Kelas:</strong> {{ $penjadwalan->waliKelas->nama ?? '-' }}</p>
+                            @if ($penjadwalan->waktu_persetujuan_wali)
+                                <p style="font-size: 12px; color: var(--muted); margin-bottom: 6px;">
+                                    <strong>Waktu Respon:</strong> {{ \Carbon\Carbon::parse($penjadwalan->waktu_persetujuan_wali)->format('d F Y, H:i') }}
+                                </p>
+                            @endif
+                            @if ($penjadwalan->catatan_wali)
+                                <p style="margin-top: 6px; padding-top: 6px; border-top: 1px dashed #dce2ee;">
+                                    <strong>Catatan / Alasan:</strong> <em>"{{ $penjadwalan->catatan_wali }}"</em>
+                                </p>
+                            @endif
+                        </div>
+                    </div>
+                    @endif
 
                 </div>
 

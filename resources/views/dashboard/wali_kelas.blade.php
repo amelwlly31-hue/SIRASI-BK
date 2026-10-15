@@ -428,8 +428,10 @@
             display: inline-block;
         }
 
+        .badge-primary { background: #eaf0ff; color: #173c91; }
         .badge-success { background: #eaf8ef; color: #159447; }
         .badge-warning { background: #fff4e3; color: #d98218; }
+        .badge-danger { background: #fff0f0; color: #d64545; }
         .badge-secondary { background: #f0f2f5; color: #64748b; }
 
         @media (max-width: 1100px) {
@@ -527,6 +529,25 @@
             </div>
         @endif
 
+        {{-- Banner Notifikasi Pengajuan Perlu Persetujuan --}}
+        @if ($pengajuanPending > 0)
+            <div style="background: #fff9e6; border: 1px solid #ffd480; border-left: 5px solid #d98218; padding: 18px 24px; border-radius: 14px; display: flex; align-items: center; justify-content: space-between; gap: 16px; box-shadow: var(--shadow-sm); flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: 14px;">
+                    <div style="width: 44px; height: 44px; border-radius: 12px; background: #fff4e3; color: #d98218; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 20px;">
+                        <i data-lucide="bell-ring"></i>
+                    </div>
+                    <div>
+                        <strong style="color: #8c5208; font-size: 15px; display: block;">Ada {{ $pengajuanPending }} Pengajuan Bimbingan Konseling Menunggu Persetujuan Anda</strong>
+                        <p style="color: #6d4107; font-size: 13px; margin-top: 3px;">Siswa di kelas binaan Anda telah mengajukan permohonan bimbingan dan membutuhkan pemeriksaan/izin Wali Kelas.</p>
+                    </div>
+                </div>
+                <a href="{{ route('wali.pengajuan.index') }}" style="background: #d98218; color: white; padding: 10px 20px; border-radius: 10px; font-weight: 700; font-size: 13.5px; text-decoration: none; white-space: nowrap; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(217, 130, 24, .25);">
+                    <i data-lucide="clipboard-check" style="width: 17px; height: 17px;"></i>
+                    Periksa Pengajuan Sekarang
+                </a>
+            </div>
+        @endif
+
         {{-- Stat Cards --}}
         <div class="stat-grid">
             <div class="stat-card">
@@ -538,33 +559,21 @@
                 </div>
                 <div class="stat-value">{{ $totalSiswaKelas }}</div>
                 <div class="stat-footer">
-                    <span>Siswa terdaftar di Kelas {{ $kelas ? $kelas->nama_kelas : '-' }}</span>
+                    <span>Siswa di Kelas {{ $kelas ? $kelas->nama_kelas : '-' }}</span>
                 </div>
             </div>
 
-            <div class="stat-card">
+            <div class="stat-card" style="{{ $pengajuanPending > 0 ? 'border: 1.5px solid #ffd480; background: #fffdf8;' : '' }}">
                 <div class="stat-header">
-                    <div class="stat-title">Siswa Laki-laki</div>
-                    <div class="stat-icon icon-purple">
-                        <i data-lucide="user"></i>
-                    </div>
-                </div>
-                <div class="stat-value">{{ $siswaLaki }}</div>
-                <div class="stat-footer">
-                    <span>Peserta Didik Putra</span>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-header">
-                    <div class="stat-title">Siswa Perempuan</div>
+                    <div class="stat-title">Perlu Persetujuan</div>
                     <div class="stat-icon icon-orange">
-                        <i data-lucide="user"></i>
+                        <i data-lucide="clipboard-check"></i>
                     </div>
                 </div>
-                <div class="stat-value">{{ $siswaPerempuan }}</div>
-                <div class="stat-footer">
-                    <span>Peserta Didik Putri</span>
+                <div class="stat-value" style="{{ $pengajuanPending > 0 ? 'color: #d98218;' : '' }}">{{ $pengajuanPending }}</div>
+                <div class="stat-footer" style="justify-content: space-between;">
+                    <span>Pengajuan Menunggu</span>
+                    <a href="{{ route('wali.pengajuan.index') }}" style="color: var(--primary); font-weight: 700; font-size: 11.5px;">Lihat &rarr;</a>
                 </div>
             </div>
 
@@ -577,7 +586,23 @@
                 </div>
                 <div class="stat-value">{{ $jadwalSiswa->count() }}</div>
                 <div class="stat-footer">
-                    <span>Aktivitas Penjadwalan Siswa</span>
+                    <span>Aktivitas Konseling Siswa</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">Komposisi Siswa</div>
+                    <div class="stat-icon icon-purple">
+                        <i data-lucide="user-check"></i>
+                    </div>
+                </div>
+                <div class="stat-value" style="font-size: 20px;">
+                    {{ $siswaLaki }} <small style="font-size: 13px; font-weight: 600; color: var(--muted);">L</small> /
+                    {{ $siswaPerempuan }} <small style="font-size: 13px; font-weight: 600; color: var(--muted);">P</small>
+                </div>
+                <div class="stat-footer">
+                    <span>{{ $siswaLaki }} Laki-laki, {{ $siswaPerempuan }} Perempuan</span>
                 </div>
             </div>
         </div>
@@ -629,6 +654,9 @@
             <div class="content-card">
                 <div class="card-header">
                     <h3><i data-lucide="calendar"></i> Jadwal Bimbingan Siswa</h3>
+                    <a href="{{ route('wali.pengajuan.index') }}" style="font-size: 12px; color: var(--primary); font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+                        Kelola Persetujuan <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+                    </a>
                 </div>
                 <div class="table-responsive">
                     <table>
@@ -652,8 +680,8 @@
                                     </td>
                                     <td>{{ $j->jenis_bimbingan }}</td>
                                     <td>
-                                        <span class="badge {{ $j->status === 'Terjadwal' ? 'badge-success' : 'badge-secondary' }}">
-                                            {{ $j->status }}
+                                        <span class="badge {{ $j->status === 'Terjadwal' ? 'badge-primary' : ($j->status === 'Disetujui_Wali' || $j->status === 'Selesai' ? 'badge-success' : ($j->status === 'Diajukan' ? 'badge-warning' : 'badge-danger')) }}">
+                                            {{ str_replace('_', ' ', $j->status) }}
                                         </span>
                                     </td>
                                 </tr>

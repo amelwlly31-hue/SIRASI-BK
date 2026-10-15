@@ -10,7 +10,7 @@ class PenjadwalanController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Penjadwalan::with('siswa.kelas');
+        $query = Penjadwalan::with(['siswa.kelas', 'waliKelas']);
 
         $siswa = Siswa::with('kelas')
             ->where('status', 'Aktif')
@@ -80,7 +80,7 @@ class PenjadwalanController extends Controller
 
     public function show($id)
     {
-        $penjadwalan = Penjadwalan::with('siswa.kelas')->findOrFail($id);
+        $penjadwalan = Penjadwalan::with(['siswa.kelas', 'waliKelas'])->findOrFail($id);
 
         return view('penjadwalan.show', compact('penjadwalan'));
     }
@@ -107,7 +107,7 @@ class PenjadwalanController extends Controller
             'waktu_selesai' => 'required|date_format:H:i|after:waktu_mulai',
             'jenis_bimbingan' => 'required|string|max:255',
             'catatan' => 'nullable|string',
-            'status' => 'required|in:Terjadwal,Selesai,Dibatalkan',
+            'status' => 'required|in:Diajukan,Disetujui_Wali,Ditolak_Wali,Terjadwal,Selesai,Dibatalkan',
         ]);
 
         $penjadwalan->update($validated);

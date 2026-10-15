@@ -56,6 +56,7 @@ class DashboardController extends Controller
             $totalSiswaKelas = 0;
             $siswaLaki = 0;
             $siswaPerempuan = 0;
+            $pengajuanPending = 0;
             $daftarSiswa = collect();
             $jadwalSiswa = collect();
 
@@ -63,6 +64,11 @@ class DashboardController extends Controller
                 $totalSiswaKelas = Siswa::where('id_kelas', $idKelas)->count();
                 $siswaLaki = Siswa::where('id_kelas', $idKelas)->where('jenis_kelamin', 'L')->count();
                 $siswaPerempuan = Siswa::where('id_kelas', $idKelas)->where('jenis_kelamin', 'P')->count();
+
+                $pengajuanPending = Penjadwalan::where('status', 'Diajukan')
+                    ->whereHas('siswa', function ($q) use ($idKelas) {
+                        $q->where('id_kelas', $idKelas);
+                    })->count();
 
                 $daftarSiswa = Siswa::where('id_kelas', $idKelas)
                     ->orderBy('nama_siswa')
@@ -85,6 +91,7 @@ class DashboardController extends Controller
                 'totalSiswaKelas',
                 'siswaLaki',
                 'siswaPerempuan',
+                'pengajuanPending',
                 'daftarSiswa',
                 'jadwalSiswa'
             ));

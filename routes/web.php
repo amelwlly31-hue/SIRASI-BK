@@ -10,6 +10,7 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PenjadwalanController;
 use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PersetujuanWaliController;
 /* | | web routes | | | here is where you can register web routes for your application. these | routes are loaded by the routeserviceprovider within a group which | contains the "web" middleware group. now create something great! | */
 
 // Rute Publik (Guest / Autentikasi)
@@ -69,6 +70,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
         Route::get('/laporan/per-siswa', [LaporanController::class, 'perSiswa'])->name('laporan.per_siswa');
         Route::get('/laporan/rekap-masalah', [LaporanController::class, 'rekapMasalah'])->name('laporan.rekap_masalah');
+    });
+
+    // Akses Eksklusif: Khusus Wali Kelas
+    Route::middleware(['role:wali_kelas'])->group(function () {
+        Route::get('/wali-kelas/pengajuan', [PersetujuanWaliController::class, 'index'])->name('wali.pengajuan.index');
+        Route::patch('/wali-kelas/pengajuan/{id}/approve', [PersetujuanWaliController::class, 'approve'])->name('wali.pengajuan.approve');
+        Route::patch('/wali-kelas/pengajuan/{id}/reject', [PersetujuanWaliController::class, 'reject'])->name('wali.pengajuan.reject');
     });
 
 });

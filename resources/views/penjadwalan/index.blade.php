@@ -1134,13 +1134,40 @@
             background: #55c98a;
         }
 
-        .status-dibatalkan {
+        .status-diajukan {
+            background: var(--orange-bg);
+            color: var(--orange);
+        }
+
+        .status-diajukan .status-dot {
+            background: #f39c12;
+        }
+
+        .status-disetujui_wali {
+            background: #e6f9f0;
+            color: #0e8a4a;
+        }
+
+        .status-disetujui_wali .status-dot {
+            background: #2ecc71;
+        }
+
+        .status-ditolak_wali {
             background: var(--red-bg);
             color: var(--red);
         }
 
-        .status-dibatalkan .status-dot {
+        .status-ditolak_wali .status-dot {
             background: #e46c6c;
+        }
+
+        .status-dibatalkan {
+            background: #f1f3f7;
+            color: #5c6475;
+        }
+
+        .status-dibatalkan .status-dot {
+            background: #8c93a4;
         }
 
         /* actions */
@@ -1718,13 +1745,40 @@
             background: #55c98a !important;
         }
 
-        body.dark-mode .status-dibatalkan {
+        body.dark-mode .status-diajukan {
+            background: #3d301b !important;
+            color: #ffcf70 !important;
+        }
+
+        body.dark-mode .status-diajukan .status-dot {
+            background: #f59e0b !important;
+        }
+
+        body.dark-mode .status-disetujui_wali {
+            background: #193a2a !important;
+            color: #9be0b8 !important;
+        }
+
+        body.dark-mode .status-disetujui_wali .status-dot {
+            background: #55c98a !important;
+        }
+
+        body.dark-mode .status-ditolak_wali {
             background: #3a2028 !important;
             color: #ff9aa5 !important;
         }
 
-        body.dark-mode .status-dibatalkan .status-dot {
+        body.dark-mode .status-ditolak_wali .status-dot {
             background: #e46c6c !important;
+        }
+
+        body.dark-mode .status-dibatalkan {
+            background: #252b36 !important;
+            color: #9aa2b1 !important;
+        }
+
+        body.dark-mode .status-dibatalkan .status-dot {
+            background: #6a7485 !important;
         }
 
         /* action */
@@ -2340,6 +2394,27 @@
                         </option>
 
                         <option
+                            value="Diajukan"
+                            {{ request('status') == 'Diajukan' ? 'selected' : '' }}
+                        >
+                            Menunggu Wali Kelas
+                        </option>
+
+                        <option
+                            value="Disetujui_Wali"
+                            {{ request('status') == 'Disetujui_Wali' ? 'selected' : '' }}
+                        >
+                            Disetujui Wali
+                        </option>
+
+                        <option
+                            value="Ditolak_Wali"
+                            {{ request('status') == 'Ditolak_Wali' ? 'selected' : '' }}
+                        >
+                            Ditolak Wali
+                        </option>
+
+                        <option
                             value="Terjadwal"
                             {{ request('status') == 'Terjadwal' ? 'selected' : '' }}
                         >
@@ -2448,6 +2523,36 @@
                                                 <span class="status-dot"></span>
 
                                                 Selesai
+
+                                            </span>
+
+                                        @elseif ($item->status === 'Diajukan')
+
+                                            <span class="status-badge status-diajukan">
+
+                                                <span class="status-dot"></span>
+
+                                                Menunggu Wali
+
+                                            </span>
+
+                                        @elseif ($item->status === 'Disetujui_Wali')
+
+                                            <span class="status-badge status-disetujui_wali">
+
+                                                <span class="status-dot"></span>
+
+                                                Disetujui Wali
+
+                                            </span>
+
+                                        @elseif ($item->status === 'Ditolak_Wali')
+
+                                            <span class="status-badge status-ditolak_wali">
+
+                                                <span class="status-dot"></span>
+
+                                                Ditolak Wali
 
                                             </span>
 
@@ -2601,6 +2706,24 @@
 
                                     </div>
 
+                                @endif
+
+                                {{-- catatan wali kelas jika ada --}}
+                                @if (!empty($item->id_wali) || !empty($item->catatan_wali))
+                                    <div class="schedule-note" style="border-left: 3px solid #173c91; background: rgba(23, 60, 145, 0.04); padding: 8px 12px; border-radius: 8px; margin-top: 8px;">
+                                        <div class="info-label" style="font-weight: 700; color: #173c91;">
+                                            <i data-lucide="user-check"></i>
+                                            Wali Kelas: {{ $item->waliKelas->nama ?? 'Wali Kelas' }}
+                                            @if ($item->waktu_persetujuan_wali)
+                                                <span style="font-size: 10px; color: #737b8c; font-weight: normal;">({{ \Carbon\Carbon::parse($item->waktu_persetujuan_wali)->format('d/m/Y H:i') }})</span>
+                                            @endif
+                                        </div>
+                                        @if (!empty($item->catatan_wali))
+                                            <div class="info-value" style="font-style: italic; color: #475569; margin-top: 3px;">
+                                                "{{ $item->catatan_wali }}"
+                                            </div>
+                                        @endif
+                                    </div>
                                 @endif
 
                                 {{-- action --}}
@@ -2828,6 +2951,27 @@
                                                     class="penjadwalan-form-input"
                                                     required
                                                 >
+
+                                                    <option
+                                                        value="Diajukan"
+                                                        {{ $item->status == 'Diajukan' ? 'selected' : '' }}
+                                                    >
+                                                        Diajukan (Menunggu Wali)
+                                                    </option>
+
+                                                    <option
+                                                        value="Disetujui_Wali"
+                                                        {{ $item->status == 'Disetujui_Wali' ? 'selected' : '' }}
+                                                    >
+                                                        Disetujui Wali Kelas
+                                                    </option>
+
+                                                    <option
+                                                        value="Ditolak_Wali"
+                                                        {{ $item->status == 'Ditolak_Wali' ? 'selected' : '' }}
+                                                    >
+                                                        Ditolak Wali Kelas
+                                                    </option>
 
                                                     <option
                                                         value="Terjadwal"
