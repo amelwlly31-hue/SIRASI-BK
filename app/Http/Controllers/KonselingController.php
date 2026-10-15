@@ -181,19 +181,34 @@ class KonselingController extends Controller
             'dibaca' => true,
         ]);
 
+        $user = auth()->user();
+
         if ($notifikasi->id_konseling) {
-            return redirect()->route('konseling.show', $notifikasi->id_konseling);
+            if ($user && $user->isGuruBK()) {
+                return redirect()->route('konseling.show', $notifikasi->id_konseling);
+            }
+            return redirect()->route('dashboard');
         }
 
         if ($notifikasi->tipe === 'siswa') {
-            return redirect()->route('siswa.index');
+            if ($user && ($user->isAdmin() || $user->isGuruBK())) {
+                return redirect()->route('siswa.index');
+            }
+            return redirect()->route('dashboard');
         }
 
         if ($notifikasi->tipe === 'jadwal' || $notifikasi->tipe === 'penjadwalan') {
-            return redirect()->route('penjadwalan.index');
+            if ($user && ($user->isAdmin() || $user->isGuruBK())) {
+                return redirect()->route('penjadwalan.index');
+            }
+            return redirect()->route('dashboard');
         }
 
-        return redirect()->route('konseling.index');
+        if ($user && $user->isGuruBK()) {
+            return redirect()->route('konseling.index');
+        }
+
+        return redirect()->route('dashboard');
     }
 
     public function destroy($id)

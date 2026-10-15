@@ -58,9 +58,21 @@ class AppServiceProvider extends ServiceProvider
                 }
 
                 if (Schema::hasTable('notifikasis')) {
-                    $notifikasis = Notifikasi::latest()
-                        ->take(10)
-                        ->get();
+                    $currentUser = auth()->user();
+                    if ($currentUser && $currentUser->isGuruBK()) {
+                        $notifikasis = Notifikasi::latest()
+                            ->take(10)
+                            ->get();
+                    } elseif ($currentUser) {
+                        // Admin dan Wali Kelas tidak memuat notifikasi kasus konseling sensitif
+                        $notifikasis = Notifikasi::where('tipe', '!=', 'konseling')
+                            ->whereNull('id_konseling')
+                            ->latest()
+                            ->take(10)
+                            ->get();
+                    } else {
+                        $notifikasis = collect();
+                    }
                     $view->with('notifikasis', $notifikasis);
                 }
             } catch (\Throwable $e) {

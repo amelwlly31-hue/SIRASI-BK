@@ -9,6 +9,7 @@ use App\Http\Controllers\TindakLanjutController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PenjadwalanController;
 use App\Http\Controllers\PengaturanController;
+use App\Http\Controllers\UserController;
 /* | | web routes | | | here is where you can register web routes for your application. these | routes are loaded by the routeserviceprovider within a group which | contains the "web" middleware group. now create something great! | */
 
 // Rute Publik (Guest / Autentikasi)
@@ -41,6 +42,11 @@ Route::middleware(['auth'])->group(function () {
 
         return response()->file($path);
     })->name('profile.photo');
+
+    // Akses Eksklusif: Khusus Admin
+    Route::middleware(['role:admin'])->group(function () {
+        Route::resource('users', UserController::class);
+    });
 
     // Akses Bersama: Admin dan Guru BK
     Route::middleware(['role:admin,guru_bk'])->group(function () {
