@@ -32,12 +32,7 @@
             height: 100vh;
             min-height: 100vh;
 
-            font-family:
-                Inter,
-                "Segoe UI",
-                Arial,
-                Helvetica,
-                sans-serif;
+
 
             background: #f4f6fa;
             color: var(--text);
@@ -177,13 +172,14 @@
             backdrop-filter: blur(10px);
 
             overflow: hidden;
+            padding: 0;
         }
 
         .brand-icon img {
-            width: 300px;
-            height: 150px;
+            width: 100%;
+            height: 100%;
             object-fit: contain;
-            transform: translateY(20px);
+            transform: scale(1.25);
         }
 
         .brand-text {
@@ -591,6 +587,8 @@
 
         .input-wrapper {
             position: relative;
+            display: flex;
+            align-items: center;
         }
 
         .input-wrapper input {
@@ -603,7 +601,7 @@
 
             color: #172033;
 
-            font-family: inherit;
+
 
             font-size: 13px;
 
@@ -628,6 +626,9 @@
                 border-color .2s ease,
                 box-shadow .2s ease;
         }
+
+        #username { padding-left: 2.75rem !important; }
+        #password { padding-left: 2.75rem !important; padding-right: 2.75rem !important; }
 
         .input-wrapper input::placeholder {
             color: #64748b;
@@ -677,7 +678,7 @@
             align-items: center;
             justify-content: center;
 
-            color: #4b576d;
+            color: #94a3b8;
 
             pointer-events: none;
         }
@@ -777,8 +778,13 @@
         }
 
         .forgot {
-            color:
-                #173c91;
+            color: #173c91;
+            cursor: pointer;
+
+            padding: 0;
+            border: 0;
+            background: transparent;
+            font: inherit;
 
             font-size: 11.5px;
 
@@ -792,14 +798,42 @@
         }
 
         .forgot:hover {
-            color:
-                #102d70;
+            color: #102d70;
 
             text-decoration:
                 underline;
         }
 
+        .reset-dialog-overlay { position: fixed; inset: 0; z-index: 50; width: 100vw; height: 100vh; max-width: none; max-height: none; margin: 0; padding: 16px; border: 0; background: transparent; overflow-y: auto; }
+        .reset-dialog-overlay:not([open]) { display: none !important; }
+        .reset-dialog-overlay[open] { display: flex; align-items: center; justify-content: center; }
+        .reset-dialog-overlay::backdrop { background: rgba(5, 16, 40, .62); backdrop-filter: blur(4px); }
+        .reset-dialog {
+            margin: auto;
+            width: min(92vw, 440px);
+            padding: 0;
+            color: #0f172a;
+            border: 1px solid rgba(255,255,255,.75);
+            border-radius: 20px;
+            background: #fff;
+            box-shadow: 0 24px 70px rgba(2, 12, 35, .38);
+        }
+        .reset-dialog::backdrop { background: rgba(5, 16, 40, .62); backdrop-filter: blur(4px); }
+        .reset-dialog form { padding: 26px; }
+        .reset-dialog h3 { margin: 0 0 8px; color: #102d70; font-size: 20px; }
+        .reset-dialog p { margin: 0 0 18px; color: #475569; font-size: 13px; line-height: 1.55; }
+        .reset-dialog label { display:block; margin: 12px 0 6px; color:#334155; font-size:12px; font-weight:700; }
+        .reset-dialog input, .reset-dialog select { width:100%; min-height:44px; padding:10px 12px; border:1px solid #cbd5e1; border-radius:10px; color:#0f172a; background:#fff; }
+        .reset-dialog-actions { display:flex; justify-content:flex-end; gap:10px; margin-top:20px; }
+        .reset-dialog-actions button { padding:10px 14px; border:0; border-radius:10px; font-weight:700; cursor:pointer; }
+        .reset-dialog-cancel { color:#334155; background:#e2e8f0; }
+        .reset-dialog-submit { color:#fff; background:#173c91; }
+        .login-status { margin:0 0 16px; padding:11px 13px; border-radius:10px; font-size:12px; line-height:1.5; }
+        .login-status.success { color:#14532d; background:#dcfce7; }
+        .login-status.failure { color:#7f1d1d; background:#fee2e2; }
+
         /* login button */
+        .login-button > span:empty { display: none; }
         .login-button {
             width: 100%;
             height: 51px;
@@ -824,7 +858,7 @@
 
             color: #ffffff;
 
-            font-family: inherit;
+
 
             font-size: 13px;
 
@@ -892,8 +926,7 @@
         }
 
         .help-text a {
-            color:
-                #173c91;
+            color: #173c91;
 
             font-weight: 700;
 
@@ -905,8 +938,7 @@
         }
 
         .help-text a:hover {
-            color:
-                #102d70;
+            color: #102d70;
 
             text-decoration:
                 underline;
@@ -935,9 +967,8 @@
         }
 
         .brand-icon img {
-            width: 120px;
-            height: 70px;
-            transform: translateY(8px);
+            width: 100%;
+            height: 100%;
         }
 
         .brand-name {
@@ -1046,8 +1077,8 @@
             }
 
             .brand-icon img {
-                width: 28px;
-                height: 28px;
+                width: 100%;
+                height: 100%;
             }
 
             .brand-name {
@@ -1147,11 +1178,12 @@
         <!--Brand-->
         <div class="brand">
 
-            <div class="brand-icon">
+            <div class="brand-icon p-0 overflow-hidden flex items-center justify-center">
 
                 <img
                     src="{{ asset('images/logo-smpn2-dramaga.png') }}"
                     alt="Logo SMP Negeri 2 Dramaga"
+                    style="width: 100%; height: 100%; object-fit: contain; transform: scale(3) translateY(12%); transform-origin: center;"
                 >
 
             </div>
@@ -1240,6 +1272,13 @@
 
             </div>
 
+            @if (session('reset_success'))
+                <div class="login-status success" role="status">{{ session('reset_success') }}</div>
+            @endif
+            @if (session('reset_failure'))
+                <div class="login-status failure" role="alert">{{ session('reset_failure') }}</div>
+            @endif
+
             <!-- ERROR -->
             @if ($errors->any())
 
@@ -1262,12 +1301,12 @@
                 <div class="form-group">
 
                     <label for="username">
-                        Username / NIP
+                        Username / Email
                     </label>
 
-                    <div class="input-wrapper">
+                    <div class="input-wrapper relative flex items-center">
 
-                        <span class="input-icon">
+                        <span class="input-icon pointer-events-none text-slate-400" aria-hidden="true">
                             <i data-lucide="user-round"></i>
                         </span>
 
@@ -1275,7 +1314,7 @@
                             type="text"
                             id="username"
                             name="username"
-                            placeholder="Masukkan NIP anda"
+                            placeholder="Masukkan Username atau Email"
                             value="{{ old('username', '') }}"
                             autocomplete="off"
                             required
@@ -1292,9 +1331,9 @@
                         Password
                     </label>
 
-                    <div class="input-wrapper">
+                    <div class="input-wrapper relative flex items-center">
 
-                        <span class="input-icon">
+                        <span class="input-icon pointer-events-none text-slate-400" aria-hidden="true">
                             <i data-lucide="lock-keyhole"></i>
                         </span>
 
@@ -1331,17 +1370,18 @@
                         >
 
                         <span>
-                            Remember me
+                            Ingat saya
                         </span>
 
                     </label>
 
-                    <a
-                        href="#"
+                    <button
+                        type="button"
+                        id="openResetDialog"
                         class="forgot"
                     >
-                        Forgot password?
-                    </a>
+                        Lupa Password?
+                    </button>
 
                 </div>
 
@@ -1352,10 +1392,6 @@
                 >
                     <span>
                         Masuk
-                    </span>
-
-                    <span>
-                        →
                     </span>
                 </button>
 
@@ -1369,19 +1405,40 @@
 
                 Butuh bantuan akses?
 
-                <a href="#">
+                <a href="https://wa.me/6281284053871?text=Halo%20Administrator%20SIRASI-BK%20SMP%20Negeri%202%20Dramaga,%20saya%20membutuhkan%20bantuan%20akses%20pembuatan%20akun%20login." target="_blank" rel="noopener noreferrer" class="hover:underline font-medium">
                     Hubungi Administrator
                 </a>
 
             </p>
 
-            <div style="margin-top: 20px; padding: 12px 16px; border-radius: 12px; background: rgba(23, 60, 145, 0.05); border: 1px dashed rgba(23, 60, 145, 0.22); text-align: center;">
-                <span style="font-size: 11.5px; color: #5a667f; display: block;">Apakah Anda siswa SMPN 2 Dramaga?</span>
-                <a href="{{ route('portal.siswa.index') }}" style="font-size: 13px; font-weight: 700; color: #173c91; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-top: 4px;">
-                    <i data-lucide="calendar-heart" style="width: 15px; height: 15px;"></i>
-                    Ajukan Konseling di Portal Siswa &rarr;
-                </a>
-            </div>
+            <dialog class="reset-dialog-overlay fixed inset-0 z-50 flex items-center justify-center p-4" id="resetPasswordDialog" aria-labelledby="resetDialogTitle">
+                <div class="reset-dialog">
+                <form action="{{ route('login.password-help') }}" method="POST">
+                    @csrf
+                    <h3 id="resetDialogTitle">Permintaan Reset Password</h3>
+                    <p>Masukkan username atau email dan peran akun. Permintaan akan dikirim ke Administrator SMP Negeri 2 Dramaga untuk ditindaklanjuti.</p>
+
+                    @if ($errors->has('reset_username') || $errors->has('reset_role'))
+                        <div class="login-status failure" role="alert">{{ $errors->first('reset_username') ?: $errors->first('reset_role') }}</div>
+                    @endif
+
+                    <label for="reset_username">Username / Email</label>
+                    <input id="reset_username" name="reset_username" placeholder="Masukkan Username atau Email" value="{{ old('reset_username') }}" autocomplete="username" required>
+
+                    <label for="reset_role">Role akun</label>
+                    <select id="reset_role" name="reset_role" required>
+                        <option value="">Pilih role</option>
+                        <option value="guru_bk" {{ old('reset_role') === 'guru_bk' ? 'selected' : '' }}>Guru BK</option>
+                        <option value="wali_kelas" {{ old('reset_role') === 'wali_kelas' ? 'selected' : '' }}>Wali Kelas</option>
+                    </select>
+
+                    <div class="reset-dialog-actions">
+                        <button type="button" class="reset-dialog-cancel" id="closeResetDialog">Batal</button>
+                        <button type="submit" class="reset-dialog-submit">Kirim Permintaan</button>
+                    </div>
+                </form>
+                </div>
+            </dialog>
 
         </div>
 
@@ -1393,7 +1450,14 @@
 <script src="https://unpkg.com/lucide@latest"></script>
 
 <script>
-    lucide.createIcons();
+    if (window.lucide) lucide.createIcons();
+
+    const resetDialog = document.getElementById('resetPasswordDialog');
+    document.getElementById('openResetDialog')?.addEventListener('click', () => resetDialog?.showModal());
+    document.getElementById('closeResetDialog')?.addEventListener('click', () => resetDialog?.close());
+    @if ($errors->has('reset_username') || $errors->has('reset_role'))
+        resetDialog?.showModal();
+    @endif
 
     function resetLoginFormIfEmpty() {
         @if (!old('username'))
@@ -1467,16 +1531,23 @@
     }
 
     function toggleLoginTheme() {
-        var currentTheme = localStorage.getItem('sirasi-theme') || 'light';
+        var currentTheme = document.documentElement.classList.contains('dark-mode') ? 'dark' : 'light';
         var nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        localStorage.setItem('sirasi-theme', nextTheme);
-        document.documentElement.classList.toggle('dark-mode', nextTheme === 'dark');
-        document.body.classList.toggle('dark-mode', nextTheme === 'dark');
+        if (window.sirasiSetTheme) {
+            window.sirasiSetTheme(nextTheme);
+        } else {
+            localStorage.setItem('sirasi-theme', nextTheme);
+            localStorage.setItem('sirasi-theme-portal', nextTheme);
+            document.documentElement.classList.toggle('dark-mode', nextTheme === 'dark');
+            document.documentElement.classList.toggle('dark', nextTheme === 'dark');
+            document.body.classList.toggle('dark-mode', nextTheme === 'dark');
+            document.body.classList.toggle('dark', nextTheme === 'dark');
+        }
         updateLoginThemeIcon(nextTheme);
     }
 
     document.addEventListener('DOMContentLoaded', function () {
-        var initialTheme = localStorage.getItem('sirasi-theme') || 'light';
+        var initialTheme = document.documentElement.classList.contains('dark-mode') ? 'dark' : 'light';
         updateLoginThemeIcon(initialTheme);
     });
 </script>

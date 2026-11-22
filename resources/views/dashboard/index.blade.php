@@ -5,374 +5,542 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Dashboard - SIRASI-BK</title>
+    <title>Dashboard Guru BK - SIRASI-BK</title>
+
 
     <script src="https://unpkg.com/lucide@latest"></script>
 
+    @include('partials.theme')
+
     <style>
-        * {
+        /* ==========================================================================
+           SIRASI-BK - DASHBOARD GURU BK MODERN & PROFESIONAL
+           Sistem Informasi Bimbingan dan Konseling SMP Negeri 2 Dramaga
+           ========================================================================== */
+
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
         :root {
-            --primary: #173c91;
-            --primary-dark: #102d70;
-            --primary-light: #eaf0ff;
-            --primary-soft: #f3f6ff;
+            /* Palette: Institutional Formal Educational (Navy, Sapphire, Slate, Warm Accents) */
+            --brand-primary: #173b82;
+            --brand-primary-dark: #0f2656;
+            --brand-primary-light: #2563eb;
+            --brand-primary-soft: #eff4fe;
+            --brand-accent: #0284c7;
 
-            --bg: #f5f7fb;
-            --white: #ffffff;
+            --surface-bg: #f5f8fc;
+            --surface-card: #ffffff;
+            --surface-muted: #f8fafc;
+            --surface-border: #e2e8f0;
+            --surface-border-subtle: #edf2f7;
 
-            --text: #172033;
-            --muted: #737b8c;
-            --border: #e7eaf0;
+            --text-heading: #0f172a;
+            --text-body: #334155;
+            --text-muted: #64748b;
+            --text-light: #94a3b8;
 
-            --green: #159447;
-            --green-bg: #e9f8ef;
+            --status-success: #059669;
+            --status-success-bg: #ecfdf5;
+            --status-success-border: #a7f3d0;
 
-            --orange: #d98218;
-            --orange-bg: #fff4e3;
+            --status-info: #0284c7;
+            --status-info-bg: #f0f9ff;
+            --status-info-border: #bae6fd;
 
-            --red: #d64545;
-            --red-bg: #fff0f0;
+            --status-warning: #d97706;
+            --status-warning-bg: #fffbeb;
+            --status-warning-border: #fde68a;
 
-            --shadow-sm: 0 4px 14px rgba(23, 60, 145, .05);
-            --shadow-md: 0 12px 30px rgba(23, 60, 145, .08);
-            --shadow-lg: 0 20px 45px rgba(23, 60, 145, .12);
+            --status-danger: #e11d48;
+            --status-danger-bg: #fff1f2;
+            --status-danger-border: #fecdd3;
+
+            /* Shadows & Elevation */
+            --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+            --shadow-sm: 0 4px 12px rgba(17, 38, 86, 0.05);
+            --shadow-md: 0 10px 25px rgba(17, 38, 86, 0.07);
+            --shadow-lg: 0 18px 38px rgba(17, 38, 86, 0.10);
+            --shadow-card-hover: 0 16px 32px rgba(23, 59, 130, 0.10);
+
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --radius-2xl: 24px;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            margin: 0;
-            font-family: Inter, "Segoe UI", Arial, Helvetica, sans-serif;
+
             background:
-                radial-gradient(circle at 85% 0%, rgba(41, 67, 143, .08), transparent 28%),
-                #f5f7fb;
-            color: var(--text);
+                radial-gradient(circle at 85% 0%, rgba(37, 99, 235, 0.06), transparent 32%),
+                radial-gradient(circle at 10% 20%, rgba(14, 165, 233, 0.04), transparent 25%),
+                var(--surface-bg);
+            color: var(--text-body);
+            line-height: 1.5;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
         }
 
         a {
             text-decoration: none;
+            color: inherit;
         }
 
-        button,
-        input {
-            font-family: inherit;
+        button, input, select {
+
         }
 
-        /* app */
+        /* --------------------------------------------------------------------------
+           LAYOUT CORE
+           -------------------------------------------------------------------------- */
         .app {
             display: flex;
             min-height: 100vh;
         }
 
-        /* sidebar */
+        /* --------------------------------------------------------------------------
+           SIDEBAR NAVIGATION & HOVER INDICATOR
+           -------------------------------------------------------------------------- */
         .sidebar {
-            width: 270px;
+            width: 235px;
             min-height: 100vh;
             position: fixed;
             left: 0;
             top: 0;
             bottom: 0;
-            z-index: 20;
-
+            z-index: 30;
             display: flex;
             flex-direction: column;
-
+            justify-content: space-between;
             padding: 24px 16px;
-
-            background:
-                linear-gradient(
-                    180deg,
-                    #193f96 0%,
-                    #173887 52%,
-                    #112e70 100%
-                );
-
-            color: white;
-
-            box-shadow:
-                12px 0 35px rgba(15, 45, 112, .10);
+            background: linear-gradient(180deg, #163675 0%, #122c60 52%, #0d2149 100%);
+            color: #ffffff;
+            box-shadow: 6px 0 28px rgba(13, 33, 73, 0.16);
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .brand {
             display: flex;
             align-items: center;
             gap: 13px;
-            padding: 4px 10px 28px;
+            padding: 6px 10px 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+            margin-bottom: 20px;
         }
 
         .brand-logo {
-            width: 55px;
-            height: 55px;
-
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-
-            border-radius: 14px;
-
-            background: rgba(255, 255, 255, .14);
-            border: 1px solid rgba(255, 255, 255, .20);
-
-            box-shadow:
-                inset 0 1px 0 rgba(255,255,255,.15),
-                0 8px 20px rgba(0,0,0,.10);
-
-            font-size: 21px;
-            font-weight: 800;
+            border-radius: var(--radius-md);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.08));
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            overflow: hidden;
+            padding: 4px;
         }
 
         .brand-logo img {
-            width: 200px;
-            height: 150px;
+            width: 100%;
+            height: 100%;
             object-fit: contain;
-            transform: translateY(20px);
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+        }
+
+        .brand-info {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
         }
 
         .brand-name {
-            font-size: 19px;
+            font-size: 18px;
             font-weight: 800;
-            letter-spacing: .2px;
+            letter-spacing: 0.5px;
+            color: #ffffff;
+            line-height: 1.2;
         }
 
         .brand-subtitle {
-            margin-top: 4px;
-            color: #cbd8ff;
+            margin-top: 3px;
+            color: #b5ccff;
             font-size: 11px;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .brand-badge {
+            display: inline-block;
+            font-size: 9.5px;
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.15);
+            color: #e0edff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-top: 3px;
+            align-self: flex-start;
+            letter-spacing: 0.3px;
         }
 
         .menu-title {
-            padding: 4px 12px 10px;
-            color: #9eb2e9;
-            font-size: 10px;
+            padding: 0 12px 10px;
+            color: #9cbaff;
+            font-size: 10.5px;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1.1px;
+            letter-spacing: 1.2px;
         }
 
         .menu {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 6px;
         }
 
-        .menu-item {
-            min-height: 47px;
-
+        .menu-item,
+        .menu a {
+            position: relative;
+            min-height: 46px;
             display: flex;
             align-items: center;
             gap: 13px;
-
             padding: 0 14px;
-
-            border-radius: 12px;
-
-            color: #d2dcfa;
-
+            border-radius: var(--radius-md);
+            color: #d1e0ff;
             font-size: 13.5px;
-            font-weight: 500;
-
-            transition: .2s ease;
+            font-weight: 600;
+            transition: all 0.22s ease;
+            border: 1px solid transparent;
+            overflow: hidden;
         }
 
-        .menu-item:hover {
-            color: white;
-            background: rgba(255,255,255,.09);
-            transform: translateX(2px);
+        /* Garis indikator tipis di bagian bawah nama menu saat hover */
+        .menu-item::after,
+        .menu a::after {
+            content: "";
+            position: absolute;
+            left: 10px;
+            right: 10px;
+            bottom: 5px;
+            height: 2px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, transparent, rgba(160, 195, 255, 0.85), transparent);
+            transform: scaleX(0);
+            opacity: 0;
+            transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease;
+            pointer-events: none;
+            z-index: 2;
         }
 
-        .menu-item.active {
-            color: white;
+        .menu-item:hover,
+        .menu a:hover {
+            color: #ffffff;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.06));
+            border-color: rgba(255, 255, 255, 0.08);
+            transform: translateX(3px);
+            box-shadow: 0 4px 12px rgba(6, 22, 54, 0.12);
+        }
 
-            background:
-                linear-gradient(
-                    90deg,
-                    rgba(255,255,255,.17),
-                    rgba(255,255,255,.08)
-                );
+        .menu-item:hover::after,
+        .menu a:hover::after {
+            transform: scaleX(1);
+            opacity: 1;
+        }
 
-            border: 1px solid rgba(255,255,255,.10);
+        /* Menu aktif (termasuk Dashboard saat aktif) */
+        .menu-item.active,
+        .menu a.active {
+            color: #ffffff;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.20), rgba(255, 255, 255, 0.08));
+            border-color: rgba(255, 255, 255, 0.18);
+            box-shadow: inset 3.5px 0 0 #60a5fa, 0 6px 18px rgba(6, 22, 54, 0.15);
+        }
 
-            box-shadow:
-                inset 3px 0 0 #9db9ff,
-                0 8px 20px rgba(0,0,0,.08);
+        .menu-item.active::after,
+        .menu a.active::after {
+            transform: scaleX(1);
+            opacity: 1;
+            background: linear-gradient(90deg, transparent, rgba(160, 195, 255, 0.95), transparent);
+        }
+
+        .menu-item.active:hover,
+        .menu a.active:hover {
+            color: #ffffff;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.10));
+            box-shadow: inset 3.5px 0 0 #93c5fd, 0 8px 22px rgba(6, 22, 54, 0.18);
+            transform: translateX(3px);
+        }
+
+        .menu-item.active:hover::after,
+        .menu a.active:hover::after {
+            transform: scaleX(1);
+            opacity: 1;
         }
 
         .menu-icon {
-            width: 25px;
-            height: 25px;
-
+            width: 28px;
+            height: 28px;
             display: flex;
             align-items: center;
             justify-content: center;
+            border-radius: var(--radius-sm);
+            background: rgba(255, 255, 255, 0.10);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            flex-shrink: 0;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
 
-            border-radius: 8px;
+        .menu-icon > svg {
+            width: 17px;
+            height: 17px;
+            stroke-width: 2;
+        }
 
-            background: rgba(255,255,255,.07);
+        .menu-item:hover .menu-icon {
+            background: rgba(255, 255, 255, 0.20);
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.18);
+            transform: scale(1.05);
+        }
 
-            font-size: 14px;
+        .menu-item.active .menu-icon {
+            background: rgba(255, 255, 255, 0.16);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+        }
+
+        .menu-label {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .sidebar-bottom {
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.10);
             margin-top: auto;
-            padding-top: 20px;
         }
 
         .logout-button {
             width: 100%;
-            border: 0;
-            background: transparent;
+            border: 1px solid transparent;
+            background: rgba(239, 68, 68, 0.10);
+            color: #fca5a5;
             cursor: pointer;
             text-align: left;
+            transition: all 0.2s ease;
+            position: relative;
         }
 
-        /* main */
+        .logout-button::after {
+            content: "";
+            position: absolute;
+            left: 10px;
+            right: 10px;
+            bottom: 5px;
+            height: 2px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, transparent, rgba(252, 165, 165, 0.8), transparent);
+            transform: scaleX(0);
+            opacity: 0;
+            transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease;
+            pointer-events: none;
+        }
+
+        .logout-button .menu-icon {
+            background: rgba(239, 68, 68, 0.18);
+            color: #fca5a5;
+        }
+
+        .logout-button:hover {
+            color: #ffffff;
+            background: rgba(239, 68, 68, 0.25);
+            border-color: rgba(239, 68, 68, 0.35);
+            transform: translateX(3px);
+        }
+
+        .logout-button:hover::after {
+            transform: scaleX(1);
+            opacity: 1;
+        }
+
+        .logout-button:hover .menu-icon {
+            background: #ef4444;
+            color: #ffffff;
+        }
+
+        /* --------------------------------------------------------------------------
+           MAIN CONTENT AREA
+           -------------------------------------------------------------------------- */
         .main {
             flex: 1;
             min-width: 0;
-            margin-left: 270px;
+            width: auto;
+            max-width: none;
+            margin-left: 235px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
-        /* header */
+        /* --------------------------------------------------------------------------
+           TOPBAR / NAVBAR
+           -------------------------------------------------------------------------- */
         .header {
-            height: 76px;
-
+            height: 74px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-
-            padding: 0 32px;
-
-            background: rgba(255,255,255,.88);
-            backdrop-filter: blur(14px);
-
-            border-bottom: 1px solid rgba(226,230,238,.8);
-
+            padding: 0 36px;
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--surface-border);
             position: sticky;
             top: 0;
-            z-index: 10;
+            z-index: 25;
+            box-shadow: 0 2px 14px rgba(15, 23, 42, 0.03);
         }
 
         .search-box {
-            width: 430px;
+            width: 440px;
+            max-width: 100%;
             height: 42px;
-
             display: flex;
             align-items: center;
-
-            padding: 0 14px;
-
-            border: 1px solid var(--border);
-            border-radius: 12px;
-
-            background: #f8f9fc;
-
-            transition: .2s ease;
+            padding: 0 16px;
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            background: #f8fafc;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-xs);
         }
 
         .search-box:focus-within {
-            border-color: #9bb0e8;
-            background: white;
-            box-shadow: 0 0 0 4px rgba(23,60,145,.06);
+            border-color: #3b82f6;
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12), var(--shadow-sm);
         }
 
         .search-icon {
-            margin-right: 10px;
-            color: #8b93a3;
-            font-size: 18px;
+            margin-right: 12px;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
         }
 
-        .search-box input,
-        .search-box input:hover,
-        .search-box input:focus,
-        .search-box input:focus-visible,
-        .search-box input:active {
-            width: 100% !important;
-            height: 100% !important;
-            border: none !important;
-            border-width: 0 !important;
-            outline: none !important;
-            box-shadow: none !important;
-            -webkit-box-shadow: none !important;
-            background: transparent !important;
-            background-color: transparent !important;
-            color: var(--text) !important;
-            font-size: 13px !important;
-            padding: 0 !important;
-            margin: 0 !important;
-            border-radius: 0 !important;
+        .search-icon > svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .search-box input {
+            width: 100%;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 13.5px;
+            color: var(--text-heading);
+            font-weight: 500;
         }
 
         .search-box input::placeholder {
-            color: #9aa1af !important;
+            color: #94a3b8;
         }
 
         .profile-area {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 16px;
         }
 
-        .notification {
-            width: 38px;
-            height: 38px;
-
-            position: relative;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            border: 1px solid var(--border);
-            border-radius: 11px;
-
-            background: white;
-
-            color: #5c6575;
-
-            box-shadow: var(--shadow-sm);
-        }
-
-        .notification-dot {
-            width: 7px;
-            height: 7px;
-
-            position: absolute;
-            top: 7px;
-            right: 7px;
-
-            border: 2px solid white;
-            border-radius: 50%;
-
-            background: #e14c4c;
-        }
-
+        /* Notification Bell */
         .notification-wrapper {
             position: relative;
         }
 
         .notification {
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--surface-border);
+            background: #ffffff;
+            color: var(--text-body);
             cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-xs);
+        }
+
+        .notification:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+            color: var(--brand-primary);
+            transform: translateY(-1px);
+        }
+
+        .notification > svg {
+            width: 19px;
+            height: 19px;
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: 9px;
+            right: 9px;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #ef4444;
+            border: 2px solid #ffffff;
+            box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.3);
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
         }
 
         .notification-dropdown {
             position: absolute;
-            top: 48px;
+            top: 50px;
             right: 0;
-            width: 340px;
-            max-height: 420px;
+            width: 360px;
+            max-height: 440px;
             overflow-y: auto;
-
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 14px;
-
-            box-shadow: 0 15px 35px rgba(23,60,145,.14);
-
+            background: #ffffff;
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
             display: none;
             z-index: 1000;
+            animation: dropdown-fade 0.2s ease-out;
+        }
+
+        @keyframes dropdown-fade {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .notification-dropdown.show {
@@ -380,102 +548,103 @@
         }
 
         .notification-header {
-            padding: 15px 17px;
-            border-bottom: 1px solid var(--border);
-            font-size: 13px;
-            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 18px;
+            border-bottom: 1px solid var(--surface-border-subtle);
+            background: #fafcff;
+        }
+
+        .notification-header strong {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-heading);
         }
 
         .notification-item {
             display: flex;
-            gap: 11px;
-
-            padding: 13px 15px;
-
-            border-bottom: 1px solid #edf0f4;
-
-            color: var(--text);
-
-            transition: .2s ease;
+            gap: 12px;
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--surface-border-subtle);
+            color: var(--text-body);
+            transition: background 0.18s ease;
         }
 
         .notification-item:hover {
-            background: #f7f9ff;
+            background: #f1f6ff;
         }
 
         .notification-item-icon {
             width: 34px;
             height: 34px;
-
             flex-shrink: 0;
-
             display: flex;
             align-items: center;
             justify-content: center;
+            border-radius: var(--radius-sm);
+            background: var(--brand-primary-soft);
+            color: var(--brand-primary);
+        }
 
-            border-radius: 9px;
-
-            background: var(--primary-light);
-            color: var(--primary);
+        .notification-item-icon > svg {
+            width: 17px;
+            height: 17px;
         }
 
         .notification-item-content {
             min-width: 0;
+            flex: 1;
         }
 
         .notification-item-content strong {
             display: block;
-
-            font-size: 11px;
-            font-weight: 800;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-heading);
+            line-height: 1.35;
         }
 
         .notification-item-content p {
-            margin-top: 4px;
-
-            color: var(--muted);
-
-            font-size: 10px;
+            margin-top: 3px;
+            color: var(--text-muted);
+            font-size: 12px;
             line-height: 1.45;
         }
 
         .notification-item-content small {
-            display: block;
-
-            margin-top: 5px;
-
-            color: #9aa1ae;
-
-            font-size: 8px;
+            display: inline-block;
+            margin-top: 6px;
+            color: var(--text-light);
+            font-size: 11px;
+            font-weight: 500;
         }
 
         .notification-empty {
-            padding: 30px 20px;
-
+            padding: 36px 20px;
             text-align: center;
-
-            color: var(--muted);
+            color: var(--text-muted);
         }
 
         .notification-empty svg {
-            width: 28px;
-            height: 28px;
-
+            width: 32px;
+            height: 32px;
+            color: var(--text-light);
             margin-bottom: 8px;
         }
 
         .notification-empty p {
-            font-size: 11px;
+            font-size: 13px;
+            font-weight: 500;
         }
 
+        /* Profile Block */
         .profile {
             display: flex;
             align-items: center;
-            gap: 11px;
-
-            padding-left: 18px;
-
-            border-left: 1px solid var(--border);
+            gap: 12px;
+            padding-left: 14px;
+            border-left: 1px solid var(--surface-border);
         }
 
         .profile-info {
@@ -483,887 +652,1322 @@
         }
 
         .profile-name {
-            font-size: 13px;
+            font-size: 13.5px;
             font-weight: 700;
+            color: var(--text-heading);
+            line-height: 1.3;
         }
 
-        .profile-role {
-            margin-top: 3px;
-            color: var(--muted);
+        .profile-role-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 2px;
+            padding: 1px 8px;
+            border-radius: 9999px;
             font-size: 11px;
+            font-weight: 700;
+            background: var(--brand-primary-soft);
+            color: var(--brand-primary);
+            border: 1px solid rgba(37, 99, 235, 0.15);
         }
 
         .profile-photo {
-            width: 40px;
-            height: 40px;
-
+            width: 42px;
+            height: 42px;
+            border-radius: var(--radius-md);
+            background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
+            color: var(--brand-primary);
             display: flex;
             align-items: center;
             justify-content: center;
-
-            border-radius: 12px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #e8eeff,
-                    #d5e0ff
-                );
-
-            color: var(--primary);
-            font-size: 17px;
-
-            box-shadow:
-                inset 0 0 0 1px rgba(23,60,145,.08);
-        }
-
-        .profile-photo svg {
-            width: 18px;
-            height: 18px;
+            overflow: hidden;
+            border: 2px solid #ffffff;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+            flex-shrink: 0;
+            font-weight: 800;
+            font-size: 15px;
         }
 
         .profile-photo img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 12px;
         }
 
-        /* content */
+        .profile-photo svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* --------------------------------------------------------------------------
+           MAIN CONTENT BODY
+           -------------------------------------------------------------------------- */
         .content {
-            padding: 32px;
-            max-width: 1700px;
-            margin: auto;
+            padding: 28px 36px 44px;
+            min-width: 0;
+            max-width: 1600px;
+            width: 100%;
+            margin: 0 auto;
         }
 
-        .welcome-card {
+        /* --------------------------------------------------------------------------
+           HERO / WELCOME CARD (FOKUS UTAMA - RINGKAS, ELEGAN & SEIMBANG)
+           Sapaan personal hangat, tanggal, ringkasan pengingat harian, tanpa teks panjang
+           -------------------------------------------------------------------------- */
+        .hero-welcome-card {
             position: relative;
+            width: 100%;
+            min-width: 0;
             overflow: hidden;
+            border-radius: var(--radius-2xl);
+            background: linear-gradient(135deg, #132e65 0%, #173b82 45%, #1e4ca6 100%);
+            color: #ffffff;
+            box-shadow: 0 16px 40px rgba(17, 43, 98, 0.16), 0 4px 12px rgba(17, 43, 98, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            margin-bottom: 26px;
+            padding: 26px 32px;
+            transition: box-shadow 0.3s ease;
+        }
 
+        .hero-welcome-card:hover {
+            box-shadow: 0 20px 48px rgba(17, 43, 98, 0.22);
+        }
+
+        /* Decorative Abstract Geometric Accents */
+        .hero-geometric-bg {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .hero-circle-1 {
+            position: absolute;
+            width: 360px;
+            height: 360px;
+            right: -80px;
+            top: -140px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(96, 165, 250, 0.20) 0%, rgba(37, 99, 235, 0.04) 70%, transparent 80%);
+        }
+
+        .hero-circle-2 {
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            right: 180px;
+            bottom: -90px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.16) 0%, rgba(37, 99, 235, 0.02) 70%, transparent 80%);
+        }
+
+        .hero-pattern-dots {
+            position: absolute;
+            right: 25px;
+            top: 25px;
+            width: 140px;
+            height: 140px;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.15) 1.5px, transparent 1.5px);
+            background-size: 14px 14px;
+            opacity: 0.75;
+        }
+
+        .hero-inner {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .hero-top-bar {
             display: flex;
             align-items: center;
             justify-content: space-between;
-
-            min-height: 150px;
-
-            margin-bottom: 25px;
-            padding: 28px 30px;
-
-            border: 1px solid #dfe6f5;
-            border-radius: 22px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #ffffff 0%,
-                    #f7f9ff 100%
-                );
-
-            box-shadow: var(--shadow-md);
+            flex-wrap: wrap;
+            gap: 12px;
         }
 
-        .welcome-card::before {
-            content: "";
-
-            position: absolute;
-            width: 280px;
-            height: 280px;
-
-            right: -90px;
-            top: -160px;
-
-            border-radius: 50%;
-
-            background: rgba(41,67,143,.07);
-        }
-
-        .welcome-card::after {
-            content: "";
-
-            position: absolute;
-            width: 180px;
-            height: 180px;
-
-            right: 130px;
-            bottom: -130px;
-
-            border-radius: 50%;
-
-            background: rgba(41,67,143,.04);
-        }
-
-        .welcome {
-            position: relative;
-            z-index: 1;
-        }
-
-        .eyebrow {
-            margin-bottom: 7px;
-
-            color: var(--primary);
-
-            font-size: 11px;
-            font-weight: 800;
-
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .welcome h1 {
-            font-size: 26px;
-            line-height: 1.25;
-            font-weight: 800;
-            letter-spacing: -.5px;
-        }
-
-        .welcome p {
-            margin-top: 8px;
-
-            color: var(--muted);
-            font-size: 13px;
-        }
-
-        .actions {
-            position: relative;
-            z-index: 2;
-
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn {
-            height: 42px;
-
+        .hero-school-tag {
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            gap: 7px;
-
-            padding: 0 16px;
-
-            border: 1px solid var(--border);
-            border-radius: 11px;
-
-            background: white;
-            color: var(--text);
-
-            font-size: 12.5px;
+            gap: 8px;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            font-size: 11.5px;
             font-weight: 700;
-
-            box-shadow: var(--shadow-sm);
-
-            transition: .2s ease;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: #dbeafe;
         }
 
-        .btn:hover {
+        .hero-school-tag svg {
+            width: 14px;
+            height: 14px;
+            color: #93c5fd;
+        }
+
+        .hero-date-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 4px 13px;
+            border-radius: 9999px;
+            background: rgba(15, 38, 86, 0.45);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            font-size: 12px;
+            font-weight: 600;
+            color: #e0edff;
+        }
+
+        .hero-date-badge svg {
+            width: 14px;
+            height: 14px;
+            color: #60a5fa;
+        }
+
+        .hero-main-row {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .hero-greeting {
+            flex: 0 0 auto;
+            min-width: 0;
+        }
+
+        .hero-greeting h1 {
+            font-size: 26px;
+            font-weight: 800;
+            line-height: 1.25;
+            letter-spacing: -0.4px;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .hero-greeting h1 .wave-hand {
+            display: inline-block;
+            animation: wave-anim 2.5s infinite;
+            transform-origin: 70% 70%;
+        }
+
+        @keyframes wave-anim {
+            0% { transform: rotate( 0.0deg) }
+            10% { transform: rotate(14.0deg) }
+            20% { transform: rotate(-8.0deg) }
+            30% { transform: rotate(14.0deg) }
+            40% { transform: rotate(-4.0deg) }
+            50% { transform: rotate(10.0deg) }
+            60% { transform: rotate( 0.0deg) }
+            100% { transform: rotate( 0.0deg) }
+        }
+
+        .hero-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-hero-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border-radius: var(--radius-md);
+            background: #ffffff;
+            color: #173b82;
+            font-size: 13px;
+            font-weight: 700;
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+            transition: all 0.22s ease;
+            cursor: pointer;
+        }
+
+        .btn-hero-primary svg {
+            width: 16px;
+            height: 16px;
+            color: #173b82;
+            stroke-width: 2.2;
+        }
+
+        .btn-hero-primary:hover {
+            background: #f8fafc;
             transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
         }
 
-        .btn-primary {
-            border-color: var(--primary);
-            background: var(--primary);
-            color: #fff;
-
-            box-shadow:
-                0 8px 20px rgba(23,60,145,.20);
+        .btn-hero-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: var(--radius-md);
+            background: rgba(255, 255, 255, 0.14);
+            backdrop-filter: blur(8px);
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            transition: all 0.22s ease;
+            cursor: pointer;
         }
 
-body.dark-mode .btn-primary {
-    border-color: #3967d1;
-    background: #1d2c47;
-    color: #a9c5ff;
-}
-
-        .btn-primary:hover {
-            background: var(--primary-dark);
+        .btn-hero-secondary svg {
+            width: 16px;
+            height: 16px;
+            color: #dbeafe;
         }
 
-        /* stat card */
-        .stats {
+        .btn-hero-secondary:hover {
+            background: rgba(255, 255, 255, 0.24);
+            border-color: rgba(255, 255, 255, 0.40);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Daily Digest (Pill summary of activities) */
+        .hero-digest-bar {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.14);
+        }
+
+        .hero-digest-item {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 9px 13px;
+            border-radius: var(--radius-md);
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            transition: all 0.2s ease;
+        }
+
+        .hero-digest-item:hover {
+            background: rgba(255, 255, 255, 0.14);
+            border-color: rgba(255, 255, 255, 0.20);
+        }
+
+        .hero-digest-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.16);
+            color: #ffffff;
+            flex-shrink: 0;
+        }
+
+        .hero-digest-icon svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .hero-digest-info {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .hero-digest-val {
+            font-size: 14.5px;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.2;
+        }
+
+        .hero-digest-lbl {
+            font-size: 11px;
+            color: #bfdbfe;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* --------------------------------------------------------------------------
+           STATISTICS CARDS (4 UNIFORM METRIC CARDS - RINGKAS & PROPORSIONAL)
+           -------------------------------------------------------------------------- */
+        .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 18px;
-
-            margin-bottom: 24px;
+            gap: 16px;
+            margin-bottom: 22px;
+            align-items: stretch;
         }
 
-        .stat-card {
+        .stat-card-v2 {
             position: relative;
+            background: var(--surface-card);
+            border: 1px solid var(--surface-border);
+            border-radius: 14px;
+            padding: 13px 16px 12px;
+            box-shadow: var(--shadow-xs);
+            transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
             overflow: hidden;
-
-            height: 132px;
-            min-height: 132px;
-            box-sizing: border-box;
-
-            padding: 18px 21px 21px;
-
-            border: 1px solid var(--border);
-            border-radius: 18px;
-
-            background: white;
-
-            box-shadow: var(--shadow-sm);
-
-            transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 120px;
         }
 
-        .stat-card::after {
-            content: "";
-
-            position: absolute;
-
-            width: 90px;
-            height: 90px;
-
-            right: -35px;
-            top: -35px;
-
-            border-radius: 50%;
-
-            background: var(--primary-soft);
-        }
-
-        .stat-card::before {
+        .stat-card-v2::before {
             content: "";
             position: absolute;
             top: 0;
             left: 0;
-            bottom: 0;
-            width: 4px;
-            background: var(--primary);
-            box-shadow: 0 0 18px rgba(23, 60, 145, .35);
-            transition: box-shadow .25s ease;
-            pointer-events: none;
+            right: 0;
+            height: 3px;
+            background: var(--card-accent, #2563eb);
+            opacity: 0.95;
         }
 
-        .stat-card:hover {
+        .stat-card-v2:hover {
             transform: translateY(-3px);
-            border-color: #c5d0e8;
-            box-shadow: 0 13px 30px rgba(23, 60, 145, .10);
-        }
-
-        .stat-card:hover::before {
-            box-shadow: 0 0 22px rgba(23, 60, 145, .48);
-        }
-
-        .stat-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            position: relative;
-            z-index: 1;
-        }
-
-        .stat-icon {
-            width: 43px;
-            height: 43px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 13px;
-
-            background: var(--primary-light);
-            color: var(--primary);
-
-            font-size: 18px;
-
-            box-shadow:
-                inset 0 0 0 1px rgba(23,60,145,.06);
-        }
-
-        .stat-mini {
-            padding: 5px 8px;
-
-            border-radius: 7px;
-
-            background: #f5f7fb;
-            color: #8790a0;
-
-            font-size: 9px;
-            font-weight: 700;
-        }
-
-        .stat-label {
-            position: relative;
-            z-index: 1;
-
-            margin-top: 15px;
-
-            color: var(--muted);
-
-            font-size: 11.5px;
-            font-weight: 600;
-        }
-
-        .stat-value {
-            position: relative;
-            z-index: 1;
-
-            margin-top: 3px;
-
-            font-size: 24px;
-            font-weight: 800;
-            letter-spacing: -.6px;
-        }
-
-        /* main grid */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: minmax(0, 1.65fr) minmax(300px, .8fr);
-            gap: 20px;
-        }
-
-        .panel {
-            overflow: hidden;
-
-            border: 1px solid var(--border);
-            border-radius: 18px;
-
-            background: white;
-
+            border-color: #cbd5e1;
             box-shadow: var(--shadow-sm);
         }
 
-        .panel-header {
-            min-height: 67px;
-
+        .stat-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-
-            padding: 0 21px;
-
-            border-bottom: 1px solid var(--border);
+            margin-bottom: 6px;
         }
 
-        .panel-heading {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .panel-heading-icon {
-            width: 34px;
-            height: 34px;
-
+        .stat-icon-wrapper {
+            width: 42px;
+            height: 42px;
             display: flex;
             align-items: center;
             justify-content: center;
-
-            border-radius: 10px;
-
-            background: var(--primary-light);
-            color: var(--primary);
-
-            font-size: 14px;
+            border-radius: 9px;
+            background: var(--icon-bg, #eff6ff);
+            color: var(--icon-color, #2563eb);
+            flex-shrink: 0;
+            transition: transform 0.2s ease;
         }
 
-        .panel-title {
+        .stat-card-v2:hover .stat-icon-wrapper {
+            transform: scale(1.06);
+        }
+
+        .stat-icon-wrapper svg {
+            width: 20px;
+            height: 20px;
+            stroke-width: 2.1;
+        }
+
+        .stat-pill {
+            font-size: 9.5px;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 9999px;
+            background: var(--pill-bg, #f1f5f9);
+            color: var(--pill-color, #475569);
+            letter-spacing: 0.25px;
+            line-height: 1.2;
+        }
+
+        .stat-body {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+
+        .stat-metric-value {
+            font-size: 23px;
+            font-weight: 800;
+            color: var(--text-heading);
+            line-height: 1.15;
+            letter-spacing: -0.3px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .stat-metric-label {
+            font-size: 11.5px;
+            font-weight: 600;
+            color: var(--text-muted);
+            line-height: 1.25;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .stat-footer {
+            margin-top: 8px;
+            padding-top: 7px;
+            border-top: 1px solid var(--surface-border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 10.5px;
+            color: var(--text-light);
+            line-height: 1.2;
+        }
+
+        .stat-trend {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            font-weight: 600;
+            color: var(--trend-color, #059669);
+        }
+
+        .stat-trend svg {
+            width: 12px;
+            height: 12px;
+        }
+
+        /* Card 1: Siswa Theme (Royal Blue) */
+        .stat-theme-siswa {
+            --card-accent: #2563eb;
+            --icon-bg: #eff6ff;
+            --icon-color: #2563eb;
+            --pill-bg: #eff6ff;
+            --pill-color: #1d4ed8;
+            --trend-color: #2563eb;
+        }
+
+        /* Card 2: Total Konseling Theme (Indigo) */
+        .stat-theme-konseling {
+            --card-accent: #6366f1;
+            --icon-bg: #eef2ff;
+            --icon-color: #6366f1;
+            --pill-bg: #eef2ff;
+            --pill-color: #4338ca;
+            --trend-color: #6366f1;
+        }
+
+        /* Card 3: Bulan Ini Theme (Emerald) */
+        .stat-theme-bulan {
+            --card-accent: #059669;
+            --icon-bg: #ecfdf5;
+            --icon-color: #059669;
+            --pill-bg: #ecfdf5;
+            --pill-color: #047857;
+            --trend-color: #059669;
+        }
+
+        /* Card 4: Tindak Lanjut Theme (Amber) */
+        .stat-theme-tindak {
+            --card-accent: #d97706;
+            --icon-bg: #fffbeb;
+            --icon-color: #d97706;
+            --pill-bg: #fffbeb;
+            --pill-color: #b45309;
+            --trend-color: #d97706;
+        }
+
+        /* --------------------------------------------------------------------------
+           MAIN DASHBOARD CONTENT LAYOUT (RAPUH & SEIMBANG TANPA RUANG KOSONG)
+           Baris 1: Riwayat Konseling (Kiri) & Konseling per Bulan (Kanan)
+           Baris 2: Agenda & Penjadwalan BK (Full width atau split rapi jika ada atensi)
+           -------------------------------------------------------------------------- */
+        .dashboard-content-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 26px;
+        }
+
+        /* Baris 1: Riwayat Konseling & Grafik Bulanan berdampingan dengan seimbang */
+        .dashboard-row-primary {
+            display: grid;
+            grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+            gap: 26px;
+            align-items: stretch;
+        }
+
+        .dashboard-row-primary .card-panel {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .dashboard-row-primary .table-responsive-wrapper,
+        .dashboard-row-primary .chart-container-box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Baris 2: Penjadwalan BK & Siswa Perhatian */
+        .dashboard-row-secondary.full-width {
+            display: block;
+            width: 100%;
+        }
+
+        .dashboard-row-secondary.has-attention {
+            display: grid;
+            grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+            gap: 26px;
+            align-items: stretch;
+        }
+
+        /* --------------------------------------------------------------------------
+           UNIVERSAL PANEL / CARD CONTAINERS
+           -------------------------------------------------------------------------- */
+        .card-panel {
+            background: var(--surface-card);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            transition: border-color 0.22s ease, box-shadow 0.22s ease;
+        }
+
+        .card-panel:hover {
+            border-color: #cbd5e1;
+            box-shadow: var(--shadow-md);
+        }
+
+        .card-panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 22px;
+            border-bottom: 1px solid var(--surface-border-subtle);
+            background: #ffffff;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .panel-title-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .panel-icon-badge {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-md);
+            background: var(--brand-primary-soft);
+            color: var(--brand-primary);
+            flex-shrink: 0;
+        }
+
+        .panel-icon-badge svg {
+            width: 18px;
+            height: 18px;
+            stroke-width: 2.1;
+        }
+
+        .panel-titles {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-main-title {
             font-size: 15px;
             font-weight: 800;
+            color: var(--text-heading);
+            letter-spacing: -0.2px;
         }
 
-        .panel-subtitle {
-            margin-top: 3px;
-
-            color: var(--muted);
-            font-size: 10px;
+        .panel-subtitle-text {
+            font-size: 11.5px;
+            color: var(--text-muted);
+            margin-top: 1px;
         }
 
-        .panel-link {
-            color: var(--primary);
+        .panel-action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: var(--radius-md);
+            background: #f1f5f9;
+            color: var(--brand-primary);
+            font-size: 12px;
+            font-weight: 700;
+            border: 1px solid var(--surface-border);
+            transition: all 0.2s ease;
+        }
+
+        .panel-action-btn svg {
+            width: 14px;
+            height: 14px;
+            transition: transform 0.2s ease;
+        }
+
+        .panel-action-btn:hover {
+            background: var(--brand-primary);
+            color: #ffffff;
+            border-color: var(--brand-primary);
+            box-shadow: 0 4px 12px rgba(23, 59, 130, 0.18);
+        }
+
+        .panel-action-btn:hover svg {
+            transform: translateX(3px);
+        }
+
+        /* --------------------------------------------------------------------------
+           DATA TABLES (RIWAYAT KONSELING & PENJADWALAN BK)
+           -------------------------------------------------------------------------- */
+        .table-responsive-wrapper {
+            overflow-x: auto;
+            width: 100%;
+        }
+
+        .dashboard-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            text-align: left;
+        }
+
+        .dashboard-table thead th {
+            background: #f8fafc;
+            color: #64748b;
             font-size: 11px;
             font-weight: 700;
-        }
-
-        .panel-link:hover {
-            text-decoration: underline;
-        }
-
-        /* table */
-        .table-wrap {
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th {
-            padding: 12px 20px;
-
-            background: #fafbfe;
-
-            color: #8a92a1;
-
-            font-size: 9.5px;
-            font-weight: 800;
-
-            text-align: left;
             text-transform: uppercase;
-            letter-spacing: .5px;
-
+            letter-spacing: 0.8px;
+            padding: 12px 18px;
+            border-bottom: 1px solid var(--surface-border);
             white-space: nowrap;
         }
 
-        td {
-            padding: 14px 20px;
+        .dashboard-table tbody tr {
+            transition: background 0.16s ease;
+        }
 
-            border-top: 1px solid #f0f2f6;
+        .dashboard-table tbody tr:hover {
+            background: #f8faff;
+        }
 
-            color: #626b7b;
+        .dashboard-table tbody td {
+            padding: 13px 18px;
+            border-bottom: 1px solid var(--surface-border-subtle);
+            font-size: 13px;
+            color: var(--text-body);
+            vertical-align: middle;
+        }
 
-            font-size: 12px;
+        .dashboard-table tbody tr:last-child td {
+            border-bottom: none;
+        }
 
+        /* Table Date Pill */
+        .table-date {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 12.5px;
             white-space: nowrap;
         }
 
-        tbody tr {
-            transition: .18s ease;
-        }
-
-        tbody tr:hover {
-            background: #f9fbff;
-        }
-
+        /* Table Student Cell */
         .student-cell {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 11px;
         }
 
-        .student-avatar {
-            width: 32px;
-            height: 32px;
-
+        .student-avatar-sm {
+            width: 35px;
+            height: 35px;
+            border-radius: var(--radius-md);
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            color: #1d4ed8;
             display: flex;
             align-items: center;
             justify-content: center;
-
-            flex-shrink: 0;
-
-            border-radius: 10px;
-
-            background: #edf2ff;
-            color: var(--primary);
-
-            font-size: 11px;
+            font-size: 13px;
             font-weight: 800;
+            flex-shrink: 0;
+            border: 1px solid rgba(37, 99, 235, 0.15);
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
         }
 
-        .student-info strong {
-            display: block;
+        .student-meta {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
 
-            color: var(--text);
-
-            font-size: 12px;
+        .student-name-text {
+            font-size: 13px;
             font-weight: 700;
+            color: var(--text-heading);
+            line-height: 1.3;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 180px;
         }
 
-        .student-info span {
-            display: block;
-
-            margin-top: 2px;
-
-            color: #9299a8;
-
-            font-size: 9px;
+        .student-sub-badge {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 1px;
         }
 
-        .status {
+        .class-pill {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 6px;
+            background: #f1f5f9;
+            color: #334155;
+            font-size: 11.5px;
+            font-weight: 600;
+            border: 1px solid #e2e8f0;
+            white-space: nowrap;
+        }
+
+        .category-text {
+            color: #334155;
+            font-weight: 600;
+            font-size: 12.5px;
+        }
+
+        .time-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-body);
+            background: #f8fafc;
+            padding: 3px 8px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            white-space: nowrap;
+        }
+
+        .time-pill svg {
+            width: 12px;
+            height: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Status Badges */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            font-size: 11px;
+            font-weight: 700;
+            line-height: 1.3;
+            white-space: nowrap;
+        }
+
+        .status-badge::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        .status-badge-success {
+            background: var(--status-success-bg);
+            color: var(--status-success);
+            border: 1px solid var(--status-success-border);
+        }
+
+        .status-badge-process {
+            background: var(--status-info-bg);
+            color: var(--status-info);
+            border: 1px solid var(--status-info-border);
+        }
+
+        .status-badge-warning {
+            background: var(--status-warning-bg);
+            color: var(--status-warning);
+            border: 1px solid var(--status-warning-border);
+        }
+
+        .status-badge-danger {
+            background: var(--status-danger-bg);
+            color: var(--status-danger);
+            border: 1px solid var(--status-danger-border);
+        }
+
+        /* Empty State */
+        .table-empty-state {
+            padding: 40px 20px;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .empty-icon-box {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 12px;
+            border-radius: 50%;
+            background: #f1f5f9;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .empty-icon-box svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .empty-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 4px;
+        }
+
+        .empty-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+            max-width: 320px;
+            margin: 0 auto;
+        }
+
+        /* --------------------------------------------------------------------------
+           CHART / VISUALISASI DATA (KONSELING PER BULAN)
+           -------------------------------------------------------------------------- */
+        .chart-container-box {
+            padding: 20px 22px 24px;
+        }
+
+        .chart-meta-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 22px;
+        }
+
+        .chart-year-badge {
             display: inline-flex;
             align-items: center;
             gap: 5px;
-
-            padding: 6px 9px;
-
-            border-radius: 8px;
-
-            font-size: 9px;
-            font-weight: 800;
+            font-size: 11.5px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            background: var(--brand-primary-soft);
+            color: var(--brand-primary);
         }
 
-        .status::before {
-            content: "";
-
-            width: 5px;
-            height: 5px;
-
-            border-radius: 50%;
-        }
-
-        .status-process {
-            background: #1d2c47 !important;
-            color: #a9c5ff !important;
-        }
-
-        body:not(.dark-mode) .status-process {
-            background: #fff4df !important;
-            color: #f2b866 !important;
-        }
-
-        .status-process::before {
-            background: #e9a23b !important;
-        }
-
-        .status-success {
-            background: var(--green-bg);
-            color: var(--green);
-        }
-
-        .status-success::before {
-            background: var(--green);
-        }
-
-        .empty-state {
-            padding: 45px 20px;
-
-            text-align: center;
-
-            color: var(--muted);
-
-            font-size: 12px;
-        }
-
-        .status-danger {
-            background: #ffe2e5 !important;
-            color: #f64e60 !important;
-        }
-
-        .status-danger::before {
-            background: #f64e60 !important;
-        }
-
-        body.dark-mode .status-danger {
-            background: #3a2028 !important;
-            color: #ff9aa5 !important;
-        }
-
-        body.dark-mode .status-danger::before {
-            background: #e46c6c !important;
-        }
-
-        /* columns */
-        .left-column,
-        .right-column {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        /* chart */
-        .chart-panel {
-            padding: 20px;
-        }
-
-        .chart-header {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-
-            margin-bottom: 18px;
-        }
-
-        .chart-title {
-            font-size: 15px;
-            font-weight: 800;
-        }
-
-        .chart-description {
-            margin-top: 4px;
-
-            color: var(--muted);
-            font-size: 10px;
-        }
-
-        .chart-total {
+        .chart-stat-summary {
             text-align: right;
         }
 
-        .chart-total strong {
-            display: block;
-            font-size: 20px;
+        .chart-stat-summary-val {
+            font-size: 18px;
             font-weight: 800;
+            color: var(--text-heading);
+            line-height: 1.2;
         }
 
-        .chart-total span {
-            color: var(--muted);
-            font-size: 9px;
+        .chart-stat-summary-lbl {
+            font-size: 11px;
+            color: var(--text-muted);
         }
 
-        .chart {
+        .bar-chart-visual {
             height: 205px;
-
             display: flex;
             align-items: flex-end;
-
-            gap: 8px;
-
-            padding: 0 2px 24px;
-
-            border-bottom: 1px solid #e9ecf2;
+            gap: 9px;
+            padding-bottom: 28px;
+            border-bottom: 1px solid var(--surface-border-subtle);
+            position: relative;
         }
 
-        .bar-wrapper {
-            position: relative;
+        /* Horizontal reference lines */
+        .chart-grid-line {
+            position: absolute;
+            left: 0;
+            right: 0;
+            border-top: 1px dashed #e2e8f0;
+            pointer-events: none;
+            z-index: 1;
+        }
 
+        .chart-grid-line.line-mid { bottom: 110px; }
+        .chart-grid-line.line-top { bottom: 180px; }
+
+        .chart-column {
             flex: 1;
             height: 100%;
-
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             align-items: center;
+            position: relative;
+            z-index: 2;
         }
 
-        .bar-value {
+        .chart-bar-track {
+            width: 100%;
+            max-width: 24px;
+            height: 100%;
+            max-height: 160px;
+            background: #f1f5f9;
+            border-radius: 8px 8px 4px 4px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            position: relative;
+            overflow: visible;
+        }
+
+        .chart-bar-fill {
+            width: 100%;
+            min-height: 4px;
+            border-radius: 7px 7px 3px 3px;
+            background: #cbd5e1;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        .chart-bar-fill.active {
+            background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+        }
+
+        .chart-bar-fill.is-current-month {
+            background: linear-gradient(180deg, #60a5fa 0%, #2563eb 100%);
+            border: 1.5px solid #ffffff;
+            box-shadow: 0 0 0 2px #2563eb, 0 6px 14px rgba(37, 99, 235, 0.35);
+        }
+
+        .chart-bar-track:hover .chart-bar-fill {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+        }
+
+        .chart-tooltip-val {
             position: absolute;
             bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-bottom: 6px;
+            font-size: 10.5px;
+            font-weight: 800;
+            color: #1e3a8a;
+            background: #eff6ff;
+            padding: 2px 5px;
+            border-radius: 4px;
+            white-space: nowrap;
+            opacity: 0.9;
+            transition: opacity 0.2s ease;
+        }
 
-            margin-bottom: 5px;
+        .chart-month-name {
+            position: absolute;
+            bottom: -24px;
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-light);
+            text-align: center;
+            white-space: nowrap;
+        }
 
-            color: var(--primary);
-
-            font-size: 8px;
+        .chart-month-name.has-data {
+            color: var(--text-body);
             font-weight: 700;
         }
 
-        .bar {
-            width: 100%;
-            max-width: 22px;
-
-            min-height: 4px;
-
-            border-radius: 7px 7px 3px 3px;
-
-            background:
-                linear-gradient(
-                    180deg,
-                    #9bb2ef,
-                    #dce6ff
-                );
-
-            transition: .25s ease;
-        }
-
-        .bar.active {
-            background:
-                linear-gradient(
-                    180deg,
-                    #173c91,
-                    #5578cf
-                );
-
-            box-shadow:
-                0 5px 12px rgba(23,60,145,.18);
-        }
-
-        .bar:hover {
-            transform: translateY(-3px);
-        }
-
-        .bar-label {
-            position: absolute;
-            bottom: -20px;
-
-            color: #8b93a2;
-
-            font-size: 8px;
-        }
-
-        /* quick action */
-        .quick-panel {
-            position: relative;
-            overflow: hidden;
-
-            padding: 21px;
-
-            border-radius: 18px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #173c91,
-                    #294f9e
-                );
-
-            color: white;
-
-            box-shadow: 0 18px 35px rgba(23,60,145,.20);
-        }
-
-        .quick-panel::before {
-            content: "";
-
-            position: absolute;
-
-            width: 170px;
-            height: 170px;
-
-            right: -65px;
-            top: -85px;
-
-            border-radius: 50%;
-
-            background: rgba(255,255,255,.08);
-        }
-
-        .quick-panel::after {
-            content: "";
-
-            position: absolute;
-
-            width: 120px;
-            height: 120px;
-
-            left: -70px;
-            bottom: -75px;
-
-            border-radius: 50%;
-
-            background: rgba(255,255,255,.05);
-        }
-
-        .quick-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .quick-title {
-            font-size: 15px;
+        .chart-month-name.is-now {
+            color: #2563eb;
             font-weight: 800;
         }
 
-        .quick-subtitle {
-            margin-top: 4px;
-
-            color: #cbd8fa;
-
-            font-size: 10px;
+        /* --------------------------------------------------------------------------
+           SISWA PERHATIAN KHUSUS PANEL
+           -------------------------------------------------------------------------- */
+        .attention-list {
+            padding: 10px 18px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
-        .quick-actions {
-            display: grid;
-            gap: 9px;
-
-            margin-top: 17px;
-        }
-
-        .quick-action {
-            min-height: 45px;
-
+        .attention-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-
-            padding: 0 12px;
-
-            border: 1px solid rgba(255,255,255,.15);
-            border-radius: 11px;
-
-            background: rgba(255,255,255,.08);
-
-            color: white;
-
-            font-size: 11px;
-            font-weight: 600;
-
-            transition: .2s ease;
+            padding: 12px 14px;
+            border-radius: var(--radius-md);
+            background: #fafcff;
+            border: 1px solid var(--surface-border-subtle);
+            transition: all 0.2s ease;
         }
 
-        .quick-action:hover {
-            background: rgba(255,255,255,.15);
-            transform: translateX(3px);
+        .attention-item:hover {
+            background: #f1f6ff;
+            border-color: #bfdbfe;
+            transform: translateX(2px);
         }
 
-        .quick-action-left {
+        .attention-student {
             display: flex;
             align-items: center;
-            gap: 9px;
+            gap: 12px;
         }
 
-        .quick-action-icon {
-            width: 27px;
-            height: 27px;
-
+        .attention-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: var(--radius-sm);
+            background: #fee2e2;
+            color: #b91c1c;
             display: flex;
             align-items: center;
             justify-content: center;
-
-            border-radius: 8px;
-
-            background: rgba(255,255,255,.13);
+            font-size: 12.5px;
+            font-weight: 800;
+            flex-shrink: 0;
+            border: 1px solid #fca5a5;
         }
 
-        /* responsive */
-        @media (max-width: 1250px) {
+        .attention-info {
+            display: flex;
+            flex-direction: column;
+        }
 
-            .sidebar {
-                width: 235px;
-            }
+        .attention-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-heading);
+            line-height: 1.3;
+        }
 
-            .main {
-                margin-left: 235px;
-            }
+        .attention-class {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
 
-            .stats {
+        .attention-count-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 9px;
+            border-radius: 9999px;
+            background: #fef2f2;
+            color: #dc2626;
+            font-size: 11px;
+            font-weight: 700;
+            border: 1px solid #fecaca;
+        }
+
+        .attention-count-badge svg {
+            width: 12px;
+            height: 12px;
+        }
+
+        /* --------------------------------------------------------------------------
+           DARK MODE ADAPTATIONS
+           -------------------------------------------------------------------------- */
+        html.dark-mode body.dark-mode {
+            --surface-bg: #0b1120;
+            --surface-card: #131c31;
+            --surface-muted: #1a253c;
+            --surface-border: #23314f;
+            --surface-border-subtle: #1c273e;
+
+            --text-heading: #f1f5f9;
+            --text-body: #cbd5e1;
+            --text-muted: #94a3b8;
+            --text-light: #64748b;
+
+            background: #0b1120 !important;
+            color: #cbd5e1 !important;
+        }
+
+        html.dark-mode body.dark-mode .sidebar {
+            background: linear-gradient(180deg, #0e172a 0%, #0b1222 100%) !important;
+            border-right-color: #1e293b !important;
+        }
+
+        html.dark-mode body.dark-mode .header {
+            background: rgba(19, 28, 49, 0.90) !important;
+            border-bottom-color: #23314f !important;
+        }
+
+        html.dark-mode body.dark-mode .search-box,
+        html.dark-mode body.dark-mode .notification {
+            background: #18233c !important;
+            border-color: #2a3b5c !important;
+            color: #e2e8f0 !important;
+        }
+
+        html.dark-mode body.dark-mode .search-box input {
+            color: #f1f5f9 !important;
+        }
+
+        html.dark-mode body.dark-mode .notification-dropdown {
+            background: #131c31 !important;
+            border-color: #23314f !important;
+        }
+
+        html.dark-mode body.dark-mode .notification-header {
+            background: #18233c !important;
+            border-bottom-color: #23314f !important;
+        }
+
+        html.dark-mode body.dark-mode .notification-item:hover {
+            background: #1a2742 !important;
+        }
+
+        html.dark-mode body.dark-mode .card-panel,
+        html.dark-mode body.dark-mode .stat-card-v2 {
+            background: #131c31 !important;
+            border-color: #23314f !important;
+        }
+
+        html.dark-mode body.dark-mode .stat-card-v2:hover {
+            border-color: #3b82f6 !important;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35) !important;
+        }
+
+        html.dark-mode body.dark-mode .stat-theme-siswa {
+            --icon-bg: rgba(37, 99, 235, 0.18);
+            --icon-color: #93c5fd;
+            --pill-bg: rgba(37, 99, 235, 0.22);
+            --pill-color: #93c5fd;
+        }
+
+        html.dark-mode body.dark-mode .stat-theme-konseling {
+            --icon-bg: rgba(99, 102, 241, 0.18);
+            --icon-color: #a5b4fc;
+            --pill-bg: rgba(99, 102, 241, 0.22);
+            --pill-color: #a5b4fc;
+        }
+
+        html.dark-mode body.dark-mode .stat-theme-bulan {
+            --icon-bg: rgba(5, 150, 105, 0.18);
+            --icon-color: #6ee7b7;
+            --pill-bg: rgba(5, 150, 105, 0.22);
+            --pill-color: #6ee7b7;
+        }
+
+        html.dark-mode body.dark-mode .stat-theme-tindak {
+            --icon-bg: rgba(217, 119, 6, 0.18);
+            --icon-color: #fcd34d;
+            --pill-bg: rgba(217, 119, 6, 0.22);
+            --pill-color: #fcd34d;
+        }
+
+        html.dark-mode body.dark-mode .card-panel-header {
+            background: #131c31 !important;
+            border-bottom-color: #23314f !important;
+        }
+
+        html.dark-mode body.dark-mode .panel-action-btn {
+            background: #1a253c !important;
+            border-color: #2a3b5c !important;
+            color: #93c5fd !important;
+        }
+
+        html.dark-mode body.dark-mode .dashboard-table thead th {
+            background: #18233c !important;
+            color: #94a3b8 !important;
+            border-bottom-color: #23314f !important;
+        }
+
+        html.dark-mode body.dark-mode .dashboard-table tbody tr:hover {
+            background: #18253e !important;
+        }
+
+        html.dark-mode body.dark-mode .dashboard-table tbody td {
+            border-bottom-color: #1e2c47 !important;
+        }
+
+        html.dark-mode body.dark-mode .class-pill,
+        html.dark-mode body.dark-mode .time-pill {
+            background: #1a253c !important;
+            border-color: #2a3b5c !important;
+            color: #cbd5e1 !important;
+        }
+
+        html.dark-mode body.dark-mode .attention-item {
+            background: #18233c !important;
+            border-color: #23314f !important;
+        }
+
+        html.dark-mode body.dark-mode .chart-bar-track {
+            background: #1a253c !important;
+        }
+
+        html.dark-mode body.dark-mode .chart-grid-line {
+            border-top-color: #23314f !important;
+        }
+
+        /* --------------------------------------------------------------------------
+           RESPONSIVE BREAKPOINTS
+           -------------------------------------------------------------------------- */
+        @media (max-width: 1200px) {
+            .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
 
-            .dashboard-grid {
+            .dashboard-row-primary,
+            .dashboard-row-secondary.has-attention {
                 grid-template-columns: 1fr;
-            }
-
-            .right-column {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
             }
         }
 
-        @media (max-width: 900px) {
-
+        @media (max-width: 1024px) {
             .sidebar {
-                width: 78px;
+                width: 76px;
                 padding: 20px 10px;
             }
 
-            .main {
-                margin-left: 78px;
+            .sidebar .brand-info,
+            .sidebar .menu-title,
+            .sidebar .menu-label,
+            .sidebar .brand-badge {
+                display: none !important;
             }
 
             .brand {
                 justify-content: center;
-                padding-left: 0;
-                padding-right: 0;
+                padding: 0 0 18px 0;
             }
 
-            .brand-name,
-            .brand-subtitle,
-            .menu-title,
-            .menu-item span:not(.menu-icon) {
-                display: none;
+            .brand-logo {
+                width: 44px;
+                height: 44px;
             }
 
             .menu-item {
                 justify-content: center;
                 padding: 0;
+                min-height: 44px;
             }
 
-            .menu-item.active {
-                box-shadow: none;
+            .main {
+                margin-left: 76px;
             }
 
             .header {
-                padding: 0 20px;
-            }
-
-            .search-box {
-                width: 300px;
+                padding: 0 24px;
             }
 
             .content {
@@ -1371,518 +1975,135 @@ body.dark-mode .btn-primary {
             }
         }
 
-        @media (max-width: 700px) {
-
+        @media (max-width: 768px) {
             .header {
-                height: auto;
-                min-height: 72px;
-
-                gap: 12px;
-
-                padding: 14px;
+                padding: 0 16px;
+                height: 68px;
             }
 
             .search-box {
-                width: 100%;
+                width: 220px;
             }
 
             .profile-info {
                 display: none;
             }
 
-            .profile {
-                border-left: 0;
-                padding-left: 0;
-            }
-
-            .welcome-card {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 20px;
-
-                padding: 23px;
-            }
-
-            .actions {
-                width: 100%;
-            }
-
-            .actions .btn {
-                flex: 1;
-            }
-
-            .stats {
-                grid-template-columns: 1fr;
-            }
-
-            .right-column {
-                display: flex;
-            }
-
             .content {
                 padding: 16px;
             }
+
+            .hero-welcome-card {
+                padding: 22px 18px;
+            }
+
+            .hero-greeting h1 {
+                font-size: 22px;
+            }
+
+            .hero-digest-bar {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
         }
 
-        @media (max-width: 480px) {
-
-            .sidebar {
-                width: 66px;
-            }
-
-            .main {
-                margin-left: 66px;
-            }
-
-            .header {
-                padding: 11px;
-            }
-
+        @media (max-width: 540px) {
             .search-box {
-                height: 38px;
+                display: none;
             }
 
-            .notification {
-                width: 36px;
-                height: 36px;
-            }
-
-            .profile-photo {
-                width: 36px;
-                height: 36px;
-            }
-
-            .welcome h1 {
-                font-size: 21px;
-            }
-
-            .welcome p {
-                line-height: 1.6;
-            }
-
-            .actions {
-                flex-direction: column;
-            }
-
-            .actions .btn {
+            .hero-actions {
                 width: 100%;
             }
 
-            .panel-header {
-                padding: 0 15px;
-            }
-
-            th,
-            td {
-                padding-left: 14px;
-                padding-right: 14px;
+            .btn-hero-primary,
+            .btn-hero-secondary {
+                width: 100%;
+                justify-content: center;
             }
         }
 
-        html.dark-mode body.dark-mode .status.status-process {      /* status dark mode */
-            background: #1d2c47 !important;
-            color: #a9c5ff !important;
+        /* Alerts */
+        .alert {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 16px;
+            border-radius: 12px;
+            font-size: 13.5px;
+            font-weight: 600;
+            margin-bottom: 20px;
         }
 
-        html.dark-mode body.dark-mode .status.status-process::before {
-            background: #6f9cff !important;
+        .alert svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
         }
 
+        .alert-success {
+            background: #eaf8f0;
+            color: #16894a;
+            border: 1px solid #b8ebd0;
+        }
+
+        .alert-danger {
+            background: #fff0f0;
+            color: #d64545;
+            border: 1px solid #ffccd0;
+        }
+
+        body.dark-mode .alert-success {
+            background: #173b2b !important;
+            color: #a7edc2 !important;
+            border-color: #2b7250 !important;
+        }
+
+        body.dark-mode .alert-danger {
+            background: #3c2028 !important;
+            color: #ffd0d6 !important;
+            border-color: #74414c !important;
+        }
     </style>
-<style>
-
-/* sirasi-bk */
-:root{
-  --ui-primary:#2855b7;
-  --ui-primary-2:#3d6fd1;
-  --ui-primary-dark:#17377f;
-  --ui-ink:#17233b;
-  --ui-muted:#73809a;
-  --ui-bg:#f4f7fc;
-  --ui-card:#ffffff;
-  --ui-line:#e2e8f3;
-  --ui-soft:#eef4ff;
-  --ui-soft-2:#f7f9fe;
-  --ui-shadow:0 8px 24px rgba(28,55,110,.07);
-  --ui-shadow-hover:0 16px 36px rgba(28,55,110,.13);
-}
-
-html{scroll-behavior:smooth}
-body{
-  background:
-    radial-gradient(circle at 90% 0%,rgba(70,112,207,.10),transparent 28%),
-    linear-gradient(180deg,#f8faff 0%,var(--ui-bg) 48%,#f2f5fb 100%);
-  color:var(--ui-ink);
-}
-
-/* sidebar/navigation */
-.sidebar{
-  background:
-    linear-gradient(180deg,#21499e 0%,#1b408f 48%,#153575 100%) !important;
-  box-shadow:12px 0 36px rgba(17,48,113,.14) !important;
-}
-.brand-logo{
-  background:linear-gradient(145deg,rgba(255,255,255,.20),rgba(255,255,255,.08)) !important;
-  border-color:rgba(255,255,255,.25) !important;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.20),0 9px 22px rgba(0,0,0,.12) !important;
-}
-.brand-name,.brand-title{letter-spacing:.1px}
-.menu{gap:6px !important}
-.menu-item,.menu a{
-  position:relative;
-  min-height:46px !important;
-  border:1px solid transparent !important;
-  border-radius:13px !important;
-  color:#dce5ff !important;
-  font-weight:700 !important;
-  transition:background .20s ease,color .20s ease,transform .20s ease,box-shadow .20s ease,border-color .20s ease !important;
-}
-.menu-item::after,.menu a::after{
-  content:"";
-  position:absolute;
-  left:10px;right:10px;bottom:5px;height:2px;
-  border-radius:999px;
-  background:linear-gradient(90deg,transparent,rgba(160,195,255,.75),transparent);
-  transform:scaleX(0);opacity:0;
-  transition:.22s ease;
-}
-.menu-item:hover,.menu a:hover{
-  color:#fff !important;
-  background:linear-gradient(90deg,rgba(255,255,255,.13),rgba(255,255,255,.06)) !important;
-  border-color:rgba(255,255,255,.08) !important;
-  transform:translateX(2px) !important;
-  box-shadow:0 7px 18px rgba(6,28,75,.10) !important;
-}
-.menu-item:hover::after,.menu a:hover::after{transform:scaleX(1);opacity:1}
-.menu-item:active,.menu a:active{
-  background:linear-gradient(90deg,rgba(151,190,255,.27),rgba(255,255,255,.10)) !important;
-  transform:translateX(1px) scale(.995) !important;
-}
-.menu-item.active,.menu a.active{
-  color:#fff !important;
-  background:linear-gradient(90deg,rgba(255,255,255,.17),rgba(255,255,255,.07)) !important;
-  border-color:rgba(255,255,255,.12) !important;
-  box-shadow:inset 3px 0 0 #a7c3ff,0 9px 22px rgba(5,28,74,.13) !important;
-}
-.menu-item.active::after,.menu a.active::after{transform:scaleX(1);opacity:.9}
-.menu-icon{
-  background:rgba(255,255,255,.085) !important;
-  border:1px solid rgba(255,255,255,.035);
-  transition:.2s ease;
-}
-.menu-item:hover .menu-icon,.menu a:hover .menu-icon{background:rgba(255,255,255,.15) !important}
-.menu-item.active .menu-icon,.menu a.active .menu-icon{
-  background:rgba(255,255,255,.14) !important;
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);
-}
-.sidebar-logout button,.logout-button{
-  background:transparent !important;
-  border:1px solid transparent !important;
-  min-height:46px !important;
-  border-radius:13px !important;
-  color:#dce5ff !important;
-  font-weight:700 !important;
-  transition:.2s ease !important;
-}
-.sidebar-logout button:hover,.logout-button:hover{
-  color:#fff !important;
-  background:rgba(255,255,255,.09) !important;
-  transform:translateX(2px);
-}
-.sidebar-logout button:active,.logout-button:active{background:rgba(151,190,255,.20) !important}
-
-/* topbar */
-.header,.topbar{
-  background:rgba(255,255,255,.90) !important;
-  backdrop-filter:blur(16px) !important;
-  -webkit-backdrop-filter:blur(16px);
-  border-bottom:1px solid rgba(218,225,238,.85) !important;
-  box-shadow:0 2px 18px rgba(25,48,95,.035);
-}
-.search-box,.search,.notification,.bell{
-  border-color:#e0e6f1 !important;
-  background:rgba(248,250,254,.92) !important;
-  box-shadow:0 4px 14px rgba(30,58,110,.045) !important;
-}
-.search-box:focus-within,.search:focus-within{
-  border-color:#9bb8ed !important;
-  box-shadow:0 0 0 4px rgba(40,85,183,.08),0 8px 20px rgba(40,85,183,.06) !important;
-}
-.profile{border-left-color:#e0e6f0 !important}
-.profile-name,.user-name{font-weight:800 !important;color:#18243a !important}
-.profile-role,.user-role{color:#7a8599 !important}
-.profile-photo,.user-avatar{
-  background:linear-gradient(145deg,#edf3ff,#dbe6ff) !important;
-  color:#2855b7 !important;
-  box-shadow:inset 0 0 0 1px rgba(40,85,183,.10),0 6px 14px rgba(40,85,183,.07) !important;
-}
-
-/* page header */
-.page-title,h1{color:#17233b}
-.eyebrow{color:#2855b7 !important;letter-spacing:1.15px !important}
-.page-subtitle,.page-description{color:#77839a !important}
-
-/* universal cards */
-.card,.panel,.table-card,.filter-card,.parameter-card,.result-card,.stat-card,.welcome-card,.option-card,.application-card{
-  border-color:#e1e7f1 !important;
-  box-shadow:var(--ui-shadow) !important;
-  background:linear-gradient(145deg,#fff 0%,#fcfdff 100%) !important;
-}
-.card,.panel,.table-card,.filter-card,.parameter-card,.result-card,.option-card,.application-card{position:relative;overflow:hidden}
-.card::before,.panel::before,.table-card::before,.filter-card::after,.parameter-card::before,.result-card::before,.option-card::before,.application-card::before{
-  content:"";position:absolute;pointer-events:none;inset:0;
-  background:linear-gradient(135deg,rgba(70,112,207,.045),transparent 28%,transparent 72%,rgba(70,112,207,.025));
-  opacity:.9;
-}
-.card:hover,.panel:hover,.table-card:hover,.filter-card:hover,.parameter-card:hover,.result-card:hover,.option-card:hover,.application-card:hover{
-  border-color:#cbd8ef !important;
-  box-shadow:var(--ui-shadow-hover) !important;
-}
-
-/* welcome/hero */
-.welcome-card{
-  border-radius:22px !important;
-  background:linear-gradient(135deg,#fff 0%,#f5f8ff 100%) !important;
-  box-shadow:0 14px 34px rgba(30,59,118,.09) !important;
-}
-.welcome-card::before{background:radial-gradient(circle,rgba(54,97,190,.11),transparent 66%) !important}
-.btn,.show-button,.btn-primary{
-  transition:transform .20s ease,box-shadow .20s ease,background .20s ease,border-color .20s ease !important;
-}
-.btn:hover,.show-button:hover{transform:translateY(-2px) !important;box-shadow:0 12px 24px rgba(29,61,126,.13) !important}
-.btn:active,.show-button:active{transform:translateY(0) scale(.985) !important}
-.btn-primary,.show-button{
-  background:linear-gradient(135deg,#315fc4,#234a9f) !important;
-  border-color:#234a9f !important;
-  box-shadow:0 9px 22px rgba(40,85,183,.22) !important;
-}
-.btn-primary:hover,.show-button:hover{background:linear-gradient(135deg,#3c6ed3,#234a9f) !important}
-
-/* stat cards */
-.stat-card{border-radius:19px !important}
-.stat-card::after{background:radial-gradient(circle,rgba(62,101,191,.12),rgba(62,101,191,.02) 68%,transparent 70%) !important}
-.stat-card:hover{transform:translateY(-5px) !important}
-.stat-icon,.panel-heading-icon,.filter-heading-icon,.table-title-icon,.card-icon,.option-icon,.application-icon{
-  background:linear-gradient(145deg,#edf3ff,#e1ebff) !important;
-  color:#2855b7 !important;
-  box-shadow:inset 0 0 0 1px rgba(40,85,183,.06) !important;
-}
-
-/* tables */
-thead th,th{background:linear-gradient(180deg,#f8faff,#f3f6fb) !important;color:#68758c !important}
-tbody tr{transition:background .16s ease,transform .16s ease !important}
-tbody tr:hover{background:#f7faff !important}
-.student-avatar{background:linear-gradient(145deg,#edf3ff,#dce7ff) !important;color:#2855b7 !important}
-
-/* report type card */
-.report-types{gap:16px !important}
-.report-type{
-  position:relative !important;
-  overflow:hidden !important;
-  border:1px solid #e0e6f0 !important;
-  border-radius:18px !important;
-  background:linear-gradient(145deg,#fff 0%,#fbfcff 100%) !important;
-  box-shadow:var(--ui-shadow) !important;
-  transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease,background .22s ease !important;
-}
-.report-type::after{
-  content:"";position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(135deg,rgba(56,99,195,.06),transparent 42%,rgba(56,99,195,.025));
-  opacity:0;transition:.22s ease;
-}
-.report-type::before{background:linear-gradient(180deg,#315fc4,#8fb0ee) !important}
-.report-type:hover{
-  transform:translateY(-5px) !important;
-  border-color:#b9cbed !important;
-  box-shadow:0 18px 36px rgba(34,67,135,.13) !important;
-}
-.report-type:hover::after{opacity:1}
-.report-type:active{
-  transform:translateY(-1px) scale(.995) !important;
-  background:linear-gradient(145deg,#eef4ff,#fff) !important;
-  box-shadow:0 10px 24px rgba(40,85,183,.16) !important;
-}
-.report-type.active{
-  border-color:#8ea9df !important;
-  background:linear-gradient(145deg,#f1f5ff,#fff) !important;
-  box-shadow:0 14px 32px rgba(40,85,183,.12) !important;
-}
-.report-type.active::after{opacity:1}
-.report-icon{transition:transform .22s ease,box-shadow .22s ease,background .22s ease !important}
-.report-type:hover .report-icon{transform:translateY(-2px) scale(1.035)}
-.report-type.active .report-icon{
-  background:linear-gradient(145deg,#2f5fbe,#21499d) !important;
-  box-shadow:0 9px 20px rgba(40,85,183,.20) !important;
-}
-.report-arrow{transition:transform .2s ease,color .2s ease !important}
-.report-type:hover .report-arrow{transform:translateX(4px) !important;color:#2855b7 !important}
-
-/* setting */
-.option-card{
-  border-radius:17px !important;
-  transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease,background .22s ease !important;
-}
-.option-card:hover{transform:translateY(-4px) !important}
-.option-card:active{transform:translateY(-1px) scale(.995) !important;background:#f1f5ff !important}
-.option-icon{transition:transform .22s ease}
-.option-card:hover .option-icon{transform:scale(1.05) rotate(-2deg)}
-.application-card{border-radius:17px !important}
-
-/* form controls */
-input,select,textarea,.form-control,.filter-select,.filter-date{
-  border-color:#dce4f0 !important;
-  background:#fbfcfe !important;
-  color:#26334b !important;
-  transition:border-color .18s ease,box-shadow .18s ease,background .18s ease !important;
-}
-input:hover,select:hover,textarea:hover,.form-control:hover,.filter-select:hover,.filter-date:hover{border-color:#c7d5eb !important}
-
-/* dashboard dark mode */
-body.dark-mode .actions .btn:not(.btn-primary) {
-    background: #18253b !important;
-    border-color: #3b5685 !important;
-    color: #dbe7ff !important;
-    box-shadow: none !important;
-}
-
-body.dark-mode .actions .btn:not(.btn-primary):hover {
-    background: #22365a !important;
-    border-color: #5d83d5 !important;
-    color: #ffffff !important;
-}
-
-body.dark-mode .status-process {
-    background: #3b2d1d !important;
-    color: #f2b866 !important;
-}
-
-body.dark-mode .status-process::before {
-    background: #e9a23b !important;
-}
-
-body.dark-mode .status-success {
-    background: #173628 !important;
-    color: #62d292 !important;
-}
-
-body.dark-mode .status-success::before {
-    background: #55c98a !important;
-}
-
-/* focus/click feedback */
-a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
-  outline:3px solid rgba(91,132,211,.28) !important;
-  outline-offset:2px;
-}
-
-/* responsive */
-@media(max-width:900px){
-  .report-types{grid-template-columns:1fr !important}
-}
-@media(max-width:650px){
-  .menu-item,.menu a{font-size:13px !important}
-  .profile-name,.user-name{font-size:12px !important}
-}
-
-</style>
-    @include('partials.theme')
+    @if(auth()->check() && (auth()->user()->isGuruBK() || auth()->user()->peran === 'guru_bk'))
+        <link rel="stylesheet" href="{{ asset('css/sirasi-guru-bk.css') }}?v=glass-cards-gurubk-20261031-1">
+    @endif
 </head>
 
 <body>
 
 <div class="app">
 
-    {{-- sidebar --}}
-    <aside class="sidebar">
+    {{-- =========================================================================
+         SIDEBAR NAVIGATION
+         ========================================================================= --}}
+    @include('layouts.sidebar')
 
-        <div>
-
-            <div class="brand">
-
-                <div class="brand-logo">
-                    <img
-                        src="{{ asset('images/logo-smpn2-dramaga.png') }}?v=2"
-                        alt="Logo SMP Negeri 2 Dramaga"
-                    >
-                </div>
-
-                <div>
-                    <div class="brand-name">
-                        SIRASI-BK
-                    </div>
-
-                    <div class="brand-subtitle">
-                        Bimbingan & Konseling
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="menu-title">
-                Menu Utama
-            </div>
-
-            <nav class="menu">
-                @include('partials.sidebar_menu')
-            </nav>
-
-        </div>
-
-        <div class="sidebar-bottom">
-
-            <form action="{{ route('logout') }}" method="POST" onsubmit="return confirm('Anda yakin ingin keluar?');">
-
-                @csrf
-
-                <button
-                    type="submit" class="menu-item logout-button">
-                    <span class="menu-icon"><i data-lucide="log-out"></i></span>
-                    Logout
-                </button>
-
-            </form>
-
-        </div>
-
-    </aside>
-
-    {{-- main --}}
+    {{-- =========================================================================
+         MAIN APPLICATION AREA
+         ========================================================================= --}}
     <main class="main">
 
-        {{-- header --}}
-
-        <header class="header">
-
-            <form
-                action="{{ route('siswa.index') }}"
-                method="GET"
-                class="search-box"
-            >
-                <span class="search-icon">
-                    <i data-lucide="search"></i>
-                </span>
-
-                <input
-                    type="text"
-                    name="search"
-                    placeholder="Cari siswa atau konseling..."
-                    value="{{ request('search') }}"
-                >
-            </form>
+        {{-- Topbar / Header --}}
+        <header class="header" data-page-title="Dashboard">
 
             <div class="profile-area">
 
+                {{-- Notifikasi --}}
                 <div class="notification-wrapper">
-
                     <button
                         type="button"
                         class="notification"
                         id="notificationButton"
+                        aria-label="Notifikasi"
                     >
                         <i data-lucide="bell"></i>
-
                         @if (isset($notifikasis) && $notifikasis->where('dibaca', false)->count() > 0)
-                            <span class="notification-dot"></span>
+                            <span class="notification-dot" id="notificationDot"></span>
                         @endif
                     </button>
 
@@ -1891,761 +2112,745 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
                         id="notificationDropdown"
                     >
                         <div class="notification-header">
-                            <strong>Notifikasi</strong>
+                            <strong>Notifikasi & Pengingat</strong>
+                            @if (isset($notifikasis) && $notifikasis->where('dibaca', false)->count() > 0)
+                                <span class="profile-role-badge">
+                                    {{ $notifikasis->where('dibaca', false)->count() }} Baru
+                                </span>
+                            @endif
                         </div>
 
                         @forelse ($notifikasis ?? [] as $notifikasi)
-
                             <a
                                 href="{{ route('notifikasi.baca', $notifikasi->id) }}"
-                                class="notification-item"
+                                class="notification-item {{ !$notifikasi->dibaca ? 'unread' : '' }}"
                             >
                                 <div class="notification-item-icon">
-                                    <i data-lucide="clipboard-list"></i>
+                                    <i data-lucide="bell-ring"></i>
                                 </div>
-
                                 <div class="notification-item-content">
                                     <strong>{{ $notifikasi->judul }}</strong>
-
-                                    <p>{{ $notifikasi->pesan }}</p>
-
-                                    <small>
-                                        {{ $notifikasi->created_at->diffForHumans() }}
-                                    </small>
+                                    <p>{{ preg_replace('/\s*\[JADWAL:\d+\]/', '', $notifikasi->pesan) }}</p>
+                                    <small>{{ $notifikasi->created_at->diffForHumans() }}</small>
                                 </div>
                             </a>
-
                         @empty
-
                             <div class="notification-empty">
                                 <i data-lucide="bell-off"></i>
-                                <p>Belum ada notifikasi</p>
+                                <p>Belum ada notifikasi saat ini</p>
                             </div>
-
                         @endforelse
                     </div>
-
                 </div>
 
+                {{-- User Profile Chip --}}
                 <div class="profile">
-
                     <div class="profile-info">
-
-                        <div class="profile-name">
-                            {{ auth()->user()->nama }}
+                        <div class="profile-name">{{ auth()->user()->nama }}</div>
+                        <div class="profile-role-badge">
+                            <i data-lucide="shield-check" style="width: 12px; height: 12px;"></i>
+                            Guru Bimbingan Konseling
                         </div>
-
-                        <div class="profile-role">
-                            {{ auth()->user()->role }}
-                        </div>
-
                     </div>
 
                     <div class="profile-photo">
                         @if (auth()->user()->foto_profil)
                             <img
                                 src="{{ asset('storage/' . auth()->user()->foto_profil) }}"
-                                alt="Foto Profil"
+                                alt="Foto Profil {{ auth()->user()->nama }}"
                             >
                         @else
-                            <i data-lucide="user"></i>
+                            {{ strtoupper(substr(auth()->user()->nama ?? 'G', 0, 1)) }}
                         @endif
                     </div>
-
                 </div>
 
             </div>
 
         </header>
 
-        {{-- content --}}
-
+        {{-- Content Container --}}
         <section class="content">
 
-            {{-- welcome --}}
+            @if (session('success'))
+                <div class="alert alert-success" role="status">
+                    <i data-lucide="check-circle-2"></i>
+                    <span>{{ session('success') }}</span>
+                </div>
+            @endif
 
-            <div class="welcome-card">
+            @if (session('error'))
+                <div class="alert alert-danger" role="alert">
+                    <i data-lucide="alert-circle"></i>
+                    <span>{{ session('error') }}</span>
+                </div>
+            @endif
 
-                <div class="welcome">
-
-                    <div class="eyebrow">
-                        Dashboard SIRASI-BK
-                    </div>
-
-                    <h1>
-                        Selamat datang,
-                        {{ auth()->user()->nama }}
-                        <i data-lucide="hand"></i>
-                    </h1>
-
-                    <p>
-                        Pantau aktivitas bimbingan dan konseling
-                        siswa SMP Negeri 2 Dramaga dengan mudah.
-                    </p>
-
+            {{-- =================================================================
+                 1. HERO / WELCOME CARD (FOKUS UTAMA)
+                 ================================================================= --}}
+            <div class="hero-welcome-card">
+                {{-- Aksen Visual Geometris Dekoratif --}}
+                <div class="hero-geometric-bg">
+                    <div class="hero-circle-1"></div>
+                    <div class="hero-circle-2"></div>
+                    <div class="hero-pattern-dots"></div>
                 </div>
 
-                <div class="actions">
-
-                    <a
-                        href="{{ route('siswa.create') }}"
-                        class="btn"
-                    >
-                        <i data-lucide="user-plus"></i>
-                        Tambah Siswa
-                    </a>
-                    <a
-                        href="{{ route('konseling.create') }}"
-                        class="btn btn-primary"
-                    >
-                        <i data-lucide="clipboard-plus"></i>
-                        Tambah Konseling
-                    </a>
-
-                </div>
-
-            </div>
-
-            {{-- statistics --}}
-
-            <div class="stats">
-
-                <div class="stat-card">
-
-                    <div class="stat-top">
-
-                        <div class="stat-icon">
-                            <i data-lucide="users-round"></i>
+                <div class="hero-inner">
+                    {{-- Top Bar: Identitas Sekolah & Tanggal Hari Ini --}}
+                    <div class="hero-top-bar">
+                        <div class="hero-school-tag">
+                            <i data-lucide="graduation-cap"></i>
+                            SMP Negeri 2 Dramaga &bull; Layanan Konseling
                         </div>
 
-                        <div class="stat-mini">
-                            DATA
+                        <div class="hero-date-badge">
+                            <i data-lucide="calendar"></i>
+                            {{ \Carbon\Carbon::now()->locale('id')->isoFormat('dddd, D MMMM Y') }}
+                        </div>
+                    </div>
+
+                    {{-- Main Row: Sapaan Personal & Tombol Aksi Cepat --}}
+                    <div class="hero-main-row">
+                        <div class="hero-greeting">
+                            <h1>
+                                Selamat Datang, {{ auth()->user()->nama }}
+                                <span class="wave-hand">👋</span>
+                            </h1>
                         </div>
 
-                    </div>
-
-                    <div class="stat-label">
-                        Total Siswa
-                    </div>
-
-                    <div class="stat-value">
-                        {{ $totalSiswa }}
-                    </div>
-
-                </div>
-
-                <div class="stat-card">
-
-                    <div class="stat-top">
-
-                        <div class="stat-icon">
-                            <i data-lucide="clipboard-list"></i>
+                        <div class="hero-actions">
+                            <a href="{{ route('konseling.create') }}" class="btn-hero-primary">
+                                <i data-lucide="clipboard-plus"></i>
+                                Catat Konseling Baru
+                            </a>
+                            <a href="{{ route('siswa.create') }}" class="btn-hero-secondary">
+                                <i data-lucide="user-plus"></i>
+                                Tambah Data Siswa
+                            </a>
                         </div>
-
-                        <div class="stat-mini">
-                            SESI
-                        </div>
-
                     </div>
 
-                    <div class="stat-label">
-                        Total Konseling
-                    </div>
-
-                    <div class="stat-value">
-                        {{ $totalKonseling }}
-                    </div>
-
-                </div>
-
-                <div class="stat-card">
-
-                    <div class="stat-top">
-
-                        <div class="stat-icon">
-                            <i data-lucide="calendar-days"></i>
-                        </div>
-
-                        <div class="stat-mini">
-                            BULAN INI
-                        </div>
-
-                    </div>
-
-                    <div class="stat-label">
-                        Konseling Bulan Ini
-                    </div>
-
-                    <div class="stat-value">
-                        {{ $konselingBulanIni }}
-                    </div>
-
-                </div>
-
-                <div class="stat-card">
-
-                    <div class="stat-top">
-
-                        <div class="stat-icon">
-                            <i data-lucide="list-checks"></i>
-                        </div>
-
-                        <div class="stat-mini">
-                            MONITOR
-                        </div>
-
-                    </div>
-
-                    <div class="stat-label">
-                        Total Tindak Lanjut
-                    </div>
-
-                    <div class="stat-value">
-                        {{ $totalTindakLanjut }}
-                    </div>
-
-                </div>
-
-            </div>
-
-            {{-- main grid --}}
-
-            <div class="dashboard-grid">
-
-                {{-- left column --}}
-                <div class="left-column">
-
-                    {{-- riwayat --}}
-
-                <div class="panel">
-
-                    <div class="panel-header">
-
-                        <div class="panel-heading">
-
-                            <div class="panel-heading-icon">
-                                <i data-lucide="clipboard-list"></i>
-                            </div>
-
-                            <div>
-
-                                <div class="panel-title">
-                                    Riwayat Konseling Terbaru
-                                </div>
-
-                                <div class="panel-subtitle">
-                                    Aktivitas konseling terbaru siswa
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <a
-                            href="{{ route('konseling.index') }}"
-                            class="panel-link"
-                        >
-                            Lihat Semua
-                            <i data-lucide="arrow-right"></i>
-                        </a>
-
-                    </div>
-
-                    <div class="table-wrap">
-
-                        <table>
-
-                            <thead>
-
-                                <tr>
-
-                                    <th>
-                                        Tanggal
-                                    </th>
-
-                                    <th>
-                                        Siswa
-                                    </th>
-
-                                    <th>
-                                        Kelas
-                                    </th>
-
-                                    <th>
-                                        Masalah
-                                    </th>
-
-                                    <th>
-                                        Status
-                                    </th>
-
-                                </tr>
-
-                            </thead>
-
-                            <tbody>
-
-                                @forelse ($riwayatKonseling as $konseling)
-
-                                    <tr>
-
-                                        <td>
-                                            {{ \Carbon\Carbon::parse($konseling->tanggal)->format('d M Y') }}
-                                        </td>
-
-                                        <td>
-
-                                            <div class="student-cell">
-
-                                                <div class="student-avatar">
-
-                                                    {{
-                                                        strtoupper(
-                                                            substr(
-                                                                $konseling->siswa->nama_siswa ?? 'S',
-                                                                0,
-                                                                1
-                                                            )
-                                                        )
-                                                    }}
-
-                                                </div>
-
-                                                <div class="student-info">
-
-                                                    <strong>
-                                                        {{ $konseling->siswa->nama_siswa ?? '-' }}
-                                                    </strong>
-
-                                                    <span>
-                                                        Siswa
-                                                    </span>
-
-                                                </div>
-
-                                            </div>
-
-                                        </td>
-
-                                        <td>
-                                            {{ $konseling->siswa->kelas->nama_kelas ?? '-' }}
-                                        </td>
-
-                                        <td>
-                                            {{ $konseling->jenisMasalah->nama_jenis ?? '-' }}
-                                        </td>
-
-                                        <td>
-
-                                            @if ($konseling->status === 'Selesai')
-
-                                                <span class="status status-success">
-                                                    Selesai
-                                                </span>
-
-                                            @else
-
-                                                <span class="status status-process">
-                                                    {{ $konseling->status }}
-                                                </span>
-
-                                            @endif
-
-                                        </td>
-
-                                    </tr>
-
-                                @empty
-
-                                    <tr>
-
-                                        <td
-                                            colspan="5"
-                                            class="empty-state"
-                                        >
-                                            Belum ada riwayat konseling.
-                                        </td>
-
-                                    </tr>
-
-                                @endforelse
-
-                            </tbody>
-
-                        </table>
-
-                    </div>
-
-                </div>
-
-                {{-- penjadwalan bk --}}
-                <div class="panel">
-
-                    <div class="panel-header">
-
-                        <div class="panel-heading">
-
-                            <div class="panel-heading-icon">
+                    {{-- Ringkasan Pengingat / Aktivitas Harian --}}
+                    <div class="hero-digest-bar">
+                        <div class="hero-digest-item">
+                            <div class="hero-digest-icon">
                                 <i data-lucide="calendar-clock"></i>
                             </div>
-
-                            <div>
-
-                                <div class="panel-title">
-                                    Penjadwalan BK
-                                </div>
-
-                                <div class="panel-subtitle">
-                                    Jadwal bimbingan siswa terdekat
-                                </div>
-
+                            <div class="hero-digest-info">
+                                <div class="hero-digest-val">{{ $jadwalBimbingan->count() }} Agenda</div>
+                                <div class="hero-digest-lbl">Jadwal Bimbingan Terdekat</div>
                             </div>
-
                         </div>
 
+                        <div class="hero-digest-item">
+                            <div class="hero-digest-icon">
+                                <i data-lucide="clipboard-check"></i>
+                            </div>
+                            <div class="hero-digest-info">
+                                <div class="hero-digest-val">{{ $konselingBulanIni }} Sesi</div>
+                                <div class="hero-digest-lbl">Konseling Bulan Ini ({{ \Carbon\Carbon::now()->translatedFormat('F') }})</div>
+                            </div>
+                        </div>
+
+                        <div class="hero-digest-item">
+                            <div class="hero-digest-icon">
+                                <i data-lucide="alert-circle"></i>
+                            </div>
+                            <div class="hero-digest-info">
+                                <div class="hero-digest-val">{{ $siswaPerhatian->count() }} Siswa</div>
+                                <div class="hero-digest-lbl">Perlu Pemantauan Khusus (≥ 3 Sesi)</div>
+                            </div>
+                        </div>
                     </div>
+                </div>
+            </div>
 
-                    <div class="table-wrap">
+            {{-- =================================================================
+                 2. STATISTIK CARDS (4 METRIK SERAGAM)
+                 ================================================================= --}}
+            <div class="stats-grid">
 
-                        <table>
+                {{-- Stat 1: Total Siswa --}}
+                <div class="stat-card-v2 stat-theme-siswa">
+                    <div class="stat-header">
+                        <div class="stat-icon-wrapper">
+                            <i data-lucide="users-round"></i>
+                        </div>
+                        <span class="stat-pill">DATA POKOK</span>
+                    </div>
+                    <div class="stat-body">
+                        <div class="stat-metric-value">{{ number_format($totalSiswa, 0, ',', '.') }}</div>
+                        <div class="stat-metric-label">Total Siswa Terdaftar</div>
+                    </div>
+                    <div class="stat-footer">
+                        <span class="stat-trend">
+                            <i data-lucide="check-circle-2"></i>
+                            Aktif Terdata
+                        </span>
+                        <span>SMPN 2 Dramaga</span>
+                    </div>
+                </div>
 
-                            <thead>
+                {{-- Stat 2: Total Konseling --}}
+                <div class="stat-card-v2 stat-theme-konseling">
+                    <div class="stat-header">
+                        <div class="stat-icon-wrapper">
+                            <i data-lucide="clipboard-list"></i>
+                        </div>
+                        <span class="stat-pill">AKUMULASI</span>
+                    </div>
+                    <div class="stat-body">
+                        <div class="stat-metric-value">{{ number_format($totalKonseling, 0, ',', '.') }}</div>
+                        <div class="stat-metric-label">Total Sesi Konseling</div>
+                    </div>
+                    <div class="stat-footer">
+                        <span class="stat-trend">
+                            <i data-lucide="history"></i>
+                            Riwayat Lengkap
+                        </span>
+                        <span>Seluruh Periode</span>
+                    </div>
+                </div>
 
-                                <tr>
+                {{-- Stat 3: Konseling Bulan Ini --}}
+                <div class="stat-card-v2 stat-theme-bulan">
+                    <div class="stat-header">
+                        <div class="stat-icon-wrapper">
+                            <i data-lucide="calendar-days"></i>
+                        </div>
+                        <span class="stat-pill">AKTIVITAS TERKINI</span>
+                    </div>
+                    <div class="stat-body">
+                        <div class="stat-metric-value">{{ number_format($konselingBulanIni, 0, ',', '.') }}</div>
+                        <div class="stat-metric-label">Konseling Bulan Ini</div>
+                    </div>
+                    <div class="stat-footer">
+                        <span class="stat-trend">
+                            <i data-lucide="trending-up"></i>
+                            Periode Berjalan
+                        </span>
+                        <span>{{ \Carbon\Carbon::now()->translatedFormat('F Y') }}</span>
+                    </div>
+                </div>
 
-                                    <th>
-                                        Tanggal
-                                    </th>
+                {{-- Stat 4: Tindak Lanjut --}}
+                <div class="stat-card-v2 stat-theme-tindak">
+                    <div class="stat-header">
+                        <div class="stat-icon-wrapper">
+                            <i data-lucide="list-checks"></i>
+                        </div>
+                        <span class="stat-pill">MONITORING</span>
+                    </div>
+                    <div class="stat-body">
+                        <div class="stat-metric-value">{{ number_format($totalTindakLanjut, 0, ',', '.') }}</div>
+                        <div class="stat-metric-label">Total Tindak Lanjut</div>
+                    </div>
+                    <div class="stat-footer">
+                        <span class="stat-trend">
+                            <i data-lucide="shield-alert"></i>
+                            Rencana Kasus
+                        </span>
+                        <span>Evaluasi Siswa</span>
+                    </div>
+                </div>
 
-                                    <th>
-                                        Nama Siswa
-                                    </th>
+            </div>
 
-                                    <th>
-                                        Kelas
-                                    </th>
+            {{-- =================================================================
+                 3. MAIN DASHBOARD CONTENT (BALANCED ROWS WITHOUT EMPTY SPACE)
+                 ================================================================= --}}
+            <div class="dashboard-content-layout">
 
-                                    <th>
-                                        Waktu
-                                    </th>
+                {{-- BARIS 1: Riwayat Konseling Terbaru (Kiri) & Konseling per Bulan (Kanan) --}}
+                <div class="dashboard-row-primary">
 
-                                    <th>
-                                        Jenis Bimbingan
-                                    </th>
+                    {{-- Panel: Riwayat Konseling Terbaru --}}
+                    <div class="card-panel">
+                        <div class="card-panel-header">
+                            <div class="panel-title-group">
+                                <div class="panel-icon-badge">
+                                    <i data-lucide="clipboard-list"></i>
+                                </div>
+                                <div class="panel-titles">
+                                    <div class="panel-main-title">Riwayat Konseling Terbaru</div>
+                                    <div class="panel-subtitle-text">5 aktivitas pencatatan konseling siswa terkini</div>
+                                </div>
+                            </div>
 
-                                    <th>
-                                        Status
-                                    </th>
+                            <a href="{{ route('konseling.index') }}" class="panel-action-btn">
+                                Lihat Semua Konseling
+                                <i data-lucide="arrow-right"></i>
+                            </a>
+                        </div>
 
-                                </tr>
-
-                            </thead>
-
-                            <tbody>
-
-                                @forelse ($jadwalBimbingan as $jadwal)
-
+                        <div class="table-responsive-wrapper">
+                            <table class="dashboard-table">
+                                <thead>
                                     <tr>
+                                        <th>Tanggal</th>
+                                        <th>Siswa</th>
+                                        <th>Kelas</th>
+                                        <th>Masalah</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($riwayatKonseling as $konseling)
+                                        <tr>
+                                            <td>
+                                                <span class="table-date">
+                                                    {{ \Carbon\Carbon::parse($konseling->tanggal)->translatedFormat('d M Y') }}
+                                                </span>
+                                            </td>
 
-                                        <td>
-                                            {{ \Carbon\Carbon::parse($jadwal->tanggal)->format('d M Y') }}
-                                        </td>
-
-                                        <td>
-
-                                            <div class="student-cell">
-
-                                                <div class="student-avatar">
-                                                    {{
-                                                        strtoupper(
-                                                            substr(
-                                                                $jadwal->siswa->nama_siswa ?? 'S',
-                                                                0,
-                                                                1
-                                                            )
-                                                        )
-                                                    }}
+                                            <td>
+                                                <div class="student-cell">
+                                                    <div class="student-avatar-sm">
+                                                        {{ strtoupper(substr($konseling->siswa->nama_siswa ?? 'S', 0, 1)) }}
+                                                    </div>
+                                                    <div class="student-meta">
+                                                        <span class="student-name-text">
+                                                            {{ $konseling->siswa->nama_siswa ?? '-' }}
+                                                        </span>
+                                                        <span class="student-sub-badge">
+                                                            NISN: {{ $konseling->siswa->nisn ?? '-' }}
+                                                        </span>
+                                                    </div>
                                                 </div>
+                                            </td>
 
-                                                <div class="student-info">
+                                            <td>
+                                                <span class="class-pill">
+                                                    {{ $konseling->siswa->kelas->nama_kelas ?? '-' }}
+                                                </span>
+                                            </td>
 
-                                                    <strong>
-                                                        {{ $jadwal->siswa->nama_siswa ?? '-' }}
-                                                    </strong>
+                                            <td>
+                                                <span class="category-text">
+                                                    {{ $konseling->jenisMasalah->nama_jenis ?? '-' }}
+                                                </span>
+                                            </td>
 
-                                                    <span>
-                                                        Siswa
+                                            <td>
+                                                @if ($konseling->status === 'Selesai')
+                                                    <span class="status-badge status-badge-success">
+                                                        Selesai
                                                     </span>
-
+                                                @else
+                                                    <span class="status-badge status-badge-process">
+                                                        {{ $konseling->status }}
+                                                    </span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="5">
+                                                <div class="table-empty-state">
+                                                    <div class="empty-icon-box">
+                                                        <i data-lucide="clipboard-x"></i>
+                                                    </div>
+                                                    <div class="empty-title">Belum Ada Riwayat Konseling</div>
+                                                    <div class="empty-desc">
+                                                        Data konseling siswa yang telah dicatat akan tampil di sini. Mulai tambahkan catatan konseling baru.
+                                                    </div>
                                                 </div>
+                                            </td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
 
-                                            </div>
+                    {{-- Panel: Tren Konseling Bulanan (Visual Chart) --}}
+                    <div class="card-panel">
+                        <div class="card-panel-header">
+                            <div class="panel-title-group">
+                                <div class="panel-icon-badge">
+                                    <i data-lucide="bar-chart-3"></i>
+                                </div>
+                                <div class="panel-titles">
+                                    <div class="panel-main-title">Konseling per Bulan</div>
+                                    <div class="panel-subtitle-text">Distribusi sesi tahun {{ \Carbon\Carbon::now()->year }}</div>
+                                </div>
+                            </div>
 
-                                        </td>
+                            <span class="chart-year-badge">
+                                <i data-lucide="calendar"></i>
+                                Tahun {{ \Carbon\Carbon::now()->year }}
+                            </span>
+                        </div>
 
-                                        <td>
-                                            {{ $jadwal->siswa->kelas->nama_kelas ?? '-' }}
-                                        </td>
+                        <div class="chart-container-box">
+                            <div class="chart-meta-bar">
+                                <div>
+                                    <div class="chart-stat-summary-val">{{ $totalKonseling }}</div>
+                                    <div class="chart-stat-summary-lbl">Total Konseling Terdata</div>
+                                </div>
+                                <div class="chart-stat-summary">
+                                    <div class="chart-stat-summary-val">{{ $konselingBulanIni }}</div>
+                                    <div class="chart-stat-summary-lbl">Sesi Bulan Berjalan</div>
+                                </div>
+                            </div>
 
-                                        <td>
-                                            {{ \Carbon\Carbon::parse($jadwal->waktu_mulai)->format('H:i') }}
-                                            -
-                                            {{ \Carbon\Carbon::parse($jadwal->waktu_selesai)->format('H:i') }}
-                                        </td>
+                            @php
+                                $namaBulan = [
+                                    1 => 'Jan', 2 => 'Feb', 3 => 'Mar', 4 => 'Apr',
+                                    5 => 'Mei', 6 => 'Jun', 7 => 'Jul', 8 => 'Agu',
+                                    9 => 'Sep', 10 => 'Okt', 11 => 'Nov', 12 => 'Des',
+                                ];
+                                $dataPerBulan = $konselingPerBulan->keyBy('bulan');
+                                $maksimal = max($dataPerBulan->max('jumlah') ?? 0, 1);
+                                $currentMonthNum = \Carbon\Carbon::now()->month;
+                            @endphp
 
-                                        <td>
-                                            {{ $jadwal->jenis_bimbingan }}
-                                        </td>
+                            <div class="bar-chart-visual">
+                                {{-- Reference Grid Lines --}}
+                                <div class="chart-grid-line line-mid"></div>
+                                <div class="chart-grid-line line-top"></div>
 
-                                        <td>
+                                @foreach ($namaBulan as $nomorBulan => $nama)
+                                    @php
+                                        $jumlah = $dataPerBulan->get($nomorBulan)->jumlah ?? 0;
+                                        $tinggiPersen = $jumlah > 0 ? max(round(($jumlah / $maksimal) * 100), 10) : 4;
+                                        $isCurrentMonth = ($nomorBulan === $currentMonthNum);
+                                    @endphp
 
-                                            @if ($jadwal->status === 'Selesai')
-
-                                                <span class="status status-success">
-                                                    Selesai
-                                                </span>
-
-                                            @elseif ($jadwal->status === 'Dibatalkan')
-
-                                                <span class="status status-danger">
-                                                    Dibatalkan
-                                                </span>
-
-                                            @else
-
-                                                <span class="status status-process">
-                                                    Terjadwal
-                                                </span>
-
+                                    <div class="chart-column">
+                                        <div class="chart-bar-track" title="{{ $nama }}: {{ $jumlah }} Sesi">
+                                            @if ($jumlah > 0)
+                                                <span class="chart-tooltip-val">{{ $jumlah }}</span>
                                             @endif
+                                            <div
+                                                class="chart-bar-fill {{ $jumlah > 0 ? 'active' : '' }} {{ $isCurrentMonth ? 'is-current-month' : '' }}"
+                                                style="height: {{ $tinggiPersen }}%;"
+                                            ></div>
+                                        </div>
 
-                                        </td>
-
-                                    </tr>
-
-                                @empty
-
-                                    <tr>
-
-                                        <td
-                                            colspan="6"
-                                            class="empty-state"
-                                        >
-                                            Belum ada jadwal bimbingan.
-                                        </td>
-
-                                    </tr>
-
-                                @endforelse
-
-                            </tbody>
-
-                        </table>
-
+                                        <span class="chart-month-name {{ $jumlah > 0 ? 'has-data' : '' }} {{ $isCurrentMonth ? 'is-now' : '' }}">
+                                            {{ $nama }}
+                                        </span>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
                     </div>
 
                 </div>
 
-                </div>
-
-                {{-- right column --}}
-
-                <div class="right-column">
-
-                    {{-- chart --}}
-
-                    <div class="panel chart-panel">
-
-                        <div class="chart-header">
-
-                            <div>
-
-                                <div class="chart-title">
-                                    Konseling per Bulan
+                {{-- BARIS 2: Agenda & Penjadwalan BK (Full-width rapi atau split bersama atensi jika ada) --}}
+                @if (isset($siswaPerhatian) && $siswaPerhatian->count() > 0)
+                    <div class="dashboard-row-secondary has-attention">
+                        {{-- Panel: Penjadwalan BK Terdekat --}}
+                        <div class="card-panel">
+                            <div class="card-panel-header">
+                                <div class="panel-title-group">
+                                    <div class="panel-icon-badge">
+                                        <i data-lucide="calendar-clock"></i>
+                                    </div>
+                                    <div class="panel-titles">
+                                        <div class="panel-main-title">Agenda & Penjadwalan BK</div>
+                                        <div class="panel-subtitle-text">Jadwal bimbingan siswa terdekat yang perlu dikonfirmasi / dihadiri</div>
+                                    </div>
                                 </div>
 
-                                <div class="chart-description">
-                                    Aktivitas konseling tahun berjalan
-                                </div>
-
+                                <a href="{{ route('penjadwalan.index') }}" class="panel-action-btn">
+                                    Kelola Jadwal
+                                    <i data-lucide="arrow-right"></i>
+                                </a>
                             </div>
 
-                            <div class="chart-total">
+                            <div class="table-responsive-wrapper">
+                                <table class="dashboard-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Tanggal</th>
+                                            <th>Nama Siswa</th>
+                                            <th>Kelas</th>
+                                            <th>Waktu</th>
+                                            <th>Jenis Bimbingan</th>
+                                            <th>Status Jadwal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($jadwalBimbingan as $jadwal)
+                                            <tr>
+                                                <td>
+                                                    <span class="table-date">
+                                                        {{ \Carbon\Carbon::parse($jadwal->tanggal)->translatedFormat('d M Y') }}
+                                                    </span>
+                                                </td>
 
-                                <strong>
-                                    {{ $totalKonseling }}
-                                </strong>
+                                                <td>
+                                                    <div class="student-cell">
+                                                        <div class="student-avatar-sm">
+                                                            {{ strtoupper(substr($jadwal->siswa->nama_siswa ?? 'S', 0, 1)) }}
+                                                        </div>
+                                                        <div class="student-meta">
+                                                            <span class="student-name-text">
+                                                                {{ $jadwal->siswa->nama_siswa ?? '-' }}
+                                                            </span>
+                                                            <span class="student-sub-badge">
+                                                                {{ $jadwal->kode_pengajuan ?? 'Bimbingan' }}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </td>
 
-                                <span>
-                                    Total sesi
-                                </span>
+                                                <td>
+                                                    <span class="class-pill">
+                                                        {{ $jadwal->siswa->kelas->nama_kelas ?? '-' }}
+                                                    </span>
+                                                </td>
 
+                                                <td>
+                                                    <span class="time-pill">
+                                                        <i data-lucide="clock"></i>
+                                                        {{ \Carbon\Carbon::parse($jadwal->waktu_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($jadwal->waktu_selesai)->format('H:i') }}
+                                                    </span>
+                                                </td>
+
+                                                <td>
+                                                    <span class="category-text">
+                                                        {{ $jadwal->jenis_bimbingan }}
+                                                    </span>
+                                                </td>
+
+                                                <td>
+                                                    @if ($jadwal->status === 'Selesai')
+                                                        <span class="status-badge status-badge-success">
+                                                            Selesai
+                                                        </span>
+                                                    @elseif ($jadwal->status === 'Ditolak_Wali')
+                                                        <span class="status-badge status-badge-danger">
+                                                            Ditolak Wali Kelas
+                                                        </span>
+                                                    @elseif ($jadwal->status === 'Dibatalkan')
+                                                        <span class="status-badge status-badge-danger">
+                                                            Dibatalkan
+                                                        </span>
+                                                    @else
+                                                        @php
+                                                            $statusLabel = 'Terjadwal';
+                                                            $badgeClass = 'status-badge-process';
+
+                                                            if ($jadwal->status === 'Diajukan') {
+                                                                $statusLabel = 'Menunggu Izin Wali Kelas';
+                                                                $badgeClass = 'status-badge-warning';
+                                                            } elseif ($jadwal->status === 'Disetujui_Wali') {
+                                                                if (method_exists($jadwal, 'hasSubmittedSchedule') && $jadwal->hasSubmittedSchedule()) {
+                                                                    $statusLabel = 'Izin Disetujui Wali (Menunggu Konfirmasi BK)';
+                                                                    $badgeClass = 'status-badge-process';
+                                                                } else {
+                                                                    $statusLabel = 'Izin Disetujui Wali Kelas';
+                                                                    $badgeClass = 'status-badge-process';
+                                                                }
+                                                            }
+                                                        @endphp
+                                                        <span class="status-badge {{ $badgeClass }}">
+                                                            {{ $statusLabel }}
+                                                        </span>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="6">
+                                                    <div class="table-empty-state">
+                                                        <div class="empty-icon-box">
+                                                            <i data-lucide="calendar-x"></i>
+                                                        </div>
+                                                        <div class="empty-title">Belum Ada Jadwal Bimbingan</div>
+                                                        <div class="empty-desc">
+                                                            Pengajuan jadwal dari siswa atau agenda bimbingan terdekat akan muncul di sini.
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
                             </div>
-
                         </div>
 
-                        @php
+                        {{-- Panel: Siswa Perlu Perhatian Khusus --}}
+                        <div class="card-panel">
+                            <div class="card-panel-header">
+                                <div class="panel-title-group">
+                                    <div class="panel-icon-badge" style="background: #fef2f2; color: #dc2626;">
+                                        <i data-lucide="alert-triangle"></i>
+                                    </div>
+                                    <div class="panel-titles">
+                                        <div class="panel-main-title">Perlu Perhatian Khusus</div>
+                                        <div class="panel-subtitle-text">Siswa dengan frekuensi konseling tinggi (≥ 3 sesi)</div>
+                                    </div>
+                                </div>
+                            </div>
 
-                            $namaBulan = [
-                                1 => 'Jan',
-                                2 => 'Feb',
-                                3 => 'Mar',
-                                4 => 'Apr',
-                                5 => 'Mei',
-                                6 => 'Jun',
-                                7 => 'Jul',
-                                8 => 'Agu',
-                                9 => 'Sep',
-                                10 => 'Okt',
-                                11 => 'Nov',
-                                12 => 'Des',
-                            ];
+                            <div class="attention-list">
+                                @foreach ($siswaPerhatian as $perhatian)
+                                    <div class="attention-item">
+                                        <div class="attention-student">
+                                            <div class="attention-avatar">
+                                                {{ strtoupper(substr($perhatian->nama_siswa ?? 'S', 0, 1)) }}
+                                            </div>
+                                            <div class="attention-info">
+                                                <a href="{{ route('siswa.show', $perhatian->id_siswa) }}" class="attention-name">
+                                                    {{ $perhatian->nama_siswa }}
+                                                </a>
+                                                <span class="attention-class">
+                                                    Kelas {{ $perhatian->kelas->nama_kelas ?? '-' }}
+                                                </span>
+                                            </div>
+                                        </div>
 
-                            $dataPerBulan = $konselingPerBulan
-                                ->keyBy('bulan');
-
-                            $maksimal = max(
-                                $dataPerBulan->max('jumlah') ?? 0,
-                                1
-                            );
-
-                        @endphp
-
-                        <div class="chart">
-
-                            @foreach ($namaBulan as $nomorBulan => $nama)
-
-                                @php
-
-                                    $jumlah =
-                                        $dataPerBulan
-                                            ->get($nomorBulan)
-                                            ->jumlah
-                                        ?? 0;
-
-                                    $tinggi = $jumlah > 0
-                                        ? max(
-                                            ($jumlah / $maksimal) * 155,
-                                            12
-                                        )
-                                        : 4;
-
-                                @endphp
-
-                                <div class="bar-wrapper">
-
-                                    @if ($jumlah > 0)
-
-                                        <span class="bar-value">
-                                            {{ $jumlah }}
+                                        <span class="attention-count-badge">
+                                            <i data-lucide="flame"></i>
+                                            {{ $perhatian->konseling_count }} Sesi
                                         </span>
-
-                                    @endif
-
-                                    <div
-                                        class="bar {{ $jumlah > 0 ? 'active' : '' }}"
-                                        style="height: {{ $tinggi }}px;"
-                                        title="{{ $jumlah }} konseling"
-                                    ></div>
-
-                                    <span class="bar-label">
-                                        {{ $nama }}
-                                    </span>
-
-                                </div>
-
-                            @endforeach
-
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
-
                     </div>
+                @else
+                    <div class="dashboard-row-secondary full-width">
+                        {{-- Panel: Penjadwalan BK Terdekat (Full Width Membentang Rapi) --}}
+                        <div class="card-panel">
+                            <div class="card-panel-header">
+                                <div class="panel-title-group">
+                                    <div class="panel-icon-badge">
+                                        <i data-lucide="calendar-clock"></i>
+                                    </div>
+                                    <div class="panel-titles">
+                                        <div class="panel-main-title">Agenda & Penjadwalan BK</div>
+                                        <div class="panel-subtitle-text">Jadwal bimbingan siswa terdekat yang perlu dikonfirmasi / dihadiri</div>
+                                    </div>
+                                </div>
 
-                    {{-- quick action --}}
-
-                    <div class="quick-panel">
-
-                        <div class="quick-content">
-
-                            <div class="quick-title">
-                                Aksi Cepat
+                                <a href="{{ route('penjadwalan.index') }}" class="panel-action-btn">
+                                    Kelola Jadwal
+                                    <i data-lucide="arrow-right"></i>
+                                </a>
                             </div>
 
-                            <div class="quick-subtitle">
-                                Akses fitur yang sering digunakan
+                            <div class="table-responsive-wrapper">
+                                <table class="dashboard-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Tanggal</th>
+                                            <th>Nama Siswa</th>
+                                            <th>Kelas</th>
+                                            <th>Waktu</th>
+                                            <th>Jenis Bimbingan</th>
+                                            <th>Status Jadwal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($jadwalBimbingan as $jadwal)
+                                            <tr>
+                                                <td>
+                                                    <span class="table-date">
+                                                        {{ \Carbon\Carbon::parse($jadwal->tanggal)->translatedFormat('d M Y') }}
+                                                    </span>
+                                                </td>
+
+                                                <td>
+                                                    <div class="student-cell">
+                                                        <div class="student-avatar-sm">
+                                                            {{ strtoupper(substr($jadwal->siswa->nama_siswa ?? 'S', 0, 1)) }}
+                                                        </div>
+                                                        <div class="student-meta">
+                                                            <span class="student-name-text">
+                                                                {{ $jadwal->siswa->nama_siswa ?? '-' }}
+                                                            </span>
+                                                            <span class="student-sub-badge">
+                                                                {{ $jadwal->kode_pengajuan ?? 'Bimbingan' }}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                                <td>
+                                                    <span class="class-pill">
+                                                        {{ $jadwal->siswa->kelas->nama_kelas ?? '-' }}
+                                                    </span>
+                                                </td>
+
+                                                <td>
+                                                    <span class="time-pill">
+                                                        <i data-lucide="clock"></i>
+                                                        {{ \Carbon\Carbon::parse($jadwal->waktu_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($jadwal->waktu_selesai)->format('H:i') }}
+                                                    </span>
+                                                </td>
+
+                                                <td>
+                                                    <span class="category-text">
+                                                        {{ $jadwal->jenis_bimbingan }}
+                                                    </span>
+                                                </td>
+
+                                                <td>
+                                                    @if ($jadwal->status === 'Selesai')
+                                                        <span class="status-badge status-badge-success">
+                                                            Selesai
+                                                        </span>
+                                                    @elseif ($jadwal->status === 'Ditolak_Wali')
+                                                        <span class="status-badge status-badge-danger">
+                                                            Ditolak Wali Kelas
+                                                        </span>
+                                                    @elseif ($jadwal->status === 'Dibatalkan')
+                                                        <span class="status-badge status-badge-danger">
+                                                            Dibatalkan
+                                                        </span>
+                                                    @else
+                                                        @php
+                                                            $statusLabel = 'Terjadwal';
+                                                            $badgeClass = 'status-badge-process';
+
+                                                            if ($jadwal->status === 'Diajukan') {
+                                                                $statusLabel = 'Menunggu Izin Wali Kelas';
+                                                                $badgeClass = 'status-badge-warning';
+                                                            } elseif ($jadwal->status === 'Disetujui_Wali') {
+                                                                if (method_exists($jadwal, 'hasSubmittedSchedule') && $jadwal->hasSubmittedSchedule()) {
+                                                                    $statusLabel = 'Izin Disetujui Wali (Menunggu Konfirmasi BK)';
+                                                                    $badgeClass = 'status-badge-process';
+                                                                } else {
+                                                                    $statusLabel = 'Izin Disetujui Wali Kelas';
+                                                                    $badgeClass = 'status-badge-process';
+                                                                }
+                                                            }
+                                                        @endphp
+                                                        <span class="status-badge {{ $badgeClass }}">
+                                                            {{ $statusLabel }}
+                                                        </span>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="6">
+                                                    <div class="table-empty-state">
+                                                        <div class="empty-icon-box">
+                                                            <i data-lucide="calendar-x"></i>
+                                                        </div>
+                                                        <div class="empty-title">Belum Ada Jadwal Bimbingan</div>
+                                                        <div class="empty-desc">
+                                                            Pengajuan jadwal dari siswa atau agenda bimbingan terdekat akan muncul di sini.
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
                             </div>
-
-                            <div class="quick-actions">
-
-                                <a
-                                    href="{{ route('siswa.create') }}"
-                                    class="quick-action"
-                                >
-
-                                    <span class="quick-action-left">
-
-                                        <span class="quick-action-icon">
-                                            <i data-lucide="user-plus"></i>
-                                        </span>
-
-                                        Input Data Siswa Baru
-
-                                    </span>
-
-                                    <span>
-                                        <i data-lucide="arrow-right"></i>
-                                    </span>
-
-                                </a>
-
-                                <a
-                                    href="{{ route('konseling.create') }}"
-                                    class="quick-action"
-                                >
-
-                                    <span class="quick-action-left">
-
-                                        <span class="quick-action-icon">
-                                            <i data-lucide="clipboard-plus"></i>
-                                        </span>
-
-                                        Tambah Catatan Konseling
-
-                                    </span>
-
-                                    <span>
-                                        <i data-lucide="arrow-right"></i>
-                                    </span>
-
-                                </a>
-
-                                <a
-                                    href="{{ route('laporan.index') }}"
-                                    class="quick-action"
-                                >
-
-                                    <span class="quick-action-left">
-
-                                        <span class="quick-action-icon">
-                                            <i data-lucide="file-chart-column"></i>
-                                        </span>
-
-                                        Buat Laporan
-
-                                    </span>
-
-                                    <span>
-                                        <i data-lucide="arrow-right"></i>
-                                    </span>
-
-                                </a>
-
-                            </div>
-
                         </div>
-
                     </div>
-
-                </div>
+                @endif
 
             </div>
 
@@ -2655,27 +2860,43 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
 </div>
 
+{{-- Lucide Icon Initializer & Dropdown Event Handler --}}
 <script>
-    lucide.createIcons();
+    document.addEventListener('DOMContentLoaded', function () {
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
 
-    const notificationButton = document.getElementById('notificationButton');
-    const notificationDropdown = document.getElementById('notificationDropdown');
+        const notificationButton = document.getElementById('notificationButton');
+        const notificationDropdown = document.getElementById('notificationDropdown');
 
-    if (notificationButton && notificationDropdown) {
-        notificationButton.addEventListener('click', function (event) {
-            event.stopPropagation();
-            notificationDropdown.classList.toggle('show');
-        });
-
-        document.addEventListener('click', function (event) {
-            if (
-                !notificationButton.contains(event.target) &&
-                !notificationDropdown.contains(event.target)
-            ) {
-                notificationDropdown.classList.remove('show');
+        if (notificationButton && notificationDropdown) {
+            notificationButton.addEventListener('click', function (event) {
+                event.stopPropagation();
+                notificationDropdown.classList.toggle('show');
+            const dot = document.getElementById('notificationDot') || document.querySelector('.notification-dot');
+            if (dot) {
+                dot.style.display = 'none';
+                fetch('{{ route("notifikasi.markAllRead") }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json'
+                    }
+                }).catch(function () {});
             }
-        });
-    }
+            });
+
+            document.addEventListener('click', function (event) {
+                if (
+                    !notificationButton.contains(event.target) &&
+                    !notificationDropdown.contains(event.target)
+                ) {
+                    notificationDropdown.classList.remove('show');
+                }
+            });
+        }
+    });
 </script>
 
 </body>

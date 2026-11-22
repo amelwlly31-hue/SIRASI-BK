@@ -54,15 +54,37 @@ class PengaturanController extends Controller
                 ->store('profile', 'public');
         }
 
-        User::where('id_user', $user->id_user)
-            ->update($data);
+        try {
+            User::where('id_user', $user->id_user)
+                ->update($data);
+        } catch (\Throwable $e) {
+            return back()
+                ->withInput()
+                ->with('error', 'Gagal memperbarui profil. Silakan coba lagi.');
+        }
 
         return redirect()
             ->route('pengaturan.index')
             ->with(
                 'success',
-                'Profil berhasil diperbarui.'
+                'Data berhasil diperbarui.'
             );
+    }
+
+    public function deleteProfilePhoto()
+    {
+        $user = Auth::user();
+        $photoPath = $user->foto_profil;
+
+        if ($photoPath) {
+            $user->foto_profil = null;
+            $user->save();
+            Storage::disk('public')->delete($photoPath);
+        }
+
+        return redirect()
+            ->route('pengaturan.index')
+            ->with('success', 'Foto profil berhasil dihapus.');
     }
 
     public function updatePassword(Request $request)        // mengubah password pengguna
@@ -75,6 +97,7 @@ class PengaturanController extends Controller
                 'string',
                 'min:8',
                 'confirmed',
+                'different:password_lama',
             ],
         ]);
 
@@ -92,12 +115,34 @@ class PengaturanController extends Controller
                 ->withInput();
         }
 
-        User::where('id_user', $user->id_user)          // update password langsung melalui query
-            ->update([
-                'password' => Hash::make(
-                    $validated['password_baru']
-                ),
-            ]);
+        $passwordHash = Hash::make($validated['password_baru']);
+
+        // Simpan ke record user yang sedang login agar target selalu sama
+        // dengan akun yang password lamanya baru saja diverifikasi.
+        $user->password = $passwordHash;
+        $saved = $user->save();
+        $persistedUser = $saved ? $user->fresh() : null;
+
+        // Pastikan hash di database cocok dan provider autentikasi yang dipakai
+        // Auth::attempt() menerima password baru untuk username akun ini.
+        $sameAccount = $persistedUser
+            && (int) $persistedUser->id_user === (int) $user->id_user;
+        $credentialsWork = $sameAccount && Auth::validate([
+            'username' => $persistedUser->username,
+            'password' => $validated['password_baru'],
+        ]);
+
+        if (
+            !$sameAccount
+            || !Hash::check($validated['password_baru'], $persistedUser->password)
+            || !$credentialsWork
+        ) {
+            return back()
+                ->withErrors([
+                    'password_baru' => 'Password gagal disimpan. Silakan coba lagi.',
+                ])
+                ->withInput();
+        }
 
         return redirect()
             ->route('pengaturan.index')

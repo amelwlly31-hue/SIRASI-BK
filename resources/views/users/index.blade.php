@@ -38,33 +38,23 @@
 
         body {
             margin: 0;
-            font-family: Inter, "Segoe UI", Arial, Helvetica, sans-serif;
+
             background: radial-gradient(circle at 85% 0%, rgba(41, 67, 143, .08), transparent 28%), #f5f7fb;
             color: var(--text);
             min-height: 100vh;
         }
 
         a { text-decoration: none; }
-        button, input, select { font-family: inherit; }
+        button, input, select {  }
 
-        .app {
-            display: grid;
-            grid-template-columns: 280px 1fr;
-            min-height: 100vh;
-        }
+        .app { display:flex; min-height:100vh; }
 
-        /* Sidebar */
         .sidebar {
-            background: linear-gradient(180deg, #102d70 0%, #173c91 100%);
-            color: var(--white);
-            padding: 24px 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            box-shadow: 4px 0 24px rgba(16, 45, 112, .12);
+            width:235px; min-height:100vh; position:fixed; inset:0 auto 0 0;
+            z-index:30; display:flex; flex-direction:column; justify-content:space-between;
+            padding:24px 20px;
+            background:linear-gradient(180deg, #102d70 0%, #173c91 100%);
+            color:var(--white); box-shadow:4px 0 24px rgba(16,45,112,.12);
         }
 
         .brand {
@@ -162,10 +152,8 @@
 
         /* Main Content */
         .main {
-            padding: 28px 36px;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
+            flex:1; min-width:0; width:auto; max-width:none; margin-left:235px;
+            padding:0 38px 30px; display:flex; flex-direction:column; gap:24px;
         }
 
         /* Header */
@@ -233,7 +221,7 @@
 
         .search-box {
             position: relative;
-            min-width: 280px;
+            min-width: 235px;
         }
 
         .search-box input {
@@ -497,30 +485,170 @@
             align-items: center;
         }
 
-        @media (max-width: 768px) {
-            .app { grid-template-columns: 1fr; }
-            .sidebar { display: none; }
-            .main { padding: 18px; }
-            .toolbar { flex-direction: column; align-items: stretch; }
+        .profile-info { text-align: right; }
+        .profile-name { font-size: 13.5px; font-weight: 700; color: var(--text); }
+        .profile-role { font-size: 11.5px; color: var(--muted); }
+        .profile-photo {
+            width: 42px; height: 42px; border-radius: 50%;
+            background: var(--primary-light); color: var(--primary);
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; border: 2px solid var(--primary-light); flex-shrink: 0;
         }
+        .profile-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+        .notification-wrapper { position: relative; }
+        .notification-btn {
+            width: 40px; height: 40px; border-radius: 10px;
+            background: var(--primary-soft); border: 1px solid var(--border);
+            color: var(--primary); display: flex; align-items: center; justify-content: center;
+            cursor: pointer; position: relative; transition: all .2s ease;
+        }
+        .notification-btn:hover { background: var(--primary-light); }
+        .notification-dot {
+            position: absolute; top: 8px; right: 8px; width: 8px; height: 8px;
+            border-radius: 50%; background: var(--red); border: 2px solid var(--white);
+        }
+        .notification-dropdown {
+            position: absolute; top: 50px; right: 0; width: 320px; max-height: 380px;
+            overflow-y: auto; background: var(--white); border: 1px solid var(--border);
+            border-radius: 14px; box-shadow: var(--shadow-lg); display: none; z-index: 1000;
+        }
+        .notification-dropdown.show { display: block; }
+        .notification-header {
+            padding: 12px 16px; border-bottom: 1px solid var(--border);
+            font-size: 13px; font-weight: 700; display: flex; justify-content: space-between; align-items: center;
+        }
+        .notification-item {
+            display: flex; gap: 10px; padding: 12px 16px;
+            border-bottom: 1px solid var(--border); transition: background .15s ease; text-decoration: none;
+        }
+        .notification-item:hover { background: #f8faff; }
+        .notification-item.unread { background: #f0f7ff; }
+        .notification-item-icon {
+            width: 34px; height: 34px; border-radius: 8px;
+            background: var(--primary-light); color: var(--primary);
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .notification-item-content strong { display: block; font-size: 12.5px; color: var(--text); margin-bottom: 2px; }
+        .notification-item-content p { font-size: 12px; color: var(--muted); line-height: 1.4; }
+        .notification-item-content small { display: block; font-size: 10.5px; color: #94a3b8; margin-top: 4px; }
+        .notification-empty { padding: 24px 16px; text-align: center; color: var(--muted); font-size: 12.5px; }
+
     </style>
     @include('partials.theme')
-</head>
+    <style>
+        html body.admin-users-page .main > .header { position:sticky !important; top:0 !important; z-index:45 !important; min-height:74px; margin:0 -38px; padding:0 38px !important; border:0 !important; border-bottom:1px solid rgba(148,163,184,.22) !important; border-radius:0 !important; background:rgba(255,255,255,.92) !important; box-shadow:0 2px 14px rgba(15,23,42,.035) !important; backdrop-filter:blur(16px); }
+        html body.admin-users-page .main > .header .header-title { display:none !important; }
+        html body.admin-users-page .sirasi-global-page-title { font-family:Inter,"Plus Jakarta Sans",sans-serif !important; }
+        html body.admin-users-page .main > .toolbar { display:flex; align-items:center; justify-content:space-between; flex-wrap:nowrap; gap:14px; padding:18px 20px; border:1px solid rgba(255,255,255,.86); border-radius:18px; background:rgba(255,255,255,.76); box-shadow:0 10px 28px rgba(28,54,108,.06),inset 0 1px rgba(255,255,255,.95); backdrop-filter:blur(18px); }
+        html body.admin-users-page .toolbar form.toolbar-left { display:flex; flex:1 1 auto; min-width:0; align-items:center; gap:12px; }
+        html body.admin-users-page .toolbar .search-box { flex:1 1 300px; width:auto; min-width:180px; }
+        html body.admin-users-page .toolbar .search-box input, html body.admin-users-page .toolbar .filter-select { height:44px; }
+        html body.admin-users-page .toolbar .btn-primary { min-height:44px; white-space:nowrap; }
+        html body.admin-users-page .main .content-card { width:100%; min-width:0; border:1px solid rgba(255,255,255,.86); border-radius:18px; background:linear-gradient(135deg,rgba(247,250,255,.76),rgba(235,242,255,.62)); box-shadow:0 18px 48px rgba(28,54,108,.09),inset 0 1px rgba(255,255,255,.88); backdrop-filter:blur(20px); }
+        html body.admin-users-page .table-responsive { width:100%; overflow-x:auto; }
+        html body.admin-users-page .table-responsive table { width:100%; min-width:820px; table-layout:fixed; font-family:Inter,"Plus Jakarta Sans",sans-serif; }
+        html body.admin-users-page .table-responsive th, html body.admin-users-page .table-responsive td { padding:14px 16px; vertical-align:middle; overflow-wrap:anywhere; }
+        html body.admin-users-page .table-responsive th:nth-child(1) { width:56px; }
+        html body.admin-users-page .table-responsive th:nth-child(2) { width:24%; }
+        html body.admin-users-page .table-responsive th:nth-child(3) { width:17%; }
+        html body.admin-users-page .table-responsive th:nth-child(4) { width:16%; }
+        html body.admin-users-page .table-responsive th:nth-child(5) { width:20%; }
+        html body.admin-users-page .table-responsive th:nth-child(6) { width:104px; }
+        html body.admin-users-page .table-responsive tbody tr:nth-child(even) { background:rgba(255,255,255,.34); }
+        html body.admin-users-page .btn-icon { width:32px; height:32px; flex:0 0 32px; }
+        html body.admin-users-page .btn-icon svg { width:15px !important; height:15px !important; }
+        html body.admin-users-page .pagination-container { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; padding:16px 20px; }
+        html body.admin-users-page .pagination-container svg { width:16px !important; height:16px !important; }
+        @media(max-width:1024px) {
+            html body.admin-users-page .sidebar { width:76px; padding:20px 10px; align-items:center; }
+            html body.admin-users-page .sidebar .sirasi-sidebar-user-name, html body.admin-users-page .sidebar .menu-title, html body.admin-users-page .sidebar .menu-label { display:none !important; }
+            html body.admin-users-page .main { margin-left:76px; padding:0 20px 22px; }
+            html body.admin-users-page .main > .header { margin:0 -20px; padding:0 20px !important; }
+        }
+        @media(max-width:768px) {
+            html body.admin-users-page .main > .toolbar { align-items:stretch; flex-wrap:wrap; }
+            html body.admin-users-page .toolbar form.toolbar-left { flex-basis:100%; flex-wrap:wrap; }
+            html body.admin-users-page .toolbar .search-box { flex:1 1 100%; width:100%; }
+            html body.admin-users-page .toolbar .filter-select { flex:1 1 150px; }
+            html body.admin-users-page .toolbar > .btn-primary { align-self:flex-start; }
+            html body.admin-users-page .pagination-container { align-items:flex-start; flex-direction:column; }
+        }
+        @media(max-width:640px) {
+            html body.admin-users-page .sidebar { width:62px; padding:12px 5px; }
+            html body.admin-users-page .main { margin-left:62px; padding:0 12px 18px; gap:18px; }
+            html body.admin-users-page .main > .header { min-height:68px; margin:0 -12px; padding:0 14px !important; }
+            html body.admin-users-page .main > .toolbar, html body.admin-users-page .main .content-card { border-radius:14px; }
+        }
+        html body.admin-users-page .toolbar .search-box {
+            background: transparent !important;
+            border: 0 !important;
+            padding: 0 !important;
+        }
+        html body.admin-users-page .toolbar .search-box input,
+        html body.admin-users-page .toolbar .search-box input:hover {
+            box-sizing: border-box !important;
+            height: 44px !important;
+            padding: 10px 14px 10px 38px !important;
+            border: 1px solid #cbd5e1 !important;
+            border-radius: 10px !important;
+            outline: none !important;
+            background-color: #ffffff !important;
+            background: #ffffff !important;
+            color: #0f172a !important;
+            box-shadow: none !important;
+        }
+        html body.admin-users-page .toolbar .search-box input::placeholder { color: #94a3b8 !important; opacity: 1; }
+        html body.admin-users-page .toolbar .search-box input:focus,
+        html body.admin-users-page .toolbar .search-box input:focus-visible {
+            border-color: #2563eb !important;
+            background-color: #ffffff !important;
+            background: #ffffff !important;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12) !important;
+        }
+        html body.admin-users-page .toolbar .search-icon { color: #64748b !important; }
+        html.dark body.admin-users-page .toolbar .search-box input,
+        html.dark-mode body.admin-users-page .toolbar .search-box input,
+        body.dark.admin-users-page .toolbar .search-box input,
+        body.dark-mode.admin-users-page .toolbar .search-box input,
+        html.dark body.admin-users-page .toolbar .search-box input:hover,
+        html.dark-mode body.admin-users-page .toolbar .search-box input:hover,
+        body.dark.admin-users-page .toolbar .search-box input:hover,
+        body.dark-mode.admin-users-page .toolbar .search-box input:hover {
+            border: 1px solid rgba(148, 163, 184, 0.25) !important;
+            background-color: rgba(15, 23, 42, 0.6) !important;
+            background: rgba(15, 23, 42, 0.6) !important;
+            color: #fff !important;
+        }
+        html.dark body.admin-users-page .toolbar .search-box input::placeholder,
+        html.dark-mode body.admin-users-page .toolbar .search-box input::placeholder,
+        body.dark.admin-users-page .toolbar .search-box input::placeholder,
+        body.dark-mode.admin-users-page .toolbar .search-box input::placeholder { color: #94a3b8 !important; }
+        html.dark body.admin-users-page .toolbar .search-box input:focus,
+        html.dark-mode body.admin-users-page .toolbar .search-box input:focus,
+        body.dark.admin-users-page .toolbar .search-box input:focus,
+        body.dark-mode.admin-users-page .toolbar .search-box input:focus,
+        html.dark body.admin-users-page .toolbar .search-box input:focus-visible,
+        html.dark-mode body.admin-users-page .toolbar .search-box input:focus-visible,
+        body.dark.admin-users-page .toolbar .search-box input:focus-visible,
+        body.dark-mode.admin-users-page .toolbar .search-box input:focus-visible {
+            border-color: #2563eb !important;
+            background-color: rgba(15, 23, 42, 0.8) !important;
+            background: rgba(15, 23, 42, 0.8) !important;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12) !important;
+        }
+        html.dark body.admin-users-page .toolbar .search-icon,
+        html.dark-mode body.admin-users-page .toolbar .search-icon,
+        body.dark.admin-users-page .toolbar .search-icon,
+        body.dark-mode.admin-users-page .toolbar .search-icon { color: #94a3b8 !important; }
+    </style></head>
 
-<body>
+<body class="admin-users-page">
 <div class="app">
     {{-- Sidebar --}}
     <aside class="sidebar">
         <div>
-            <div class="brand">
-                <div class="brand-logo">
-                    <img src="{{ asset('images/logo-smpn2-dramaga.png') }}?v=2" alt="Logo SMP Negeri 2 Dramaga">
-                </div>
-                <div>
-                    <div class="brand-name">SIRASI-BK</div>
-                    <div class="brand-subtitle">Administrator Portal</div>
-                </div>
-            </div>
+            @include('layouts.nav_identity')
 
             <div class="menu-title">Menu Utama</div>
 
@@ -534,11 +662,12 @@
                 @csrf
                 <button type="submit" class="menu-item logout-button">
                     <span class="menu-icon"><i data-lucide="log-out"></i></span>
-                    Logout
+                    <span class="menu-label">Keluar</span>
                 </button>
             </form>
         </div>
     </aside>
+
 
     {{-- Main Area --}}
     <main class="main">
@@ -549,11 +678,55 @@
                 <p>Manajemen Akun Administrator, Guru BK, dan Penugasan Wali Kelas</p>
             </div>
 
-            <div class="profile-area">
-                <div class="profile">
-                    <button type="button" class="btn-primary" onclick="openCreateModal()">
-                        <i data-lucide="user-plus"></i> Tambah Pengguna Baru
+            <div class="profile-area" style="display: flex; align-items: center; gap: 14px;">
+                <div class="notification-wrapper">
+                    <button type="button" class="notification-btn" id="notificationButton" onclick="toggleNotificationDropdown(event)" title="Notifikasi Sistem">
+                        <i data-lucide="bell" style="width: 18px; height: 18px;"></i>
+                        @if (isset($notifikasis) && $notifikasis->where('dibaca', false)->count() > 0)
+                            <span class="notification-dot" id="notificationDot"></span>
+                        @endif
                     </button>
+
+                    <div class="notification-dropdown" id="notificationDropdown">
+                        <div class="notification-header">
+                            <span>Notifikasi Sistem</span>
+                            @if (isset($notifikasis) && $notifikasis->where('dibaca', false)->count() > 0)
+                                <button type="button" onclick="markAllNotificationsRead(event)" style="background: none; border: none; color: var(--primary); font-size: 11.5px; font-weight: 600; cursor: pointer;">Tandai Dibaca</button>
+                            @endif
+                        </div>
+
+                        @forelse ($notifikasis ?? [] as $notif)
+                            <a href="{{ route('notifikasi.baca', $notif->id) }}" class="notification-item {{ !$notif->dibaca ? 'unread' : '' }}">
+                                <div class="notification-item-icon">
+                                    <i data-lucide="bell-ring" style="width: 16px; height: 16px;"></i>
+                                </div>
+                                <div class="notification-item-content">
+                                    <strong>{{ $notif->judul }}</strong>
+                                    <p>{{ trim(preg_replace('/\s*\[JADWAL:\d+\]/', '', (string) $notif->pesan)) }}</p>
+                                    <small>{{ $notif->created_at->diffForHumans() }}</small>
+                                </div>
+                            </a>
+                        @empty
+                            <div class="notification-empty">
+                                <i data-lucide="bell-off" style="width: 24px; height: 24px; margin-bottom: 6px; display: inline-block;"></i>
+                                <p>Belum ada notifikasi baru</p>
+                            </div>
+                        @endforelse
+                    </div>
+                </div>
+
+                <div class="profile">
+                    <div class="profile-info">
+                        <div class="profile-name">{{ auth()->user()->nama }}</div>
+                        <div class="profile-role">Admin Sistem</div>
+                    </div>
+                    <div class="profile-photo">
+                        @if (auth()->user()->foto_profil)
+                            <img src="{{ route('profile.photo', basename(auth()->user()->foto_profil)) }}" alt="Foto Profil">
+                        @else
+                            <i data-lucide="shield"></i>
+                        @endif
+                    </div>
                 </div>
             </div>
         </header>
@@ -592,7 +765,7 @@
             <form action="{{ route('users.index') }}" method="GET" class="toolbar-left">
                 <div class="search-box">
                     <span class="search-icon"><i data-lucide="search" style="width: 16px; height: 16px;"></i></span>
-                    <input type="text" name="search" placeholder="Cari nama, username, atau kelas..." value="{{ request('search') }}">
+                    <input type="text" name="search" placeholder="Cari nama, username, atau kelas..." value="{{ request('search') }}" autocomplete="off">
                 </div>
 
                 <select name="role" class="filter-select" onchange="this.form.submit()">
@@ -606,6 +779,10 @@
                     <a href="{{ route('users.index') }}" class="btn-secondary" style="padding: 9px 14px; font-size: 13px;">Reset</a>
                 @endif
             </form>
+
+            <button type="button" class="btn-primary" onclick="openCreateModal()">
+                <i data-lucide="user-plus"></i> Tambah Pengguna Baru
+            </button>
         </div>
 
         {{-- Table User --}}
@@ -739,7 +916,7 @@
                     <select name="id_kelas" id="createIdKelas" class="form-control">
                         <option value="">-- Pilih Kelas --</option>
                         @foreach ($daftarKelas as $k)
-                            <option value="{{ $k->id_kelas }}">Kelas {{ $k->nama_kelas }} (Tingkat {{ $k->tingkat }})</option>
+                            <option value="{{ $k->id_kelas }}">Kelas {{ $k->nama_kelas }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -794,7 +971,7 @@
                     <select name="id_kelas" id="editIdKelas" class="form-control">
                         <option value="">-- Pilih Kelas --</option>
                         @foreach ($daftarKelas as $k)
-                            <option value="{{ $k->id_kelas }}">Kelas {{ $k->nama_kelas }} (Tingkat {{ $k->tingkat }})</option>
+                            <option value="{{ $k->id_kelas }}">Kelas {{ $k->nama_kelas }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -862,6 +1039,46 @@
         var editModal = document.getElementById('editModal');
         if (event.target == createModal) closeCreateModal();
         if (event.target == editModal) closeEditModal();
+
+        var dropdown = document.getElementById('notificationDropdown');
+        var btn = document.getElementById('notificationButton');
+        if (dropdown && btn && !dropdown.contains(event.target) && !btn.contains(event.target)) {
+            dropdown.classList.remove('show');
+        }
+    }
+
+    function toggleNotificationDropdown(event) {
+        event.stopPropagation();
+        var dropdown = document.getElementById('notificationDropdown');
+        if (dropdown) {
+            dropdown.classList.toggle('show');
+            var dot = document.getElementById('notificationDot') || document.querySelector('.notification-dot');
+            if (dot) {
+                dot.style.display = 'none';
+                fetch('{{ route("notifikasi.markAllRead") }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json'
+                    }
+                }).catch(function() {});
+            }
+        }
+    }
+
+    function markAllNotificationsRead(event) {
+        event.stopPropagation();
+        fetch('{{ route("notifikasi.markAllRead") }}', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json'
+            }
+        }).then(function() {
+            var dot = document.getElementById('notificationDot');
+            if (dot) dot.style.display = 'none';
+            document.querySelectorAll('.notification-item.unread').forEach(function(el) { el.classList.remove('unread'); });
+        });
     }
 </script>
 </body>

@@ -25,6 +25,7 @@ class SiswaImport implements ToCollection, WithHeadingRow
     {
         $errors = [];
         $dataSiswa = [];
+        $seenNisn = [];
 
         /* | | ambil data kelas sesuai jenjang | */
 
@@ -54,18 +55,32 @@ class SiswaImport implements ToCollection, WithHeadingRow
             // baris pertama setelah header = baris 2.
             $nomorBaris = $index + 2;
 
-            $nama = trim((string) ($row['nama_siswa'] ?? ''));
-            $nis = trim((string) ($row['nis'] ?? ''));
-            $jenisKelamin = strtoupper(trim((string) ($row['jenis_kelamin'] ?? '')));
+            // Header Excel: NO, NISN, NAMA, JK, KELAS.
+            // Header lama tetap diterima agar file yang sudah digunakan tetap kompatibel.
+            $nama = $this->cleanCell($row['nama'] ?? $row['nama_siswa'] ?? '');
+            $nisn = $this->cleanCell($row['nisn'] ?? $row['nis'] ?? '');
+            $jenisKelamin = strtoupper($this->cleanCell($row['jk'] ?? $row['jenis_kelamin'] ?? ''));
             $alamat = trim((string) ($row['alamat'] ?? ''));
             $noTelp = trim((string) ($row['no_telepon'] ?? ''));
-            $namaKelas = trim((string) ($row['kelas'] ?? ''));
+            $namaKelas = strtoupper($this->cleanCell($row['kelas'] ?? ''));
+            $namaKelas = preg_replace('/^KELAS\s+/u', '', $namaKelas);
+            $namaKelas = preg_replace('/\s*[-–—‐‑]\s*/u', '-', $namaKelas);
+            $namaKelas = preg_replace('/^(VII|VIII|IX)\s+(10|[1-9]|A|B)$/u', '$1-$2', $namaKelas);
+            if (preg_match('/^(VII|VIII|IX)-0*([1-9]|10)$/u', $namaKelas, $kelasNumerik)) {
+                $namaKelas = $kelasNumerik[1] . '-' . (int) $kelasNumerik[2];
+            }
+
+            $jenisKelamin = match ($jenisKelamin) {
+                'LAKI-LAKI', 'LAKI LAKI', 'PRIA', 'MALE' => 'L',
+                'PEREMPUAN', 'WANITA', 'FEMALE' => 'P',
+                default => $jenisKelamin,
+            };
 
             /* | | abaikan baris yang benar-benar kosong | */
 
             if (
                 $nama === '' &&
-                $nis === '' &&
+                $nisn === '' &&
                 $jenisKelamin === '' &&
                 $alamat === '' &&
                 $noTelp === '' &&
@@ -84,6 +99,18 @@ class SiswaImport implements ToCollection, WithHeadingRow
             if (strlen($nama) > 100) {
                 $errors[] = "Baris {$nomorBaris}: Nama Siswa maksimal 100 karakter.";
                 continue;
+            }
+
+            if ($nisn !== '') {
+                if (isset($seenNisn[$nisn])) {
+                    $errors[] = "Baris {$nomorBaris}: NISN {$nisn} duplikat dengan baris {$seenNisn[$nisn]} pada file Excel.";
+                    continue;
+                }
+                if (Siswa::where('nis', $nisn)->exists()) {
+                    $errors[] = "Baris {$nomorBaris}: NISN {$nisn} sudah terdaftar di database.";
+                    continue;
+                }
+                $seenNisn[$nisn] = $nomorBaris;
             }
 
             /* | | jenis kelamin wajib l/p | */
@@ -105,7 +132,8 @@ class SiswaImport implements ToCollection, WithHeadingRow
             if (!$kelasTersedia->has($namaKelas)) {
 
                 if ($this->kelas === 'all') {
-                    $errors[] = "Baris {$nomorBaris}: Kelas {$namaKelas} tidak termasuk jenjang {$this->tingkat}.";
+                    $tingkatRomawi = [7 => 'VII', 8 => 'VIII', 9 => 'IX'][(int) $this->tingkat] ?? $this->tingkat;
+                    $errors[] = "Baris {$nomorBaris}: Kelas {$namaKelas} tidak termasuk jenjang {$tingkatRomawi}.";
                 } else {
                     $kelasDipilih = Kelas::find($this->kelas);
 
@@ -124,7 +152,7 @@ class SiswaImport implements ToCollection, WithHeadingRow
             /* | | simpan data yang sudah lolos validasi | */
 
             $dataSiswa[] = [
-                'nis' => $nis !== '' ? $nis : null,
+                'nis' => $nisn !== '' ? $nisn : null,
                 'nama_siswa' => $nama,
                 'jenis_kelamin' => $jenisKelamin,
                 'id_kelas' => $kelas->id_kelas,
@@ -142,6 +170,12 @@ class SiswaImport implements ToCollection, WithHeadingRow
             ]);
         }
 
+        if (empty($dataSiswa)) {
+            throw ValidationException::withMessages([
+                'file' => 'Tidak ada baris siswa yang dapat diimport. Pastikan file berisi data setelah baris header.',
+            ]);
+        }
+
         /* | | simpan semua data sekaligus | */
 
         DB::transaction(function () use ($dataSiswa) {
@@ -150,5 +184,21 @@ class SiswaImport implements ToCollection, WithHeadingRow
                 Siswa::create($data);
             }
         });
+
+        $this->importedCount = count($dataSiswa);
+    }
+
+    protected int $importedCount = 0;
+
+    public function importedCount(): int
+    {
+        return $this->importedCount;
+    }
+
+    private function cleanCell($value): string
+    {
+        $value = (string) $value;
+
+        return trim(preg_replace('/^\s+|\s+$/u', '', $value) ?? $value);
     }
 }

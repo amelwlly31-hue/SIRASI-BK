@@ -4,74 +4,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Siswa - SIRASI-BK SMP Negeri 2 Dramaga</title>
+    <title>SIRASI-BK — Portal Layanan Bimbingan Konseling Siswa SMP Negeri 2 Dramaga</title>
 
-    @include('partials.theme')
+
+    {{-- Lucide Icons --}}
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
+        /* =========================================================
+           1. ROOT VARIABLES & GLOBAL RESET
+           ========================================================= */
+        :root {
+            --primary: #1a56db;
+            --primary-dark: #0f368d;
+            --primary-light: #e0e7ff;
+            --primary-soft: #f0f5ff;
+            --accent: #0284c7;
+            --bg-body: #f8fafc;
+            --surface: #ffffff;
+            --text-main: #0f172a;
+            --text-secondary: #334155;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --green: #059669;
+            --green-bg: #d1fae5;
+            --orange: #d97706;
+            --orange-bg: #fef3c7;
+            --red: #dc2626;
+            --red-bg: #fee2e2;
+            --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.04);
+            --shadow-md: 0 12px 28px -6px rgba(15, 23, 42, 0.08), 0 8px 12px -6px rgba(15, 23, 42, 0.04);
+            --shadow-lg: 0 20px 35px -10px rgba(26, 86, 219, 0.14);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        html {
             scroll-behavior: smooth;
         }
 
-        :root {
-            --primary: #173c91;
-            --primary-dark: #102d70;
-            --primary-light: #eaf0ff;
-            --primary-soft: #f4f7ff;
-            --primary-glow: rgba(23, 60, 145, 0.12);
-
-            --bg: #f8fafc;
-            --white: #ffffff;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --border-color: #e2e8f0;
-
-            --green: #15803d;
-            --green-bg: #dcfce7;
-            --orange: #b45309;
-            --orange-bg: #fef3c7;
-            --red: #b91c1c;
-            --red-bg: #fee2e2;
-
-            --shadow-sm: 0 4px 12px rgba(16, 45, 112, 0.04);
-            --shadow-md: 0 10px 25px rgba(16, 45, 112, 0.08);
-            --shadow-lg: 0 18px 40px rgba(16, 45, 112, 0.12);
-        }
-
         body {
-            font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-            background-color: var(--bg);
+
+            background-color: var(--bg-body);
             color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            line-height: 1.6;
+            line-height: 1.65;
+            overflow-x: hidden;
         }
 
-        /* -------------------------------------------------------------
-           1. TOP HORIZONTAL NAVBAR (PORTAL SISWA - TANPA SIDEBAR)
-           ------------------------------------------------------------- */
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Subtle entrance animation */
+        @keyframes fadeUpSoft {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes floatGentle {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+
+        /* =========================================================
+           2. TOP HORIZONTAL NAVBAR (NO SIDEBAR)
+           ========================================================= */
         .portal-navbar {
             position: sticky;
             top: 0;
             z-index: 1000;
             background: rgba(255, 255, 255, 0.96);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
+            backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border-color);
-            box-shadow: 0 4px 20px rgba(16, 45, 112, 0.05);
-            transition: all 0.3s ease;
+            box-shadow: 0 1px 10px rgba(15, 23, 42, 0.04);
         }
 
-        .nav-container {
+        .navbar-container {
             max-width: 1240px;
             margin: 0 auto;
             padding: 0 24px;
-            height: 74px;
+            height: 76px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -81,249 +108,222 @@
         .nav-brand {
             display: flex;
             align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            color: var(--text-main);
-            flex-shrink: 0;
+            gap: 13px;
         }
 
         .brand-logo-wrap {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, var(--primary-light) 0%, #ffffff 100%);
-            border: 1px solid rgba(23, 60, 145, 0.15);
+            width: 62px;
+            height: 62px;
+            border-radius: 14px;
+            background: var(--primary-soft);
+            border: 1px solid var(--primary-light);
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 4px;
-            box-shadow: var(--shadow-sm);
+            padding: 0;
+            flex-shrink: 0;
+            transition: transform 0.2s ease;
+            overflow: hidden;
+        }
+
+        .brand-logo-wrap:hover {
+            transform: scale(1.02);
         }
 
         .brand-logo-wrap img {
             width: 100%;
             height: 100%;
             object-fit: contain;
+            transform: scale(1.25);
         }
 
         .brand-text-name {
-            font-size: 19px;
+            font-size: 17.5px;
             font-weight: 800;
             color: var(--primary-dark);
             letter-spacing: -0.3px;
+            line-height: 1.2;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
         }
 
         .brand-text-badge {
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--primary);
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
             background: var(--primary-light);
+            color: var(--primary);
             padding: 2px 8px;
             border-radius: 999px;
+            letter-spacing: 0.5px;
         }
 
         .brand-text-sub {
-            font-size: 11.5px;
+            font-size: 12px;
+            font-weight: 600;
             color: var(--text-muted);
-            font-weight: 500;
+            line-height: 1.2;
         }
 
-        /* Nav Menu Horizontal Links */
         .nav-menu-links {
             display: flex;
             align-items: center;
             gap: 6px;
             list-style: none;
+            margin: 0;
+            padding: 0;
         }
 
         .nav-link {
-            text-decoration: none;
-            color: var(--text-main);
-            font-size: 14px;
+            padding: 9px 14px;
+            border-radius: 10px;
+            font-size: 13.5px;
             font-weight: 600;
-            padding: 8px 16px;
-            border-radius: 10px;
+            color: var(--text-secondary);
             transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .nav-link:hover {
-            color: var(--primary);
-            background: var(--primary-light);
-        }
-
-        .nav-link.active {
-            color: var(--primary);
-            background: var(--primary-light);
-            font-weight: 700;
-        }
-
-        /* Nav Actions (Right) */
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-shrink: 0;
-        }
-
-        .student-chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--primary-soft);
-            border: 1px solid rgba(23, 60, 145, 0.2);
-            padding: 6px 14px;
-            border-radius: 999px;
-            font-size: 13px;
-            color: var(--primary-dark);
-            font-weight: 700;
-        }
-
-        .btn-nav-logout {
-            background: transparent;
-            border: 1px solid #cbd5e1;
-            color: var(--text-muted);
-            font-size: 13px;
-            font-weight: 600;
-            padding: 7px 14px;
-            border-radius: 10px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.2s ease;
-        }
-
-        .btn-nav-logout:hover {
-            border-color: var(--red);
-            color: var(--red);
-            background: var(--red-bg);
-        }
-
-        .btn-login-petugas {
-            text-decoration: none;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: #ffffff;
-            font-size: 13px;
-            font-weight: 700;
-            padding: 9px 18px;
-            border-radius: 10px;
             display: inline-flex;
             align-items: center;
             gap: 7px;
-            box-shadow: 0 4px 12px rgba(23, 60, 145, 0.2);
-            transition: all 0.2s ease;
+            white-space: nowrap;
+            text-decoration: none;
+        }
+
+        .nav-link:hover {
+            background: var(--primary-soft);
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            background: rgba(37, 99, 235, 0.15);
+            color: #1d4ed8;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            font-weight: 700;
+        }
+
+        .dark-mode .nav-link.active,
+        .dark .nav-link.active {
+            background: rgba(59, 130, 246, 0.2);
+            color: #93c5fd;
+            border-color: rgba(96, 165, 250, 0.2);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .btn-login-petugas {
+            width: 42px;
+            height: 42px;
+            padding: 4px;
+            border: 0;
+            border-radius: 50%;
+            color: #475569;
+            background: transparent;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+            text-decoration: none;
+            flex-shrink: 0;
         }
 
         .btn-login-petugas:hover {
+            color: var(--primary-dark);
+            background: #f1f5f9;
+            border-color: transparent;
             transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(23, 60, 145, 0.3);
-            color: #ffffff;
+            box-shadow: none;
         }
 
-        /* Mobile Hamburger Toggle */
         .nav-toggle-btn {
             display: none;
-            background: transparent;
+            background: #f1f5f9;
             border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 8px;
+            border-radius: 11px;
+            width: 42px;
+            height: 42px;
+            align-items: center;
+            justify-content: center;
             color: var(--text-main);
             cursor: pointer;
+            transition: all 0.2s ease;
         }
 
-        /* -------------------------------------------------------------
-           2. MAIN CONTENT WRAPPER
-           ------------------------------------------------------------- */
-        .main-content {
-            flex: 1;
-            max-width: 1240px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 24px 24px 60px;
+        .nav-toggle-btn:hover {
+            background: var(--primary-soft);
+            color: var(--primary);
         }
 
-        /* Flash Alerts */
-        .alert-box {
-            padding: 14px 20px;
-            border-radius: 14px;
-            margin-bottom: 24px;
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            font-size: 14px;
-            font-weight: 500;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .alert-success { background: var(--green-bg); border: 1px solid #bbf7d0; color: var(--green); }
-        .alert-danger { background: var(--red-bg); border: 1px solid #fecaca; color: var(--red); }
-        .alert-info { background: #e0f2fe; border: 1px solid #bae6fd; color: #0369a1; }
-
-        /* -------------------------------------------------------------
-           3. HERO SECTION (PROFESIONAL LANDING PAGE DENGAN FOTO ASLI SEKOLAH)
-           ------------------------------------------------------------- */
+        /* =========================================================
+           3. HERO SECTION (FULL-WIDTH SCHOOL HERO BANNER)
+           ========================================================= */
         .hero-section {
-            background: var(--white);
-            border: 1px solid var(--border-color);
-            border-radius: 24px;
-            padding: 48px;
-            box-shadow: var(--shadow-sm);
-            margin-bottom: 48px;
             position: relative;
+            width: 100%;
+            min-height: 550px;
+            display: flex;
+            align-items: center;
+            background:
+                linear-gradient(135deg, rgba(10, 39, 94, 0.88) 0%, rgba(24, 66, 143, 0.78) 48%, rgba(7, 29, 73, 0.92) 100%),
+                url("https://bogor24jam.com/uploads/posts/mig_697e50aa0c831_116970d3dae3da7..jpg") center center / cover no-repeat;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.14);
             overflow: hidden;
         }
 
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 6px;
-            background: linear-gradient(90deg, var(--primary) 0%, #38bdf8 100%);
+        .hero-inner {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 84px 24px 92px;
         }
 
-        .hero-grid {
-            display: grid;
-            grid-template-columns: 1.15fr 0.85fr;
-            gap: 40px;
-            align-items: center;
+        .hero-content {
+            max-width: 780px;
+            color: #ffffff;
+            animation: fadeUpSoft 0.55s ease-out both;
         }
 
         .hero-badge {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: var(--primary-light);
-            border: 1px solid rgba(23, 60, 145, 0.15);
-            padding: 6px 14px;
-            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.14);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            color: #f8fafc;
             font-size: 12.5px;
             font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 20px;
+            padding: 7px 16px;
+            border-radius: 999px;
+            margin-bottom: 22px;
+            letter-spacing: 0.2px;
         }
 
         .hero-title {
-            font-size: 38px;
+            font-size: 44px;
             font-weight: 800;
-            line-height: 1.22;
-            letter-spacing: -0.6px;
-            color: var(--primary-dark);
+            color: #ffffff;
+            line-height: 1.18;
+            letter-spacing: -0.8px;
             margin-bottom: 18px;
+            text-shadow: 0 2px 16px rgba(7, 19, 48, 0.45);
         }
 
         .hero-desc {
-            font-size: 15.5px;
-            line-height: 1.7;
-            color: var(--text-muted);
-            margin-bottom: 30px;
+            font-size: 17px;
+            color: rgba(241, 245, 249, 0.95);
+            margin-bottom: 34px;
+            line-height: 1.72;
+            max-width: 690px;
+            text-shadow: 0 1px 8px rgba(7, 19, 48, 0.35);
         }
 
         .hero-btn-group {
@@ -331,211 +331,455 @@
             align-items: center;
             gap: 14px;
             flex-wrap: wrap;
-            margin-bottom: 36px;
         }
 
         .btn-hero-primary {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: #ffffff;
-            font-size: 14.5px;
-            font-weight: 700;
-            padding: 13px 26px;
-            border-radius: 12px;
-            text-decoration: none;
+            background: #ffffff;
+            color: var(--primary-dark);
+            font-size: 15px;
+            font-weight: 800;
+            padding: 15px 28px;
+            border-radius: 13px;
+            border: none;
+            cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 9px;
-            box-shadow: 0 6px 18px rgba(23, 60, 145, 0.25);
-            transition: all 0.2s ease;
+            gap: 10px;
+            box-shadow: 0 10px 24px -4px rgba(7, 19, 48, 0.4);
+            transition: all 0.22s ease;
         }
 
         .btn-hero-primary:hover {
+            background: #eff6ff;
+            color: var(--primary);
             transform: translateY(-2px);
-            box-shadow: 0 10px 24px rgba(23, 60, 145, 0.35);
-            color: #ffffff;
+            box-shadow: 0 14px 28px -4px rgba(7, 19, 48, 0.5);
         }
 
         .btn-hero-secondary {
-            background: #ffffff;
-            color: var(--primary-dark);
-            border: 1.5px solid var(--border-color);
-            font-size: 14.5px;
+            background: rgba(255, 255, 255, 0.14);
+            backdrop-filter: blur(8px);
+            color: #ffffff;
+            font-size: 15px;
             font-weight: 700;
-            padding: 13px 24px;
-            border-radius: 12px;
-            text-decoration: none;
+            padding: 15px 26px;
+            border-radius: 13px;
+            border: 1.5px solid rgba(255, 255, 255, 0.48);
+            cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 9px;
-            transition: all 0.2s ease;
+            gap: 10px;
+            transition: all 0.22s ease;
         }
 
         .btn-hero-secondary:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            background: var(--primary-soft);
+            background: rgba(255, 255, 255, 0.25);
+            border-color: #ffffff;
             transform: translateY(-2px);
         }
 
-        /* Hero Highlights / Value Props */
-        .hero-highlights {
+        .hero-trust-pills {
+            margin-top: 28px;
             display: flex;
-            gap: 20px;
-            padding-top: 24px;
-            border-top: 1px solid var(--border-color);
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(226, 232, 240, 0.95);
+        }
+
+        .hero-trust-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        /* =========================================================
+           SEARCH BAR CEK SLOT (FLOATING TRANSPARAN DI PERBATASAN HERO)
+           ========================================================= */
+        .hero-search-boundary-wrap {
+            position: relative;
+            z-index: 40;
+            width: 100%;
+            height: 0;
+        }
+
+        .hero-search-boundary-container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .hero-search-bar {
+            transform: translateY(-50%);
+            max-width: 760px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.78);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1.5px solid rgba(255, 255, 255, 0.85);
+            border-radius: 20px;
+            padding: 14px 22px;
+            box-shadow: 0 16px 36px -6px rgba(10, 39, 94, 0.22), 0 4px 14px rgba(15, 23, 42, 0.08);
+            transition: all 0.25s ease;
+        }
+
+        .hero-search-bar:hover {
+            background: rgba(255, 255, 255, 0.88);
+            box-shadow: 0 20px 42px -6px rgba(10, 39, 94, 0.28), 0 6px 18px rgba(15, 23, 42, 0.1);
+        }
+
+        .hero-search-form {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
             flex-wrap: wrap;
         }
 
-        .highlight-item {
+        .hero-search-label {
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .highlight-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            background: var(--primary-light);
+        .hero-search-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 11px;
+            background: rgba(26, 86, 219, 0.12);
             color: var(--primary);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
             flex-shrink: 0;
         }
 
-        .highlight-text strong {
-            display: block;
-            font-size: 12.5px;
-            color: var(--text-main);
+        .hero-search-text {
+            display: flex;
+            flex-direction: column;
         }
 
-        .highlight-text span {
+        .hero-search-title {
+            font-size: 14.5px;
+            font-weight: 800;
+            color: var(--primary-dark);
+            letter-spacing: -0.2px;
+            line-height: 1.25;
+        }
+
+        .hero-search-sub {
             font-size: 11px;
+            font-weight: 600;
             color: var(--text-muted);
+            line-height: 1.25;
         }
 
-        /* Hero Media / Authentic Photo */
-        .hero-media-wrapper {
-            position: relative;
-        }
-
-        .hero-photo-frame {
-            position: relative;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: var(--shadow-md);
-            border: 3px solid #ffffff;
-            aspect-ratio: 4/3;
-            background: #e2e8f0;
-        }
-
-        .hero-photo-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.4s ease;
-        }
-
-        .hero-photo-frame:hover img {
-            transform: scale(1.03);
-        }
-
-        .photo-floating-badge {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.94);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(23, 60, 145, 0.12);
-            border-radius: 12px;
-            padding: 10px 14px;
+        .hero-search-inputs-group {
             display: flex;
             align-items: center;
-            gap: 10px;
-            box-shadow: var(--shadow-md);
-            z-index: 2;
+            gap: 16px;
+            flex: 1;
+            justify-content: flex-end;
+            min-width: 320px;
         }
 
-        .photo-floating-badge.badge-top {
-            top: 16px;
-            left: 16px;
+        .hero-search-input-wrap {
+            position: relative;
+            flex: 1;
+            max-width: 190px;
+            min-width: 155px;
         }
 
-        .photo-floating-badge.badge-bottom {
-            bottom: 16px;
-            right: 16px;
+        .hero-search-input {
+            width: 100%;
+            padding: 9.5px 14px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 11px;
+
+            font-size: 13.5px;
+            color: var(--text-main);
+            background: #ffffff;
+            outline: none;
+            transition: all 0.2s ease;
         }
 
-        .badge-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            background: var(--primary-light);
+        .hero-search-input:focus {
+            border-color: var(--primary);
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.15);
+        }
+
+        .hero-search-input-wrap .input-inline-icon {
+            position: absolute;
+            left: 11px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 15px;
+            height: 15px;
             color: var(--primary);
-            display: flex;
+            pointer-events: none;
+        }
+
+        .hero-search-btn {
+            background: var(--primary);
+            color: #ffffff;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 11px;
+
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
+            gap: 7px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 14px rgba(26, 86, 219, 0.25);
+            white-space: nowrap;
         }
 
-        .badge-icon.green {
-            background: var(--green-bg);
-            color: var(--green);
+        .hero-search-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(26, 86, 219, 0.32);
         }
 
-        .badge-label {
-            font-size: 12px;
+        /* Pesan Singkat Ketersediaan Slot Tepat di Bawah Search Bar (Teks Biasa Tanpa Card/Border) */
+        .hero-search-msg {
+            margin-top: 10px;
+        }
+
+        .hero-search-msg-text {
+            font-size: 13px;
+            font-weight: 500;
+            line-height: 1.5;
+            margin: 0;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        .hero-search-msg-text.text-warning {
+            color: #b45309;
+        }
+
+        .hero-search-msg-text.text-orange {
+            color: #c2410c;
+        }
+
+        .hero-search-msg-text.text-danger {
+            color: #b91c1c;
+        }
+
+        .hero-search-msg-text.text-success {
+            color: #047857;
+        }
+
+        .hero-search-msg-link {
+            color: var(--primary);
             font-weight: 700;
+            text-decoration: underline;
+        }
+
+        .hero-search-msg-link:hover {
             color: var(--primary-dark);
         }
 
-        .badge-sub {
-            font-size: 10.5px;
-            color: var(--text-muted);
+        /* =========================================================
+           4. MAIN CONTENT CONTAINER & SECTION HEADERS
+           ========================================================= */
+        .main-content {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 92px 24px 80px;
         }
 
-        /* -------------------------------------------------------------
-           4. SECTION HEADERS
-           ------------------------------------------------------------- */
         .section-header {
             text-align: center;
-            margin-bottom: 36px;
+            max-width: 680px;
+            margin: 0 auto 38px;
         }
 
         .section-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
             font-size: 12px;
-            text-transform: uppercase;
             font-weight: 800;
-            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
             color: var(--primary);
-            background: var(--primary-light);
-            padding: 4px 14px;
+            background: var(--primary-soft);
+            border: 1px solid var(--primary-light);
+            padding: 5px 14px;
             border-radius: 999px;
-            display: inline-block;
             margin-bottom: 10px;
         }
 
         .section-title {
             font-size: 28px;
             font-weight: 800;
-            color: var(--primary-dark);
-            letter-spacing: -0.4px;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
             margin-bottom: 10px;
+            line-height: 1.25;
         }
 
         .section-desc {
             font-size: 15px;
             color: var(--text-muted);
-            max-width: 680px;
-            margin: 0 auto;
         }
 
-        /* -------------------------------------------------------------
-           5. SECTION LAYANAN BK (GRID 4 KARTU)
-           ------------------------------------------------------------- */
+        /* =========================================================
+           5. BAGIAN AJAKAN UNTUK SISWA ("CERITA KAMU BERHARGA")
+           ========================================================= */
+        .empathy-section {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f6ff 100%);
+            border: 1px solid #dbeafe;
+            border-radius: 28px;
+            padding: 44px 42px;
+            margin-bottom: 64px;
+            box-shadow: var(--shadow-md);
+            display: grid;
+            grid-template-columns: 0.95fr 1.05fr;
+            gap: 44px;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .empathy-visual-col {
+            position: relative;
+            background: linear-gradient(145deg, #1e40af 0%, #1d4ed8 55%, #0284c7 100%);
+            border-radius: 22px;
+            padding: 34px 30px;
+            color: #ffffff;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+        }
+
+        .empathy-visual-col::before {
+            content: '';
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            top: -70px;
+            right: -60px;
+        }
+
+        .empathy-illustration-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 22px;
+            animation: floatGentle 4.5s ease-in-out infinite;
+        }
+
+        .empathy-quote-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 11.5px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .empathy-visual-title {
+            font-size: 22px;
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 10px;
+        }
+
+        .empathy-visual-desc {
+            font-size: 14px;
+            color: rgba(241, 245, 249, 0.92);
+            line-height: 1.65;
+        }
+
+        .empathy-text-col {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .empathy-heading {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+            line-height: 1.25;
+        }
+
+        .empathy-lead {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .empathy-points {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-top: 4px;
+        }
+
+        .empathy-point-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 16px 18px;
+            display: flex;
+            align-items: flex-start;
+            gap: 13px;
+            transition: all 0.22s ease;
+        }
+
+        .empathy-point-card:hover {
+            border-color: #93c5fd;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .empathy-point-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: var(--primary-soft);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .empathy-point-card h4 {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 3px;
+        }
+
+        .empathy-point-card p {
+            font-size: 12.8px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* =========================================================
+           6. BAGIAN LAYANAN BK (4 KARTU DALAM GRID)
+           ========================================================= */
         .layanan-section {
-            margin-bottom: 56px;
+            margin-bottom: 68px;
         }
 
         .layanan-grid {
@@ -545,814 +789,600 @@
         }
 
         .layanan-card {
-            background: var(--white);
+            background: var(--surface);
             border: 1px solid var(--border-color);
-            border-radius: 18px;
+            border-radius: 20px;
             padding: 28px 24px;
             box-shadow: var(--shadow-sm);
+            transition: all 0.25s ease;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: all 0.25s ease;
             position: relative;
             overflow: hidden;
         }
 
-        .layanan-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: transparent;
-            transition: background 0.2s ease;
-        }
-
         .layanan-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(23, 60, 145, 0.3);
+            transform: translateY(-6px);
             box-shadow: var(--shadow-md);
-        }
-
-        .layanan-card:hover::before {
-            background: var(--primary);
+            border-color: #93c5fd;
         }
 
         .layanan-icon-wrap {
-            width: 52px;
-            height: 52px;
-            border-radius: 14px;
-            background: var(--primary-light);
-            color: var(--primary);
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         .layanan-card-title {
             font-size: 18px;
-            font-weight: 700;
-            color: var(--primary-dark);
+            font-weight: 800;
+            color: var(--text-main);
             margin-bottom: 10px;
         }
 
         .layanan-card-desc {
-            font-size: 13.5px;
+            font-size: 13.8px;
             color: var(--text-muted);
-            line-height: 1.6;
+            line-height: 1.65;
             margin-bottom: 22px;
-            flex-grow: 1;
         }
 
         .layanan-btn-cta {
-            background: var(--primary-soft);
-            color: var(--primary);
-            border: 1px solid rgba(23, 60, 145, 0.15);
-            padding: 9px 16px;
-            border-radius: 10px;
-            font-size: 13px;
+            font-size: 13.5px;
             font-weight: 700;
-            text-align: center;
-            text-decoration: none;
+            color: var(--primary);
+            background: var(--primary-soft);
+            padding: 11px 16px;
+            border-radius: 11px;
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            gap: 6px;
-            transition: all 0.15s ease;
+            justify-content: space-between;
+            width: 100%;
+            border: 1px solid transparent;
             cursor: pointer;
+            transition: all 0.2s ease;
         }
 
         .layanan-btn-cta:hover {
             background: var(--primary);
             color: #ffffff;
-            border-color: var(--primary);
         }
 
-        /* -------------------------------------------------------------
-           6. SECTION ALUR PENGAJUAN (5 LANGKAH VISUAL MUDAH DIPAHAMI)
-           ------------------------------------------------------------- */
+        /* =========================================================
+           7. BAGIAN CARA MENGAJUKAN BIMBINGAN (4 LANGKAH SEDERHANA)
+           ========================================================= */
         .alur-section {
-            background: var(--white);
+            background: var(--surface);
             border: 1px solid var(--border-color);
-            border-radius: 22px;
-            padding: 44px 36px;
+            border-radius: 26px;
+            padding: 46px 38px;
+            margin-bottom: 64px;
             box-shadow: var(--shadow-sm);
-            margin-bottom: 56px;
         }
 
         .alur-steps-grid {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 18px;
-            margin-top: 32px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 22px;
+            margin-top: 28px;
             position: relative;
         }
 
         .step-card {
-            background: var(--primary-soft);
-            border: 1px solid rgba(23, 60, 145, 0.08);
-            border-radius: 16px;
-            padding: 24px 18px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
+            padding: 26px 20px 22px;
             text-align: center;
             position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            transition: all 0.2s ease;
+            transition: all 0.22s ease;
         }
 
         .step-card:hover {
-            transform: translateY(-3px);
             background: #ffffff;
-            border-color: var(--primary);
+            border-color: #93c5fd;
+            transform: translateY(-4px);
             box-shadow: var(--shadow-sm);
         }
 
         .step-number-pill {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
+            width: 34px;
+            height: 34px;
+            border-radius: 999px;
             background: var(--primary);
             color: #ffffff;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 800;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 14px;
-            box-shadow: 0 4px 10px rgba(23, 60, 145, 0.25);
+            box-shadow: 0 4px 12px rgba(26, 86, 219, 0.25);
         }
 
         .step-icon-wrap {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
             background: #ffffff;
+            border: 1px solid var(--primary-light);
             color: var(--primary);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 12px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+            margin: 0 auto 14px;
         }
 
         .step-title {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--primary-dark);
-            margin-bottom: 6px;
-            line-height: 1.35;
+            font-size: 15.5px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 8px;
         }
 
         .step-desc {
-            font-size: 12px;
-            color: var(--text-muted);
-            line-height: 1.5;
-        }
-
-        /* -------------------------------------------------------------
-           7. AJAKAN / CALL TO ACTION BANNER
-           ------------------------------------------------------------- */
-        .ajakan-banner {
-            background: linear-gradient(135deg, #102d70 0%, #173c91 60%, #2563eb 100%);
-            border-radius: 22px;
-            padding: 44px 38px;
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 28px;
-            box-shadow: var(--shadow-md);
-            margin-bottom: 56px;
-            flex-wrap: wrap;
-        }
-
-        .ajakan-text h3 {
-            font-size: 24px;
-            font-weight: 800;
-            letter-spacing: -0.3px;
-            margin-bottom: 8px;
-        }
-
-        .ajakan-text p {
-            font-size: 14.5px;
-            color: #dbeafe;
-            max-width: 620px;
-            line-height: 1.6;
-        }
-
-        .btn-ajakan-action {
-            background: #ffffff;
-            color: var(--primary-dark);
-            font-size: 14.5px;
-            font-weight: 700;
-            padding: 13px 26px;
-            border-radius: 12px;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
-            transition: all 0.2s ease;
-            white-space: nowrap;
-        }
-
-        .btn-ajakan-action:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
-            color: var(--primary);
-        }
-
-        /* -------------------------------------------------------------
-           8. SECTION FORMULIR / STATUS / VERIFIKASI NIS
-           ------------------------------------------------------------- */
-        .verification-anchor-card {
-            background: var(--white);
-            border-radius: 22px;
-            border: 2px solid rgba(23, 60, 145, 0.15);
-            box-shadow: var(--shadow-md);
-            padding: 44px 36px;
-            max-width: 600px;
-            margin: 0 auto 56px;
-            text-align: center;
-            position: relative;
-        }
-
-        .verification-icon-wrap {
-            width: 68px;
-            height: 68px;
-            border-radius: 20px;
-            background: var(--primary-light);
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            box-shadow: 0 6px 16px rgba(23, 60, 145, 0.1);
-        }
-
-        .verification-title {
-            font-size: 22px;
-            font-weight: 800;
-            color: var(--primary-dark);
-            margin-bottom: 10px;
-        }
-
-        .verification-subtitle {
-            font-size: 14px;
-            color: var(--text-muted);
-            margin-bottom: 28px;
-            line-height: 1.6;
-        }
-
-        .form-group-nis {
-            text-align: left;
-            margin-bottom: 22px;
-        }
-
-        .form-group-nis label {
-            display: block;
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--text-main);
-            margin-bottom: 8px;
-        }
-
-        .nis-input-field {
-            width: 100%;
-            padding: 14px 18px;
-            font-size: 15px;
-            font-family: inherit;
-            border: 1.5px solid var(--border-color);
-            border-radius: 12px;
-            background: #ffffff;
-            transition: all 0.2s ease;
-        }
-
-        .nis-input-field:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(23, 60, 145, 0.12);
-        }
-
-        .btn-submit-nis {
-            width: 100%;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: #ffffff;
-            border: none;
-            padding: 14px 24px;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 6px 16px rgba(23, 60, 145, 0.22);
-            transition: all 0.2s ease;
-        }
-
-        .btn-submit-nis:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(23, 60, 145, 0.3);
-        }
-
-        .nis-helper-info {
-            margin-top: 24px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border-color);
-            font-size: 12.5px;
-            color: var(--text-muted);
-            line-height: 1.5;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        /* Mode Siswa Terverifikasi */
-        .student-profile-bar {
-            background: var(--white);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 24px 30px;
-            box-shadow: var(--shadow-sm);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-            margin-bottom: 32px;
-            flex-wrap: wrap;
-        }
-
-        .student-profile-left {
-            display: flex;
-            align-items: center;
-            gap: 18px;
-        }
-
-        .student-avatar-badge {
-            width: 58px;
-            height: 58px;
-            border-radius: 16px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: #ffffff;
-            font-size: 22px;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 12px rgba(23, 60, 145, 0.2);
-        }
-
-        .student-details h2 {
-            font-size: 20px;
-            font-weight: 800;
-            color: var(--text-main);
-            letter-spacing: -0.3px;
-            margin-bottom: 4px;
-        }
-
-        .student-meta-pills {
-            display: flex;
-            align-items: center;
-            gap: 12px;
             font-size: 13px;
             color: var(--text-muted);
-            flex-wrap: wrap;
+            line-height: 1.58;
         }
 
-        .student-meta-pills strong {
-            color: var(--text-main);
-        }
-
-        .wali-kelas-badge {
-            background: var(--primary-light);
-            border: 1px solid rgba(23, 60, 145, 0.15);
-            padding: 10px 18px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 13px;
-            color: var(--primary-dark);
-        }
-
-        .portal-workspace-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 28px;
-            margin-bottom: 56px;
-        }
-
-        .workspace-card {
-            background: var(--white);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 28px;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .workspace-card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding-bottom: 18px;
-            margin-bottom: 22px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .workspace-card-header h3 {
-            font-size: 17px;
-            font-weight: 800;
-            color: var(--primary-dark);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .slot-checker-box {
-            background: var(--primary-soft);
-            border: 1px solid rgba(23, 60, 145, 0.12);
-            border-radius: 14px;
-            padding: 16px;
-            margin-bottom: 22px;
-        }
-
-        .slot-checker-form {
-            display: flex;
-            gap: 10px;
-            align-items: flex-end;
-        }
-
-        .busy-slot-item {
-            background: #ffffff;
-            border: 1px solid #fed7aa;
-            border-left: 4px solid var(--orange);
-            padding: 8px 12px;
-            border-radius: 8px;
-            margin-top: 8px;
-            font-size: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .form-row-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-        }
-
-        .input-group-item {
-            margin-bottom: 18px;
-        }
-
-        .input-group-item label {
-            display: block;
-            font-size: 12.5px;
-            font-weight: 700;
-            color: var(--text-main);
-            margin-bottom: 6px;
-        }
-
-        .input-group-item label span {
-            color: var(--red);
-        }
-
-        .form-field {
-            width: 100%;
-            padding: 11px 14px;
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            font-size: 13.5px;
-            font-family: inherit;
-            background: #ffffff;
-            transition: all 0.2s ease;
-        }
-
-        .form-field:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(23, 60, 145, 0.1);
-        }
-
-        .btn-submit-ajukan {
-            width: 100%;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: #ffffff;
-            border: none;
-            padding: 13px;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 14px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 4px 14px rgba(23, 60, 145, 0.2);
-            transition: all 0.2s ease;
-        }
-
-        .btn-submit-ajukan:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 18px rgba(23, 60, 145, 0.28);
-        }
-
-        /* Status Timeline Cards */
-        .status-timeline-card {
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: 14px;
-            padding: 18px;
-            margin-bottom: 14px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
-            transition: all 0.2s ease;
-        }
-
-        .status-timeline-card:hover {
-            border-color: rgba(23, 60, 145, 0.25);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .status-top-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .status-date {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--primary-dark);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .status-badge {
-            font-size: 11.5px;
-            font-weight: 700;
-            padding: 3px 10px;
-            border-radius: 999px;
-            text-transform: capitalize;
-        }
-
-        .status-Diajukan { background: var(--orange-bg); color: var(--orange); border: 1px solid #fde68a; }
-        .status-Disetujui_Wali { background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; }
-        .status-Terjadwal { background: var(--green-bg); color: var(--green); border: 1px solid #bbf7d0; }
-        .status-Selesai { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; }
-        .status-Ditolak_Wali, .status-Dibatalkan { background: var(--red-bg); color: var(--red); border: 1px solid #fecaca; }
-
-        .status-time {
-            font-size: 12.5px;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .status-service {
-            font-size: 13.5px;
-            color: var(--text-main);
-            margin-bottom: 10px;
-        }
-
-        .status-note-bubble {
-            background: #f8fafc;
-            border-left: 3px solid var(--primary);
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 12.5px;
-            color: var(--text-muted);
-            margin-bottom: 10px;
-            font-style: italic;
-        }
-
-        .wali-feedback-bubble {
-            background: #f0fdf4;
-            border: 1px solid #bbf7d0;
-            border-radius: 10px;
-            padding: 10px 14px;
-            font-size: 12.5px;
-            color: #14532d;
-            margin-top: 8px;
-        }
-
-        .wali-feedback-bubble.rejected {
-            background: #fef2f2;
-            border-color: #fecaca;
-            color: #991b1b;
-        }
-
-        /* -------------------------------------------------------------
-           9. SECTION TENTANG
-           ------------------------------------------------------------- */
-        .tentang-card {
-            background: var(--white);
-            border: 1px solid var(--border-color);
-            border-radius: 22px;
-            padding: 40px 36px;
-            box-shadow: var(--shadow-sm);
-            margin-bottom: 40px;
-        }
-
-        .tentang-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            margin-top: 24px;
-        }
-
-        .tentang-item {
-            background: var(--primary-soft);
-            border: 1px solid rgba(23, 60, 145, 0.08);
-            border-radius: 16px;
-            padding: 24px 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .tentang-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            background: #ffffff;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .tentang-item h4 {
-            font-size: 15px;
-            font-weight: 700;
-            color: var(--primary-dark);
-        }
-
-        .tentang-item p {
-            font-size: 13px;
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-
-        /* -------------------------------------------------------------
-           10. FOOTER
-           ------------------------------------------------------------- */
+        /* =========================================================
+           8. PROFESSIONAL 4-COLUMN FOOTER
+           ========================================================= */
         .portal-footer {
-            background: #0d1e4a;
-            color: #ffffff;
-            padding: 48px 24px 28px;
-            margin-top: auto;
+            position:relative;
+            background: #0b132b;
+            color: #cbd5e1;
+            padding: 34px 24px 20px;
+            border-top: 4px solid var(--primary);
         }
 
-        .footer-inner {
+        .footer-grid {
             max-width: 1240px;
             margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 24px;
-            flex-wrap: wrap;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            display: grid;
+            grid-template-columns: 1.25fr 1.2fr 0.95fr;
+            gap: 36px;
             padding-bottom: 24px;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.16);
         }
 
-        .footer-brand {
+        .footer-col-title {
+            color: #ffffff;
+            font-size: 14.5px;
+            font-weight: 800;
+            letter-spacing: 0.2px;
+            margin-bottom: 16px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
         }
 
-        .footer-brand h4 {
+        .footer-brand-row {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            margin-bottom: 14px;
+        }
+
+        .footer-logo-box {
+            width: 62px;
+            height: 62px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .footer-logo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transform: scale(3) translateY(12%);
+            transform-origin: center;
+        }
+
+        .footer-brand-title {
+            color: #ffffff;
             font-size: 17px;
             font-weight: 800;
-            letter-spacing: -0.2px;
+            line-height: 1.2;
         }
 
-        .footer-brand p {
-            font-size: 12px;
+        .footer-brand-sub {
+            color: #93c5fd;
+            font-size: 12.5px;
+            font-weight: 700;
+            margin-top: 2px;
+        }
+
+        .footer-desc {
+            font-size: 13.2px;
             color: #94a3b8;
+            line-height: 1.65;
+            margin-bottom: 14px;
         }
 
-        .footer-links {
-            display: flex;
+        .footer-npsn-badge {
+            display: inline-flex;
             align-items: center;
-            gap: 18px;
+            gap: 6px;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: #bfdbfe;
+            background: rgba(26, 86, 219, 0.25);
+            border: 1px solid rgba(147, 197, 253, 0.3);
+            padding: 4px 11px;
+            border-radius: 8px;
+        }
+
+        .footer-nav-list,
+        .footer-info-list {
             list-style: none;
-            flex-wrap: wrap;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        .footer-links a {
-            color: #cbd5e1;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 500;
-            transition: color 0.15s ease;
+        .footer-nav-list a {
+            font-size: 13.5px;
+            color: #94a3b8;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
         }
 
-        .footer-links a:hover {
+        .footer-nav-list a:hover {
             color: #ffffff;
+            transform: translateX(3px);
+        }
+
+        .footer-info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 13px;
+            color: #94a3b8;
+            line-height: 1.55;
+        }
+
+        .footer-info-item a {
+            color: #bfdbfe;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .footer-info-item a:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+
+        .footer-map-btn {
+            margin-top: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: #ffffff !important;
+            font-size: 12.5px;
+            font-weight: 700;
+            padding: 8px 13px;
+            border-radius: 9px;
+            text-decoration: none !important;
+            transition: all 0.2s ease;
+        }
+
+        .footer-map-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .footer-social-list {
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            gap: 18px;
+            text-align: left;
+        }
+
+        .footer-social-column { display:flex; flex-direction:column; align-items:flex-start; text-align:left; }
+
+        .footer-social-card {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+            color: #ffffff;
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        .footer-social-card:hover {
+            color: #bfdbfe;
+            transform: translateY(-2px);
+        }
+
+        .footer-social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .footer-bottom {
             max-width: 1240px;
-            margin: 20px auto 0;
-            font-size: 12px;
+            margin: 24px auto 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 12.5px;
             color: #64748b;
-            text-align: center;
         }
 
-        /* -------------------------------------------------------------
-           RESPONSIVE STYLES
-           ------------------------------------------------------------- */
-        @media (max-width: 1024px) {
-            .hero-grid { grid-template-columns: 1fr; gap: 32px; }
-            .layanan-grid { grid-template-columns: repeat(2, 1fr); }
-            .alur-steps-grid { grid-template-columns: repeat(3, 1fr); }
-            .tentang-grid { grid-template-columns: 1fr; }
-            .portal-workspace-grid { grid-template-columns: 1fr; }
+        .whatsapp-float {
+            position:absolute;
+            right:24px;
+            bottom:72px;
+            z-index:50;
+            display:flex;
+            width:52px;
+            height:52px;
+            align-items:center;
+            justify-content:center;
+            border:3px solid rgba(255,255,255,.92);
+            border-radius:50%;
+            background:#25D366;
+            color:#fff;
+            box-shadow:0 10px 28px rgba(0,0,0,.28);
+            transition:transform .2s ease, box-shadow .2s ease;
+            animation:whatsappFloatIn .55s ease-out;
+        }
+        .whatsapp-float:hover { transform:scale(1.05); box-shadow:0 14px 34px rgba(0,0,0,.34); }
+        .whatsapp-float svg { width:28px; height:28px; fill:currentColor; }
+        .whatsapp-float-tooltip {
+            position:absolute;
+            right:calc(100% + 12px);
+            padding:8px 11px;
+            border-radius:9px;
+            background:#0f172a;
+            color:#fff;
+            font-size:12px;
+            font-weight:700;
+            white-space:nowrap;
+            opacity:0;
+            transform:translateX(5px);
+            pointer-events:none;
+            transition:opacity .18s ease, transform .18s ease;
+        }
+        .whatsapp-float:hover .whatsapp-float-tooltip,
+        .whatsapp-float:focus-visible .whatsapp-float-tooltip { opacity:1; transform:translateX(0); }
+        @keyframes whatsappFloatIn { from { opacity:0; transform:translateY(10px) scale(.94); } to { opacity:1; transform:translateY(0) scale(1); } }
+        @media (max-width:600px) { .whatsapp-float { right:18px; bottom:72px; width:48px; height:48px; border-width:2px; } .whatsapp-float svg { width:26px; height:26px; } }
+        @media (prefers-reduced-motion: reduce) { .whatsapp-float { animation:none; transition:none; } .whatsapp-float-tooltip { transition:none; } }
+
+        /* Penyegaran visual Beranda Portal Siswa */
+        .portal-navbar { background: rgba(255,255,255,.82); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+        .brand-logo-wrap { border-radius: 18px; box-shadow: 0 8px 22px rgba(26,86,219,.10); }
+        .nav-link { border-radius: 999px; }
+        .hero-section { min-height: 590px; background-image: linear-gradient(112deg, rgba(7,28,72,.91) 0%, rgba(18,73,155,.78) 52%, rgba(9,37,89,.55) 100%), url("https://bogor24jam.com/uploads/posts/mig_697e50aa0c831_116970d3dae3da7..jpg"); background-position: center; }
+        .hero-section::after { content:''; position:absolute; inset:0; pointer-events:none; background: radial-gradient(ellipse at 78% 25%, rgba(96,165,250,.23), transparent 38%); }
+        .hero-badge, .hero-trust-pill { background:rgba(255,255,255,.13); border:1px solid rgba(255,255,255,.24); backdrop-filter:blur(10px); border-radius:999px; padding:8px 13px; }
+        .hero-title { max-width:720px; font-size:clamp(34px,4.2vw,54px); letter-spacing:-1.2px; }
+        .btn-hero-primary { color:#fff; background:linear-gradient(135deg,#38bdf8,#2563eb 65%,#4f46e5); box-shadow:0 12px 30px rgba(37,99,235,.35),0 0 24px rgba(96,165,250,.18); }
+        .btn-hero-primary:hover { color:#fff; background:linear-gradient(135deg,#0ea5e9,#1d4ed8 65%,#4338ca); }
+        .btn-hero-primary, .btn-hero-secondary { transition:transform .2s ease, box-shadow .2s ease, background .2s ease; }
+        .btn-hero-primary:hover, .btn-hero-secondary:hover { transform:translateY(-3px); }
+        .hero-search-bar { background:rgba(255,255,255,.94); border-color:#fff; border-radius:22px; box-shadow:0 22px 48px -14px rgba(10,39,94,.32); }
+        .main-content { padding-top:94px; }
+        .daily-row { display:grid; grid-template-columns:1.1fr .9fr; gap:20px; margin-bottom:62px; }
+        .daily-card { background:#fff; border:1px solid #e5edfb; border-radius:22px; padding:24px; box-shadow:var(--shadow-sm); }
+        .daily-card h2 { font-size:19px; line-height:1.35; margin:0 0 7px; }
+        .daily-card p { color:var(--text-muted); font-size:13.5px; margin:0; }
+        .mood-options { display:flex; flex-wrap:wrap; gap:9px; margin:17px 0 12px; }
+        .mood-option { border:1px solid #e2e8f0; background:#f8fafc; border-radius:14px; padding:9px 13px; cursor:pointer;  font-size:13px; font-weight:600; transition:.2s ease; }
+        .mood-option:hover,.mood-option[aria-pressed="true"] { background:#eff6ff; border-color:#93c5fd; transform:translateY(-2px); box-shadow:0 6px 14px rgba(37,99,235,.1); }
+        .mood-option span { display:block; font-size:22px; margin-bottom:2px; }
+        .mood-response { min-height:22px; color:#1d4ed8!important; font-weight:700; }
+        .daily-tip { background:linear-gradient(135deg,#fff7ed,#fffbeb 65%,#fef3c7); border-color:#fde7bd; position:relative; overflow:hidden; }
+        .daily-tip::after { content:'✦'; position:absolute; right:22px; top:10px; color:#f59e0b; font-size:44px; opacity:.22; }
+        .daily-tip .tip-label { display:inline-flex; color:#b45309; background:#fff; padding:5px 10px; border-radius:999px; font-size:11px; font-weight:800; margin-bottom:12px; }
+        .daily-tip blockquote { margin:0 0 10px; max-width:430px; font-size:17px; font-weight:800; line-height:1.5; color:#713f12; }
+        .layanan-card { border-top:3px solid #c7d2fe; }
+        .layanan-card:nth-child(2) { border-top-color:#6ee7b7; }
+        .layanan-card:nth-child(3) { border-top-color:#7dd3fc; }
+        .layanan-card:nth-child(4) { border-top-color:#fdba74; }
+        .layanan-card:hover { transform:translateY(-6px) scale(1.015); }
+        .layanan-btn-cta:hover svg { transform:translateX(4px); }
+        .layanan-btn-cta svg { transition:transform .2s ease; }
+        .alur-steps-grid::before { content:''; position:absolute; left:11%; right:11%; top:43px; border-top:2px dashed #bfdbfe; }
+        .step-card { z-index:1; }
+        .step-number-pill { width:38px; height:38px; outline:5px solid #fff; }
+        .portal-footer { background:linear-gradient(145deg,#0b1736,#101f43); border-top-width:3px; }
+        .footer-bottom { color:#94a3b8; }
+        @media (max-width:768px) {
+            .hero-section { min-height:510px; }
+            .hero-inner { padding:48px 18px 62px; }
+            .daily-row { grid-template-columns:1fr; margin-bottom:46px; }
+            .main-content { padding-top:132px; }
+            .hero-search-boundary-container { padding:0 16px; }
+            .alur-steps-grid::before { display:none; }
+            .hero-trust-pills { gap:8px; }
+        }
+        @media (max-width:480px) {
+            .btn-login-petugas { width:38px; height:38px; }
+            .hero-title { font-size:30px; }
+            .hero-btn-group { align-items:stretch; }
+            .hero-btn-group .btn-hero-primary,.hero-btn-group .btn-hero-secondary { width:100%; justify-content:center; }
+            .daily-card { padding:20px; }
+        }
+
+        /* =========================================================
+           10. RESPONSIVE MEDIA QUERIES
+           ========================================================= */
+        @media (max-width: 1080px) {
+            .empathy-section {
+                grid-template-columns: 1fr;
+                padding: 32px 28px;
+            }
+
+            .layanan-grid,
+            .alur-steps-grid,
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         @media (max-width: 768px) {
+            .navbar-container {
+                height: 68px;
+                padding: 0 16px;
+            }
+
+            .nav-toggle-btn {
+                display: inline-flex;
+            }
+
             .nav-menu-links {
                 display: none;
                 position: absolute;
-                top: 74px;
+                top: 68px;
                 left: 0;
                 right: 0;
                 background: #ffffff;
-                border-bottom: 1px solid var(--border-color);
-                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
                 flex-direction: column;
-                padding: 16px 24px;
-                gap: 8px;
+                padding: 16px;
+                border-bottom: 1px solid var(--border-color);
+                box-shadow: var(--shadow-md);
+                align-items: stretch;
             }
 
             .nav-menu-links.show {
                 display: flex;
             }
 
-            .nav-toggle-btn {
-                display: block;
+            .hero-section {
+                min-height: 460px;
             }
 
-            .hero-section {
-                padding: 32px 20px;
+            .hero-inner {
+                padding: 56px 18px 64px;
             }
 
             .hero-title {
-                font-size: 28px;
+                font-size: 30px;
             }
 
-            .layanan-grid {
+            .hero-desc {
+                font-size: 15px;
+            }
+
+            .empathy-points,
+            .layanan-grid,
+            .alur-steps-grid,
+            .footer-grid {
                 grid-template-columns: 1fr;
             }
 
-            .alur-steps-grid {
-                grid-template-columns: 1fr;
+            .main-content {
+                padding: 115px 16px 64px;
             }
 
-            .student-profile-bar {
-                flex-direction: column;
-                align-items: flex-start;
+            .hero-search-bar {
+                padding: 14px 16px;
+                border-radius: 16px;
             }
 
-            .ajakan-banner {
+            .hero-search-form {
                 flex-direction: column;
-                align-items: flex-start;
-                padding: 32px 24px;
+                align-items: stretch;
+                gap: 12px;
             }
 
-            .footer-inner {
+            .hero-search-inputs-group {
                 flex-direction: column;
-                align-items: flex-start;
+                min-width: 100%;
+                gap: 10px;
+            }
+
+            .hero-search-input-wrap {
+                max-width: 100%;
+                width: 100%;
+            }
+
+            .hero-search-btn {
+                width: 100%;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .brand-logo-wrap {
+                width: 46px;
+                height: 46px;
+            }
+
+            .brand-text-name {
+                font-size: 16px;
+            }
+
+            .brand-text-sub {
+                font-size: 10.5px;
+            }
+
+            .hero-title {
+                font-size: 25px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn-hero-primary,
+            .btn-hero-outline {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .empathy-section,
+            .layanan-card,
+            .alur-step-card {
+                padding: 20px 16px;
             }
         }
     </style>
+    @include('layouts.page_title_system')
+    @include('partials.portal_theme')
 </head>
 
-<body>
+<body class="sirasi-portal">
 
     {{-- -------------------------------------------------------------
-         1. TOP HORIZONTAL NAVBAR (KHUSUS PORTAL SISWA - TANPA SIDEBAR)
+         1. HORIZONTAL NAVBAR
          ------------------------------------------------------------- --}}
     <header class="portal-navbar">
-        <div class="nav-container">
-            {{-- Brand Logo & Name --}}
+        <div class="navbar-container">
             <a href="{{ route('portal.siswa.index') }}" class="nav-brand">
-                <div class="brand-logo-wrap">
-                    <img src="{{ asset('images/logo-smpn2-dramaga.png') }}?v=2" alt="Logo SMP Negeri 2 Dramaga">
+                <div class="brand-logo-wrap p-0 overflow-hidden flex items-center justify-center">
+                    <img src="{{ asset('images/logo-smpn2-dramaga.png') }}?v=2" alt="Logo SMP Negeri 2 Dramaga" style="width: 100%; height: 100%; object-fit: contain; transform: scale(3) translateY(12%); transform-origin: center;">
                 </div>
                 <div>
                     <div class="brand-text-name">
@@ -1363,29 +1393,34 @@
                 </div>
             </a>
 
-            {{-- Horizontal Navigation Links --}}
             <nav>
                 <ul class="nav-menu-links" id="portalNavMenu">
                     <li>
-                        <a href="#beranda" class="nav-link active">
+                        <a href="{{ route('portal.siswa.index') }}" class="nav-link active">
                             <i data-lucide="home" style="width: 15px; height: 15px;"></i>
                             Beranda
                         </a>
                     </li>
                     <li>
-                        <a href="#ajukan-bimbingan" class="nav-link" onclick="handleLayananClick('ajukan')">
+                        <a href="{{ route('portal.siswa.create') }}" class="nav-link">
+                            <i data-lucide="user-check" style="width: 15px; height: 15px;"></i>
+                            Izin Wali Kelas
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('portal.siswa.jadwal') }}" class="nav-link">
                             <i data-lucide="calendar-plus" style="width: 15px; height: 15px;"></i>
-                            Ajukan Bimbingan
+                            Jadwal Konseling
                         </a>
                     </li>
                     <li>
-                        <a href="#status-pengajuan" class="nav-link" onclick="handleLayananClick('status')">
+                        <a href="{{ route('portal.siswa.status') }}" class="nav-link">
                             <i data-lucide="clipboard-list" style="width: 15px; height: 15px;"></i>
-                            Cek Status Pengajuan
+                            Cek Status
                         </a>
                     </li>
                     <li>
-                        <a href="#tentang" class="nav-link">
+                        <a href="{{ route('portal.siswa.tentang') }}" class="nav-link">
                             <i data-lucide="info" style="width: 15px; height: 15px;"></i>
                             Tentang
                         </a>
@@ -1393,31 +1428,11 @@
                 </ul>
             </nav>
 
-            {{-- Right Actions --}}
             <div class="nav-actions">
-                @if ($siswa)
-                    {{-- Sesi Siswa Aktif Terverifikasi --}}
-                    <span class="student-chip" title="Siswa Terverifikasi: {{ $siswa->nama_siswa }}">
-                        <i data-lucide="user-check" style="width: 15px; height: 15px; color: var(--primary);"></i>
-                        <span>{{ Str::limit($siswa->nama_siswa, 15) }} ({{ $siswa->nis }})</span>
-                    </span>
-
-                    <form action="{{ route('portal.siswa.logout') }}" method="POST" style="display: inline;">
-                        @csrf
-                        <button type="submit" class="btn-nav-logout" title="Keluar dari sesi portal siswa">
-                            <i data-lucide="log-out" style="width: 14px; height: 14px;"></i>
-                            Keluar
-                        </button>
-                    </form>
-                @endif
-
-                {{-- Tautan Login Petugas (Admin, Guru BK, Wali Kelas) --}}
-                <a href="{{ route('login') }}" class="btn-login-petugas" title="Halaman Masuk Khusus Petugas / Guru / Staf">
-                    <i data-lucide="shield" style="width: 15px; height: 15px;"></i>
-                    Login Petugas
+                <a href="{{ route('login') }}" class="btn-login-petugas" title="Login Pengguna — Guru BK, Admin, dan Wali Kelas" aria-label="Login Pengguna">
+                    <i data-lucide="circle-user-round" aria-hidden="true" style="width: 28px; height: 28px;"></i>
                 </a>
 
-                {{-- Mobile Hamburger Button --}}
                 <button type="button" class="nav-toggle-btn" id="mobileNavToggle" aria-label="Toggle menu">
                     <i data-lucide="menu" style="width: 20px; height: 20px;"></i>
                 </button>
@@ -1426,123 +1441,238 @@
     </header>
 
     {{-- -------------------------------------------------------------
-         2. MAIN CONTENT
+         2. A. HERO SECTION (FULL-WIDTH SCHOOL HERO BANNER)
+         ------------------------------------------------------------- --}}
+    <section class="hero-section">
+        <div class="hero-inner">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i data-lucide="heart-handshake" style="width: 16px; height: 16px;"></i>
+                    <span>Layanan Bimbingan dan Konseling SMP Negeri 2 Dramaga</span>
+                </div>
+
+                <h1 class="hero-title">
+                    Tidak Harus Menghadapi Semuanya Sendiri
+                </h1>
+
+                <p class="hero-desc">
+                    Setiap siswa punya cerita dan tantangan masing-masing. Jika kamu sedang menghadapi masalah pribadi, pertemanan, atau kesulitan belajar, Guru BK siap mendengarkan dan membantumu menemukan solusi.
+                </p>
+
+                <div class="hero-btn-group">
+                    <a href="{{ route('portal.siswa.create') }}" class="btn-hero-primary">
+                        <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z"/><path d="M12 16s-4-2.5-4-5a2.2 2.2 0 0 1 4-1.2A2.2 2.2 0 0 1 16 11c0 2.5-4 5-4 5z"/></svg>
+                        <span>Mulai Bercerita</span>
+                    </a>
+
+                    <a href="{{ route('portal.siswa.status') }}" class="btn-hero-secondary">
+                        <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="3" width="12" height="18" rx="2"/><path d="M16 3.5v2h-4v-2"/><path d="m11 14 2 2 4-4"/></svg>
+                        <span>Cek Status</span>
+                    </a>
+                </div>
+
+                <div class="hero-trust-pills">
+                    <span class="hero-trust-pill">
+                        <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6ee7b7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="m16 11 2 2 4-4"/></svg>
+                        Tanpa Perlu Buat Akun
+                    </span>
+                    <span class="hero-trust-pill">
+                        <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#93c5fd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z"/><rect x="9" y="10" width="6" height="5" rx="1"/><path d="M10 10V8a2 2 0 1 1 4 0v2"/></svg>
+                        Ceritamu Dijaga Rahasia
+                    </span>
+                    <span class="hero-trust-pill">
+                        <i data-lucide="smile-plus" style="width: 15px; height: 15px; color: #fde68a;"></i>
+                        Ruang Aman &amp; Ramah Siswa
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{-- -------------------------------------------------------------
+         SEARCH BAR CEK SLOT KONSELING (TRANSPARAN DI PERBATASAN HERO)
+         ------------------------------------------------------------- --}}
+    <div class="hero-search-boundary-wrap">
+        <div class="hero-search-boundary-container">
+            <div class="hero-search-bar" id="search-slot">
+                <form method="GET" action="{{ route('portal.siswa.index') }}#search-slot" class="hero-search-form">
+                    <div class="hero-search-label">
+                        <div class="hero-search-icon">
+                            <i data-lucide="calendar-search" style="width: 20px; height: 20px;"></i>
+                        </div>
+                        <div class="hero-search-text">
+                            <span class="hero-search-title">Cek Slot Ketersediaan Konseling Guru BK</span>
+                            <span class="hero-search-sub">Pilih tanggal untuk cek slot ketersediaan (dd/mm/yyyy)</span>
+                        </div>
+                    </div>
+                    <div class="hero-search-inputs-group">
+                        <div class="hero-search-input-wrap">
+                            <input
+                                type="date"
+                                id="tanggalCekInput"
+                                name="tanggal_cek"
+                                class="hero-search-input"
+                                min="{{ date('Y-m-d') }}"
+                                value="{{ request()->filled('tanggal_cek') ? $selectedDate : '' }}"
+                                required
+                            >
+                        </div>
+                        <button type="submit" class="hero-search-btn">
+                            <i data-lucide="search" style="width: 15px; height: 15px;"></i>
+                            <span>Cek Slot Konseling</span>
+                        </button>
+                    </div>
+                </form>
+
+                {{-- Pesan Singkat Ketersediaan Slot (Hanya muncul jika siswa memilih tanggal dan menekan tombol Cek Slot Konseling) --}}
+                @if (request()->filled('tanggal_cek'))
+                    @php
+                        $totalSlotCek = isset($slotDibuka) ? $slotDibuka->count() : 0;
+                        $slotTersediaList = isset($slotDibuka) ? $slotDibuka->where('effective_status', 'Tersedia') : collect();
+                        $slotTersediaCek = $slotTersediaList->count();
+                        $slotDiajukanCek = isset($slotDibuka) ? $slotDibuka->whereIn('effective_status', ['Menunggu_Diproses', 'Dipesan'])->count() : 0;
+                        $slotTidakTersediaCek = isset($slotDibuka) ? $slotDibuka->where('effective_status', 'Tidak_Tersedia')->count() : 0;
+                        $formattedCekDate = \Carbon\Carbon::parse($selectedDate)->format('d/m/Y');
+                    @endphp
+
+                    <div class="hero-search-msg">
+                        @if ($totalSlotCek === 0)
+                            <p class="hero-search-msg-text text-warning">
+                                Slot konseling belum tersedia pada tanggal {{ $formattedCekDate }}. Silakan pilih tanggal lain.
+                            </p>
+                        @elseif ($slotTersediaCek === 0 && $slotDiajukanCek > 0)
+                            <p class="hero-search-msg-text text-orange">
+                                Slot konseling pada tanggal {{ $formattedCekDate }} sudah diajukan oleh siswa lain. Silakan pilih tanggal lain.
+                            </p>
+                        @elseif ($slotTersediaCek === 0 && $slotTidakTersediaCek > 0)
+                            <p class="hero-search-msg-text text-danger">
+                                Slot konseling pada tanggal {{ $formattedCekDate }} sedang tidak tersedia (berbenturan dengan jadwal dinas/mengajar Guru BK). Silakan pilih tanggal lain.
+                            </p>
+                        @else
+                            <p class="hero-search-msg-text text-success">
+                                Tersedia {{ $slotTersediaCek }} slot konseling pada tanggal {{ $formattedCekDate }}:
+                                @foreach ($slotTersediaList as $s)
+                                    <strong>Pukul {{ substr($s->waktu_mulai, 0, 5) }} - {{ substr($s->waktu_selesai, 0, 5) }} WIB</strong> (Slot Kosong (Tersedia))@if(!$loop->last), @endif
+                                @endforeach
+                                &mdash; Silakan lanjutkan ke <a href="{{ route('portal.siswa.create', ['tanggal' => $selectedDate, 'id_slot' => $slotTersediaList->first()->id_slot ?? null]) }}" class="hero-search-msg-link">Izin Wali Kelas &rarr;</a>
+                            </p>
+                        @endif
+                    </div>
+                @endif
+            </div>
+        </div>
+    </div>
+
+    {{-- -------------------------------------------------------------
+         3. MAIN CONTENT
          ------------------------------------------------------------- --}}
     <main class="main-content">
 
-        {{-- Flash Notification Alerts --}}
-        @if (session('success'))
-            <div class="alert-box alert-success">
-                <i data-lucide="check-circle" style="width: 20px; height: 20px; flex-shrink: 0;"></i>
-                <div>{{ session('success') }}</div>
+        <section class="daily-row" aria-label="Check-in dan inspirasi harian">
+            <div class="daily-card">
+                <h2>🌤️ Pojok Mood Hari Ini</h2>
+                <p>Pilih yang paling menggambarkan perasaanmu. Perasaanmu valid, apa pun itu.</p>
+                <div class="mood-options" role="group" aria-label="Pilih suasana hati">
+                    <button type="button" class="mood-option" data-message="Senang sekali! Semoga energi baikmu menular hari ini 😊" aria-pressed="false"><span>😄</span>Senang</button>
+                    <button type="button" class="mood-option" data-message="Terima kasih sudah jujur pada perasaanmu. Nikmati satu hal kecil yang membuatmu nyaman 🌿" aria-pressed="false"><span>🙂</span>Biasa saja</button>
+                    <button type="button" class="mood-option" data-message="Tidak apa-apa merasa sedih. Kamu boleh cerita pada orang dewasa yang kamu percaya 💙" aria-pressed="false"><span>😔</span>Sedih</button>
+                    <button type="button" class="mood-option" data-message="Tarik napas pelan-pelan, ya. Kamu tidak harus menyelesaikan semuanya sekaligus 🌬️" aria-pressed="false"><span>😟</span>Cemas</button>
+                </div>
+                <p class="mood-response" id="moodResponse" aria-live="polite">Check-in ini hanya untuk dirimu sendiri.</p>
             </div>
-        @endif
-
-        @if (session('error'))
-            <div class="alert-box alert-danger">
-                <i data-lucide="alert-circle" style="width: 20px; height: 20px; flex-shrink: 0;"></i>
-                <div>{{ session('error') }}</div>
-            </div>
-        @endif
-
-        @if (session('info'))
-            <div class="alert-box alert-info">
-                <i data-lucide="info" style="width: 20px; height: 20px; flex-shrink: 0;"></i>
-                <div>{{ session('info') }}</div>
-            </div>
-        @endif
+            <article class="daily-card daily-tip">
+                <span class="tip-label">TIPS KECIL HARI INI</span>
+                <blockquote>“Langkah kecil yang kamu mulai hari ini tetap membawamu maju.”</blockquote>
+                <p>Coba pecah tugas besar jadi bagian kecil, lalu beri jeda singkat setelah menyelesaikannya.</p>
+            </article>
+        </section>
 
         {{-- ---------------------------------------------------------
-             SECTION A: HERO SECTION (INSPIRASI LANDING PAGE PROFESIONAL)
+             B. BAGIAN AJAKAN UNTUK SISWA ("CERITA KAMU BERHARGA")
              --------------------------------------------------------- --}}
-        <section class="hero-section" id="beranda">
-            <div class="hero-grid">
-                <div class="hero-content">
-                    <div class="hero-badge">
-                        <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i>
-                        <span>Layanan Bimbingan & Konseling Terpadu SMP Negeri 2 Dramaga</span>
-                    </div>
-
-                    <h1 class="hero-title">
-                        Temukan Solusi dan Kembangkan Potensi Dirimu
-                    </h1>
-
-                    <p class="hero-desc">
-                        Layanan Bimbingan dan Konseling di SMP Negeri 2 Dramaga hadir sebagai ruang aman, nyaman, dan terpercaya bagi setiap siswa untuk berkonsultasi, menemukan solusi atas tantangan belajar maupun pribadi, serta merencanakan masa depan dengan percaya diri bersama Guru BK.
-                    </p>
-
-                    <div class="hero-btn-group">
-                        <a href="#ajukan-bimbingan" class="btn-hero-primary" onclick="handleLayananClick('ajukan')">
-                            <i data-lucide="calendar-plus" style="width: 18px; height: 18px;"></i>
-                            <span>Ajukan Bimbingan</span>
-                        </a>
-
-                        <a href="#status-pengajuan" class="btn-hero-secondary" onclick="handleLayananClick('status')">
-                            <i data-lucide="clipboard-list" style="width: 18px; height: 18px;"></i>
-                            <span>Cek Status Pengajuan</span>
-                        </a>
-                    </div>
-
-                    <div class="hero-highlights">
-                        <div class="highlight-item">
-                            <div class="highlight-icon">
-                                <i data-lucide="shield-check" style="width: 18px; height: 18px;"></i>
-                            </div>
-                            <div class="highlight-text">
-                                <strong>100% Rahasia</strong>
-                                <span>Privasi Dijamin Kode Etik</span>
-                            </div>
-                        </div>
-
-                        <div class="highlight-item">
-                            <div class="highlight-icon">
-                                <i data-lucide="user-check" style="width: 18px; height: 18px;"></i>
-                            </div>
-                            <div class="highlight-text">
-                                <strong>Izin Wali Kelas</strong>
-                                <span>Koordinasi Jam Belajar</span>
-                            </div>
-                        </div>
-
-                        <div class="highlight-item">
-                            <div class="highlight-icon">
-                                <i data-lucide="clock" style="width: 18px; height: 18px;"></i>
-                            </div>
-                            <div class="highlight-text">
-                                <strong>Jadwal Fleksibel</strong>
-                                <span>Bebas Antre & Pasti</span>
-                            </div>
-                        </div>
-                    </div>
+        <section class="empathy-section">
+            {{-- Kolom Visual & Ilustrasi Hangat --}}
+            <div class="empathy-visual-col">
+                <div class="empathy-quote-tag">
+                    <i data-lucide="sparkles" style="width: 13px; height: 13px;"></i>
+                    <span>Ruang Aman untuk Siswa SMPN 2 Dramaga</span>
                 </div>
 
-                {{-- Hero Media: Foto Asli Gedung SMP Negeri 2 Dramaga --}}
-                <div class="hero-media-wrapper">
-                    <div class="hero-photo-frame">
-                        <img
-                            src="{{ asset('images/gedung-smpn2-dramaga-3.jpg') }}"
-                            alt="Gedung Utama SMP Negeri 2 Dramaga"
-                            loading="lazy"
-                        >
+                <div class="empathy-illustration-wrap">
+                    {{-- Ilustrasi SVG Ramah & Hangat --}}
+                    <svg width="210" height="150" viewBox="0 0 220 160" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <rect x="20" y="25" width="180" height="115" rx="22" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.35)" stroke-width="2"/>
+                        <circle cx="78" cy="76" r="24" fill="#DBEAFE"/>
+                        <path d="M70 73C70 73 73 78 78 78C83 78 86 73 86 73" stroke="#1E3A8A" stroke-width="2.5" stroke-linecap="round"/>
+                        <circle cx="71" cy="67" r="2.5" fill="#1E3A8A"/>
+                        <circle cx="85" cy="67" r="2.5" fill="#1E3A8A"/>
+                        <circle cx="144" cy="76" r="24" fill="#FEF3C7"/>
+                        <path d="M136 73C136 73 139 78 144 78C149 78 152 73 152 73" stroke="#92400E" stroke-width="2.5" stroke-linecap="round"/>
+                        <circle cx="137" cy="67" r="2.5" fill="#92400E"/>
+                        <circle cx="151" cy="67" r="2.5" fill="#92400E"/>
+                        <path d="M111 44C106.5 39 99 39.5 96 45C93 39.5 85.5 39 81 44C76.5 49 79 57 96 67C113 57 115.5 49 111 44Z" fill="#F43F5E" transform="translate(15, -12) scale(0.95)"/>
+                        <rect x="56" y="112" width="108" height="12" rx="6" fill="rgba(255,255,255,0.28)"/>
+                    </svg>
+                </div>
 
-                        <div class="photo-floating-badge badge-top">
-                            <div class="badge-icon">
-                                <i data-lucide="school" style="width: 16px; height: 16px;"></i>
-                            </div>
-                            <div>
-                                <div class="badge-label">SMP Negeri 2 Dramaga</div>
-                                <div class="badge-sub">Kampus Babakan Dramaga</div>
-                            </div>
+                <h3 class="empathy-visual-title">Cerita Kamu Berharga, Sekecil Apa Pun Itu</h3>
+                <p class="empathy-visual-desc">
+                    Ruang BK bukanlah tempat penghukuman. Guru BK hadir sebagai sahabat dan pendamping di sekolah agar kamu bisa belajar dengan hati yang tenang dan gembira.
+                </p>
+            </div>
+
+            {{-- Kolom Pesan Sederhana untuk Siswa --}}
+            <div class="empathy-text-col">
+                <div>
+                    <span class="section-tag" style="margin-bottom: 8px;">
+                        <i data-lucide="smile" style="width: 13px; height: 13px;"></i>
+                        Pesan untuk Kamu
+                    </span>
+                    <h2 class="empathy-heading">Tidak Apa-Apa Meminta Bantuan</h2>
+                </div>
+
+                <p class="empathy-lead">
+                    Terkadang hari-hari di sekolah terasa membingungkan atau melelahkan. Kamu tidak perlu memendam semuanya sendirian. Berbicara dengan Guru BK adalah langkah berani untuk peduli pada dirimu sendiri.
+                </p>
+
+                <div class="empathy-points">
+                    <div class="empathy-point-card">
+                        <div class="empathy-point-icon">
+                            <i data-lucide="hand-heart" style="width: 20px; height: 20px;"></i>
                         </div>
+                        <div>
+                            <h4>Boleh Meminta Bantuan</h4>
+                            <p>Kamu selalu boleh meminta bantuan kapan saja ketika sedang menghadapi masalah atau kebingungan.</p>
+                        </div>
+                    </div>
 
-                        <div class="photo-floating-badge badge-bottom">
-                            <div class="badge-icon green">
-                                <i data-lucide="heart-handshake" style="width: 16px; height: 16px;"></i>
-                            </div>
-                            <div>
-                                <div class="badge-label">Ruang Bimbingan Konseling</div>
-                                <div class="badge-sub">Layanan Ramah Siswa</div>
-                            </div>
+                    <div class="empathy-point-card">
+                        <div class="empathy-point-icon" style="background: #ecfdf5; color: #059669;">
+                            <i data-lucide="messages-square" style="width: 20px; height: 20px;"></i>
+                        </div>
+                        <div>
+                            <h4>Ceritakan Apa Saja</h4>
+                            <p>Mulai dari kesulitan belajar, pertemanan, masalah pribadi, hingga rencana sekolah lanjutan di masa depan.</p>
+                        </div>
+                    </div>
+
+                    <div class="empathy-point-card">
+                        <div class="empathy-point-icon" style="background: #fff7ed; color: #d97706;">
+                            <i data-lucide="sparkles" style="width: 20px; height: 20px;"></i>
+                        </div>
+                        <div>
+                            <h4>Bukan Berarti Lemah</h4>
+                            <p>Meminta bimbingan bukan berarti kamu lemah atau siswa bermasalah, melainkan tanda kamu ingin berkembang.</p>
+                        </div>
+                    </div>
+
+                    <div class="empathy-point-card">
+                        <div class="empathy-point-icon" style="background: #eef2ff; color: #4338ca;">
+                            <i data-lucide="zap" style="width: 20px; height: 20px;"></i>
+                        </div>
+                        <div>
+                            <h4>Tanpa Perlu Buat Akun</h4>
+                            <p>Kamu dapat langsung mengajukan jadwal bimbingan melalui portal ini tanpa login dan tanpa menghafal NIS.</p>
                         </div>
                     </div>
                 </div>
@@ -1550,14 +1680,17 @@
         </section>
 
         {{-- ---------------------------------------------------------
-             SECTION B: BAGIAN LAYANAN BK (SUSUNAN KARTU GRID)
+             C. BAGIAN LAYANAN BK (4 KARTU DALAM GRID)
              --------------------------------------------------------- --}}
         <section class="layanan-section" id="layanan">
             <div class="section-header">
-                <span class="section-tag">Bidang Layanan</span>
-                <h2 class="section-title">Layanan Bimbingan Konseling yang Tersedia</h2>
+                <span class="section-tag">
+                    <i data-lucide="layers" style="width: 13px; height: 13px;"></i>
+                    Bidang Layanan BK
+                </span>
+                <h2 class="section-title">Pilih Topik yang Ingin Kamu Ceritakan</h2>
                 <p class="section-desc">
-                    Pilihlah bidang layanan konseling yang sesuai dengan kebutuhan, tantangan, atau perencanaan yang ingin kamu konsultasikan bersama Guru BK.
+                    Empat bidang layanan Bimbingan dan Konseling yang siap mendampingi perjalananmu selama bersekolah di SMP Negeri 2 Dramaga.
                 </p>
             </div>
 
@@ -1566,490 +1699,137 @@
                 <div class="layanan-card">
                     <div>
                         <div class="layanan-icon-wrap" style="background: #eef2ff; color: #4338ca;">
-                            <i data-lucide="smile" style="width: 26px; height: 26px;"></i>
+                            <i data-lucide="smile" style="width: 27px; height: 27px;"></i>
                         </div>
                         <h3 class="layanan-card-title">Bimbingan Pribadi</h3>
                         <p class="layanan-card-desc">
-                            Membantu mengelola emosi, kecemasan, rasa percaya diri, pembentukan kebiasaan positif, dan pemahaman potensi diri agar kamu tumbuh menjadi pribadi yang tangguh.
+                            Membantumu mengenali diri sendiri, mengelola rasa cemas atau sedih, meningkatkan rasa percaya diri, dan membangun kebiasaan positif sehari-hari.
                         </p>
                     </div>
-                    <button type="button" class="layanan-btn-cta" onclick="handleLayananClick('ajukan', 'Konseling Pribadi')">
-                        <span>Pilih Layanan Ini</span>
-                        <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
-                    </button>
+                    <a href="{{ route('portal.siswa.create', ['layanan' => 'Konseling Pribadi']) }}" class="layanan-btn-cta">
+                        <span>Pilih Bimbingan Pribadi</span>
+                        <i data-lucide="arrow-right" style="width: 15px; height: 15px;"></i>
+                    </a>
                 </div>
 
                 {{-- 2. Bimbingan Sosial --}}
                 <div class="layanan-card">
                     <div>
                         <div class="layanan-icon-wrap" style="background: #ecfdf5; color: #047857;">
-                            <i data-lucide="users" style="width: 26px; height: 26px;"></i>
+                            <i data-lucide="users" style="width: 27px; height: 27px;"></i>
                         </div>
                         <h3 class="layanan-card-title">Bimbingan Sosial</h3>
                         <p class="layanan-card-desc">
-                            Membantu mengatasi permasalahan pertemanan di sekolah, adaptasi di kelas baru, komunikasi dengan guru maupun keluarga, serta penyelesaian kesalahpahaman.
+                            Membantumu menghadapi masalah pertemanan, beradaptasi di lingkungan kelas, serta berkomunikasi dengan lebih nyaman bersama teman, guru, dan keluarga.
                         </p>
                     </div>
-                    <button type="button" class="layanan-btn-cta" onclick="handleLayananClick('ajukan', 'Konseling Sosial')">
-                        <span>Pilih Layanan Ini</span>
-                        <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
-                    </button>
+                    <a href="{{ route('portal.siswa.create', ['layanan' => 'Konseling Sosial']) }}" class="layanan-btn-cta">
+                        <span>Pilih Bimbingan Sosial</span>
+                        <i data-lucide="arrow-right" style="width: 15px; height: 15px;"></i>
+                    </a>
                 </div>
 
                 {{-- 3. Bimbingan Belajar --}}
                 <div class="layanan-card">
                     <div>
                         <div class="layanan-icon-wrap" style="background: var(--primary-light); color: var(--primary);">
-                            <i data-lucide="book-open" style="width: 26px; height: 26px;"></i>
+                            <i data-lucide="book-open" style="width: 27px; height: 27px;"></i>
                         </div>
                         <h3 class="layanan-card-title">Bimbingan Belajar</h3>
                         <p class="layanan-card-desc">
-                            Membantu mengatasi kesulitan belajar, kejenuhan, manajemen waktu antara belajar dan kegiatan sekolah, serta strategi belajar efektif menjelang ujian.
+                            Membantumu mengatasi kesulitan memahami pelajaran, mengatur waktu belajar, membangkitkan semangat belajar, dan menyiapkan diri menghadapi ujian.
                         </p>
                     </div>
-                    <button type="button" class="layanan-btn-cta" onclick="handleLayananClick('ajukan', 'Konseling Belajar')">
-                        <span>Pilih Layanan Ini</span>
-                        <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
-                    </button>
+                    <a href="{{ route('portal.siswa.create', ['layanan' => 'Konseling Belajar']) }}" class="layanan-btn-cta">
+                        <span>Pilih Bimbingan Belajar</span>
+                        <i data-lucide="arrow-right" style="width: 15px; height: 15px;"></i>
+                    </a>
                 </div>
 
                 {{-- 4. Bimbingan Karier --}}
                 <div class="layanan-card">
                     <div>
                         <div class="layanan-icon-wrap" style="background: #fff7ed; color: #c2410c;">
-                            <i data-lucide="compass" style="width: 26px; height: 26px;"></i>
+                            <i data-lucide="compass" style="width: 27px; height: 27px;"></i>
                         </div>
                         <h3 class="layanan-card-title">Bimbingan Karier</h3>
                         <p class="layanan-card-desc">
-                            Membimbing eksplorasi bakat, minat, dan cita-cita, serta memberikan wawasan dalam merencanakan pilihan sekolah lanjutan ke jenjang SMA, SMK, atau MA.
+                            Membantumu mengenali minat, bakat, dan cita-cita, serta merencanakan pilihan sekolah lanjutan setelah lulus SMP menuju SMA, SMK, atau MA.
                         </p>
                     </div>
-                    <button type="button" class="layanan-btn-cta" onclick="handleLayananClick('ajukan', 'Bimbingan Karier')">
-                        <span>Pilih Layanan Ini</span>
-                        <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
-                    </button>
+                    <a href="{{ route('portal.siswa.create', ['layanan' => 'Bimbingan Karier']) }}" class="layanan-btn-cta">
+                        <span>Pilih Bimbingan Karier</span>
+                        <i data-lucide="arrow-right" style="width: 15px; height: 15px;"></i>
+                    </a>
                 </div>
             </div>
         </section>
 
         {{-- ---------------------------------------------------------
-             SECTION C: BAGIAN ALUR PENGAJUAN (5 LANGKAH MUDAH DIPAHAMI)
+             D. PETUNJUK PENGGUNAAN PORTAL SISWA
              --------------------------------------------------------- --}}
         <section class="alur-section">
-            <div class="section-header" style="margin-bottom: 20px;">
-                <span class="section-tag">Alur Pengajuan</span>
-                <h2 class="section-title">5 Langkah Alur Pengajuan Konseling Siswa</h2>
+            <div class="section-header" style="margin-bottom: 12px;">
+                <span class="section-tag">
+                    <i data-lucide="route" style="width: 13px; height: 13px;"></i>
+                    Petunjuk Penggunaan
+                </span>
+                <h2 class="section-title">Langkah Awal Menggunakan Layanan SIRASI-BK</h2>
                 <p class="section-desc">
-                    Proses pengajuan terstruktur dan terintegrasi dengan koordinasi Wali Kelas serta penetapan jadwal resmi oleh Guru BK.
+                    Ikuti langkah berikut untuk menggunakan layanan Portal Siswa dengan mudah.
                 </p>
             </div>
 
             <div class="alur-steps-grid">
-                {{-- Langkah 1 --}}
                 <div class="step-card">
                     <div class="step-number-pill">1</div>
                     <div class="step-icon-wrap">
-                        <i data-lucide="user-check" style="width: 22px; height: 22px;"></i>
+                        <i data-lucide="book-open" style="width: 24px; height: 24px;"></i>
                     </div>
-                    <h4 class="step-title">Verifikasi Identitas</h4>
-                    <p class="step-desc">Siswa memasukkan NIS untuk verifikasi identitas dan data kelas binaan.</p>
+                    <h4 class="step-title">Baca Informasi Layanan</h4>
+                    <p class="step-desc">Baca informasi dan petunjuk penggunaan layanan sebelum mengajukan.</p>
                 </div>
-
-                {{-- Langkah 2 --}}
                 <div class="step-card">
                     <div class="step-number-pill">2</div>
                     <div class="step-icon-wrap">
-                        <i data-lucide="calendar-plus" style="width: 22px; height: 22px;"></i>
+                        <i data-lucide="user-check" style="width: 24px; height: 24px;"></i>
                     </div>
-                    <h4 class="step-title">Ajukan Bimbingan</h4>
-                    <p class="step-desc">Siswa mengajukan bimbingan konseling dan memilih waktu serta topik bimbingan.</p>
+                    <h4 class="step-title">Ajukan Izin Wali Kelas</h4>
+                    <p class="step-desc">Buka menu <strong>Izin Wali Kelas</strong> jika perlu izin meninggalkan pelajaran.</p>
                 </div>
-
-                {{-- Langkah 3 --}}
                 <div class="step-card">
                     <div class="step-number-pill">3</div>
                     <div class="step-icon-wrap">
-                        <i data-lucide="check-square" style="width: 22px; height: 22px;"></i>
+                        <i data-lucide="calendar-plus" style="width: 24px; height: 24px;"></i>
                     </div>
-                    <h4 class="step-title">Pemeriksaan Wali Kelas</h4>
-                    <p class="step-desc">Wali Kelas memeriksa dan menyetujui atau menolak pengajuan bimbingan.</p>
+                    <h4 class="step-title">Buka Jadwal Konseling</h4>
+                    <p class="step-desc">Pilih menu <strong>Jadwal Konseling</strong> untuk mengajukan jadwal.</p>
                 </div>
-
-                {{-- Langkah 4 --}}
                 <div class="step-card">
                     <div class="step-number-pill">4</div>
                     <div class="step-icon-wrap">
-                        <i data-lucide="calendar-clock" style="width: 22px; height: 22px;"></i>
+                        <i data-lucide="users-round" style="width: 24px; height: 24px;"></i>
                     </div>
-                    <h4 class="step-title">Penyesuaian Jadwal BK</h4>
-                    <p class="step-desc">Guru BK menyesuaikan jadwal berdasarkan ketersediaan dan jadwal siswa.</p>
+                    <h4 class="step-title">Pilih Data Siswa</h4>
+                    <p class="step-desc">Pilih kelas dan nama siswa sesuai data yang tersedia.</p>
                 </div>
-
-                {{-- Langkah 5 --}}
                 <div class="step-card">
                     <div class="step-number-pill">5</div>
-                    <div class="step-icon-wrap">
-                        <i data-lucide="bell" style="width: 22px; height: 22px;"></i>
-                    </div>
-                    <h4 class="step-title">Lihat Status & Jadwal</h4>
-                    <p class="step-desc">Siswa melihat status dan jadwal bimbingan resmi secara transparan di portal.</p>
+                    <div class="step-icon-wrap"><i data-lucide="calendar-check" style="width: 24px; height: 24px;"></i></div>
+                    <h4 class="step-title">Pilih Keperluan dan Slot</h4>
+                    <p class="step-desc">Pilih keperluan konseling dan slot jadwal yang telah dibuka Guru BK.</p>
                 </div>
-            </div>
-        </section>
-
-        {{-- ---------------------------------------------------------
-             SECTION D: BAGIAN AJAKAN (CALL TO ACTION BANNER)
-             --------------------------------------------------------- --}}
-        <section class="ajakan-banner">
-            <div class="ajakan-text">
-                <h3>Jangan Ragu untuk Memulai Langkah Pertamamu!</h3>
-                <p>
-                    Setiap tantangan dan kesulitan yang kamu hadapi memiliki jalan keluar. Guru BK SMP Negeri 2 Dramaga selalu siap mendengarkan, mendampingi, dan membantumu tumbuh menjadi pribadi yang lebih baik.
-                </p>
-            </div>
-            <a href="#ajukan-bimbingan" class="btn-ajakan-action" onclick="handleLayananClick('ajukan')">
-                <i data-lucide="send" style="width: 17px; height: 17px;"></i>
-                <span>Ajukan Konseling Sekarang</span>
-            </a>
-        </section>
-
-        {{-- ---------------------------------------------------------
-             SECTION E: AREA LAYANAN (FORM PENGAJUAN / STATUS / NIS)
-             --------------------------------------------------------- --}}
-        @if (!$siswa)
-            {{-- MODE BELUM VERIFIKASI: SISWA DIMINTA MEMASUKKAN NIS KETIKA MEMILIH LAYANAN --}}
-            <section id="ajukan-bimbingan">
-                <div class="verification-anchor-card" id="verifikasi-identitas">
-                    <div class="verification-icon-wrap">
-                        <i data-lucide="user-check" style="width: 34px; height: 34px;"></i>
-                    </div>
-
-                    <h2 class="verification-title">Masuk Portal Pengajuan Siswa</h2>
-
-                    <p class="verification-subtitle" id="verificationInstructionText">
-                        Untuk mengajukan jadwal bimbingan konseling mandiri atau memeriksa perkembangan status pengajuan bimbingan Anda,
-                        silakan verifikasi identitas terlebih dahulu menggunakan Nomor Induk Siswa (NIS) Anda.
-                    </p>
-
-                    <form action="{{ route('portal.siswa.login') }}" method="POST">
-                        @csrf
-                        <div class="form-group-nis">
-                            <label for="nisInput">Nomor Induk Siswa (NIS)</label>
-                            <input
-                                type="text"
-                                id="nisInput"
-                                name="nis"
-                                class="nis-input-field"
-                                placeholder="Contoh: 70701"
-                                value="{{ old('nis') }}"
-                                required
-                            >
-                            @error('nis')
-                                <div style="color: var(--red); font-size: 12.5px; margin-top: 6px; font-weight: 600;">
-                                    <i data-lucide="alert-circle" style="width: 14px; height: 14px; display: inline-block; vertical-align: middle;"></i>
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-
-                        <button type="submit" class="btn-submit-nis">
-                            <i data-lucide="arrow-right" style="width: 17px; height: 17px;"></i>
-                            Lanjutkan ke Portal
-                        </button>
-                    </form>
-
-                    <div class="nis-helper-info">
-                        <i data-lucide="help-circle" style="width: 15px; height: 15px; color: var(--primary);"></i>
-                        <span>Belum tahu NIS Anda? Silakan hubungi Wali Kelas atau petugas TU SMP Negeri 2 Dramaga.</span>
-                    </div>
+                <div class="step-card">
+                    <div class="step-number-pill">6</div>
+                    <div class="step-icon-wrap"><i data-lucide="send" style="width: 24px; height: 24px;"></i></div>
+                    <h4 class="step-title">Lengkapi dan Kirim</h4>
+                    <p class="step-desc">Isi keterangan tambahan jika diperlukan, kemudian kirim pengajuan.</p>
                 </div>
-            </section>
-            {{-- Dummy anchor agar tautan status tetap mengarah ke sini jika belum login --}}
-            <div id="status-pengajuan" style="position: relative; top: -60px;"></div>
-
-        @else
-            {{-- MODE TERVERIFIKASI: TAMPILKAN PROFIL SISWA, FORM AJUKAN, & STATUS PENGAJUAN --}}
-            <div class="student-profile-bar">
-                <div class="student-profile-left">
-                    <div class="student-avatar-badge">
-                        {{ strtoupper(substr($siswa->nama_siswa, 0, 1)) }}
-                    </div>
-                    <div class="student-details">
-                        <h2>{{ $siswa->nama_siswa }}</h2>
-                        <div class="student-meta-pills">
-                            <span>NIS: <strong>{{ $siswa->nis }}</strong></span>
-                            <span>•</span>
-                            <span>Kelas: <strong>{{ $siswa->kelas->nama_kelas ?? '-' }}</strong></span>
-                            <span>•</span>
-                            <span>Status: <strong style="color: var(--green);">{{ $siswa->status }}</strong></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="wali-kelas-badge">
-                    <i data-lucide="user-check" style="width: 18px; height: 18px; color: var(--primary);"></i>
-                    <div>
-                        <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--text-muted);">Wali Kelas Binaan</div>
-                        <strong style="color: var(--primary-dark);">{{ $siswa->kelas->waliKelas->nama ?? '(Belum Ditugaskan)' }}</strong>
-                    </div>
-                </div>
-            </div>
-
-            {{-- Workspace Grid: Kiri (Ajukan), Kanan (Status) --}}
-            <div class="portal-workspace-grid">
-
-                {{-- KOLOM KIRI: AJUKAN JADWAL BIMBINGAN --}}
-                <div class="workspace-card" id="ajukan-bimbingan">
-                    <div class="workspace-card-header">
-                        <h3>
-                            <i data-lucide="calendar-plus" style="width: 20px; height: 20px; color: var(--primary);"></i>
-                            Ajukan Jadwal Bimbingan Konseling
-                        </h3>
-                    </div>
-
-                    {{-- Cek Ketersediaan Slot Guru BK --}}
-                    <div class="slot-checker-box">
-                        <div style="font-size: 12px; font-weight: 700; color: var(--primary-dark); margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
-                            <i data-lucide="search" style="width: 14px; height: 14px;"></i>
-                            Cek Ketersediaan Slot Waktu Guru BK:
-                        </div>
-
-                        <form method="GET" action="{{ route('portal.siswa.index') }}#ajukan-bimbingan" class="slot-checker-form">
-                            <div style="flex: 1;">
-                                <input
-                                    type="date"
-                                    name="tanggal"
-                                    value="{{ $selectedDate }}"
-                                    class="form-field"
-                                    style="padding: 8px 12px; font-size: 13px;"
-                                >
-                            </div>
-                            <button type="submit" class="btn-submit-ajukan" style="width: auto; padding: 8px 16px; font-size: 13px;">
-                                Cek Tanggal
-                            </button>
-                        </form>
-
-                        @if ($jadwalTerisi->count() > 0)
-                            <div style="margin-top: 12px;">
-                                <div style="font-size: 11.5px; font-weight: 700; color: var(--orange); margin-bottom: 6px;">
-                                    ⚠️ Slot waktu yang sudah terisi Guru BK pada tanggal ini:
-                                </div>
-                                @foreach ($jadwalTerisi as $slot)
-                                    <div class="busy-slot-item">
-                                        <span><strong>{{ substr($slot->waktu_mulai, 0, 5) }} - {{ substr($slot->waktu_selesai, 0, 5) }} WIB</strong> ({{ $slot->jenis_bimbingan }})</span>
-                                        <span style="font-size: 11px; font-weight: 700; color: var(--orange);">{{ str_replace('_', ' ', $slot->status) }}</span>
-                                    </div>
-                                @endforeach
-                            </div>
-                        @else
-                            <div style="margin-top: 10px; font-size: 12.5px; color: var(--green); display: flex; align-items: center; gap: 6px; font-weight: 600;">
-                                <i data-lucide="check-circle" style="width: 15px; height: 15px;"></i>
-                                Belum ada jadwal terisi pada tanggal ini. Seluruh slot jam masih bebas!
-                            </div>
-                        @endif
-                    </div>
-
-                    {{-- Form Ajukan Konseling --}}
-                    <form action="{{ route('portal.siswa.ajukan') }}" method="POST">
-                        @csrf
-                        <div class="input-group-item">
-                            <label for="tanggalInput">Tanggal Bimbingan <span>*</span></label>
-                            <input
-                                type="date"
-                                id="tanggalInput"
-                                name="tanggal"
-                                class="form-field"
-                                min="{{ date('Y-m-d') }}"
-                                value="{{ old('tanggal', $selectedDate) }}"
-                                required
-                            >
-                            @error('tanggal')
-                                <div style="color: var(--red); font-size: 12px; margin-top: 4px;">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="form-row-2">
-                            <div class="input-group-item">
-                                <label for="waktuMulaiInput">Jam Mulai <span>*</span></label>
-                                <input
-                                    type="time"
-                                    id="waktuMulaiInput"
-                                    name="waktu_mulai"
-                                    class="form-field"
-                                    value="{{ old('waktu_mulai', '08:30') }}"
-                                    required
-                                >
-                                @error('waktu_mulai')
-                                    <div style="color: var(--red); font-size: 12px; margin-top: 4px;">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="input-group-item">
-                                <label for="waktuSelesaiInput">Jam Selesai <span>*</span></label>
-                                <input
-                                    type="time"
-                                    id="waktuSelesaiInput"
-                                    name="waktu_selesai"
-                                    class="form-field"
-                                    value="{{ old('waktu_selesai', '09:15') }}"
-                                    required
-                                >
-                                @error('waktu_selesai')
-                                    <div style="color: var(--red); font-size: 12px; margin-top: 4px;">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="input-group-item">
-                            <label for="jenisBimbinganSelect">Jenis Layanan Bimbingan <span>*</span></label>
-                            <select id="jenisBimbinganSelect" name="jenis_bimbingan" class="form-field" required>
-                                <option value="">-- Pilih Jenis Bimbingan --</option>
-                                <option value="Konseling Belajar" {{ old('jenis_bimbingan') == 'Konseling Belajar' ? 'selected' : '' }}>Konseling Belajar</option>
-                                <option value="Konseling Pribadi" {{ old('jenis_bimbingan') == 'Konseling Pribadi' ? 'selected' : '' }}>Konseling Pribadi</option>
-                                <option value="Konseling Sosial" {{ old('jenis_bimbingan') == 'Konseling Sosial' ? 'selected' : '' }}>Konseling Sosial</option>
-                                <option value="Bimbingan Karier" {{ old('jenis_bimbingan') == 'Bimbingan Karier' ? 'selected' : '' }}>Bimbingan Karier</option>
-                                <option value="Konseling Individu" {{ old('jenis_bimbingan') == 'Konseling Individu' ? 'selected' : '' }}>Konseling Individu</option>
-                            </select>
-                            @error('jenis_bimbingan')
-                                <div style="color: var(--red); font-size: 12px; margin-top: 4px;">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="input-group-item">
-                            <label for="catatanInput">Alasan / Catatan Pengajuan (Opsional)</label>
-                            <textarea
-                                id="catatanInput"
-                                name="catatan"
-                                class="form-field"
-                                rows="3"
-                                placeholder="Tuliskan secara singkat topik yang ingin Anda bicarakan dengan Guru BK..."
-                            >{{ old('catatan') }}</textarea>
-                            @error('catatan')
-                                <div style="color: var(--red); font-size: 12px; margin-top: 4px;">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <button type="submit" class="btn-submit-ajukan">
-                            <i data-lucide="send" style="width: 16px; height: 16px;"></i>
-                            Kirim Pengajuan Bimbingan
-                        </button>
-                    </form>
-                </div>
-
-                {{-- KOLOM KANAN: STATUS PENGAJUAN SAYA --}}
-                <div class="workspace-card" id="status-pengajuan">
-                    <div class="workspace-card-header">
-                        <h3>
-                            <i data-lucide="history" style="width: 20px; height: 20px; color: var(--primary);"></i>
-                            Status Pengajuan Konseling Saya
-                        </h3>
-                        <span style="font-size: 12.5px; font-weight: 700; color: var(--primary); background: var(--primary-light); padding: 3px 10px; border-radius: 999px;">
-                            Total: {{ $pengajuan->count() }}
-                        </span>
-                    </div>
-
-                    @forelse ($pengajuan as $item)
-                        <div class="status-timeline-card">
-                            <div class="status-top-bar">
-                                <div class="status-date">
-                                    <i data-lucide="calendar" style="width: 15px; height: 15px; color: var(--primary);"></i>
-                                    {{ \Carbon\Carbon::parse($item->tanggal)->isoFormat('dddd, D MMMM Y') }}
-                                </div>
-                                <span class="status-badge status-{{ $item->status }}">
-                                    @if ($item->status === 'Diajukan')
-                                        Menunggu Wali Kelas
-                                    @elseif ($item->status === 'Disetujui_Wali')
-                                        Disetujui Wali Kelas
-                                    @elseif ($item->status === 'Ditolak_Wali')
-                                        Ditolak Wali Kelas
-                                    @else
-                                        {{ $item->status }}
-                                    @endif
-                                </span>
-                            </div>
-
-                            <div class="status-time">
-                                <i data-lucide="clock" style="width: 14px; height: 14px;"></i>
-                                Pukul {{ substr($item->waktu_mulai, 0, 5) }} - {{ substr($item->waktu_selesai, 0, 5) }} WIB
-                            </div>
-
-                            <div class="status-service">
-                                Layanan: <strong>{{ $item->jenis_bimbingan }}</strong>
-                            </div>
-
-                            @if (!empty($item->catatan))
-                                <div class="status-note-bubble">
-                                    "{{ $item->catatan }}"
-                                </div>
-                            @endif
-
-                            {{-- Catatan respon Wali Kelas --}}
-                            @if (!empty($item->id_wali) || !empty($item->catatan_wali))
-                                <div class="wali-feedback-bubble {{ $item->status === 'Ditolak_Wali' ? 'rejected' : '' }}">
-                                    <strong>Respon Wali Kelas ({{ $item->waliKelas->nama ?? 'Wali Kelas' }}):</strong>
-                                    <div style="margin-top: 3px;">
-                                        @if ($item->status === 'Ditolak_Wali')
-                                            Alasan Penolakan: <em>"{{ $item->catatan_wali }}"</em>
-                                        @else
-                                            Catatan: <em>"{{ $item->catatan_wali ?: 'Disetujui untuk mengikuti sesi bimbingan konseling.' }}"</em>
-                                        @endif
-                                    </div>
-                                </div>
-                            @endif
-                        </div>
-                    @empty
-                        <div style="text-align: center; color: var(--text-muted); padding: 48px 20px;">
-                            <i data-lucide="calendar-x" style="width: 44px; height: 44px; margin: 0 auto 12px; display: block; opacity: 0.4;"></i>
-                            <h4 style="font-size: 15px; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">Belum Ada Riwayat Pengajuan</h4>
-                            <p style="font-size: 13px;">Gunakan formulir di sebelah kiri untuk mengajukan jadwal konsultasi pertama Anda dengan Guru BK.</p>
-                        </div>
-                    @endforelse
-                </div>
-
-            </div>
-        @endif
-
-        {{-- ---------------------------------------------------------
-             SECTION F: TENTANG LAYANAN BK SMPN 2 DRAMAGA
-             --------------------------------------------------------- --}}
-        <section class="tentang-card" id="tentang">
-            <div class="section-header" style="margin-bottom: 24px;">
-                <span class="section-tag">Tentang Layanan</span>
-                <h2 class="section-title">Bimbingan Konseling SMP Negeri 2 Dramaga</h2>
-                <p class="section-desc">
-                    Komitmen kami adalah menciptakan iklim sekolah yang kondusif, inklusif, dan ramah anak demi perkembangan akademik dan pembentukan karakter mulia siswa.
-                </p>
-            </div>
-
-            <div class="tentang-grid">
-                <div class="tentang-item">
-                    <div class="tentang-icon">
-                        <i data-lucide="shield-check" style="width: 24px; height: 24px;"></i>
-                    </div>
-                    <h4>Asas Kerahasiaan (Confidentiality)</h4>
-                    <p>
-                        Setiap cerita, konsultasi, dan catatan kasus konseling dijaga kerahasiaannya oleh Guru BK sesuai kode etik profesi Bimbingan dan Konseling.
-                    </p>
-                </div>
-
-                <div class="tentang-item">
-                    <div class="tentang-icon" style="color: var(--green);">
-                        <i data-lucide="clock" style="width: 24px; height: 24px;"></i>
-                    </div>
-                    <h4>Jam Operasional Layanan</h4>
-                    <p>
-                        Layanan tatap muka di Ruang BK buka setiap hari kerja sekolah: <strong>Senin s.d. Jumat</strong> pukul <strong>07.30 - 15.00 WIB</strong>.
-                    </p>
-                </div>
-
-                <div class="tentang-item">
-                    <div class="tentang-icon" style="color: var(--orange);">
-                        <i data-lucide="map-pin" style="width: 24px; height: 24px;"></i>
-                    </div>
-                    <h4>Lokasi Ruang BK</h4>
-                    <p>
-                        Gedung Utama Lantai 1, SMP Negeri 2 Dramaga, Jalan Raya Dramaga KM. 07, Desa Dramaga, Kabupaten Bogor. Ruang konsultasi yang tenang, sejuk, dan ramah siswa.
-                    </p>
+                <div class="step-card">
+                    <div class="step-number-pill">7</div>
+                    <div class="step-icon-wrap"><i data-lucide="clipboard-check" style="width: 24px; height: 24px;"></i></div>
+                    <h4 class="step-title">Cek Perkembangan</h4>
+                    <p class="step-desc">Buka menu <strong>Cek Status</strong> untuk melihat perkembangan pengajuan.</p>
                 </div>
             </div>
         </section>
@@ -2057,40 +1837,97 @@
     </main>
 
     {{-- -------------------------------------------------------------
-         11. FOOTER
+         4. FOOTER PORTAL
          ------------------------------------------------------------- --}}
     <footer class="portal-footer">
-        <div class="footer-inner">
-            <div class="footer-brand">
-                <div class="brand-logo-wrap" style="background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.2);">
-                    <img src="{{ asset('images/logo-smpn2-dramaga.png') }}?v=2" alt="Logo SMP Negeri 2 Dramaga">
+        <div class="footer-grid">
+            {{-- Kolom 1 — Identitas --}}
+            <div>
+                <div class="footer-brand-row">
+                    <div class="footer-logo-box">
+                        <img src="{{ asset('images/logo-smpn2-dramaga.png') }}?v=2" alt="Logo SMP Negeri 2 Dramaga">
+                    </div>
+                    <div>
+                        <div class="footer-brand-title">SIRASI-BK</div>
+                        <div class="footer-brand-sub">SMP Negeri 2 Dramaga</div>
+                    </div>
                 </div>
-                <div>
-                    <h4>SIRASI-BK SMP Negeri 2 Dramaga</h4>
-                    <p>Sistem Informasi Riwayat Administrasi dan Penjadwalan Bimbingan Konseling</p>
-                </div>
+                <p class="footer-desc">
+                    Sistem Informasi Riwayat Administrasi dan Penjadwalan Bimbingan Konseling Siswa SMP Negeri 2 Dramaga yang ramah, aman, dan menjaga kerahasiaan siswa.
+                </p>
+                <span class="footer-npsn-badge">
+                    <i data-lucide="award" style="width: 13px; height: 13px;"></i>
+                    NPSN: 20254670
+                </span>
             </div>
 
-            <ul class="footer-links">
-                <li><a href="#beranda">Beranda</a></li>
-                <li><a href="#layanan">Layanan BK</a></li>
-                <li><a href="#ajukan-bimbingan" onclick="handleLayananClick('ajukan')">Ajukan Bimbingan</a></li>
-                <li><a href="#status-pengajuan" onclick="handleLayananClick('status')">Cek Status</a></li>
-                <li><a href="#tentang">Tentang</a></li>
-                <li><a href="{{ route('login') }}" style="color: #93c5fd; font-weight: 700;">Login Petugas</a></li>
-            </ul>
+            {{-- Kolom 2 — Informasi Sekolah --}}
+            <div>
+                <h4 class="footer-col-title">
+                    <i data-lucide="building-2" style="width: 16px; height: 16px; color: #60a5fa;"></i>
+                    Informasi Sekolah
+                </h4>
+                <ul class="footer-info-list">
+                    <li class="footer-info-item">
+                        <i data-lucide="map-pin" style="width: 16px; height: 16px; color: #60a5fa; flex-shrink: 0; margin-top: 3px;"></i>
+                        <span>Jl. Raya Dramaga KM. 07, Desa Dramaga, Kec. Dramaga, Kabupaten Bogor, Jawa Barat 16680</span>
+                    </li>
+                    <li class="footer-info-item">
+                        <i data-lucide="globe" style="width: 16px; height: 16px; color: #60a5fa; flex-shrink: 0; margin-top: 3px;"></i>
+                        <a href="http://smpn2dramaga.org" target="_blank" rel="noopener noreferrer">smpn2dramaga.org</a>
+                    </li>
+                    <li>
+                        <a href="https://www.google.com/maps/search/?api=1&query=SMP+Negeri+2+Dramaga+Bogor" target="_blank" rel="noopener noreferrer" class="footer-map-btn">
+                            <i data-lucide="map" style="width: 14px; height: 14px;"></i>
+                            <span>Lihat Lokasi di Google Maps</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            {{-- Kolom 3 — Media Sosial Resmi --}}
+            <div class="footer-social-column text-left items-start justify-start">
+                <h4 class="footer-col-title">
+                    <i data-lucide="share-2" style="width: 16px; height: 16px; color: #60a5fa;"></i>
+                    Media Sosial Resmi
+                </h4>
+                <div class="footer-social-list">
+                    <a href="https://www.instagram.com/smpn2dramaga.official/" target="_blank" rel="noopener noreferrer" class="footer-social-card" aria-label="Akun Instagram resmi SMP Negeri 2 Dramaga">
+                        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.75" fill="currentColor" stroke="none"/></svg>
+                    </a>
+
+                    <a href="https://x.com/search?q=SMP%20Negeri%202%20Dramaga" target="_blank" rel="noopener noreferrer" class="footer-social-card" aria-label="Cari SMP Negeri 2 Dramaga di X">
+                        <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" focusable="false" fill="currentColor"><path d="M18.9 2H22l-6.78 7.75L23.2 22h-6.25l-4.9-7.62L5.4 22H2.27l7.25-8.29L1.8 2h6.4l4.43 6.96L18.9 2Zm-1.1 18h1.73L7.27 3.9H5.41L17.8 20Z"/></svg>
+                    </a>
+                    <a href="mailto:negeriduadramaga@gmail.com" class="footer-social-card" aria-label="Email SMP Negeri 2 Dramaga">
+                        <i data-lucide="mail" style="width: 18px; height: 18px;"></i>
+                    </a>
+                </div>
+            </div>
         </div>
 
+        <a class="whatsapp-float"
+           href="https://wa.me/6281284053871?text=Halo%20Guru%20BK%20SMPN%202%20Dramaga,%20saya%20ingin%20berkonsultasi."
+           target="_blank"
+           rel="noopener noreferrer"
+           aria-label="Chat Guru BK melalui WhatsApp">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.08 0C5.5 0 .14 5.35.14 11.94c0 2.1.55 4.15 1.6 5.96L.04 24l6.25-1.64a11.9 11.9 0 0 0 5.78 1.47h.01c6.58 0 11.94-5.36 11.94-11.94 0-3.19-1.24-6.19-3.5-8.41ZM12.08 21.8h-.01a9.88 9.88 0 0 1-5.03-1.37l-.36-.21-3.71.97.99-3.62-.24-.37a9.88 9.88 0 0 1-1.52-5.26c0-5.46 4.44-9.9 9.9-9.9 2.65 0 5.14 1.03 7.01 2.91a9.84 9.84 0 0 1 2.9 7c0 5.46-4.44 9.9-9.9 9.9Zm5.43-7.42c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.2 5.09 4.49.71.31 1.26.5 1.69.64.71.23 1.36.2 1.87.12.57-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.08-.12-.27-.2-.57-.35Z"/></svg>
+            <span class="whatsapp-float-tooltip">Chat Guru BK</span>
+        </a>
+
         <div class="footer-bottom">
-            &copy; {{ date('Y') }} SMP Negeri 2 Dramaga, Kabupaten Bogor. Hak Cipta Dilindungi Undang-Undang.
+            <div>
+                &copy; {{ date('Y') }} <strong>SIRASI-BK &mdash; SMP Negeri 2 Dramaga</strong>. Hak Cipta Dilindungi Undang-Undang.
+            </div>
+            <div>
+                Layanan Bimbingan dan Konseling Ramah Siswa &bull; Kabupaten Bogor
+            </div>
         </div>
     </footer>
 
     <script>
-        // Inisialisasi ikon Lucide
         lucide.createIcons();
 
-        // Mobile Nav Toggle
         const mobileToggle = document.getElementById('mobileNavToggle');
         const navMenu = document.getElementById('portalNavMenu');
         if (mobileToggle && navMenu) {
@@ -2099,54 +1936,16 @@
             });
         }
 
-        // Active link tracking on scroll
-        const sections = document.querySelectorAll('section[id], div[id="ajukan-bimbingan"]');
-        const navLinks = document.querySelectorAll('.nav-link');
-
-        window.addEventListener('scroll', function () {
-            let current = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop - 120;
-                if (pageYOffset >= sectionTop) {
-                    current = section.getAttribute('id');
-                }
-            });
-
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === '#' + current) {
-                    link.classList.add('active');
-                }
+        document.querySelectorAll('.mood-option').forEach(function (button) {
+            button.addEventListener('click', function () {
+                document.querySelectorAll('.mood-option').forEach(function (option) {
+                    option.setAttribute('aria-pressed', option === button ? 'true' : 'false');
+                });
+                document.getElementById('moodResponse').textContent = button.dataset.message;
             });
         });
 
-        // Handler saat siswa memilih layanan (Ajukan atau Status)
-        function handleLayananClick(type, serviceName) {
-            const nisInput = document.getElementById('nisInput');
-            const targetSection = document.getElementById('verifikasi-identitas');
-            const jenisSelect = document.getElementById('jenisBimbinganSelect');
-
-            if (nisInput && targetSection) {
-                // Siswa belum verifikasi NIS -> Arahkan ke form verifikasi dengan fokus
-                targetSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                setTimeout(() => {
-                    nisInput.focus();
-                    if (serviceName) {
-                        const instruction = document.getElementById('verificationInstructionText');
-                        if (instruction) {
-                            instruction.innerHTML = `Anda memilih <strong>${serviceName}</strong>. Silakan masukkan <strong>Nomor Induk Siswa (NIS)</strong> Anda terlebih dahulu untuk melanjutkan pengajuan.`;
-                        }
-                    }
-                }, 400);
-            } else if (jenisSelect && serviceName) {
-                // Siswa sudah login -> Isi otomatis jenis bimbingan yang dipilih
-                jenisSelect.value = serviceName;
-                const formSection = document.getElementById('ajukan-bimbingan');
-                if (formSection) {
-                    formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            }
-        }
+        // Helper sinkronisasi datepicker native dengan format dd/mm/yyyy pada search bar
     </script>
 </body>
 

@@ -6,14 +6,27 @@ use App\Models\Siswa;
 use App\Models\Konseling;
 use App\Models\Kelas;
 use App\Models\Notifikasi;
+use App\Models\Penjadwalan;
+use App\Models\SlotKonseling;
+use App\Models\User;
 use App\Imports\SiswaImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class SiswaController extends Controller
 {
+    public function adminIndex(Request $request)
+    {
+        abort_unless(auth()->check() && auth()->user()->isAdmin(), 403);
+
+        // The shared index renders the same complete data-management UI for Admin and Guru BK.
+        return $this->index($request);
+    }
+
     public function index(Request $request)
     {
+        abort_unless(auth()->check() && (auth()->user()->isAdmin() || auth()->user()->isGuruBK()), 403);
         $query = Siswa::with('kelas')
             ->withCount('konseling')
             ->addSelect([
@@ -27,8 +40,8 @@ class SiswaController extends Controller
             $search = $request->search;
 
             $query->where(function ($q) use ($search) {
-                $q->where(
-                    'nama_siswa',
+                $q->whereNameLike($search)->orWhere(
+                    'nis',
                     'like',
                     '%' . $search . '%'
                 )->orWhereHas('kelas', function ($kelas) use ($search) {
@@ -53,7 +66,7 @@ class SiswaController extends Controller
 
         $siswa = $query
             ->orderBy('nama_siswa')
-            ->paginate(8)
+            ->paginate(30)
             ->withQueryString();
 
         $daftarKelas = Kelas::all();
@@ -71,14 +84,22 @@ class SiswaController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nis' => 'nullable|string|max:50',
+            'nis' => [
+                'nullable',
+                'string',
+                'max:50',
+                Rule::unique('siswa', 'nis'),
+            ],
             'nama_siswa' => 'required|string|max:100',
             'jenis_kelamin' => 'required|in:L,P',
             'id_kelas' => 'required|exists:kelas,id_kelas',
             'alamat' => 'nullable|string',
             'no_telp' => 'nullable|string|max:20',
+        ], [
+            'nis.unique' => 'NIS tersebut sudah terdaftar pada siswa lain.',
         ]);
 
+        $validated['nis'] = !empty($validated['nis']) ? trim($validated['nis']) : null;
         $validated['status'] = 'Aktif';
 
         $siswa = Siswa::create($validated);
@@ -100,8 +121,9 @@ class SiswaController extends Controller
 
     public function show(Request $request, $id)
     {
-        if (!auth()->user() || !auth()->user()->isGuruBk()) {
-            abort(403, 'Akses ditolak. Rekam riwayat konseling siswa bersifat rahasia dan hanya dapat diakses oleh Guru BK.');
+        $user = auth()->user();
+        if (!$user || (!$user->isGuruBK() && !$user->isAdmin())) {
+            abort(403, 'Akses ditolak. Detail riwayat konseling siswa hanya dapat diakses oleh Guru BK atau Admin.');
         }
 
         $siswa = Siswa::with('kelas')
@@ -128,19 +150,25 @@ class SiswaController extends Controller
             );
         }
 
-        if ($request->filled('tanggal_mulai')) {
+        $tglMulai = $request->input('tanggal_mulai');
+        $tglAkhir = $request->input('tanggal_akhir');
+        if ($tglMulai && $tglAkhir && $tglMulai > $tglAkhir) {
+            [$tglMulai, $tglAkhir] = [$tglAkhir, $tglMulai];
+        }
+
+        if (!empty($tglMulai)) {
             $query->whereDate(
                 'tanggal',
                 '>=',
-                $request->tanggal_mulai
+                $tglMulai
             );
         }
 
-        if ($request->filled('tanggal_akhir')) {
+        if (!empty($tglAkhir)) {
             $query->whereDate(
                 'tanggal',
                 '<=',
-                $request->tanggal_akhir
+                $tglAkhir
             );
         }
 
@@ -180,23 +208,62 @@ class SiswaController extends Controller
     public function update(Request $request, $id)
     {
         $siswa = Siswa::findOrFail($id);
+        $oldIdKelas = (int) $siswa->id_kelas;
 
         $validated = $request->validate([
-            'nis' => 'nullable|string|max:50',
+            'nis' => [
+                'nullable',
+                'string',
+                'max:50',
+                Rule::unique('siswa', 'nis')->ignore($siswa->id_siswa, 'id_siswa'),
+            ],
             'nama_siswa' => 'required|string|max:100',
             'jenis_kelamin' => 'required|in:L,P',
             'id_kelas' => 'required|exists:kelas,id_kelas',
             'alamat' => 'nullable|string',
             'no_telp' => 'nullable|string|max:20',
+        ], [
+            'nis.unique' => 'NIS tersebut sudah terdaftar pada siswa lain.',
         ]);
 
-        $siswa->update($validated);
+        $validated['nis'] = !empty($validated['nis']) ? trim($validated['nis']) : null;
+
+        try {
+            $siswa->update($validated);
+
+            // Jika kelas siswa berubah, sinkronkan id_wali pada pengajuan izin/jadwal aktif siswa
+            if ((int) $siswa->id_kelas !== $oldIdKelas) {
+                $newWali = User::where('role', 'wali_kelas')
+                    ->where('id_kelas', $siswa->id_kelas)
+                    ->orderByDesc('id_user')
+                    ->first();
+
+                Penjadwalan::where('id_siswa', $siswa->id_siswa)
+                    ->whereIn('status', ['Diajukan', 'Disetujui_Wali', 'Terjadwal'])
+                    ->update([
+                        'id_wali' => $newWali ? $newWali->id_user : null,
+                    ]);
+            }
+        } catch (\Throwable $e) {
+            return back()
+                ->withInput()
+                ->with('error', 'Gagal memperbarui data siswa. Silakan periksa kembali data Anda.');
+        }
+
+        $redirectTo = $request->input('redirect_to');
+        if ($redirectTo && (str_starts_with($redirectTo, url('/')) || (str_starts_with($redirectTo, '/') && !str_starts_with($redirectTo, '//')))) {
+            return redirect($redirectTo)
+                ->with(
+                    'success',
+                    'Data berhasil diperbarui.'
+                );
+        }
 
         return redirect()
             ->route('siswa.index')
             ->with(
                 'success',
-                'Data siswa berhasil diperbarui.'
+                'Data berhasil diperbarui.'
             );
     }
 
@@ -206,30 +273,31 @@ class SiswaController extends Controller
             'file' => 'required|file|mimes:xlsx,xls,csv|max:5120',
             'tingkat' => 'required|in:7,8,9',
             'kelas' => 'required|string',
+            'form_type' => 'required|in:import',
         ]);
 
         try {
-            Excel::import(
-                new SiswaImport(
-                    $request->tingkat,
-                    $request->kelas
-                ),
-                $request->file('file')
-            );
+            $import = new SiswaImport($request->tingkat, $request->kelas);
+            Excel::import($import, $request->file('file'));
 
             return redirect()
                 ->route('siswa.index')
-                ->with(
-                    'success',
-                    'Data siswa berhasil diimport dari Excel.'
-                );
+                ->with('import_success', $import->importedCount() . ' data siswa berhasil diimport.');
 
         } catch (\Illuminate\Validation\ValidationException $e) {
-
             return redirect()
                 ->route('siswa.index')
                 ->withErrors($e->errors())
-                ->withInput();
+                ->withInput($request->except('file'));
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('Import data siswa gagal diproses.', [
+                'exception' => $e,
+            ]);
+
+            return redirect()
+                ->route('siswa.index')
+                ->withErrors(['file' => 'File tidak dapat diproses. Pastikan format Excel/CSV dan susunan kolomnya sesuai, lalu coba kembali.'])
+                ->withInput($request->except('file'));
         }
     }
 
@@ -264,7 +332,18 @@ class SiswaController extends Controller
                 );
         }
 
+        $affectedDates = $siswa->penjadwalan()
+            ->whereNotNull('tanggal')
+            ->pluck('tanggal')
+            ->unique()
+            ->values()
+            ->all();
+
         $siswa->delete();           // hapus siswa
+
+        foreach ($affectedDates as $tanggal) {
+            SlotKonseling::syncSlotStatusesOnDate($tanggal);
+        }
 
         return redirect()
             ->route('siswa.index')
@@ -276,6 +355,7 @@ class SiswaController extends Controller
 
     public function riwayat(Request $request)
     {
+        abort_unless(auth()->check() && auth()->user()->isGuruBK(), 403);
         $query = Siswa::with('kelas')
             ->withCount('konseling')
             ->having(
@@ -284,14 +364,26 @@ class SiswaController extends Controller
                 0
             );
 
+        if ($request->filled('kelas')) {
+            $query->where('id_kelas', $request->kelas);
+        }
+
         if ($request->filled('search')) {
             $search = $request->search;
 
             $query->where(function ($q) use ($search) {
-                $q->where('nama_siswa', 'like', '%' . $search . '%')
-                ->orWhereHas('kelas', function ($kelas) use ($search) {
-                    $kelas->where('nama_kelas', 'like', '%' . $search . '%');
-                });
+                $q->whereNameLike($search)
+                    ->orWhere('nis', 'like', '%' . $search . '%')
+                    ->orWhereHas('kelas', function ($kelas) use ($search) {
+                        $kelas->where('nama_kelas', 'like', '%' . $search . '%');
+                    })
+                    ->orWhereHas('konseling', function ($konseling) use ($search) {
+                        $konseling->where('masalah', 'like', '%' . $search . '%')
+                            ->orWhere('hasil_konseling', 'like', '%' . $search . '%')
+                            ->orWhereHas('jenisMasalah', function ($jenis) use ($search) {
+                                $jenis->where('nama_jenis', 'like', '%' . $search . '%');
+                            });
+                    });
             });
         }
 
@@ -347,6 +439,10 @@ class SiswaController extends Controller
                 );
         }
 
+        if (!file_exists(storage_path('fonts'))) {
+            mkdir(storage_path('fonts'), 0755, true);
+        }
+
         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView(
             'surat.panggilan_pdf',
             compact(
@@ -354,6 +450,12 @@ class SiswaController extends Controller
                 'totalKonseling'
             )
         );
+
+        $pdf->setOption([
+            'defaultFont' => 'Times-Roman',
+            'fontDir' => storage_path('fonts'),
+            'fontCache' => storage_path('fonts'),
+        ]);
 
         return $pdf->download(
             'surat-panggilan-' . $siswa->nama_siswa . '.pdf'
@@ -486,11 +588,7 @@ class SiswaController extends Controller
             'spaceAfter' => 30,
         ];
 
-        $kelasNama = $siswa->kelas
-            ? (str_starts_with($siswa->kelas->nama_kelas, (string)$siswa->kelas->tingkat)
-                ? $siswa->kelas->nama_kelas
-                : trim(($siswa->kelas->tingkat ?? '') . ' ' . ($siswa->kelas->nama_kelas ?? '')))
-            : '-';
+        $kelasNama = $siswa->kelas->nama_kelas ?? '-';
 
         $pNama = $section->addTextRun($tabStyle);
         $pNama->addText('Nama Siswa', ['size' => 11]);

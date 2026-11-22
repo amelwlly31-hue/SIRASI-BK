@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Kelas;
 use App\Models\Siswa;
 use App\Models\Penjadwalan;
+use App\Models\SlotKonseling;
 use App\Models\JenisMasalah;
 use App\Models\Konseling;
 use App\Models\TindakLanjut;
@@ -93,7 +94,7 @@ class SystemIntegrationTest extends TestCase
 
     /**
      * 1. Pengujian Alur Penuh (End-to-End Lifecycle):
-     * Siswa Ajukan -> Wali Kelas Setujui -> Guru BK Konfirmasi Jadwal -> Guru BK Sesi Konseling & Tindak Lanjut
+     * Siswa Ajukan Izin -> Wali Kelas Setujui Izin -> Siswa Ajukan Jadwal -> Guru BK Konfirmasi Jadwal -> Guru BK Sesi Konseling & Tindak Lanjut
      */
     public function test_end_to_end_counseling_lifecycle_cross_role()
     {
@@ -101,34 +102,27 @@ class SystemIntegrationTest extends TestCase
         $startTime = '09:00';
         $endTime = '10:00';
 
-        // LANGKAH 1: Siswa masuk ke Portal Siswa Mandiri dan mengajukan konseling
-        $portalLogin = $this->post(route('portal.siswa.login'), [
-            'nis' => $this->siswaA->nis,
-        ]);
-        $portalLogin->assertRedirect(route('portal.siswa.index'));
-        $this->assertEquals($this->siswaA->id_siswa, session('portal_siswa_id'));
-
-        $ajukanResponse = $this->post(route('portal.siswa.ajukan'), [
-            'tanggal' => $targetDate,
-            'waktu_mulai' => $startTime,
-            'waktu_selesai' => $endTime,
+        // LANGKAH 1: Siswa membuka Portal Publik Tanpa Login dan mengajukan permohonan izin kepada Wali Kelas
+        $izinResponse = $this->post(route('portal.siswa.izin'), [
+            'id_kelas' => $this->kelasA->id_kelas,
+            'id_siswa' => $this->siswaA->id_siswa,
             'jenis_bimbingan' => 'Bimbingan Belajar dan Konsentrasi',
-            'catatan' => 'Sering kesulitan fokus belajar di kelas.',
         ]);
-        $ajukanResponse->assertRedirect(route('portal.siswa.index'));
-        $ajukanResponse->assertSessionHas('success');
+        $izinResponse->assertRedirect();
+        $izinResponse->assertSessionHas('izin_berhasil', true);
 
-        // Pastikan record jadwal tersimpan dengan status 'Diajukan'
+        // Pastikan record permohonan izin tersimpan dengan status 'Diajukan' dan belum memiliki jadwal konseling
         $penjadwalan = Penjadwalan::where('id_siswa', $this->siswaA->id_siswa)
-            ->where('tanggal', $targetDate)
-            ->where('waktu_mulai', $startTime)
+            ->latest('id_penjadwalan')
             ->first();
 
         $this->assertNotNull($penjadwalan);
+        $this->assertNotEmpty($penjadwalan->kode_pengajuan);
         $this->assertEquals('Diajukan', $penjadwalan->status);
         $this->assertTrue($penjadwalan->isDiajukan());
+        $this->assertFalse($penjadwalan->hasSubmittedSchedule());
 
-        // LANGKAH 2: Wali Kelas A melihat daftar pengajuan dan menyetujuinya
+        // LANGKAH 2: Wali Kelas A melihat daftar permohonan izin dan menyetujuinya
         $waliView = $this->actingAs($this->waliKelasA)->get(route('wali.pengajuan.index'));
         $waliView->assertStatus(200);
         $waliView->assertSee($this->siswaA->nama_siswa);
@@ -144,6 +138,38 @@ class SystemIntegrationTest extends TestCase
         $this->assertTrue($penjadwalan->isDisetujuiWali());
         $this->assertEquals($this->waliKelasA->id_user, $penjadwalan->id_wali);
         $this->assertNotNull($penjadwalan->waktu_persetujuan_wali);
+
+        // LANGKAH 2A: Guru BK membuka slot ketersediaan konseling pada tanggal tersebut (09:00 - 10:00)
+        $slot = SlotKonseling::create([
+            'id_user' => $this->guruBk->id_user,
+            'tanggal' => $targetDate,
+            'waktu_mulai' => $startTime . ':00',
+            'waktu_selesai' => $endTime . ':00',
+            'durasi_menit' => 60,
+            'status' => 'Tersedia',
+            'keterangan' => 'Slot 1 Jam Pagi',
+        ]);
+
+        // LANGKAH 2B: Setelah izin disetujui Wali Kelas, siswa mengajukan jadwal konseling ke Guru BK
+        $ajukanResponse = $this->post(route('portal.siswa.ajukan'), [
+            'id_kelas' => $this->kelasA->id_kelas,
+            'id_siswa' => $this->siswaA->id_siswa,
+            'kode_pengajuan' => $penjadwalan->kode_pengajuan,
+            'id_slot' => $slot->id_slot,
+            'tanggal' => $targetDate,
+            'waktu_mulai' => $startTime,
+            'waktu_selesai' => $endTime,
+            'jenis_bimbingan' => 'Bimbingan Belajar dan Konsentrasi',
+            'catatan' => 'Sering kesulitan fokus belajar di kelas.',
+        ]);
+        $ajukanResponse->assertRedirect();
+        $ajukanResponse->assertSessionHas('pengajuan_berhasil', true);
+
+        $penjadwalan->refresh();
+        $slot->refresh();
+        $this->assertEquals('Disetujui_Wali', $penjadwalan->status);
+        $this->assertTrue($penjadwalan->hasSubmittedSchedule());
+        $this->assertEquals('Menunggu_Diproses', $slot->status);
 
         // LANGKAH 3: Guru BK melihat jadwal yang disetujui wali kelas dan mengonfirmasi ke 'Terjadwal'
         $bkView = $this->actingAs($this->guruBk)->get(route('penjadwalan.index'));
@@ -165,7 +191,9 @@ class SystemIntegrationTest extends TestCase
         $updateResponse->assertRedirect(route('penjadwalan.show', $penjadwalan->id_penjadwalan));
 
         $penjadwalan->refresh();
+        $slot->refresh();
         $this->assertEquals('Terjadwal', $penjadwalan->status);
+        $this->assertEquals('Dipesan', $slot->status);
 
         // LANGKAH 4: Guru BK mencatat sesi konseling yang telah dilaksanakan
         $konselingResponse = $this->actingAs($this->guruBk)->post(route('konseling.store'), [
@@ -196,14 +224,15 @@ class SystemIntegrationTest extends TestCase
             'tindakan' => 'Pemeriksaan kepatuhan jadwal belajar mandiri',
         ]);
 
-        // LANGKAH 6: Siswa memeriksa portal mandiri dan mendapati statusnya adalah 'Terjadwal'
-        $portalStatusView = $this->withSession(['portal_siswa_id' => $this->siswaA->id_siswa])
-            ->get(route('portal.siswa.index'));
+        // LANGKAH 6: Siswa memeriksa halaman Cek Status dengan Kode Izin dan mendapati statusnya adalah 'Terjadwal' tanpa menampilkan catatan pribadi
+        $portalStatusView = $this->post(route('portal.siswa.status'), [
+            'id_kelas' => $this->kelasA->id_kelas,
+            'id_siswa' => $this->siswaA->id_siswa,
+            'kode_pengajuan' => $penjadwalan->kode_pengajuan,
+        ]);
         $portalStatusView->assertStatus(200);
-        $portalStatusView->assertSee('Terjadwal');
-        $portalStatusView->assertSee('Bimbingan Belajar dan Konsentrasi');
-        $portalStatusView->assertSee('Dikonfirmasi, sesi akan dilaksanakan di Ruang BK 1.');
-        $portalStatusView->assertSee('Respon Wali Kelas');
+        $portalStatusView->assertSee('Terjadwal Resmi oleh Guru BK');
+        $portalStatusView->assertDontSee('Dikonfirmasi, sesi akan dilaksanakan di Ruang BK 1.');
     }
 
     /**
@@ -219,10 +248,27 @@ class SystemIntegrationTest extends TestCase
         $this->get('/konseling')->assertRedirect(route('login'));
         $this->get('/wali-kelas/pengajuan')->assertRedirect(route('login'));
 
-        // B. Admin: Memiliki akses administrasi, namun DILARANG mengakses catatan konseling sensitif
+        // B. Admin: Dapat mengelola data siswa, namun tetap tidak dapat membuka fitur BK khusus
         $this->actingAs($this->admin)->get('/dashboard')->assertStatus(200);
         $this->actingAs($this->admin)->get('/users')->assertStatus(200);
         $this->actingAs($this->admin)->get('/siswa')->assertStatus(200);
+        $this->actingAs($this->admin)->get(route('siswa.create'))->assertStatus(200);
+        $this->actingAs($this->admin)->get(route('siswa.edit', $this->siswaA->id_siswa))->assertStatus(200);
+        $this->actingAs($this->admin)->get(route('siswa.show', $this->siswaA->id_siswa))->assertStatus(200);
+        $adminSiswaNis = 'ROLE_ADMIN_' . uniqid();
+        $this->actingAs($this->admin)->post(route('siswa.store'), [
+            'nis' => $adminSiswaNis,
+            'nama_siswa' => 'Siswa Buatan Admin',
+            'jenis_kelamin' => 'L',
+            'id_kelas' => $this->kelasA->id_kelas,
+        ])->assertRedirect(route('siswa.index'));
+        $adminCreatedSiswa = Siswa::where('nis', $adminSiswaNis)->firstOrFail();
+        $this->actingAs($this->admin)->put(route('siswa.update', $adminCreatedSiswa->id_siswa), [
+            'nis' => $adminSiswaNis,
+            'nama_siswa' => 'Siswa Diperbarui Admin',
+            'jenis_kelamin' => 'L',
+            'id_kelas' => $this->kelasA->id_kelas,
+        ])->assertRedirect(route('siswa.index'));
         $this->actingAs($this->admin)->get('/penjadwalan')->assertStatus(200);
 
         // Akses privat konseling ditolak (403)
@@ -231,13 +277,27 @@ class SystemIntegrationTest extends TestCase
         $this->actingAs($this->admin)->get('/laporan')->assertStatus(403);
         $this->actingAs($this->admin)->get('/riwayat-siswa')->assertStatus(403);
         $this->actingAs($this->admin)->get('/wali-kelas/pengajuan')->assertStatus(403);
-        // Admin membuka detail riwayat konseling siswa individual ditolak (403)
-        $this->actingAs($this->admin)->get(route('siswa.show', $this->siswaA->id_siswa))->assertStatus(403);
 
         // C. Guru BK: Memiliki akses penuh BK, namun DILARANG mengelola akun user atau persetujuan wali kelas
         $this->actingAs($this->guruBk)->get('/dashboard')->assertStatus(200);
         $this->actingAs($this->guruBk)->get('/siswa')->assertStatus(200);
+        $this->actingAs($this->guruBk)->get(route('siswa.create'))->assertStatus(200);
+        $this->actingAs($this->guruBk)->get(route('siswa.edit', $this->siswaA->id_siswa))->assertStatus(200);
         $this->actingAs($this->guruBk)->get(route('siswa.show', $this->siswaA->id_siswa))->assertStatus(200);
+        $guruSiswaNis = 'ROLE_GURU_' . uniqid();
+        $this->actingAs($this->guruBk)->post(route('siswa.store'), [
+            'nis' => $guruSiswaNis,
+            'nama_siswa' => 'Siswa Buatan Guru BK',
+            'jenis_kelamin' => 'P',
+            'id_kelas' => $this->kelasA->id_kelas,
+        ])->assertRedirect(route('siswa.index'));
+        $guruCreatedSiswa = Siswa::where('nis', $guruSiswaNis)->firstOrFail();
+        $this->actingAs($this->guruBk)->put(route('siswa.update', $guruCreatedSiswa->id_siswa), [
+            'nis' => $guruSiswaNis,
+            'nama_siswa' => 'Siswa Diperbarui Guru BK',
+            'jenis_kelamin' => 'P',
+            'id_kelas' => $this->kelasA->id_kelas,
+        ])->assertRedirect(route('siswa.index'));
         $this->actingAs($this->guruBk)->get('/penjadwalan')->assertStatus(200);
         $this->actingAs($this->guruBk)->get('/konseling')->assertStatus(200);
         $this->actingAs($this->guruBk)->get('/tindak_lanjut')->assertRedirect(route('konseling.index'));
@@ -254,6 +314,10 @@ class SystemIntegrationTest extends TestCase
 
         $this->actingAs($this->waliKelasA)->get('/users')->assertStatus(403);
         $this->actingAs($this->waliKelasA)->get('/siswa')->assertStatus(403);
+        $this->actingAs($this->waliKelasA)->get(route('siswa.create'))->assertStatus(403);
+        $this->actingAs($this->waliKelasA)->get(route('siswa.edit', $this->siswaA->id_siswa))->assertStatus(403);
+        $this->actingAs($this->waliKelasA)->post(route('siswa.store'), [])->assertStatus(403);
+        $this->actingAs($this->waliKelasA)->put(route('siswa.update', $this->siswaA->id_siswa), [])->assertStatus(403);
         $this->actingAs($this->waliKelasA)->get('/penjadwalan')->assertStatus(403);
         $this->actingAs($this->waliKelasA)->get('/konseling')->assertStatus(403);
         $this->actingAs($this->waliKelasA)->get('/tindak_lanjut')->assertStatus(403);
@@ -331,14 +395,27 @@ class SystemIntegrationTest extends TestCase
             'status' => 'Terjadwal',
         ]);
 
-        // Skenario A: Siswa B mengajukan jam yang bertabrakan (09:00 - 10:00) via portal -> Gagal
-        $conflictPortal = $this->withSession(['portal_siswa_id' => $this->siswaB->id_siswa])
-            ->post(route('portal.siswa.ajukan'), [
-                'tanggal' => $targetDate,
-                'waktu_mulai' => '09:00',
-                'waktu_selesai' => '10:00',
-                'jenis_bimbingan' => 'Bimbingan Tabrakan',
-            ]);
+        // Skenario A: Siswa B (yang sudah mendapat izin Wali Kelas) mengajukan jam yang bertabrakan (09:00 - 10:00) via portal -> Gagal
+        $izinSiswaB = Penjadwalan::create([
+            'kode_pengajuan' => Penjadwalan::generateKodePengajuan(),
+            'id_siswa' => $this->siswaB->id_siswa,
+            'tanggal' => Carbon::now()->format('Y-m-d'),
+            'waktu_mulai' => '00:00:00',
+            'waktu_selesai' => '00:00:00',
+            'jenis_bimbingan' => 'Bimbingan Tabrakan',
+            'status' => 'Disetujui_Wali',
+            'id_wali' => $this->waliKelasB->id_user,
+        ]);
+
+        $conflictPortal = $this->post(route('portal.siswa.ajukan'), [
+            'id_kelas' => $this->kelasB->id_kelas,
+            'id_siswa' => $this->siswaB->id_siswa,
+            'kode_pengajuan' => $izinSiswaB->kode_pengajuan,
+            'tanggal' => $targetDate,
+            'waktu_mulai' => '09:00',
+            'waktu_selesai' => '10:00',
+            'jenis_bimbingan' => 'Bimbingan Tabrakan',
+        ]);
         $conflictPortal->assertSessionHasErrors('waktu_mulai');
 
         // Skenario B: Guru BK mencoba membuat jadwal baru yang menimpa slot (08:30 - 09:15) -> Gagal

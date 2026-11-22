@@ -34,7 +34,7 @@
         }
 
         body {
-            font-family: Inter, "Segoe UI", Arial, sans-serif;
+
             background: var(--bg);
             color: var(--text);
         }
@@ -47,7 +47,7 @@
         input,
         select,
         textarea {
-            font-family: inherit;
+
         }
 
         .app {
@@ -57,7 +57,7 @@
         /* sidebar */
 
         .sidebar {
-            width: 270px;
+            width: 235px;
             min-height: 100vh;
 
             position: fixed;
@@ -236,7 +236,7 @@
 
         .main {
             min-height: 100vh;
-            margin-left: 270px;
+            margin-left: 235px;
         }
 
         /* header */
@@ -283,6 +283,23 @@
             cursor: pointer;
         }
 
+        .notification { position: relative; }
+        .notification-dot { width: 7px; height: 7px; position: absolute; top: 7px; right: 7px; border: 2px solid white; border-radius: 50%; background: #e14c4c; }
+        .notification-wrapper { position: relative; }
+        .notification-dropdown { position: absolute; top: 48px; right: 0; width: 340px; max-height: 420px; overflow-y: auto; background: white; border: 1px solid var(--border); border-radius: 14px; box-shadow: 0 15px 35px rgba(23,60,145,.14); display: none; z-index: 1000; }
+        .notification-dropdown.show { display: block; }
+        .notification-header { padding: 15px 17px; border-bottom: 1px solid var(--border); font-size: 13px; color: var(--text); }
+        .notification-item { display: flex; gap: 11px; padding: 13px 15px; border-bottom: 1px solid #edf0f4; color: var(--text); text-decoration: none; transition: .2s ease; }
+        .notification-item:hover { background: #f7f9ff; }
+        .notification-item-icon { width: 34px; height: 34px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: 9px; background: var(--primary-soft); color: var(--primary); }
+        .notification-item-content { min-width: 0; }
+        .notification-item-content strong { display: block; font-size: 11px; font-weight: 800; }
+        .notification-item-content p { margin-top: 4px; color: var(--muted); font-size: 10px; line-height: 1.45; }
+        .notification-item-content small { display: block; margin-top: 5px; color: #9aa1ae; font-size: 8px; }
+        .notification-empty { padding: 30px 20px; text-align: center; color: var(--muted); font-size: 11px; }
+        html.dark-mode .notification-dropdown { background: #162238 !important; border-color: #2a3953 !important; }
+        html.dark-mode .notification-header, html.dark-mode .notification-item { border-color: #2a3953 !important; color: #eef3ff !important; }
+        html.dark-mode .notification-item:hover { background: #1d2c47 !important; }
         .profile {
             display: flex;
             align-items: center;
@@ -604,11 +621,11 @@
 
         @media (max-width: 900px) {
             .sidebar {
-                width: 220px;
+                width: 74px;
             }
 
             .main {
-                margin-left: 220px;
+                margin-left: 74px;
             }
 
             .header {
@@ -622,13 +639,11 @@
 
         @media (max-width: 700px) {
             .sidebar {
-                position: relative;
-                width: 100%;
-                min-height: auto;
+                width: 62px;
             }
 
             .main {
-                margin-left: 0;
+                margin-left: 62px;
             }
 
             .form-grid {
@@ -713,86 +728,7 @@
 <div class="app">
 
     {{-- sidebar --}}
-    <aside class="sidebar">
-
-        <div class="brand">
-
-            <div class="brand-logo">
-                <img src="{{ asset('images/logo-smpn2-dramaga.png') }}" alt="Logo SMP Negeri 2 Dramaga">
-            </div>
-
-            <div>
-                <div class="brand-name">SIRASI-BK</div>
-                <div class="brand-subtitle">Sistem Informasi BK</div>
-            </div>
-
-        </div>
-
-        <div class="menu-title">
-            Menu Utama
-        </div>
-
-        <nav class="menu">
-
-            <a
-                    href="{{ route('dashboard') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="home"></i></span>
-                        Dashboard
-                </a>
-
-                <a
-                    href="{{ route('siswa.index') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="users-round"></i></span>
-                    Data Siswa
-                </a>
-
-                {{-- penjadwalan aktif --}}
-                <a
-                    href="{{ route('penjadwalan.index') }}" class="menu-item active">
-                    <span class="menu-icon"><i data-lucide="calendar-clock"></i></span>
-                        Penjadwalan
-                </a>
-
-                <a
-                    href="{{ route('konseling.index') }}" class="menu-item">
-                    <span class="menu-icon"> <i data-lucide="clipboard-list"></i></span>
-                        Data Konseling
-                </a>
-
-                <a
-                    href="{{ route('siswa.riwayat') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="history"></i></span>
-                        Riwayat Siswa
-                </a>
-
-                <a
-                    href="{{ route('laporan.index') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="file-chart-column"></i></span>
-                    Laporan
-                </a>
-
-                <a
-                    href="{{ route('pengaturan.index') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="settings"></i></span>
-                    Pengaturan
-                </a>
-
-        </nav>
-
-        <div class="sidebar-bottom">
-
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-
-                <button type="submit" class="menu-item logout-button">
-                    <span class="menu-icon"><i data-lucide="log-out"></i></span>
-                    Logout
-                </button>
-            </form>
-
-        </div>
-
-    </aside>
+    @include('layouts.sidebar')
 
     {{-- main --}}
     <main class="main">
@@ -804,7 +740,30 @@
 
             <div class="profile-area">
 
-                <button class="notification" type="button">
+                <div class="notification-wrapper">
+                    <button class="notification" type="button" id="notificationButton" title="Notifikasi">
+                        <i data-lucide="bell"></i>
+                        @if (isset($notifikasis) && $notifikasis->where('dibaca', false)->count() > 0)
+                            <span class="notification-dot" id="notificationDot"></span>
+                        @endif
+                    </button>
+                    <div class="notification-dropdown" id="notificationDropdown">
+                        <div class="notification-header"><strong>Notifikasi</strong></div>
+                        @forelse ($notifikasis ?? [] as $notifikasi)
+                            <a href="{{ route('notifikasi.baca', $notifikasi->id) }}" class="notification-item {{ !$notifikasi->dibaca ? 'unread' : '' }}">
+                                <div class="notification-item-icon"><i data-lucide="clipboard-list"></i></div>
+                                <div class="notification-item-content">
+                                    <strong>{{ $notifikasi->judul }}</strong>
+                                    <p>{{ preg_replace('/\s*\[JADWAL:\d+\]/', '', $notifikasi->pesan) }}</p>
+                                    <small>{{ $notifikasi->created_at->diffForHumans() }}</small>
+                                </div>
+                            </a>
+                        @empty
+                            <div class="notification-empty"><i data-lucide="bell-off"></i><p>Belum ada notifikasi</p></div>
+                        @endforelse
+                    </div>
+                </div>
+                <button style="display:none" type="button">
                     <i data-lucide="bell"></i>
                 </button>
 
@@ -817,7 +776,7 @@
                         </div>
 
                         <div class="profile-role">
-                            Guru BK
+                            {{ auth()->user()->role ?? 'Guru BK' }}
                         </div>
 
                     </div>
@@ -1113,6 +1072,30 @@
 
 <script>
     lucide.createIcons();
+    const notificationButton = document.getElementById('notificationButton');
+    const notificationDropdown = document.getElementById('notificationDropdown');
+    if (notificationButton && notificationDropdown) {
+        notificationButton.addEventListener('click', function (event) {
+            event.stopPropagation();
+            notificationDropdown.classList.toggle('show');
+            const dot = document.getElementById('notificationDot') || document.querySelector('.notification-dot');
+            if (dot) {
+                dot.style.display = 'none';
+                fetch('{{ route("notifikasi.markAllRead") }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json'
+                    }
+                }).catch(function () {});
+            }
+        });
+        document.addEventListener('click', function (event) {
+            if (!notificationButton.contains(event.target) && !notificationDropdown.contains(event.target)) {
+                notificationDropdown.classList.remove('show');
+            }
+        });
+    }
 </script>
 
 </body>

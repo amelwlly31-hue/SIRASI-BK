@@ -4,10 +4,13 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use App\Models\Kelas;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class DashboardAndUserManagementTest extends TestCase
 {
+    use DatabaseTransactions;
+
     public function test_login_page_redirects_authenticated_user_to_dashboard()
     {
         $user = User::where('role', 'guru_bk')->first();
@@ -80,14 +83,17 @@ class DashboardAndUserManagementTest extends TestCase
         $this->assertEquals(1, $newUser->id_kelas);
 
         // 4. Update Akun
+        $kelasTujuan = Kelas::where('id_kelas', '<>', 1)->value('id_kelas');
+        $this->assertNotNull($kelasTujuan, 'A second class is required to verify changing a Wali Kelas assignment.');
         $updateResponse = $this->actingAs($admin)->put('/users/' . $newUser->id_user, [
             'nama' => 'Test Wali Kelas Terupdate',
             'username' => $testUsername,
             'role' => 'wali_kelas',
-            'id_kelas' => 1,
+            'id_kelas' => $kelasTujuan,
         ]);
         $updateResponse->assertStatus(302);
         $updateResponse->assertSessionHas('success');
+        $this->assertEquals($kelasTujuan, $newUser->fresh()->id_kelas);
 
         // 5. Hapus Akun Baru
         $deleteResponse = $this->actingAs($admin)->delete('/users/' . $newUser->id_user);

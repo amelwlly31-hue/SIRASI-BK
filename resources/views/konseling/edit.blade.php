@@ -32,7 +32,7 @@
 
         body {
             margin: 0;
-            font-family: Inter, "Segoe UI", Arial, sans-serif;
+
             background:
                 radial-gradient(circle at 90% 0%, rgba(70,112,207,.10), transparent 28%),
                 linear-gradient(180deg, #f8faff 0%, var(--bg) 48%, #f2f5fb 100%);
@@ -47,7 +47,7 @@
         input,
         select,
         textarea {
-            font-family: inherit;
+
         }
 
         /* sidebar */
@@ -58,7 +58,7 @@
         }
 
         .sidebar {
-            width: 270px;
+            width: 235px;
             min-height: 100vh;
             flex-shrink: 0;
             padding: 22px 15px;
@@ -235,6 +235,7 @@
         .main {
             flex: 1;
             min-width: 0;
+            margin-left: 235px;
         }
 
         .header {
@@ -608,6 +609,12 @@
             flex-direction: column;
         }
 
+        .form-group.textarea-pair-field {
+            width: 100%;
+            max-width: 350px;
+            min-width: 0;
+        }
+
         .full {
             grid-column: 1 / -1;
         }
@@ -636,7 +643,7 @@
             color: #1a2844;
             background: #f8faff;
             font-size: 13px;
-            font-family: inherit;
+
             transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
         }
 
@@ -646,9 +653,19 @@
         }
 
         textarea {
-            min-height: 120px;
+            min-height: 78px;
             resize: vertical;
             line-height: 1.6;
+            max-width: 100%;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        .textarea-pair-field textarea {
+            height: 90px;
+            min-height: 85px;
+            max-height: 100px;
+            overflow-y: auto;
         }
 
         input:hover,
@@ -1015,6 +1032,47 @@
             background: linear-gradient(135deg,#315fc9,#1b429c) !important;
         }
 
+        /* Alert / Toast */
+        .alert-success {
+            margin-bottom: 20px;
+            padding: 12px 18px;
+            border-radius: 12px;
+            background: #eaf8f0;
+            color: #16894a;
+            border: 1px solid #c8ebd5;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .alert-danger {
+            margin-bottom: 20px;
+            padding: 12px 18px;
+            border-radius: 12px;
+            background: #fff0f0;
+            color: #d64545;
+            border: 1px solid #ffd0d6;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        body.dark-mode .alert-success {
+            background: #173b2b !important;
+            color: #a7edc2 !important;
+            border-color: #2b7250 !important;
+        }
+
+        body.dark-mode .alert-danger {
+            background: #3c2028 !important;
+            color: #ffd0d6 !important;
+            border-color: #74414c !important;
+        }
+
     </style>
 </head>
 
@@ -1022,88 +1080,11 @@
 
 <div class="app">
     {{-- sidebar --}}
-    <aside class="sidebar">
-
-        <div>
-            <div class="brand">
-                <div class="brand-logo">
-                    <img src="{{ asset('images/logo-smpn2-dramaga.png') }}" alt="Logo SMP Negeri 2 Dramaga">
-                </div>
-
-                <div>
-                    <div class="brand-name">SIRASI-BK</div>
-                    <div class="brand-subtitle">Bimbingan & Konseling</div>
-                </div>
-            </div>
-
-            <div class="menu-title">
-                Menu Utama
-            </div>
-
-            <nav class="menu">
-
-                <a href="{{ route('dashboard') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="home"></i></span>
-                    Dashboard
-                </a>
-
-                <a href="{{ route('siswa.index') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="users-round"></i></span>
-                    Data Siswa
-                </a>
-
-                <a
-                    href="{{ route('penjadwalan.index') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="calendar-clock"></i></span>
-                    Penjadwalan
-                </a>
-
-                <a href="{{ route('konseling.index') }}" class="menu-item active">
-                    <span class="menu-icon"><i data-lucide="clipboard-list"></i></span>
-                    Data Konseling
-                </a>
-
-                <a href="{{ route('siswa.riwayat') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="history"></i></span>
-                    Riwayat Siswa
-                </a>
-
-                <a href="{{ route('laporan.index') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="file-chart-column"></i></span>
-                    Laporan
-                </a>
-
-                <a href="{{ route('pengaturan.index') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="settings"></i></span>
-                    Pengaturan
-                </a>
-
-            </nav>
-        </div>
-
-        <div class="sidebar-bottom">
-            <form action="{{ route('logout') }}" method="POST" onsubmit="return confirm('Anda yakin ingin keluar?');">
-                @csrf
-                <button type="submit" class="menu-item logout-button">
-                    <span class="menu-icon"><i data-lucide="log-out"></i></span>
-                    Logout
-                </button>
-            </form>
-        </div>
-
-    </aside>
+    @include('layouts.sidebar')
 
     <main class="main">
 
         <header class="header">
-
-            <div class="search">
-                <span class="search-icon">
-                    <i data-lucide="search"></i>
-                </span>
-
-                <input type="text" placeholder="Cari data konseling...">
-            </div>
 
             <div class="profile-area">
 
@@ -1117,7 +1098,7 @@
                         <i data-lucide="bell"></i>
 
                         @if (isset($notifikasis) && $notifikasis->where('dibaca', false)->count() > 0)
-                            <span class="notification-dot"></span>
+                            <span class="notification-dot" id="notificationDot"></span>
                         @endif
                     </button>
 
@@ -1133,7 +1114,7 @@
 
                             <a
                                 href="{{ route('notifikasi.baca', $notifikasi->id) }}"
-                                class="notification-item"
+                                class="notification-item {{ !$notifikasi->dibaca ? 'unread' : '' }}"
                             >
                                 <div class="notification-item-icon">
                                     <i data-lucide="clipboard-list"></i>
@@ -1142,7 +1123,7 @@
                                 <div class="notification-item-content">
                                     <strong>{{ $notifikasi->judul }}</strong>
 
-                                    <p>{{ $notifikasi->pesan }}</p>
+                                    <p>{{ preg_replace('/\s*\[JADWAL:\d+\]/', '', $notifikasi->pesan) }}</p>
 
                                     <small>
                                         {{ $notifikasi->created_at->diffForHumans() }}
@@ -1165,10 +1146,10 @@
                 <div class="profile">
                     <div class="profile-info">
                         <div class="profile-name">
-                            {{ Auth::user()->name ?? 'Guru BK' }}
+                            {{ auth()->user()->nama ?? 'Guru BK' }}
                         </div>
                         <div class="profile-role">
-                            admin
+                            {{ auth()->user()->role ?? 'Guru BK' }}
                         </div>
                     </div>
 
@@ -1190,15 +1171,19 @@
 
         <div class="content">
 
-    <a
-        href="{{ route('konseling.show', $konseling->id_konseling) }}"
-        class="back-link"
-        title="Kembali ke Detail Catatan Konseling"
-    >
-        <i data-lucide="arrow-left"></i>
-    </a>
+        @if (session('success'))
+            <div class="alert-success" role="status">
+                <i data-lucide="check-circle-2"></i>
+                <span>{{ session('success') }}</span>
+            </div>
+        @endif
 
-    <div class="eyebrow">Data Konseling</div>
+        @if (session('error'))
+            <div class="alert-danger" role="alert">
+                <i data-lucide="alert-circle"></i>
+                <span>{{ session('error') }}</span>
+            </div>
+        @endif
 
     <h1 class="page-title">Edit Catatan Konseling</h1>
 
@@ -1224,6 +1209,7 @@
 
             @csrf
             @method('PUT')
+            <input type="hidden" name="redirect_to" value="{{ old('redirect_to', request('redirect_to', url()->previous() != url()->current() ? url()->previous() : route('konseling.show', $konseling->id_konseling))) }}">
 
             <div class="grid">
 
@@ -1355,11 +1341,10 @@
                 </div>
 
                 {{-- masalah --}}
-                <div class="form-group full">
+                <div class="form-group textarea-pair-field">
 
                     <label>
                         Masalah yang Dihadapi
-                        <span class="required">*</span>
                     </label>
 
                     <textarea
@@ -1375,11 +1360,10 @@
                 </div>
 
                 {{-- hasil konseling --}}
-                <div class="form-group full">
+                <div class="form-group textarea-pair-field">
 
                     <label>
                         Hasil Konseling
-                        <span class="required">*</span>
                     </label>
 
                     <textarea
@@ -1394,8 +1378,31 @@
 
                 </div>
 
+                {{-- diagnosis atau kesimpulan asesmen diisi manual oleh Guru BK --}}
+                <div class="form-group textarea-pair-field">
+
+                    <label>
+                        Diagnosis / Kesimpulan Asesmen
+                        <span class="optional">Opsional</span>
+                    </label>
+
+                    <textarea
+                        name="diagnosis"
+                        placeholder="Tuliskan diagnosis atau kesimpulan asesmen berdasarkan hasil konseling..."
+                    >{{ old('diagnosis', $konseling->diagnosis) }}</textarea>
+
+                    <small style="display:block;color:#737b8c;font-size:12px;line-height:1.5;margin-top:6px;">
+                        Diagnosis dapat disimpan sebagai draf saat status Proses. Untuk menandai sesi selesai, ubah Status secara terpisah; mengisi diagnosis tidak mengubah status.
+                    </small>
+
+                    @error('diagnosis')
+                        <div class="error">{{ $message }}</div>
+                    @enderror
+
+                </div>
+
                 {{-- catatan --}}
-                <div class="form-group full">
+                <div class="form-group textarea-pair-field">
 
                     <label>
                         Catatan Tambahan
@@ -1410,6 +1417,12 @@
                         <div class="error">{{ $message }}</div>
                     @enderror
 
+                </div>
+
+                <div class="form-group full">
+                    <label for="rencana_tindak_lanjut">Rencana Tindak Lanjut (Follow-Up)</label>
+                    <textarea name="rencana_tindak_lanjut" id="rencana_tindak_lanjut" placeholder="Tuliskan rencana tindak lanjut (opsional)...">{{ old('rencana_tindak_lanjut', $konseling->rencana_tindak_lanjut) }}</textarea>
+                    @error('rencana_tindak_lanjut')<div class="error">{{ $message }}</div>@enderror
                 </div>
 
             </div>
@@ -1458,6 +1471,17 @@
             notificationButton.addEventListener('click', function (event) {
                 event.stopPropagation();
                 notificationDropdown.classList.toggle('show');
+            const dot = document.getElementById('notificationDot') || document.querySelector('.notification-dot');
+            if (dot) {
+                dot.style.display = 'none';
+                fetch('{{ route("notifikasi.markAllRead") }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json'
+                    }
+                }).catch(function () {});
+            }
             });
 
             document.addEventListener('click', function (event) {

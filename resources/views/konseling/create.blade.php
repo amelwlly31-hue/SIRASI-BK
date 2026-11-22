@@ -25,11 +25,7 @@
         }
 
         body {
-            font-family:
-                Inter,
-                "Segoe UI",
-                Arial,
-                sans-serif;
+
             background:var(--page);
             color:var(--text);
         }
@@ -440,7 +436,8 @@
         .form-card > form { padding:20px 22px 22px; }
 
         .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:19px 16px; }
-        .form-group { display:flex; flex-direction:column; }
+        .form-group { min-width:0; display:flex; flex-direction:column; }
+        .form-group.textarea-pair-field { width:100%; max-width:350px; min-width:0; }
         .full { grid-column:1 / -1; }
 
         label { font-size:12px; color:#253552; margin-bottom:8px; font-weight:800; }
@@ -461,7 +458,8 @@
         }
 
         select.form-control { cursor:pointer; }
-        textarea.form-control { min-height:125px; resize:vertical; line-height:1.55; }
+        textarea.form-control { min-height:78px; resize:vertical; line-height:1.5; max-width:100%; white-space:pre-wrap; overflow-wrap:anywhere; }
+        .textarea-pair-field textarea.form-control { height:90px; min-height:85px; max-height:100px; overflow-y:auto; line-height:1.45; }
         .form-control:focus { border-color:#5277c7; background:#fff; box-shadow:0 0 0 4px rgba(70,105,183,.10); }
 
         .form-divider { border:0; border-top:1px solid #e5eaf2; margin:22px 0 17px; }
@@ -808,8 +806,8 @@
 
             /* main */
             .main {
-                margin-left: 270px !important;
-                width: calc(100% - 270px) !important;
+                margin-left: 235px !important;
+                width: calc(100% - 235px) !important;
                 min-width: 0 !important;
             }
 
@@ -958,7 +956,7 @@
 
         /* sidebar */
         .sidebar {
-            width: 270px;
+            width: 235px;
             min-height: 100vh;
 
             position: fixed;
@@ -1224,95 +1222,7 @@
 <div class="dashboard">
 
     {{-- sidebar --}}
-    <aside class="sidebar">
-
-        <div>
-
-            {{-- brand --}}
-            <div class="brand">
-                <div class="brand-logo">
-                    <img
-                        src="{{ asset('images/logo-smpn2-dramaga.png') }}"
-                        alt="Logo SMP Negeri 2 Dramaga"
-                    >
-                </div>
-
-                <div>
-                    <div class="brand-title">
-                        SIRASI-BK
-                    </div>
-
-                    <div class="brand-subtitle">
-                        Bimbingan & Konseling
-                    </div>
-                </div>
-            </div>
-
-            {{-- menu title --}}
-            <div class="menu-title">
-                Menu Utama
-            </div>
-
-            {{-- menu --}}
-            <nav class="menu">
-
-                <a href="{{ route('dashboard') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="home"></i></span>
-                    Dashboard
-                </a>
-
-                <a href="{{ route('siswa.index') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="users-round"></i></span>
-                    Data Siswa
-                </a>
-
-                <a
-                    href="{{ route('penjadwalan.index') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="calendar-clock"></i></span>
-                    Penjadwalan
-                </a>
-
-                <a href="{{ route('konseling.index') }}" class="menu-item active">
-                    <span class="menu-icon"><i data-lucide="clipboard-list"></i></span>
-                    Data Konseling
-                </a>
-
-                <a href="{{ route('siswa.riwayat') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="history"></i></span>
-                    Riwayat Siswa
-                </a>
-
-                <a href="{{ route('laporan.index') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="file-chart-column"></i></span>
-                    Laporan
-                </a>
-
-                <a href="{{ route('pengaturan.index') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="settings"></i></span>
-                    Pengaturan
-                </a>
-
-            </nav>
-
-        </div>
-
-        {{-- logout --}}
-        <div class="sidebar-logout">
-
-            <form action="{{ route('logout') }}" method="POST" onsubmit="return confirm('Anda yakin ingin keluar?');">
-                @csrf
-
-                <button
-                    type="submit" class="menu-item logout-button">
-                    <span class="menu-icon"><i data-lucide="log-out"></i></span>
-                    Logout
-                </button>
-
-            </form>
-
-        </div>
-
-    </aside>
+    @include('layouts.sidebar')
 
     {{-- main --}}
     <main class="main">
@@ -1320,19 +1230,6 @@
         {{-- header --}}
 
         <header class="header">
-
-            <div class="search">
-
-                <span>
-                    <i data-lucide="search"></i>
-                </span>
-
-                <input
-                    type="text"
-                    placeholder="Cari data..."
-                >
-
-            </div>
 
             <div class="profile-area">
 
@@ -1346,7 +1243,7 @@
                         <i data-lucide="bell"></i>
 
                         @if (isset($notifikasis) && $notifikasis->where('dibaca', false)->count() > 0)
-                            <span class="notification-dot"></span>
+                            <span class="notification-dot" id="notificationDot"></span>
                         @endif
                     </button>
 
@@ -1362,7 +1259,7 @@
 
                             <a
                                 href="{{ route('notifikasi.baca', $notifikasi->id) }}"
-                                class="notification-item"
+                                class="notification-item {{ !$notifikasi->dibaca ? 'unread' : '' }}"
                             >
                                 <div class="notification-item-icon">
                                     <i data-lucide="clipboard-list"></i>
@@ -1371,7 +1268,7 @@
                                 <div class="notification-item-content">
                                     <strong>{{ $notifikasi->judul }}</strong>
 
-                                    <p>{{ $notifikasi->pesan }}</p>
+                                    <p>{{ preg_replace('/\s*\[JADWAL:\d+\]/', '', $notifikasi->pesan) }}</p>
 
                                     <small>
                                         {{ $notifikasi->created_at->diffForHumans() }}
@@ -1494,9 +1391,6 @@
 
                                 <label for="id_siswa">
                                     Pilih Siswa
-                                    <span class="required">
-                                        *
-                                    </span>
                                 </label>
 
                                 <select
@@ -1507,27 +1401,33 @@
                                     onchange="updateStudentPreview()"
                                 >
 
-                                    <option value="">
-                                        Pilih siswa
-                                    </option>
-
-                                    @foreach ($siswa as $item)
-
-                                        <option
-                                            value="{{ $item->id_siswa }}"
-                                            data-nama="{{ $item->nama_siswa }}"
-                                            data-kelas="{{ $item->kelas->nama_kelas ?? '-' }}"
-                                            data-nis="{{ $item->nis ?? '-' }}"
-                                            {{ old('id_siswa') == $item->id_siswa ? 'selected' : '' }}
-                                        >
-
-                                            {{ $item->nama_siswa }}
-
-                                            ({{ $item->kelas->nama_kelas ?? '-' }})
-
+                                    @if ($siswa->isEmpty())
+                                        <option value="" disabled selected>
+                                            Belum ada siswa dengan jadwal terkonfirmasi
+                                        </option>
+                                    @else
+                                        <option value="">
+                                            Pilih siswa
                                         </option>
 
-                                    @endforeach
+                                        @foreach ($siswa as $item)
+
+                                            <option
+                                                value="{{ $item->id_siswa }}"
+                                                data-nama="{{ $item->nama_siswa }}"
+                                                data-kelas="{{ $item->kelas->nama_kelas ?? '-' }}"
+                                                data-nis="{{ $item->nis ?? '-' }}"
+                                                {{ old('id_siswa', $selectedSiswa) == $item->id_siswa ? 'selected' : '' }}
+                                            >
+
+                                                {{ $item->nama_siswa }}
+
+                                                ({{ $item->kelas->nama_kelas ?? '-' }})
+
+                                            </option>
+
+                                        @endforeach
+                                    @endif
 
                                 </select>
 
@@ -1540,9 +1440,6 @@
 
                                     Tanggal Sesi
 
-                                    <span class="required">
-                                        *
-                                    </span>
 
                                 </label>
 
@@ -1557,57 +1454,31 @@
 
                             </div>
 
-                            {{-- status --}}
+                            {{-- sesi baru selalu dimulai dengan status Proses --}}
                             <div class="form-group">
 
-                                <label for="status">
-                                    Status
-                                    <span class="required">
-                                        *
-                                    </span>
+                                <label for="status_awal">
+                                    Status Awal
                                 </label>
 
                                 <select
                                     name="status"
-                                    id="status"
+                                    id="status_awal"
                                     class="form-control"
                                     required
                                 >
-
-                                    <option value="">
-                                        Pilih status
-                                    </option>
-
-                                    <option
-                                        value="Proses"
-                                        {{ old('status') == 'Proses' ? 'selected' : '' }}
-                                    >
-                                        Proses
-                                    </option>
-
-                                    <option
-                                        value="Selesai"
-                                        {{ old('status') == 'Selesai' ? 'selected' : '' }}
-                                    >
-                                        Selesai
-                                    </option>
-
+                                    <option value="Proses" {{ old('status', 'Proses') === 'Proses' ? 'selected' : '' }}>Proses</option>
+                                    <option value="Selesai" {{ old('status') === 'Selesai' ? 'selected' : '' }}>Selesai</option>
                                 </select>
 
-                                @error('status')
-                                    <div style="
-                                        color:#d71920;
-                                        font-size:12px;
-                                        margin-top:5px;
-                                    ">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
+                                <small id="status-awal-help" style="display:block;color:#737b8c;font-size:12px;line-height:1.5;margin-top:6px;">
+                                    Status dapat diubah menjadi Selesai saat memperbarui sesi setelah konseling selesai.
+                                </small>
 
                             </div>
 
                             {{-- jenis masalah --}}
-                            <div class="form-group full">
+                            <div class="form-group">
 
                                 <label for="id_jenis">
                                     Jenis Masalah
@@ -1643,13 +1514,10 @@
                             </div>
 
                             {{-- masalah --}}
-                            <div class="form-group full">
+                            <div class="form-group textarea-pair-field">
 
                                 <label for="masalah">
                                     Masalah yang Dihadapi
-                                    <span class="required">
-                                        *
-                                    </span>
                                 </label>
 
                                 <textarea
@@ -1663,13 +1531,10 @@
                             </div>
 
                             {{-- hasil konseling --}}
-                            <div class="form-group full">
+                            <div class="form-group textarea-pair-field">
 
                                 <label for="hasil_konseling">
                                     Hasil Konseling
-                                    <span class="required">
-                                        *
-                                    </span>
                                 </label>
 
                                 <textarea
@@ -1682,8 +1547,33 @@
 
                             </div>
 
+                            {{-- diagnosis atau kesimpulan asesmen diisi manual oleh Guru BK --}}
+                            <div class="form-group textarea-pair-field">
+
+                                <label for="diagnosis">
+                                    Diagnosis / Kesimpulan Asesmen
+                                    <span class="optional">Opsional</span>
+                                </label>
+
+                                <textarea
+                                    name="diagnosis"
+                                    id="diagnosis"
+                                    class="form-control"
+                                    placeholder="Tuliskan diagnosis atau kesimpulan asesmen berdasarkan hasil konseling..."
+                                >{{ old('diagnosis') }}</textarea>
+
+                                <small style="display:block;color:#737b8c;font-size:12px;line-height:1.5;margin-top:6px;">
+                                    Diagnosis dapat dilengkapi setelah sesi selesai. Sesi baru tetap berstatus Proses; isi diagnosis tidak mengubah status.
+                                </small>
+
+                                @error('diagnosis')
+                                    <div style="color:#d71920;font-size:12px;margin-top:5px;">{{ $message }}</div>
+                                @enderror
+
+                            </div>
+
                             {{-- catatan --}}
-                            <div class="form-group full">
+                            <div class="form-group textarea-pair-field">
 
                                 <label for="catatan">
                                     Catatan Tambahan Internal
@@ -1696,10 +1586,15 @@
                                     name="catatan"
                                     id="catatan"
                                     class="form-control"
-                                    style="min-height:90px;"
                                     placeholder="Catatan pribadi konselor..."
                                 >{{ old('catatan') }}</textarea>
 
+                            </div>
+
+                            <div class="form-group full">
+                                <label for="rencana_tindak_lanjut">Rencana Tindak Lanjut (Follow-Up)</label>
+                                <textarea name="rencana_tindak_lanjut" id="rencana_tindak_lanjut" class="form-control" placeholder="Tuliskan rencana tindak lanjut (opsional)...">{{ old('rencana_tindak_lanjut') }}</textarea>
+                                @error('rencana_tindak_lanjut')<div style="color:#d71920;font-size:12px;margin-top:5px;">{{ $message }}</div>@enderror
                             </div>
 
                         </div>
@@ -1719,7 +1614,7 @@
                                 type="submit"
                                 class="btn btn-primary"
                             >
-                                Simpan Catatan
+                                Simpan
                             </button>
 
                         </div>
@@ -1901,6 +1796,17 @@
                 notificationButton.addEventListener('click', function (event) {
                     event.stopPropagation();
                     notificationDropdown.classList.toggle('show');
+            const dot = document.getElementById('notificationDot') || document.querySelector('.notification-dot');
+            if (dot) {
+                dot.style.display = 'none';
+                fetch('{{ route("notifikasi.markAllRead") }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json'
+                    }
+                }).catch(function () {});
+            }
                 });
 
                 document.addEventListener('click', function (event) {

@@ -17,6 +17,7 @@ class User extends Authenticatable
 
     protected $fillable = [
         'username',
+        'email',
         'password',
         'nama',
         'role',
@@ -40,22 +41,34 @@ class User extends Authenticatable
             return false;
         }
 
-        $userRole = strtolower(trim($this->role));
+        $userRole = $this->normalizeRole($this->role);
 
         $normalizedRoles = [];
         foreach ($roles as $role) {
             if (is_array($role)) {
                 foreach ($role as $r) {
-                    $normalizedRoles[] = strtolower(trim($r));
+                    $normalizedRoles[] = $this->normalizeRole($r);
                 }
             } else {
                 foreach (explode(',', (string) $role) as $r) {
-                    $normalizedRoles[] = strtolower(trim($r));
+                    $normalizedRoles[] = $this->normalizeRole($r);
                 }
             }
         }
 
         return in_array($userRole, $normalizedRoles, true);
+    }
+
+    private function normalizeRole(string $role): string
+    {
+        $role = strtolower(trim($role));
+        $compact = preg_replace('/[\s_-]+/', '', $role);
+
+        return match ($compact) {
+            'walikelas' => 'wali_kelas',
+            'gurubk', 'guru' => 'guru_bk',
+            default => $compact,
+        };
     }
 
     public function isAdmin(): bool

@@ -41,7 +41,7 @@
         }
 
         body {
-            font-family: Inter, "Segoe UI", Arial, sans-serif;
+
             background:
                 radial-gradient(circle at 85% 0%, rgba(41, 67, 143, .08), transparent 28%),
                 var(--bg);
@@ -56,7 +56,7 @@
         input,
         select,
         textarea {
-            font-family: inherit;
+
         }
 
         /* app */
@@ -69,7 +69,7 @@
         /* sidebar */
 
         .sidebar {
-            width: 270px;
+            width: 235px;
             min-height: 100vh;
 
             position: fixed;
@@ -240,7 +240,7 @@
         .main {
             flex: 1;
             min-width: 0;
-            margin-left: 270px;
+            margin-left: 235px;
         }
 
         /* header */
@@ -550,186 +550,163 @@
 
         .page-header {
             display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 16px;
+            margin-bottom: 22px;
+            flex-wrap: wrap;
+        }
 
-            gap: 20px;
-
-            margin-bottom: 24px;
+        .page-title {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
         }
 
         .eyebrow {
-            margin-bottom: 7px;
-
-            color: var(--primary);
-
-            font-size: 10px;
-            font-weight: 800;
-
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--primary, #173b82);
+            font-size: 11px;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.08em;
+            margin-bottom: 4px;
         }
 
         .page-title h1 {
-            font-size: 27px;
-            line-height: 1.2;
-
+            font-size: 24px;
+            line-height: 1.25;
             font-weight: 800;
-
-            letter-spacing: -.5px;
+            color: #0f172a;
+            letter-spacing: -0.025em;
+            margin: 0;
         }
 
         .page-title p {
-            margin-top: 7px;
-
-            color: var(--muted);
-
+            color: #64748b;
             font-size: 13px;
+            font-weight: 500;
+            margin-top: 3px;
+            line-height: 1.45;
         }
 
-        /* button */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-left: auto;
+        }
 
+        /* --------------------------------------------------------------------------
+           BUTTONS & MICRO-INTERACTIONS
+           -------------------------------------------------------------------------- */
         .btn {
-            height: 42px;
-
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 7px;
-
-            padding: 0 16px;
-
-            border: 1px solid var(--border);
+            gap: 8px;
+            height: 42px;
+            padding: 0 18px;
             border-radius: 11px;
-
-            background: white;
-            color: var(--text);
-
-            font-size: 12px;
-            font-weight: 700;
-
+            font-size: 13px;
+            font-weight: 600;
             cursor: pointer;
-
-            box-shadow: var(--shadow-sm);
-
-            transition: .2s ease;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid transparent;
+            text-decoration: none;
+            box-sizing: border-box;
+            white-space: nowrap;
         }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
+        .btn svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
         }
 
         .btn-primary {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: white;
-
-            box-shadow:
-                0 8px 20px rgba(23,60,145,.20);
+            background: linear-gradient(135deg, #173b82 0%, #1e4ca6 100%);
+            color: #ffffff !important;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 4px 12px rgba(23, 59, 130, 0.22);
         }
 
         .btn-primary:hover {
-            background: var(--primary-dark);
+            background: linear-gradient(135deg, #132e65 0%, #173b82 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(23, 59, 130, 0.32);
+            color: #ffffff !important;
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(23, 59, 130, 0.20);
+        }
+
+        .btn-secondary,
+        .btn-outline {
+            background: #ffffff;
+            color: #334155 !important;
+            border: 1px solid #cbd5e1;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+
+        .btn-secondary:hover,
+        .btn-outline:hover {
+            background: #f8fafc;
+            border-color: #94a3b8;
+            color: #0f172a !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .btn-secondary:active,
+        .btn-outline:active {
+            transform: translateY(0);
         }
 
         .btn-danger {
-            color: var(--red);
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.20);
         }
 
-        /* summary */
+        .btn-danger:hover {
+            background: #b91c1c;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(220, 38, 38, 0.28);
+        }
 
+        /* --------------------------------------------------------------------------
+           METRIC / STAT CARDS (BENCHMARK DASHBOARD GURU BK)
+           -------------------------------------------------------------------------- */
         .summary-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 16px;
-
-            margin-bottom: 20px;
+            margin-bottom: 22px;
+            align-items: stretch;
         }
 
         .summary-card {
             position: relative;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 13px 18px 12px;
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+            transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
             overflow: hidden;
-
-            padding: 18px 20px;
-
-            border: 1px solid var(--border);
-            border-radius: 17px;
-
-            background: white;
-
-            box-shadow: var(--shadow-sm);
-            transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
-        }
-
-        .summary-card::after {
-            content: "";
-
-            position: absolute;
-
-            width: 110px;
-            height: 110px;
-
-            right: -50px;
-            top: -55px;
-
-            border-radius: 50%;
-
-            background: rgba(255, 255, 255, .08);
-        }
-
-        .summary-label {
-            position: relative;
-            z-index: 1;
-
-            color: var(--muted);
-
-            font-size: 10px;
-            font-weight: 700;
-        }
-
-        .summary-number {
-            position: relative;
-            z-index: 1;
-
-            margin-top: 4px;
-
-            font-size: 24px;
-            font-weight: 800;
-        }
-
-        /* filter */
-
-        .filter-card {
-            position: relative;
-            overflow: hidden;
-
-            margin-bottom: 20px;
-
-            padding: 20px;
-
-            border: 1px solid var(--border);
-            border-radius: 18px;
-
-            background: white;
-
-            box-shadow: var(--shadow-sm);
-        }
-
-        .filter-card::before {
-            content: "";
-
-            position: absolute;
-
-            width: 180px;
-            height: 180px;
-
-            right: -120px;
-            bottom: -120px;
-
-            border-radius: 50%;
-
-            background: rgba(23,60,145,.035);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 104px;
+            box-sizing: border-box;
         }
 
         .summary-card::before {
@@ -737,366 +714,551 @@
             position: absolute;
             top: 0;
             left: 0;
-            bottom: 0;
-            width: 4px;
-            background: var(--primary);
-            box-shadow: 0 0 18px rgba(23, 60, 145, .35);
-            transition: box-shadow .25s ease;
-            pointer-events: none;
+            right: 0;
+            height: 3px;
+            background: var(--card-accent, #2563eb);
+            opacity: 0.95;
         }
 
         .summary-card:hover {
             transform: translateY(-3px);
-            border-color: #c5d0e8;
-            box-shadow: 0 13px 30px rgba(23, 60, 145, .10);
+            border-color: #cbd5e1;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
         }
 
-        .summary-card:hover::before {
-            box-shadow: 0 0 22px rgba(23, 60, 145, .48);
+        .summary-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
+        .summary-icon {
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9px;
+            background: var(--icon-bg, #eff6ff);
+            color: var(--icon-color, #2563eb);
+            flex-shrink: 0;
+            transition: transform 0.2s ease;
+        }
+
+        .summary-card:hover .summary-icon {
+            transform: scale(1.08);
+        }
+
+        .summary-icon svg {
+            width: 20px;
+            height: 20px;
+            stroke-width: 2.1;
+        }
+
+        .summary-badge {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2.5px 8px;
+            border-radius: 9999px;
+            background: var(--pill-bg, #eff6ff);
+            color: var(--pill-color, #1d4ed8);
+            letter-spacing: 0.25px;
+            line-height: 1.2;
+            border: 1px solid var(--pill-border, rgba(37, 99, 235, 0.12));
+        }
+
+        .summary-card-body {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+
+        .summary-number {
+            font-size: 24px;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.15;
+            letter-spacing: -0.3px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .summary-label {
+            font-size: 11.5px;
+            font-weight: 600;
+            color: #64748b;
+            line-height: 1.25;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Stat Card Color Themes */
+        .stat-theme-siswa {
+            --card-accent: #2563eb;
+            --icon-bg: #eff6ff;
+            --icon-color: #2563eb;
+            --pill-bg: #eff6ff;
+            --pill-color: #1d4ed8;
+            --pill-border: rgba(37, 99, 235, 0.15);
+        }
+
+        .stat-theme-filter {
+            --card-accent: #0284c7;
+            --icon-bg: #f0f9ff;
+            --icon-color: #0284c7;
+            --pill-bg: #f0f9ff;
+            --pill-color: #0369a1;
+            --pill-border: rgba(2, 132, 199, 0.15);
+        }
+
+        .stat-theme-page {
+            --card-accent: #6366f1;
+            --icon-bg: #eef2ff;
+            --icon-color: #6366f1;
+            --pill-bg: #eef2ff;
+            --pill-color: #4338ca;
+            --pill-border: rgba(99, 102, 241, 0.15);
+        }
+
+        /* --------------------------------------------------------------------------
+           FILTER CARD & INPUT CONTROLS
+           -------------------------------------------------------------------------- */
+        .filter-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 18px 22px;
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+            margin-bottom: 22px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .filter-card:hover {
+            border-color: #cbd5e1;
+            box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
         }
 
         .filter-header {
             display: flex;
             align-items: center;
-            gap: 11px;
-
+            gap: 12px;
             margin-bottom: 15px;
         }
 
         .filter-icon {
-            width: 34px;
-            height: 34px;
-
+            width: 36px;
+            height: 36px;
+            border-radius: 9px;
+            background: #eff6ff;
+            color: #2563eb;
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
+        }
 
-            border-radius: 10px;
+        .filter-icon svg {
+            width: 18px;
+            height: 18px;
+        }
 
-            background: var(--primary-light);
-            color: var(--primary);
-
-            font-size: 14px;
+        .filter-title-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
         }
 
         .filter-title {
-            font-size: 14px;
-            font-weight: 800;
+            font-size: 14.5px;
+            font-weight: 700;
+            color: #0f172a;
+            line-height: 1.25;
         }
 
         .filter-subtitle {
-            margin-top: 3px;
-            color: var(--muted);
-            font-size: 10px;
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 2px;
+            line-height: 1.35;
         }
 
         .filter-form {
-            position: relative;
-            z-index: 1;
-
             display: grid;
-            grid-template-columns: minmax(220px, 1fr) 180px 180px auto;
-            gap: 10px;
+            grid-template-columns: minmax(240px, 1.8fr) minmax(150px, 1fr) minmax(160px, 1fr) auto;
+            gap: 12px;
+            align-items: center;
         }
 
-        .filter-form .btn-primary svg {
+        .filter-input-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .filter-input-icon {
+            position: absolute;
+            left: 13px;
             width: 16px;
             height: 16px;
+            color: #94a3b8;
+            pointer-events: none;
+        }
+
+        .search-wrap .search-input {
+            padding-left: 38px !important;
         }
 
         .input {
             width: 100%;
             height: 42px;
-
-            padding: 0 13px;
-
-            border: 1px solid var(--border);
-            border-radius: 11px;
-
+            padding: 0 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            background: #ffffff;
+            color: #0f172a;
+            font-size: 13.5px;
             outline: none;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            box-sizing: border-box;
 
-            background: #fafbfe;
-            color: var(--text);
+        }
 
-            font-size: 12px;
+        .input::placeholder {
+            color: #94a3b8;
+        }
 
-            transition: .2s ease;
+        .input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3.5px rgba(37, 99, 235, 0.14);
+            background: #ffffff;
         }
 
         select.input {
             cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+            padding-right: 36px;
         }
 
-        /* table card */
+        .filter-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
+        .btn-filter-submit {
+            height: 42px;
+            padding: 0 20px;
+        }
+
+        .btn-filter-reset {
+            height: 42px;
+            padding: 0 14px;
+        }
+
+        /* --------------------------------------------------------------------------
+           TABLE CARD & DATA TABLE
+           -------------------------------------------------------------------------- */
         .table-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
             overflow: hidden;
+            margin-bottom: 24px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
 
-            border: 1px solid var(--border);
-            border-radius: 18px;
-
-            background: white;
-
-            box-shadow: var(--shadow-sm);
+        .table-card:hover {
+            border-color: #cbd5e1;
+            box-shadow: 0 6px 20px rgba(15, 23, 42, 0.07);
         }
 
         .table-top {
-            min-height: 68px;
-
+            padding: 16px 22px;
+            border-bottom: 1px solid #f1f5f9;
             display: flex;
             align-items: center;
             justify-content: space-between;
-
-            padding: 0 21px;
-
-            border-bottom: 1px solid var(--border);
+            gap: 16px;
+            flex-wrap: wrap;
         }
 
         .table-title-area {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .table-title-icon {
-            width: 35px;
-            height: 35px;
-
+            width: 36px;
+            height: 36px;
+            border-radius: 9px;
+            background: #eff6ff;
+            color: #2563eb;
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
+        }
 
-            border-radius: 10px;
-
-            background: var(--primary-light);
-            color: var(--primary);
+        .table-title-icon svg {
+            width: 18px;
+            height: 18px;
         }
 
         .table-title {
-            font-size: 14px;
-            font-weight: 800;
+            font-size: 15px;
+            font-weight: 700;
+            color: #0f172a;
+            line-height: 1.25;
         }
 
         .table-subtitle {
-            margin-top: 3px;
-            color: var(--muted);
-            font-size: 10px;
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 2px;
+            line-height: 1.35;
         }
 
         .result-count {
-            padding: 6px 10px;
-
-            border-radius: 8px;
-
-            background: var(--primary-soft);
-            color: var(--primary);
-
-            font-size: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 11px;
+            border-radius: 9999px;
+            background: #eff6ff;
+            color: #1d4ed8;
+            font-size: 11.5px;
             font-weight: 700;
+            border: 1px solid rgba(37, 99, 235, 0.15);
+        }
+
+        .count-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #2563eb;
         }
 
         .table-wrap {
-            overflow-x: auto;
-        }
-
-        table {
             width: 100%;
-            border-collapse: collapse;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
-        thead {
-            background: #fafbfe;
-        }
-
-        th {
-            padding: 13px 18px;
-
+        table,
+        table.modern-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
             text-align: left;
+        }
 
-            color: #858d9d;
-
-            font-size: 9px;
-            font-weight: 800;
-
+        table thead th,
+        table.modern-table thead th {
+            background: #f8fafc;
+            color: #475569;
+            font-size: 11px;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: .55px;
-
+            letter-spacing: 0.05em;
+            padding: 13px 18px;
+            border-bottom: 1px solid #e2e8f0;
             white-space: nowrap;
         }
 
-        td {
-            padding: 14px 18px;
+        table tbody tr,
+        table.modern-table tbody tr {
+            transition: background 0.16s ease;
+        }
 
-            border-top: 1px solid #f0f2f6;
+        table tbody tr:hover,
+        table.modern-table tbody tr:hover {
+            background: #f8faff;
+        }
 
-            color: #626b7b;
+        table tbody td,
+        table.modern-table tbody td {
+            padding: 13px 18px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 13px;
+            color: #334155;
+            vertical-align: middle;
+        }
 
+        table tbody tr:last-child td,
+        table.modern-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .row-number {
+            font-weight: 600;
+            color: #94a3b8;
             font-size: 12px;
-
-            white-space: nowrap;
-        }
-
-        tbody tr {
-            transition: .18s ease;
-        }
-
-        tbody tr:hover {
-            background: #f9fbff;
         }
 
         .student-cell {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .student-avatar {
             width: 36px;
             height: 36px;
-
-            flex-shrink: 0;
-
+            border-radius: 10px;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            color: #1d4ed8;
             display: flex;
             align-items: center;
             justify-content: center;
-
-            border-radius: 11px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #e8eeff,
-                    #dce6ff
-                );
-
-            color: var(--primary);
-
-            font-size: 11px;
+            font-size: 13px;
             font-weight: 800;
+            flex-shrink: 0;
+            border: 1px solid rgba(37, 99, 235, 0.15);
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
         }
 
+        .student-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .student-name,
         .student-info strong {
             display: block;
-
-            color: var(--text);
-
-            font-size: 12px;
+            font-size: 13.5px;
             font-weight: 700;
+            color: #0f172a;
+            line-height: 1.3;
         }
 
+        .student-id,
         .student-info span {
             display: block;
-
-            margin-top: 3px;
-
-            color: #9299a8;
-
-            font-size: 9px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #64748b;
         }
 
         .nis {
-            color: #7d8594;
-            font-size: 11px;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: #475569;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .gender-badge,
+        .gender-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-size: 11.5px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .gender-male {
+            background: #eff6ff;
+            color: #1d4ed8;
+            border: 1px solid #dbeafe;
+        }
+
+        .gender-female {
+            background: #fdf2f8;
+            color: #be185d;
+            border: 1px solid #fce7f3;
         }
 
         .class-badge {
             display: inline-flex;
+            align-items: center;
+            padding: 3px 9px;
+            border-radius: 6px;
+            background: #f1f5f9;
+            color: #334155;
+            border: 1px solid #e2e8f0;
+            font-size: 11.5px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
 
-            padding: 6px 9px;
-
+        .count,
+        .count-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 26px;
+            height: 26px;
+            padding: 0 7px;
             border-radius: 8px;
-
-            background: #f2f5fb;
-            color: #556078;
-
-            font-size: 10px;
+            background: #eff6ff;
+            color: #2563eb;
+            font-size: 12px;
             font-weight: 700;
-        }
-
-        .gender-badge {
-            width: 27px;
-            height: 27px;
-
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 8px;
-
-            background: var(--primary-light);
-            color: var(--primary);
-
-            font-size: 10px;
-            font-weight: 800;
-        }
-
-        .count {
-            min-width: 28px;
-            height: 28px;
-
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-
-            padding: 0 8px;
-
-            border-radius: 9px;
-
-            background: var(--primary-light);
-            color: var(--primary);
-
-            font-size: 10px;
-            font-weight: 800;
+            border: 1px solid rgba(37, 99, 235, 0.12);
         }
 
         .date {
-            color: #727b8c;
-            font-size: 11px;
+            font-size: 12.5px;
+            color: #475569;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .date-empty {
+            font-size: 12px;
+            color: #94a3b8;
+            font-style: italic;
+            white-space: nowrap;
         }
 
         .status {
             display: inline-flex;
             align-items: center;
-            gap: 5px;
-
-            padding: 6px 9px;
-
-            border-radius: 8px;
-
-            font-size: 9px;
-            font-weight: 800;
+            gap: 6px;
+            padding: 3.5px 10px;
+            border-radius: 9999px;
+            font-size: 11.5px;
+            font-weight: 700;
+            white-space: nowrap;
         }
 
         .status::before {
             content: "";
-
-            width: 5px;
-            height: 5px;
-
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
+            background: currentColor;
         }
 
         .status-active {
-            background: var(--green-bg);
-            color: var(--green);
-        }
-
-        .status-active::before {
-            background: var(--green);
+            background: #ecfdf5;
+            color: #059669;
+            border: 1px solid #a7f3d0;
         }
 
         .status-inactive {
-            background: rgba(220, 38, 38, 0.15);
-            color: #ef4444;
-        }
-
-        .status-inactive::before {
-            background: #ef4444;
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
         }
 
         .actions {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 6px;
         }
 
@@ -1106,142 +1268,158 @@
             padding: 0;
         }
 
+        .action-btn,
         .action-link,
         .action-button {
-            width: 30px;
-            height: 30px;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            background: #ffffff;
+            color: #475569;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 0;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            background: transparent;
-            color: var(--primary);
             cursor: pointer;
-            text-decoration: none;
-            transition: .18s ease;
-            box-sizing: border-box;
+            transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
             flex-shrink: 0;
+            text-decoration: none;
+            padding: 0;
+            box-sizing: border-box;
         }
 
+        .action-btn svg,
+        .action-link svg,
+        .action-button svg {
+            width: 15px !important;
+            height: 15px !important;
+        }
+
+        .action-btn:hover,
         .action-link:hover,
         .action-button:hover {
-            background: var(--primary);
-            color: #ffffff;
-            border-color: var(--primary);
+            transform: translateY(-1.5px);
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
         }
 
-        .action-link svg,
-        .action-link i,
-        .action-button svg,
-        .action-button i,
-        .status-toggle svg,
-        .status-toggle i,
-        .delete-button svg,
-        .delete-button i {
-            width: 14px !important;
-            height: 14px !important;
-            display: block;
-            margin: auto;
+        .action-btn-view:hover,
+        .action-link:hover {
+            background: #eff6ff;
+            border-color: #93c5fd;
+            color: #1d4ed8;
         }
 
-        .status-toggle,
-        .delete-button,
-        .action-button.delete {
-            color: #d64545 !important;
-            border-color: #fca5a5 !important;
-            background: #fff5f5 !important;
+        .action-btn-edit:hover {
+            background: #fefce8;
+            border-color: #fde047;
+            color: #a16207;
         }
 
-        .status-toggle:hover,
-        .delete-button:hover,
-        .action-button.delete:hover {
-            background: #d64545 !important;
-            border-color: #d64545 !important;
+        .action-btn-toggle-danger,
+        .status-toggle {
+            color: #d97706 !important;
+            border-color: #fde68a !important;
+            background: #fffbeb !important;
+        }
+
+        .action-btn-toggle-danger:hover,
+        .status-toggle:hover {
+            background: #d97706 !important;
+            border-color: #d97706 !important;
             color: #ffffff !important;
         }
 
-        .action {
-            height: 30px;
-
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-
-            padding: 0 9px;
-
-            border: 1px solid var(--border);
-            border-radius: 8px;
-
-            background: white;
-            color: var(--primary);
-
-            font-size: 9px;
-            font-weight: 700;
-
-            cursor: pointer;
-
-            transition: .18s ease;
+        .action-btn-toggle-success {
+            color: #059669 !important;
+            border-color: #a7f3d0 !important;
+            background: #ecfdf5 !important;
         }
 
-        .action:hover {
-            background: var(--primary-light);
-            border-color: #d2dcf6;
-            transform: translateY(-1px);
+        .action-btn-toggle-success:hover {
+            background: #059669 !important;
+            border-color: #059669 !important;
+            color: #ffffff !important;
         }
 
+        .action-btn-delete,
+        .delete-button,
+        .action-button.delete {
+            color: #dc2626 !important;
+            border-color: #fecaca !important;
+            background: #fef2f2 !important;
+        }
+
+        .action-btn-delete:hover,
+        .delete-button:hover,
+        .action-button.delete:hover {
+            background: #dc2626 !important;
+            border-color: #dc2626 !important;
+            color: #ffffff !important;
+        }
+
+        /* --------------------------------------------------------------------------
+           EMPTY STATE
+           -------------------------------------------------------------------------- */
         .empty {
-            padding: 65px 20px;
-
+            padding: 50px 20px;
             text-align: center;
-
-            color: var(--muted);
-
-            font-size: 12px;
+            color: #64748b;
         }
 
         .empty-icon {
-            width: 55px;
-            height: 55px;
-
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: #eff6ff;
+            color: #2563eb;
             display: flex;
             align-items: center;
             justify-content: center;
-
             margin: 0 auto 12px;
-
-            border-radius: 16px;
-
-            background: var(--primary-soft);
-            color: var(--primary);
-
-            font-size: 22px;
         }
 
-        /* footer */
+        .empty-icon svg {
+            width: 24px;
+            height: 24px;
+        }
 
+        .empty-title {
+            display: block;
+            font-size: 15px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+
+        .empty-desc {
+            font-size: 13px;
+            color: #64748b;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        /* --------------------------------------------------------------------------
+           TABLE FOOTER & PAGINATION
+           -------------------------------------------------------------------------- */
         .table-footer {
-            min-height: 52px;
-
+            min-height: 54px;
+            padding: 12px 22px;
+            border-top: 1px solid #f1f5f9;
             display: flex;
             align-items: center;
             justify-content: space-between;
-
-            gap: 10px;
-
-            padding: 0 14px;
-
-            border-top: 1px solid var(--border);
+            gap: 14px;
+            flex-wrap: wrap;
         }
 
         .pagination-text {
-            color: var(--muted);
-            font-size: 11px;
+            font-size: 12px;
+            color: #64748b;
         }
 
         .pagination-text strong {
-            color: var(--text);
+            color: #0f172a;
+            font-weight: 700;
         }
 
         .pagination-wrapper nav {
@@ -1260,40 +1438,37 @@
         }
 
         .pagination-wrapper svg {
-            width: 12px;
-            height: 12px;
+            width: 14px !important;
+            height: 14px !important;
         }
 
         .pagination-wrapper a,
         .pagination-wrapper span {
-            min-width: 25px;
-            height: 25px;
-
+            min-width: 28px;
+            height: 28px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-
-            margin-left: 2px;
-
+            margin-left: 3px;
             border: 1px solid var(--border);
-            border-radius: 6px;
-
+            border-radius: 8px;
             background: white;
-            color: #6d7686;
-
-            font-size: 9px;
-
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 600;
             text-decoration: none;
+            transition: all 0.16s ease;
         }
 
         .pagination-wrapper a:hover {
-            background: var(--primary-light);
-            color: var(--primary);
+            background: #eff6ff;
+            color: #1d4ed8;
+            border-color: #bfdbfe;
         }
 
         .pagination-wrapper span[aria-current="page"] {
-            background: var(--primary);
-            border-color: var(--primary);
+            background: #173b82;
+            border-color: #173b82;
             color: white;
         }
 
@@ -1324,20 +1499,32 @@
         }
 
         .modal {
+            position: relative;
             width: 100%;
-            max-width: 680px;
-            max-height: 90vh;
-
+            max-width: 580px;
+            max-height: calc(100vh - 48px);
+            margin: auto;
+            display: flex;
+            flex-direction: column;
             overflow: hidden;
 
-            border: 1px solid rgba(255,255,255,.7);
-            border-radius: 22px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
 
             background: white;
 
-            box-shadow: 0 30px 80px rgba(0,0,0,.22);
+            box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.25);
 
             animation: modalIn .2s ease;
+        }
+
+        .modal form {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-height: 0;
+            overflow: hidden;
+            margin: 0;
         }
 
         @keyframes modalIn {
@@ -1415,11 +1602,11 @@
         }
 
         .modal-body {
-            padding: 24px;
-
-            max-height: calc(90vh - 145px);
-
+            padding: 22px 24px;
+            flex: 1 1 auto;
+            max-height: calc(85vh - 140px);
             overflow-y: auto;
+            overflow-x: hidden;
         }
 
         .modal-grid {
@@ -1617,17 +1804,19 @@
         }
 
         .modal-footer {
-            min-height: 75px;
+            flex-shrink: 0;
+            min-height: 68px;
 
             display: flex;
             align-items: center;
             justify-content: flex-end;
 
-            gap: 10px;
+            gap: 12px;
 
-            padding: 0 24px;
+            padding: 16px 24px;
 
             border-top: 1px solid var(--border);
+            background: #f8fafc;
         }
 
         /* responsive */
@@ -1738,7 +1927,8 @@
                 overflow-x: auto;
             }
 
-            table {
+            table,
+            table.modern-table {
                 min-width: 1050px;
             }
 
@@ -1941,23 +2131,15 @@ body{
   background:linear-gradient(90deg,rgba(151,190,255,.27),rgba(255,255,255,.10)) !important;
   transform:translateX(1px) scale(.995) !important;
 }
-.menu-item.active,.menu a.active{
-  color:#fff !important;
-  background:linear-gradient(90deg,rgba(255,255,255,.17),rgba(255,255,255,.07)) !important;
-  border-color:rgba(255,255,255,.12) !important;
-  box-shadow:inset 3px 0 0 #a7c3ff,0 9px 22px rgba(5,28,74,.13) !important;
-}
-.menu-item.active::after,.menu a.active::after{transform:scaleX(1);opacity:.9}
+
+
 .menu-icon{
   background:rgba(255,255,255,.085) !important;
   border:1px solid rgba(255,255,255,.035);
   transition:.2s ease;
 }
 .menu-item:hover .menu-icon,.menu a:hover .menu-icon{background:rgba(255,255,255,.15) !important}
-.menu-item.active .menu-icon,.menu a.active .menu-icon{
-  background:rgba(255,255,255,.14) !important;
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);
-}
+
 .sidebar-logout button,.logout-button{
   min-height:46px !important;
   border-radius:13px !important;
@@ -2406,14 +2588,16 @@ body.dark-mode .status-active::before {
 }
 
 body.dark-mode .actions .action-link,
-body.dark-mode .actions .action-button {
+body.dark-mode .actions .action-button,
+body.dark-mode .actions .action-btn {
     background: #18253b !important;
     border-color: #3b5685 !important;
     color: #a9c5ff !important;
 }
 
 body.dark-mode .actions .action-link:hover,
-body.dark-mode .actions .action-button:hover {
+body.dark-mode .actions .action-button:hover,
+body.dark-mode .actions .action-btn:hover {
     background: #22365a !important;
     border-color: #5d83d5 !important;
     color: #ffffff !important;
@@ -2421,7 +2605,9 @@ body.dark-mode .actions .action-button:hover {
 
 body.dark-mode .actions .status-toggle,
 body.dark-mode .actions .delete-button,
-body.dark-mode .actions .action-button.delete {
+body.dark-mode .actions .action-button.delete,
+body.dark-mode .actions .action-btn-delete,
+body.dark-mode .actions .action-btn-toggle-danger {
     background: rgba(225, 76, 76, .12) !important;
     border-color: rgba(225, 76, 76, .35) !important;
     color: #ff8f9a !important;
@@ -2429,9 +2615,93 @@ body.dark-mode .actions .action-button.delete {
 
 body.dark-mode .actions .status-toggle:hover,
 body.dark-mode .actions .delete-button:hover,
-body.dark-mode .actions .action-button.delete:hover {
+body.dark-mode .actions .action-button.delete:hover,
+body.dark-mode .actions .action-btn-delete:hover,
+body.dark-mode .actions .action-btn-toggle-danger:hover {
     background: #d64545 !important;
     border-color: #d64545 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .actions .action-btn-toggle-success {
+    background: rgba(16, 185, 129, 0.15) !important;
+    border-color: rgba(16, 185, 129, 0.35) !important;
+    color: #6ee7b7 !important;
+}
+
+body.dark-mode .actions .action-btn-toggle-success:hover {
+    background: #059669 !important;
+    border-color: #059669 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .summary-card {
+    background: #18253b !important;
+    border-color: #2c3b57 !important;
+}
+
+body.dark-mode .summary-number {
+    color: #f8fafc !important;
+}
+
+body.dark-mode .summary-label {
+    color: #94a3b8 !important;
+}
+
+body.dark-mode .stat-theme-siswa {
+    --card-accent: #3b82f6 !important;
+    --icon-bg: rgba(59, 130, 246, 0.15) !important;
+    --icon-color: #60a5fa !important;
+    --pill-bg: rgba(59, 130, 246, 0.15) !important;
+    --pill-color: #93c5fd !important;
+    --pill-border: rgba(59, 130, 246, 0.3) !important;
+}
+
+body.dark-mode .stat-theme-filter {
+    --card-accent: #38bdf8 !important;
+    --icon-bg: rgba(56, 189, 248, 0.15) !important;
+    --icon-color: #38bdf8 !important;
+    --pill-bg: rgba(56, 189, 248, 0.15) !important;
+    --pill-color: #7dd3fc !important;
+    --pill-border: rgba(56, 189, 248, 0.3) !important;
+}
+
+body.dark-mode .stat-theme-page {
+    --card-accent: #818cf8 !important;
+    --icon-bg: rgba(129, 140, 248, 0.15) !important;
+    --icon-color: #a5b4fc !important;
+    --pill-bg: rgba(129, 140, 248, 0.15) !important;
+    --pill-color: #c7d2fe !important;
+    --pill-border: rgba(129, 140, 248, 0.3) !important;
+}
+
+body.dark-mode .gender-male {
+    background: rgba(59, 130, 246, 0.15) !important;
+    color: #93c5fd !important;
+    border-color: rgba(59, 130, 246, 0.3) !important;
+}
+
+body.dark-mode .gender-female {
+    background: rgba(244, 63, 94, 0.15) !important;
+    color: #fda4af !important;
+    border-color: rgba(244, 63, 94, 0.3) !important;
+}
+
+body.dark-mode .count-pill {
+    background: rgba(59, 130, 246, 0.15) !important;
+    color: #93c5fd !important;
+    border-color: rgba(59, 130, 246, 0.3) !important;
+}
+
+body.dark-mode .btn-secondary {
+    background: #18253b !important;
+    border-color: #3b5685 !important;
+    color: #cbd7ed !important;
+}
+
+body.dark-mode .btn-secondary:hover {
+    background: #22365a !important;
+    border-color: #5d83d5 !important;
     color: #ffffff !important;
 }
 
@@ -2474,6 +2744,500 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   .profile-name,.user-name{font-size:12px !important}
 }
 
+/* Alert / Toast */
+.alert-toast {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 18px;
+    padding: 13px 16px;
+    border: 1px solid #a7e2c0;
+    border-radius: 12px;
+    background: #f0fbf4;
+    color: #17643a;
+    font-size: 13px;
+    font-weight: 650;
+    line-height: 1.5;
+}
+
+.alert-toast svg {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 18px;
+}
+
+.alert-toast-danger {
+    border-color: #f5c2c7;
+    background: #fff0f0;
+    color: #d64545;
+}
+
+/* Import Data Siswa modal */
+.import-toast {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 18px;
+    padding: 13px 16px;
+    border: 1px solid #a7e2c0;
+    border-radius: 12px;
+    background: #f0fbf4;
+    color: #17643a;
+    font-size: 13px;
+    font-weight: 650;
+    line-height: 1.5;
+}
+
+.import-toast svg {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 18px;
+}
+
+#importModal {
+    padding: clamp(12px, 3vw, 28px);
+}
+
+#importModal .modal {
+    width: min(100%, 760px);
+    max-width: 760px;
+    max-height: min(88vh, 780px);
+    max-height: min(88dvh, 780px);
+    border-radius: 20px;
+}
+
+#importModal .modal-header {
+    min-height: 92px;
+    padding: 18px 26px;
+    gap: 20px;
+}
+
+#importModal .modal-heading {
+    min-width: 0;
+    gap: 14px;
+}
+
+#importModal .modal-heading-icon {
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
+    border-radius: 14px;
+}
+
+#importModal .modal-heading-icon svg {
+    width: 21px;
+    height: 21px;
+}
+
+#importModal .modal-title {
+    color: #172b4d;
+    font-size: 18px;
+    line-height: 1.3;
+    letter-spacing: -.02em;
+}
+
+#importModal .modal-subtitle {
+    margin-top: 5px;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+#importModal .modal-close {
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e5eaf2;
+    transition: background .18s ease, border-color .18s ease, color .18s ease;
+}
+
+#importModal .modal-close svg {
+    width: 18px;
+    height: 18px;
+}
+
+#importModal .modal-close:hover {
+    border-color: #cbd5e1;
+    color: #334155;
+}
+
+#importModal form {
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+#importModal .modal-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
+    padding: 24px 26px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+}
+
+#importModal .import-guide-panel {
+    margin: 0 0 22px;
+    padding: 19px 20px;
+    border: 1px solid #dce7f8;
+    border-radius: 16px;
+    background: linear-gradient(145deg, #f7faff 0%, #f1f6ff 100%);
+    color: #334155;
+}
+
+#importModal .import-guide-header {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+#importModal .import-guide-icon {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: #e3edff;
+    color: #2453a6;
+}
+
+#importModal .import-guide-icon svg {
+    width: 17px;
+    height: 17px;
+}
+
+#importModal .import-guide-title {
+    color: #173b72;
+    font-size: 14px;
+    font-weight: 750;
+    line-height: 1.35;
+}
+
+#importModal .import-guide-desc {
+    margin: 13px 0 17px;
+    color: #52627a;
+    font-size: 12px;
+    line-height: 1.65;
+}
+
+#importModal .import-guide-desc strong {
+    color: #263c5c;
+    font-weight: 700;
+}
+
+#importModal .import-col-label {
+    margin-bottom: 9px;
+    color: #42536d;
+    font-size: 11px;
+    font-weight: 750;
+}
+
+#importModal .import-col-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+#importModal .col-pill {
+    min-height: 30px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 5px 10px;
+    border: 1px solid #dce4ef;
+    border-radius: 8px;
+    background: #fff;
+    color: #44536a;
+    font-size: 11px;
+    font-weight: 650;
+    line-height: 1.3;
+    white-space: nowrap;
+}
+
+#importModal .column-index {
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    background: #edf2f9;
+    color: #61728b;
+    font-size: 9px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+}
+
+#importModal .col-pill.required {
+    border-color: #c9dafb;
+    background: #edf4ff;
+    color: #244f97;
+}
+
+#importModal .import-guide-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: 15px;
+    padding-top: 13px;
+    border-top: 1px solid #dce6f3;
+    color: #5b6b81;
+    font-size: 11px;
+    line-height: 1.55;
+}
+
+#importModal .import-guide-note svg {
+    width: 15px;
+    height: 15px;
+    flex: 0 0 15px;
+    margin-top: 1px;
+    color: #25845f;
+}
+
+#importModal .modal-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 19px 20px;
+}
+
+#importModal .field {
+    min-width: 0;
+}
+
+#importModal .field label {
+    margin-bottom: 8px;
+    color: #34445d;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+#importModal .field-control {
+    min-height: 46px;
+    padding: 10px 13px;
+    border-radius: 11px;
+    background-color: #fbfcfe;
+    font-size: 13px;
+}
+
+#importModal select.field-control {
+    cursor: pointer;
+}
+
+#importModal select.field-control:disabled {
+    cursor: not-allowed;
+    color: #8995a7;
+    background-color: #f1f4f8;
+}
+
+#importModal .field-hint {
+    margin-top: 8px;
+    color: #718096;
+    font-size: 11px;
+    line-height: 1.55;
+}
+
+#importModal .file-upload-wrapper {
+    padding: 10px;
+    border: 1px dashed #c9d5e6;
+    border-radius: 12px;
+    background: #f8faff;
+}
+
+#importModal input[type="file"].field-control {
+    min-height: 44px;
+    padding: 6px;
+    border: 0;
+    background: transparent;
+    font-size: 12px;
+}
+
+#importModal input[type="file"]::file-selector-button,
+#importModal input[type="file"]::-webkit-file-upload-button {
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 11px;
+}
+
+#importModal .modal-footer {
+    position: sticky;
+    bottom: 0;
+    min-height: 76px;
+    flex: 0 0 auto;
+    flex-direction: row;
+    gap: 10px;
+    padding: 13px 26px;
+    border-top: 1px solid #e5eaf1;
+    background: #fff;
+    box-shadow: 0 -5px 14px rgba(15, 23, 42, .035);
+}
+
+#importModal .modal-footer .btn {
+    min-height: 42px;
+    min-width: 112px;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 12px;
+}
+
+body.dark-mode .alert-toast {
+    border-color: #2b7250 !important;
+    background: #173b2b !important;
+    color: #a7edc2 !important;
+}
+
+body.dark-mode .alert-toast-danger {
+    border-color: #74414c !important;
+    background: #3c2028 !important;
+    color: #ffd0d6 !important;
+}
+
+body.dark-mode .import-toast {
+    border-color: #2b7250 !important;
+    background: #173b2b !important;
+    color: #a7edc2 !important;
+}
+
+body.dark-mode #importModal .import-error-summary {
+    background: #3c2028 !important;
+    border-color: #74414c !important;
+    color: #ffd0d6 !important;
+}
+
+body.dark-mode #importModal .modal-title {
+    color: #edf3ff !important;
+}
+
+body.dark-mode #importModal .import-guide-panel {
+    border-color: #2e436d !important;
+    background: linear-gradient(145deg, #192742 0%, #17243a 100%) !important;
+    color: #c9d8fa !important;
+}
+
+body.dark-mode #importModal .import-guide-icon {
+    background: #22375a !important;
+    color: #a9c5ff !important;
+}
+
+body.dark-mode #importModal .import-guide-title,
+body.dark-mode #importModal .import-guide-desc strong {
+    color: #e4edff !important;
+}
+
+body.dark-mode #importModal .import-guide-desc,
+body.dark-mode #importModal .import-col-label,
+body.dark-mode #importModal .import-guide-note,
+body.dark-mode #importModal .field-hint {
+    color: #aab8d0 !important;
+}
+
+body.dark-mode #importModal .col-pill {
+    border-color: #344560 !important;
+    background: #1b2a43 !important;
+    color: #d4def0 !important;
+}
+
+body.dark-mode #importModal .column-index {
+    background: #253856 !important;
+    color: #b9cae8 !important;
+}
+
+body.dark-mode #importModal .col-pill.required {
+    border-color: #3c5e99 !important;
+    background: #20365b !important;
+    color: #c7d9ff !important;
+}
+
+body.dark-mode #importModal .import-guide-note {
+    border-color: #2e4360 !important;
+}
+
+body.dark-mode #importModal .file-upload-wrapper {
+    border-color: #3c5274 !important;
+    background: #142139 !important;
+}
+
+body.dark-mode #importModal .modal-footer {
+    border-color: #293752 !important;
+    background: #121d30 !important;
+}
+
+@media (max-width: 700px) {
+    #importModal .modal {
+        max-height: min(92vh, 780px);
+        max-height: min(92dvh, 780px);
+    }
+
+    #importModal .modal-header {
+        min-height: 80px;
+        padding: 15px 18px;
+    }
+
+    #importModal .modal-body {
+        padding: 18px;
+    }
+
+    #importModal .import-guide-panel {
+        margin-bottom: 18px;
+        padding: 16px;
+    }
+
+    #importModal .modal-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 16px;
+    }
+
+    #importModal .field.full {
+        grid-column: auto;
+    }
+
+    #importModal .modal-footer {
+        flex-direction: row;
+        padding: 12px 18px calc(12px + env(safe-area-inset-bottom));
+    }
+
+    #importModal .modal-footer .btn {
+        width: auto;
+        min-width: 0;
+        flex: 1 1 0;
+    }
+}
+
+@media (max-width: 420px) {
+    #importModal .modal-heading {
+        gap: 10px;
+    }
+
+    #importModal .modal-heading-icon {
+        width: 40px;
+        height: 40px;
+        flex-basis: 40px;
+    }
+
+    #importModal .modal-title {
+        font-size: 16px;
+    }
+
+    #importModal .modal-subtitle {
+        font-size: 11px;
+    }
+
+    #importModal .modal-close {
+        width: 34px;
+        height: 34px;
+        flex-basis: 34px;
+    }
+
+    #importModal .col-pill {
+        padding: 5px 8px;
+        font-size: 10px;
+    }
+}
+
 </style>
     @include('partials.theme')
 </head>
@@ -2482,57 +3246,13 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
 <div class="app">
 
+    @php
+        $siswaIndexRoute = request()->routeIs('admin.siswa.index') ? 'admin.siswa.index' : 'siswa.index';
+    @endphp
+
     {{-- sidebar --}}
 
-    <aside class="sidebar">
-
-        <div>
-
-            <div class="brand">
-
-                <div class="brand-logo">
-                    <img src="{{ asset('images/logo-smpn2-dramaga.png') }}?v=2" alt="Logo SMPN 2 Dramaga">
-                </div>
-
-                <div>
-                    <div class="brand-name">
-                        SIRASI-BK
-                    </div>
-
-                    <div class="brand-subtitle">
-                        Bimbingan & Konseling
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="menu-title">
-                Menu Utama
-            </div>
-
-            <nav class="menu">
-                @include('partials.sidebar_menu')
-            </nav>
-
-        </div>
-
-        <div class="sidebar-bottom">
-
-            <form action="{{ route('logout') }}" method="POST" onsubmit="return confirm('Anda yakin ingin keluar?');">
-
-                @csrf
-
-                <button
-                    type="submit" class="menu-item logout-button">
-                    <span class="menu-icon"><i data-lucide="log-out"></i></span>
-                        Logout
-                </button>
-
-            </form>
-
-        </div>
-
-    </aside>
+    @include('layouts.sidebar')
 
     {{-- main --}}
 
@@ -2541,23 +3261,6 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
         {{-- header --}}
 
         <header class="header">
-
-            <form
-                action="{{ route('siswa.index') }}"
-                method="GET"
-                class="header-search"
-            >
-                <span>
-                    <i data-lucide="search"></i>
-                </span>
-
-                <input
-                    type="text"
-                    name="search"
-                    placeholder="Cari siswa atau data..."
-                    value="{{ request('search') }}"
-                >
-            </form>
 
             <div class="profile-area">
 
@@ -2571,7 +3274,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
                         <i data-lucide="bell"></i>
 
                         @if (isset($notifikasis) && $notifikasis->where('dibaca', false)->count() > 0)
-                            <span class="notification-dot"></span>
+                            <span class="notification-dot" id="notificationDot"></span>
                         @endif
                     </button>
 
@@ -2587,7 +3290,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
                             <a
                                 href="{{ route('notifikasi.baca', $notifikasi->id) }}"
-                                class="notification-item"
+                                class="notification-item {{ !$notifikasi->dibaca ? 'unread' : '' }}"
                             >
                                 <div class="notification-item-icon">
                                     <i data-lucide="clipboard-list"></i>
@@ -2596,7 +3299,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
                                 <div class="notification-item-content">
                                     <strong>{{ $notifikasi->judul }}</strong>
 
-                                    <p>{{ $notifikasi->pesan }}</p>
+                                    <p>{{ preg_replace('/\s*\[JADWAL:\d+\]/', '', $notifikasi->pesan) }}</p>
 
                                     <small>
                                         {{ $notifikasi->created_at->diffForHumans() }}
@@ -2651,14 +3354,36 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
         <section class="content">
 
+            @if (session('success'))
+                <div class="alert-toast" role="status">
+                    <i data-lucide="circle-check"></i>
+                    <span>{{ session('success') }}</span>
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert-toast alert-toast-danger" role="alert">
+                    <i data-lucide="alert-circle"></i>
+                    <span>{{ session('error') }}</span>
+                </div>
+            @endif
+
+            @if (session('import_success'))
+                <div class="import-toast" role="status">
+                    <i data-lucide="circle-check"></i>
+                    <span>{{ session('import_success') }}</span>
+                </div>
+            @endif
+
             {{-- page header --}}
 
-            <div class="page-header">
+            <div class="page-header" style="justify-content: flex-end;">
 
                 <div class="page-title">
 
                     <div class="eyebrow">
-                        Manajemen Data
+                        <i data-lucide="folder-kanban" style="width: 13px; height: 13px;"></i>
+                        <span>Manajemen Data</span>
                     </div>
 
                     <h1>
@@ -2666,20 +3391,20 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
                     </h1>
 
                     <p>
-                        Kelola dan pantau data siswa SMP Negeri 2 Dramaga.
+                        Kelola data profil, tingkat, kelas, serta pantau riwayat konseling siswa SMP Negeri 2 Dramaga.
                     </p>
 
                 </div>
 
-                <div style="display: flex; gap: 10px; align-items: center;">
+                <div class="header-actions" style="margin-left: auto; justify-content: flex-end;">
 
                     <button
                         type="button"
-                        class="btn"
+                        class="btn btn-secondary"
                         onclick="openImportModal()"
                     >
                         <i data-lucide="file-up"></i>
-                        Import Excel
+                        <span>Import Excel</span>
                     </button>
 
                     <a
@@ -2687,51 +3412,54 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
                         class="btn btn-primary"
                     >
                         <i data-lucide="user-plus"></i>
-                        Tambah Siswa
+                        <span>Tambah Siswa</span>
                     </a>
 
                 </div>
 
             </div>
 
-            {{-- summary --}}
+            {{-- summary / metric cards --}}
 
             <div class="summary-grid">
 
-                <div class="summary-card">
-
-                    <div class="summary-label">
-                        TOTAL SISWA
+                <div class="summary-card stat-theme-siswa">
+                    <div class="summary-card-header">
+                        <div class="summary-icon">
+                            <i data-lucide="users"></i>
+                        </div>
+                        <span class="summary-badge">Aktif Terdata</span>
                     </div>
-
-                    <div class="summary-number">
-                        {{ $siswa->total() }}
+                    <div class="summary-card-body">
+                        <div class="summary-number">{{ number_format($siswa->total(), 0, ',', '.') }}</div>
+                        <div class="summary-label">Total Siswa</div>
                     </div>
-
                 </div>
 
-                <div class="summary-card">
-
-                    <div class="summary-label">
-                        DATA DITAMPILKAN
+                <div class="summary-card stat-theme-filter">
+                    <div class="summary-card-header">
+                        <div class="summary-icon">
+                            <i data-lucide="list-filter"></i>
+                        </div>
+                        <span class="summary-badge">Hasil Filter</span>
                     </div>
-
-                    <div class="summary-number">
-                        {{ $siswa->count() }}
+                    <div class="summary-card-body">
+                        <div class="summary-number">{{ number_format($siswa->count(), 0, ',', '.') }}</div>
+                        <div class="summary-label">Data Ditampilkan</div>
                     </div>
-
                 </div>
 
-                <div class="summary-card">
-
-                    <div class="summary-label">
-                        HALAMAN
+                <div class="summary-card stat-theme-page">
+                    <div class="summary-card-header">
+                        <div class="summary-icon">
+                            <i data-lucide="book-open"></i>
+                        </div>
+                        <span class="summary-badge">Dari {{ $siswa->lastPage() }} Hal</span>
                     </div>
-
-                    <div class="summary-number">
-                        {{ $siswa->currentPage() }}
+                    <div class="summary-card-body">
+                        <div class="summary-number">{{ $siswa->currentPage() }}</div>
+                        <div class="summary-label">Halaman Aktif</div>
                     </div>
-
                 </div>
 
             </div>
@@ -2743,17 +3471,17 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
                 <div class="filter-header">
 
                     <div class="filter-icon">
-                        <i data-lucide="list-filter"></i>
+                        <i data-lucide="sliders-horizontal"></i>
                     </div>
 
-                    <div>
+                    <div class="filter-title-wrap">
 
                         <div class="filter-title">
-                            Filter & Pencarian
+                            Filter & Pencarian Siswa
                         </div>
 
                         <div class="filter-subtitle">
-                            Gunakan filter untuk menemukan siswa dengan cepat.
+                            Gunakan filter untuk menemukan siswa berdasarkan kata kunci, jenjang, atau kelas.
                         </div>
 
                     </div>
@@ -2761,76 +3489,96 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
                 </div>
 
                 <form
-                    action="{{ route('siswa.index') }}"
+                    action="{{ route($siswaIndexRoute) }}"
                     method="GET"
                     class="filter-form"
                 >
 
-                    <input
-                        type="text"
-                        name="search"
-                        class="input"
-                        placeholder="Cari nama atau kelas siswa..."
-                        value="{{ request('search') }}"
-                    >
+                    <div class="filter-input-wrap search-wrap">
+                        <i data-lucide="search" class="filter-input-icon"></i>
+                        <input
+                            type="text"
+                            name="search"
+                            class="input search-input"
+                            placeholder="Cari nama atau kelas siswa..."
+                            value="{{ request('search') }}"
+                        >
+                    </div>
 
-                    <select
-                        name="tingkat"
-                        class="input"
-                    >
+                    <div class="filter-input-wrap">
+                        <select
+                            name="tingkat"
+                            class="input select-input"
+                        >
 
-                        <option value="">
-                            Semua Tingkat
-                        </option>
-
-                        @foreach ([7, 8, 9] as $tingkat)
-
-                            <option
-                                value="{{ $tingkat }}"
-                                {{ request('tingkat') == $tingkat ? 'selected' : '' }}
-                            >
-                                Kelas {{ $tingkat }}
+                            <option value="">
+                                Semua Tingkat
                             </option>
 
-                        @endforeach
+                            @foreach ([7, 8, 9] as $tingkat)
 
-                    </select>
+                                <option
+                                    value="{{ $tingkat }}"
+                                    {{ request('tingkat') == $tingkat ? 'selected' : '' }}
+                                >
+                                    Kelas {{ [7 => 'VII', 8 => 'VIII', 9 => 'IX'][$tingkat] }}
+                                </option>
 
-                    <select
-                        name="kelas"
-                        class="input"
-                    >
+                            @endforeach
 
-                        <option value="">
-                            Semua Kelas
-                        </option>
+                        </select>
+                    </div>
 
-                        @foreach (\App\Models\Kelas::all() as $kelas)
+                    <div class="filter-input-wrap">
+                        <select
+                            name="kelas"
+                            class="input select-input"
+                        >
 
-                            <option
-                                value="{{ $kelas->id_kelas }}"
-                                {{ request('kelas') == $kelas->id_kelas ? 'selected' : '' }}
-                            >
-                                {{ $kelas->nama_kelas }}
+                            <option value="">
+                                Semua Kelas
                             </option>
 
-                        @endforeach
+                            @foreach (\App\Models\Kelas::all() as $kelas)
 
-                    </select>
+                                <option
+                                    value="{{ $kelas->id_kelas }}"
+                                    {{ request('kelas') == $kelas->id_kelas ? 'selected' : '' }}
+                                >
+                                    {{ $kelas->nama_kelas }}
+                                </option>
 
-                    <button
-                        type="submit"
-                        class="btn btn-primary"
-                    >
-                        <i data-lucide="search"></i>
-                        Cari
-                    </button>
+                            @endforeach
+
+                        </select>
+                    </div>
+
+                    <div class="filter-actions">
+                        <button
+                            type="submit"
+                            class="btn btn-primary btn-filter-submit"
+                        >
+                            <i data-lucide="search"></i>
+                            Cari
+                        </button>
+
+                        @if (request()->hasAny(['search', 'tingkat', 'kelas']) && (request('search') || request('tingkat') || request('kelas')))
+                            <a
+                                href="{{ route($siswaIndexRoute) }}"
+                                class="btn btn-secondary btn-filter-reset"
+                                title="Reset Filter"
+                            >
+                                <i data-lucide="rotate-ccw"></i>
+                                Reset
+                            </a>
+                        @endif
+                    </div>
 
                 </form>
 
             </div>
 
-            {{-- table --}}
+            {{-- table card --}}
 
             <div class="table-card">
 
@@ -2849,7 +3597,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
                             </div>
 
                             <div class="table-subtitle">
-                                Data siswa yang terdaftar dalam sistem.
+                                Data siswa terdaftar dan riwayat bimbingan konseling.
                             </div>
 
                         </div>
@@ -2857,20 +3605,21 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
                     </div>
 
                     <div class="result-count">
-                        {{ $siswa->total() }} Siswa
+                        <span class="count-dot"></span>
+                        {{ number_format($siswa->total(), 0, ',', '.') }} Siswa
                     </div>
 
                 </div>
 
                 <div class="table-wrap">
 
-                    <table>
+                    <table class="modern-table">
 
                         <thead>
 
                             <tr>
 
-                                <th style="width:60px;">
+                                <th style="width: 55px; text-align: center;">
                                     No
                                 </th>
 
@@ -2890,7 +3639,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
                                     Kelas
                                 </th>
 
-                                <th>
+                                <th style="text-align: center;">
                                     Konseling
                                 </th>
 
@@ -2902,7 +3651,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
                                     Status
                                 </th>
 
-                                <th>
+                                <th style="text-align: center; width: 140px;">
                                     Aksi
                                 </th>
 
@@ -2916,7 +3665,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
                                 <tr>
 
-                                    <td>
+                                    <td style="text-align: center;" class="row-number">
                                         {{ $siswa->firstItem() + $index }}
                                     </td>
 
@@ -2940,11 +3689,11 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
                                             <div class="student-info">
 
-                                                <strong>
+                                                <strong class="student-name">
                                                     {{ $item->nama_siswa }}
                                                 </strong>
 
-                                                <span>
+                                                <span class="student-id">
                                                     ID #{{ $item->id_siswa }}
                                                 </span>
 
@@ -2964,7 +3713,10 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
                                     <td>
 
-                                        <span class="gender-badge">
+                                        @php
+                                            $isMale = in_array(strtoupper(trim($item->jenis_kelamin ?? '')), ['L', 'LAKI-LAKI', 'LAKI - LAKI']);
+                                        @endphp
+                                        <span class="gender-pill {{ $isMale ? 'gender-male' : 'gender-female' }}">
                                             {{ $item->jenis_kelamin }}
                                         </span>
 
@@ -2978,9 +3730,9 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
                                     </td>
 
-                                    <td>
+                                    <td style="text-align: center;">
 
-                                        <span class="count">
+                                        <span class="count-pill">
                                             {{ $item->konseling_count }}
                                         </span>
 
@@ -3002,7 +3754,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
                                         @else
 
-                                            <span class="date">
+                                            <span class="date-empty">
                                                 Belum ada
                                             </span>
 
@@ -3031,10 +3783,10 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
                                     <td>
 
                                         <div class="actions">
-                                            @if (auth()->user() && auth()->user()->isGuruBk())
+                                            @if (auth()->user() && (auth()->user()->isGuruBk() || auth()->user()->isAdmin()))
                                             <a
                                                 href="{{ route('siswa.show', [$item->id_siswa, 'from' => 'siswa']) }}"
-                                                class="action-link"
+                                                class="action-btn action-btn-view"
                                                 title="Lihat Detail Riwayat Konseling"
                                             >
                                                 <i data-lucide="eye"></i>
@@ -3043,8 +3795,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
                                             <a
                                                 href="{{ route('siswa.edit', $item->id_siswa) }}"
-                                                class="action-link"
-                                                title="Edit"
+                                                class="action-btn action-btn-edit"
+                                                title="Edit Siswa"
                                             >
                                                 <i data-lucide="pencil"></i>
                                             </a>
@@ -3060,7 +3812,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
                                                 <button
                                                     type="submit"
-                                                    class="action-button status-toggle {{ ($item->status ?? 'Aktif') === 'Aktif' ? 'status-toggle-danger' : '' }}"
+                                                    class="action-btn action-btn-toggle {{ ($item->status ?? 'Aktif') === 'Aktif' ? 'action-btn-toggle-danger' : 'action-btn-toggle-success' }}"
                                                     title="{{ ($item->status ?? 'Aktif') === 'Aktif' ? 'Nonaktifkan Siswa' : 'Aktifkan Siswa' }}"
                                                 >
                                                     <i data-lucide="power"></i>
@@ -3080,8 +3832,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
                                                 <button
                                                     type="submit"
-                                                    class="action-button delete-button"
-                                                    title="Hapus"
+                                                    class="action-btn action-btn-delete delete-button"
+                                                    title="Hapus Siswa"
                                                 >
                                                     <i data-lucide="trash-2"></i>
                                                 </button>
@@ -3107,13 +3859,13 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
                                             <i data-lucide="users-round"></i>
                                         </div>
 
-                                        <strong>
-                                            Belum ada data siswa
+                                        <strong class="empty-title">
+                                            Belum Ada Data Siswa
                                         </strong>
 
-                                        <div style="margin-top:6px;">
-                                            Tambahkan siswa untuk mulai mengelola data.
-                                        </div>
+                                        <p class="empty-desc">
+                                            Tidak ada data siswa yang cocok dengan filter atau belum ada siswa yang ditambahkan.
+                                        </p>
 
                                     </td>
 
@@ -3227,7 +3979,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
             <div class="modal-body">
 
-                @if ($errors->any())
+                @if ($errors->any() && old('form_type') !== 'import')
 
                     <div class="error-summary">
 
@@ -3494,7 +4246,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
                     </div>
 
                     <div class="modal-subtitle">
-                        Tambahkan banyak data siswa melalui Excel.
+                        Tambahkan banyak data siswa sekaligus menggunakan format Excel.
                     </div>
 
                 </div>
@@ -3505,6 +4257,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
                 type="button"
                 class="modal-close"
                 onclick="closeImportModal()"
+                title="Tutup dialog"
             >
                 <i data-lucide="x"></i>
             </button>
@@ -3527,38 +4280,60 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
             <div class="modal-body">
 
-                <div class="import-guide">
+                @if ($errors->any() && old('form_type') === 'import')
+                    <div class="error-summary import-error-summary" role="alert">
+                        <strong>Import belum berhasil.</strong>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
-                    <strong>
-                        Petunjuk Import
-                    </strong>
+                {{-- Panel Informasi Format Import --}}
+                <div class="import-guide-panel">
 
-                    Pilih jenjang terlebih dahulu, kemudian pilih
-                    kelas. Jika satu file berisi beberapa kelas
-                    dalam jenjang yang sama, pilih
-                    <strong>Semua Kelas</strong>.
+                    <div class="import-guide-header">
+                        <div class="import-guide-icon">
+                            <i data-lucide="info"></i>
+                        </div>
+                        <div class="import-guide-title">
+                            Panduan Format File Excel
+                        </div>
+                    </div>
 
-                    <br><br>
+                    <p class="import-guide-desc">
+                        Gunakan file Excel dengan lima kolom berikut secara berurutan. Setelah memilih file, tentukan <strong>Jenjang Tingkat</strong> dan <strong>Target Kelas</strong> yang sesuai.
+                    </p>
 
-                    Kolom Excel:
-                    <strong>
-                        Nama Siswa, NIS, Jenis Kelamin, Alamat,
-                        No Telepon, Kelas.
-                    </strong>
+                    <div class="import-col-label">
+                        Susunan Kolom Excel yang Didukung:
+                    </div>
 
-                    <br>
+                    <div class="import-col-tags">
+                        <span class="col-pill"><span class="column-index">01</span>NO</span>
+                        <span class="col-pill"><span class="column-index">02</span>NISN</span>
+                        <span class="col-pill"><span class="column-index">03</span>NAMA</span>
+                        <span class="col-pill"><span class="column-index">04</span>JENIS KELAMIN</span>
+                        <span class="col-pill"><span class="column-index">05</span>KELAS</span>
+                    </div>
 
-                    NIS, Alamat, dan No Telepon boleh dikosongkan.
+                    <div class="import-guide-note">
+                        <i data-lucide="check-circle-2"></i>
+                        <span>Pastikan nama dan urutan kolom pada baris header sesuai dengan format di atas.</span>
+                    </div>
 
                 </div>
 
+                {{-- Grid Input Pemilihan Jenjang, Kelas & File --}}
                 <div class="modal-grid">
 
-                    {{-- jenjang --}}
+                    {{-- Jenjang --}}
                     <div class="field">
 
-                        <label>
-                            Jenjang
+                        <label for="importTingkat">
+                            Jenjang Tingkat
                             <span class="required">*</span>
                         </label>
 
@@ -3568,32 +4343,27 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
                             class="field-control"
                             required
                         >
-
                             <option value="">
-                                Pilih Jenjang
+                                -- Pilih Jenjang --
                             </option>
-
                             <option value="7">
-                                Kelas 7
+                                Kelas VII
                             </option>
-
                             <option value="8">
-                                Kelas 8
+                                Kelas VIII
                             </option>
-
                             <option value="9">
-                                Kelas 9
+                                Kelas IX
                             </option>
-
                         </select>
 
                     </div>
 
-                    {{-- kelas --}}
+                    {{-- Kelas --}}
                     <div class="field">
 
-                        <label>
-                            Kelas
+                        <label for="importKelas">
+                            Target Kelas
                             <span class="required">*</span>
                         </label>
 
@@ -3607,7 +4377,6 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
                             <option value="">
                                 Pilih jenjang terlebih dahulu
                             </option>
-
                             @foreach (\App\Models\Kelas::all() as $dataKelas)
                                 <option
                                     value="{{ $dataKelas->id_kelas }}"
@@ -3616,34 +4385,35 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
                                     {{ $dataKelas->nama_kelas }}
                                 </option>
                             @endforeach
-
                         </select>
 
-                        <div style="margin-top: 6px; color: var(--muted); font-size: 10px;">
-                            Pilih Semua Kelas jika Excel berisi
-                            beberapa kelas dalam jenjang yang sama.
+                        <div class="field-hint">
+                            Pilih <em>Semua Kelas</em> jika file Excel mencakup lebih dari satu kelas.
                         </div>
 
                     </div>
 
-                    {{-- file --}}
+                    {{-- File Excel --}}
                     <div class="field full">
 
-                        <label>
-                            File Excel
+                        <label for="importFile">
+                            Pilih File Excel
                             <span class="required">*</span>
                         </label>
 
-                        <input
-                            type="file"
-                            name="file"
-                            class="field-control"
-                            accept=".xlsx,.xls,.csv"
-                            required
-                        >
+                        <div class="file-upload-wrapper">
+                            <input
+                                type="file"
+                                name="file"
+                                id="importFile"
+                                class="field-control file-input-custom"
+                                accept=".xlsx,.xls,.csv"
+                                required
+                            >
+                        </div>
 
-                        <div style="margin-top: 6px; color: var(--muted); font-size: 10px;">
-                            Format XLSX, XLS, atau CSV. Maksimal 5 MB.
+                        <div class="field-hint">
+                            Format berkas yang diterima: <strong>.xlsx</strong>, <strong>.xls</strong>, atau <strong>.csv</strong> (Maksimal ukuran file: <strong>5 MB</strong>).
                         </div>
 
                     </div>
@@ -3656,7 +4426,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
                 <button
                     type="button"
-                    class="btn"
+                    class="btn btn-secondary"
                     onclick="closeImportModal()"
                 >
                     Batal
@@ -3825,9 +4595,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
         function(event) {
 
             if (event.key === 'Escape') {
-
                 closeCreateModal();
-
+                closeImportModal();
             }
 
         }
@@ -3885,6 +4654,17 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
         notificationButton.addEventListener('click', function (event) {
             event.stopPropagation();
             notificationDropdown.classList.toggle('show');
+            const dot = document.getElementById('notificationDot') || document.querySelector('.notification-dot');
+            if (dot) {
+                dot.style.display = 'none';
+                fetch('{{ route("notifikasi.markAllRead") }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json'
+                    }
+                }).catch(function () {});
+            }
         });
 
         document.addEventListener('click', function (event) {

@@ -46,7 +46,7 @@
         }
 
         body {
-            font-family: Inter, "Segoe UI", Arial, sans-serif;
+
             background:
                 radial-gradient(
                     circle at 85% 0%,
@@ -64,7 +64,7 @@
         button,
         input,
         select {
-            font-family: inherit;
+
         }
 
         /* app */
@@ -77,7 +77,7 @@
         /* sidebar */
 
         .sidebar {
-            width: 270px;
+            width: 235px;
             min-height: 100vh;
 
             position: fixed;
@@ -232,7 +232,7 @@
         .main {
             flex: 1;
             min-width: 0;
-            margin-left: 270px;
+            margin-left: 235px;
         }
 
         /* header */
@@ -529,36 +529,7 @@
         }
 
         .back-link {
-            width: 38px;
-            height: 38px;
-
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-
-            margin-bottom: 16px;
-
-            border: 1px solid var(--border);
-            border-radius: 11px;
-
-            background: white;
-            color: #687183;
-
-            box-shadow: var(--shadow-sm);
-
-            transition: .2s ease;
-        }
-
-        .back-link svg,
-        .back-link i {
-            width: 18px;
-            height: 18px;
-        }
-
-        .back-link:hover {
-            color: var(--primary);
-            background: var(--primary-light);
-            transform: translateX(-2px);
+            display: none !important;
         }
 
         .page-heading {
@@ -624,7 +595,8 @@
         }
 
         .student-cover {
-            height: 88px;
+            height: 96px;
+            min-height: 96px;
 
             position: relative;
             overflow: hidden;
@@ -674,11 +646,11 @@
         }
 
         .avatar {
-            width: 88px;
-            height: 88px;
+            width: 80px;
+            height: 80px;
 
-            margin-top: -44px;
-            margin-bottom: 13px;
+            margin-top: -40px;
+            margin-bottom: 12px;
 
             position: relative;
             z-index: 2;
@@ -687,8 +659,8 @@
             align-items: center;
             justify-content: center;
 
-            border: 5px solid white;
-            border-radius: 22px;
+            border: 4px solid white;
+            border-radius: 20px;
 
             background:
                 linear-gradient(
@@ -699,7 +671,7 @@
 
             color: var(--primary);
 
-            font-size: 31px;
+            font-size: 28px;
             font-weight: 800;
 
             box-shadow: 0 10px 25px rgba(23,60,145,.16);
@@ -738,6 +710,12 @@
             font-weight: 700;
         }
 
+        .class-badge svg,
+        .class-badge i {
+            width: 14px !important;
+            height: 14px !important;
+        }
+
         .student-info {
             margin-top: 20px;
             padding-top: 17px;
@@ -761,9 +739,15 @@
             border-bottom: 0;
         }
 
+        body .student-card .info-label,
+        .student-card .info-label,
+        body .info-label,
         .info-label {
-            color: var(--muted);
-            font-size: 10px;
+            color: var(--muted) !important;
+            font-size: 11px !important;
+            font-weight: 600 !important;
+            text-transform: none !important;
+            letter-spacing: normal !important;
         }
 
         .info-value {
@@ -778,52 +762,112 @@
         }
 
         .student-actions {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-top: 16px;
-        }
-
-        .student-actions .btn {
-            min-height: 38px;
-            height: 38px;
-            padding: 0 12px;
-            font-size: 11px;
-            font-weight: 700;
-            white-space: nowrap;
-            box-sizing: border-box;
-        }
-
-        .student-actions .btn svg,
-        .student-actions .btn i {
-            width: 14px;
-            height: 14px;
-            flex-shrink: 0;
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            flex-wrap: nowrap !important;
+            margin-top: 18px !important;
+            width: 100% !important;
         }
 
         .student-actions .btn-session {
-            flex: 1 1 auto;
-            min-width: 0;
-            padding: 0 12px;
-            gap: 6px;
+            flex: 1 1 auto !important;
+            min-width: 0 !important;
+            height: 38px !important;
+            min-height: 38px !important;
+            padding: 0 12px !important;
+            border-radius: 10px !important;
+            background: #2563eb !important;
+            border: 1px solid #1d4ed8 !important;
+            color: #ffffff !important;
+            font-size: 11.5px !important;
+            font-weight: 700 !important;
+            white-space: nowrap !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 6px !important;
+            text-decoration: none !important;
+            box-shadow: 0 3px 10px rgba(37, 99, 235, 0.22) !important;
+            transition: all .2s ease !important;
+            box-sizing: border-box !important;
+        }
+
+        .student-actions .btn-session:hover {
+            background: #1d4ed8 !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 5px 14px rgba(37, 99, 235, 0.32) !important;
+            color: #ffffff !important;
+        }
+
+        .student-actions .btn-session svg,
+        .student-actions .btn-session i {
+            width: 13px !important;
+            height: 13px !important;
+            flex-shrink: 0 !important;
         }
 
         .student-actions .btn-sp {
-            flex: 0 0 auto;
-            padding: 0 12px;
-            min-width: 38px;
+            flex: 0 0 auto !important;
+            min-width: 44px !important;
+            height: 38px !important;
+            min-height: 38px !important;
+            padding: 0 14px !important;
+            border-radius: 10px !important;
+            background: #2563eb !important;
+            border: 1px solid #1d4ed8 !important;
+            color: #ffffff !important;
+            font-size: 11.5px !important;
+            font-weight: 700 !important;
+            white-space: nowrap !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            text-decoration: none !important;
+            box-shadow: 0 3px 10px rgba(37, 99, 235, 0.22) !important;
+            transition: all .2s ease !important;
+            box-sizing: border-box !important;
+        }
+
+        .student-actions .btn-sp:hover {
+            background: #1d4ed8 !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 5px 14px rgba(37, 99, 235, 0.32) !important;
+            color: #ffffff !important;
         }
 
         .student-actions .btn-edit {
-            flex: 0 0 38px;
-            width: 38px;
-            height: 38px;
-            min-width: 38px;
-            padding: 0;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+            flex: 0 0 38px !important;
+            width: 38px !important;
+            min-width: 38px !important;
+            height: 38px !important;
+            min-height: 38px !important;
+            padding: 0 !important;
+            border-radius: 10px !important;
+            background: #ffffff !important;
+            border: 1px solid #cbd5e1 !important;
+            color: #475569 !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            text-decoration: none !important;
+            box-shadow: var(--shadow-sm) !important;
+            transition: all .2s ease !important;
+            box-sizing: border-box !important;
+        }
+
+        .student-actions .btn-edit:hover {
+            background: #f1f5f9 !important;
+            color: #1e293b !important;
+            border-color: #94a3b8 !important;
+            transform: translateY(-1px) !important;
+        }
+
+        .student-actions .btn-edit svg,
+        .student-actions .btn-edit i {
+            width: 15px !important;
+            height: 15px !important;
+            flex-shrink: 0 !important;
         }
 
         .btn {
@@ -922,6 +966,12 @@
             font-size: 17px;
         }
 
+        .history-title-icon svg,
+        .history-title-icon i {
+            width: 18px !important;
+            height: 18px !important;
+        }
+
         .history-title {
             font-size: 15px;
             font-weight: 800;
@@ -954,6 +1004,12 @@
             cursor: pointer;
 
             transition: .2s ease;
+        }
+
+        .filter-button svg,
+        .filter-button i {
+            width: 14px !important;
+            height: 14px !important;
         }
 
         .filter-button:hover,
@@ -1217,11 +1273,13 @@
         }
 
         .history-action {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 5px !important;
             color: var(--primary);
-
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 700;
-
+            text-decoration: none;
             transition: .2s ease;
         }
 
@@ -1231,6 +1289,31 @@
 
         .history-action.edit {
             color: #687182;
+        }
+
+        .history-action.edit:hover {
+            color: #172033;
+        }
+
+        .history-action svg,
+        .history-action i {
+            width: 14px !important;
+            height: 14px !important;
+            flex-shrink: 0 !important;
+        }
+
+        .status-badge svg,
+        .status-badge i {
+            width: 13px !important;
+            height: 13px !important;
+            flex-shrink: 0 !important;
+        }
+
+        .history-date svg,
+        .history-date i {
+            width: 13px !important;
+            height: 13px !important;
+            flex-shrink: 0 !important;
         }
 
         .empty-history {
@@ -1270,48 +1353,10 @@
 
         /* responsive */
 
-        @media (max-width: 1250px) {
-
-            .sidebar {
-                width: 235px;
-            }
-
-            .main {
-                margin-left: 235px;
-            }
+        @media (max-width: 992px) {
 
             .layout {
                 grid-template-columns: 1fr;
-            }
-
-            .student-card {
-                display: grid;
-                grid-template-columns: 240px 1fr auto;
-                gap: 20px;
-                padding: 20px;
-            }
-
-            .student-cover {
-                display: none;
-            }
-
-            .student-body {
-                padding: 0;
-            }
-
-            .avatar {
-                margin-top: 0;
-            }
-
-            .student-info {
-                margin-top: 0;
-                padding-top: 0;
-                border-top: 0;
-            }
-
-            .student-actions {
-                align-self: end;
-                min-width: 170px;
             }
         }
 
@@ -1645,6 +1690,37 @@
             color: #cbd7ed !important;
         }
 
+        body.dark-mode .student-actions .btn-session {
+            background: #2563eb !important;
+            border-color: #3b82f6 !important;
+            color: #ffffff !important;
+        }
+
+        body.dark-mode .student-actions .btn-session:hover {
+            background: #1d4ed8 !important;
+        }
+
+        body.dark-mode .student-actions .btn-sp {
+            background: #2563eb !important;
+            border-color: #3b82f6 !important;
+            color: #ffffff !important;
+        }
+
+        body.dark-mode .student-actions .btn-sp:hover {
+            background: #1d4ed8 !important;
+        }
+
+        body.dark-mode .student-actions .btn-edit {
+            background: #1e293b !important;
+            border-color: #334155 !important;
+            color: #cbd5e1 !important;
+        }
+
+        body.dark-mode .student-actions .btn-edit:hover {
+            background: #334155 !important;
+            color: #ffffff !important;
+        }
+
         /* button */
 
         body.dark-mode .btn {
@@ -1836,114 +1912,73 @@
             color: #a9c5ff !important;
         }
 
+        /* Alert / Toast */
+        .alert {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 16px;
+            border-radius: 12px;
+            font-size: 13.5px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .alert svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
+        .alert-success {
+            background: var(--success-bg);
+            color: var(--success);
+            border: 1px solid #b8ebd0;
+        }
+
+        .alert-danger {
+            background: var(--red-bg);
+            color: var(--red);
+            border: 1px solid #ffccd0;
+        }
+
+        body.dark-mode .alert-success {
+            background: #173b2b !important;
+            color: #a7edc2 !important;
+            border-color: #2b7250 !important;
+        }
+
+        body.dark-mode .alert-danger {
+            background: #3c2028 !important;
+            color: #ffd0d6 !important;
+            border-color: #74414c !important;
+        }
+
     </style>
 </head>
 
 <body>
+@php
+    $isFromSiswa = request('from') === 'siswa';
+@endphp
 
 <div class="app">
 
     {{-- sidebar --}}
 
-    <aside class="sidebar sirasi-sidebar">
-
-        <div>
-
-            <div class="brand sirasi-sidebar__brand">
-
-                <div class="brand-logo sirasi-sidebar__logo">
-                    <img src="{{ asset('images/logo-smpn2-dramaga.png') }}" alt="Logo SMP Negeri 2 Dramaga">
-                </div>
-
-                <div>
-
-                    <div class="brand-name">
-                        SIRASI-BK
-                    </div>
-
-                    <div class="brand-subtitle">
-                        Bimbingan & Konseling
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="menu-title">
-                Menu Utama
-            </div>
-
-            @php
-                $isFromSiswa = request('from') === 'siswa';
-            @endphp
-
-            <nav class="menu sirasi-sidebar__nav">
-                <a href="{{ route('dashboard') }}" class="menu-item sirasi-nav-link">
-                    <span class="menu-icon"><i data-lucide="home"></i></span>
-                    <span>Dashboard</span>
-                </a>
-
-                <a href="{{ route('siswa.index') }}" class="menu-item {{ $isFromSiswa ? 'active' : '' }}">
-                    <span class="menu-icon"><i data-lucide="users-round"></i></span>
-                    <span>Data Siswa</span>
-                </a>
-
-                <a href="{{ route('penjadwalan.index') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="calendar-clock"></i></span>
-                    <span>Penjadwalan</span>
-                </a>
-
-                <a href="{{ route('konseling.index') }}" class="menu-item sirasi-nav-link">
-                    <span class="menu-icon"><i data-lucide="clipboard-list"></i></span>
-                    <span>Data Konseling</span>
-                </a>
-
-                <a href="{{ route('siswa.riwayat') }}" class="menu-item {{ !$isFromSiswa ? 'active' : '' }}">
-                    <span class="menu-icon"><i data-lucide="history"></i></span>
-                    <span>Riwayat Siswa</span>
-                </a>
-
-                <a href="{{ route('laporan.index') }}" class="menu-item sirasi-nav-link">
-                    <span class="menu-icon"><i data-lucide="file-chart-column"></i></span>
-                    <span>Laporan</span>
-                </a>
-
-                <a href="{{ route('pengaturan.index') }}" class="menu-item sirasi-nav-link">
-                    <span class="menu-icon"><i data-lucide="settings"></i></span>
-                    <span>Pengaturan</span>
-                </a>
-            </nav>
-
-        </div>
-
-        <div class="sidebar-bottom">
-            <form action="{{ route('logout') }}" method="POST" onsubmit="return confirm('Anda yakin ingin keluar?');">
-                @csrf
-                <button type="submit" class="menu-item sirasi-nav-link logout-button">
-                    <span class="menu-icon"><i data-lucide="log-out"></i></span>
-                    Logout
-                </button>
-            </form>
-        </div>
-
-    </aside>
+    @include('layouts.sidebar')
 
     {{-- main --}}
     <main class="main">
 
         {{-- header --}}
         <header class="header">
-            <div class="search">
-                <span class="search-icon"><i data-lucide="search"></i></span>
-                <input type="text" placeholder="Cari data konseling...">
-            </div>
-
             <div class="profile-area">
                 <div class="notification-wrapper">
                     <button type="button" class="notification" id="notificationButton">
                         <i data-lucide="bell"></i>
                         @if (isset($notifikasis) && $notifikasis->where('dibaca', false)->count() > 0)
-                            <span class="notification-dot"></span>
+                            <span class="notification-dot" id="notificationDot"></span>
                         @endif
                     </button>
 
@@ -1953,7 +1988,7 @@
                         </div>
 
                         @forelse ($notifikasis ?? [] as $notifikasi)
-                            <a href="{{ route('notifikasi.baca', $notifikasi->id) }}" class="notification-item">
+                            <a href="{{ route('notifikasi.baca', $notifikasi->id) }}" class="notification-item {{ !$notifikasi->dibaca ? 'unread' : '' }}">
                                 <div class="notification-item-icon">
                                     @if ($notifikasi->tipe === 'jadwal' || $notifikasi->tipe === 'penjadwalan')
                                         <i data-lucide="calendar-clock"></i>
@@ -2003,13 +2038,19 @@
         {{-- content --}}
         <section class="content">
 
-            <a
-                href="{{ $isFromSiswa ? route('siswa.index') : route('siswa.riwayat') }}"
-                class="back-link"
-                title="{{ $isFromSiswa ? 'Kembali ke Data Siswa' : 'Kembali ke Riwayat Siswa' }}"
-            >
-                <i data-lucide="arrow-left"></i>
-            </a>
+            @if (session('success'))
+                <div class="alert alert-success" role="status">
+                    <i data-lucide="check-circle-2"></i>
+                    <span>{{ session('success') }}</span>
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert alert-danger" role="alert">
+                    <i data-lucide="alert-circle"></i>
+                    <span>{{ session('error') }}</span>
+                </div>
+            @endif
 
             <div class="page-heading">
 
@@ -2141,29 +2182,31 @@
 
                         <div class="student-actions">
 
-                            <a
-                                href="{{ route('konseling.create', ['id_siswa' => $siswa->id_siswa]) }}"
-                                class="btn btn-primary btn-session"
-                                title="Tambah Sesi Baru"
-                            >
-                                <i data-lucide="plus"></i>
-                                Sesi
-                            </a>
-
-                            @if ($totalKonseling >= 3)
+                            @if (auth()->check() && auth()->user()->isGuruBK())
                                 <a
-                                    href="{{ route('siswa.surat_panggilan', $siswa->id_siswa) }}"
-                                    class="btn btn-primary btn-sp"
-                                    title="Buat Surat Panggilan Orang Tua"
+                                    href="{{ route('konseling.create', ['id_siswa' => $siswa->id_siswa]) }}"
+                                    class="btn-session"
+                                    title="Tambah Sesi Baru"
                                 >
-                                    SP
+                                    <i data-lucide="plus"></i>
+                                    <span>Sesi</span>
                                 </a>
+
+                                @if ($totalKonseling >= 3)
+                                    <a
+                                        href="{{ route('siswa.surat_panggilan', $siswa->id_siswa) }}"
+                                        class="btn-sp"
+                                        title="Surat Panggilan Orang Tua"
+                                    >
+                                        <span>SP</span>
+                                    </a>
+                                @endif
                             @endif
 
                             <a
                                 href="{{ route('siswa.edit', $siswa->id_siswa) }}"
-                                class="btn btn-edit"
-                                title="Edit siswa"
+                                class="btn-edit"
+                                title="Edit profil siswa"
                             >
                                 <i data-lucide="pencil"></i>
                             </a>
@@ -2200,16 +2243,23 @@
 
                         </div>
 
+                        @php
+                            $hasActiveFilter = request()->filled('id_jenis')
+                                || request()->filled('status')
+                                || request()->filled('tanggal_mulai')
+                                || request()->filled('tanggal_akhir');
+                        @endphp
+
                         <button
                             type="button"
                             id="filterButton"
-                            class="filter-button"
+                            class="filter-button {{ $hasActiveFilter ? 'active' : '' }}"
                             onclick="toggleFilter()"
                         >
                             <i data-lucide="sliders-horizontal"></i>
                             Filter
                             <span id="filterArrow">
-                                <i data-lucide="chevron-down"></i>
+                                <i data-lucide="{{ $hasActiveFilter ? 'chevron-up' : 'chevron-down' }}"></i>
                             </span>
                         </button>
 
@@ -2220,13 +2270,16 @@
                     <div
                         id="filterPanel"
                         class="filter-panel"
-                        style="display: none;"
+                        style="display: {{ $hasActiveFilter ? 'block' : 'none' }};"
                     >
 
                         <form
                             action="{{ route('siswa.show', $siswa->id_siswa) }}"
                             method="GET"
                         >
+                            @if (request('from'))
+                                <input type="hidden" name="from" value="{{ request('from') }}">
+                            @endif
 
                             <div class="filter-grid">
 
@@ -2340,7 +2393,7 @@
                             <div class="filter-actions">
 
                                 <a
-                                    href="{{ route('siswa.show', $siswa->id_siswa) }}"
+                                    href="{{ route('siswa.show', array_filter([$siswa->id_siswa, 'from' => request('from')])) }}"
                                     class="btn"
                                 >
                                     Reset
@@ -2377,21 +2430,19 @@
                                         <div class="history-top">
 
                                             <div>
-
-                                                @if ($item->jenisMasalah)
-
-                                                    <span class="problem-badge">
-                                                        {{ $item->jenisMasalah->nama_jenis }}
-                                                    </span>
-
-                                                @else
-
-                                                    <span class="problem-badge">
-                                                        Konseling
-                                                    </span>
-
+                                                @if (!empty($item->status))
+                                                    @if ($item->status === 'Selesai')
+                                                        <span class="status-badge selesai">
+                                                            <i data-lucide="circle-check"></i>
+                                                            Selesai
+                                                        </span>
+                                                    @else
+                                                        <span class="status-badge proses">
+                                                            <i data-lucide="clock-3"></i>
+                                                            {{ $item->status }}
+                                                        </span>
+                                                    @endif
                                                 @endif
-
                                             </div>
 
                                             <div class="history-date">
@@ -2418,49 +2469,26 @@
 
                                         </div>
 
-                                        {{-- status --}}
+                                        @if (auth()->check() && auth()->user()->isGuruBK())
+                                            <div class="history-footer">
 
-                                        @if (!empty($item->status))
+                                                <a
+                                                    href="{{ route('konseling.show', $item->id_konseling) }}"
+                                                    class="history-action"
+                                                >
+                                                    Lihat Detail <i data-lucide="arrow-right"></i>
+                                                </a>
 
-                                            <div class="history-meta">
-
-                                                @if ($item->status === 'Selesai')
-
-                                                    <span class="status-badge selesai">
-                                                        <i data-lucide="circle-check"></i>
-                                                        Selesai
-                                                    </span>
-
-                                                @else
-
-                                                    <span class="status-badge proses">
-                                                        <i data-lucide="clock-3"></i>
-                                                        {{ $item->status }}
-                                                    </span>
-                                                @endif
+                                                <a
+                                                    href="{{ route('konseling.edit', $item->id_konseling) }}"
+                                                    class="history-action edit"
+                                                >
+                                                    <i data-lucide="pencil"></i>
+                                                    Edit
+                                                </a>
 
                                             </div>
-
                                         @endif
-
-                                        <div class="history-footer">
-
-                                            <a
-                                                href="{{ route('konseling.show', $item->id_konseling) }}"
-                                                class="history-action"
-                                            >
-                                                Lihat Detail <i data-lucide="arrow-right"></i>
-                                            </a>
-
-                                            <a
-                                                href="{{ route('konseling.edit', $item->id_konseling) }}"
-                                                class="history-action edit"
-                                            >
-                                                <i data-lucide="pencil"></i>
-                                                &nbsp;Edit
-                                            </a>
-
-                                        </div>
 
                                     </div>
 
@@ -2541,6 +2569,17 @@
         notificationButton.addEventListener('click', function (event) {
             event.stopPropagation();
             notificationDropdown.classList.toggle('show');
+            const dot = document.getElementById('notificationDot') || document.querySelector('.notification-dot');
+            if (dot) {
+                dot.style.display = 'none';
+                fetch('{{ route("notifikasi.markAllRead") }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json'
+                    }
+                }).catch(function () {});
+            }
         });
 
         document.addEventListener('click', function (event) {

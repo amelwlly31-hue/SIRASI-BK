@@ -13,6 +13,7 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
+        abort_unless(auth()->check() && auth()->user()->isAdmin(), 403);
         $query = User::with('kelas');
 
         if ($request->filled('search')) {
@@ -39,6 +40,7 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        abort_unless(auth()->check() && auth()->user()->isAdmin(), 403);
         $validated = $request->validate([
             'nama' => 'required|string|max:100',
             'username' => 'required|string|max:50|unique:users,username',
@@ -59,13 +61,20 @@ class UserController extends Controller
             'id_kelas' => $validated['role'] === 'wali_kelas' ? $validated['id_kelas'] : null,
         ];
 
-        User::create($userData);
+        $createdUser = User::create($userData);
+
+        if ($createdUser->role === 'wali_kelas' && !empty($createdUser->id_kelas)) {
+            \App\Models\Penjadwalan::whereHas('siswa', fn($q) => $q->where('id_kelas', $createdUser->id_kelas))
+                ->whereIn('status', ['Diajukan', 'Disetujui_Wali', 'Terjadwal'])
+                ->update(['id_wali' => $createdUser->id_user]);
+        }
 
         return redirect()->route('users.index')->with('success', 'Akun pengguna baru berhasil ditambahkan.');
     }
 
     public function update(Request $request, $id)
     {
+        abort_unless(auth()->check() && auth()->user()->isAdmin(), 403);
         $user = User::findOrFail($id);
 
         $validated = $request->validate([
@@ -96,13 +105,24 @@ class UserController extends Controller
             $updateData['password'] = Hash::make($validated['password']);
         }
 
-        $user->update($updateData);
+        try {
+            $user->update($updateData);
 
-        return redirect()->route('users.index')->with('success', 'Data akun pengguna berhasil diperbarui.');
+            if ($user->role === 'wali_kelas' && !empty($user->id_kelas)) {
+                \App\Models\Penjadwalan::whereHas('siswa', fn($q) => $q->where('id_kelas', $user->id_kelas))
+                    ->whereIn('status', ['Diajukan', 'Disetujui_Wali', 'Terjadwal'])
+                    ->update(['id_wali' => $user->id_user]);
+            }
+        } catch (\Throwable $e) {
+            return back()->withInput()->with('error', 'Gagal memperbarui data pengguna. Silakan coba lagi.');
+        }
+
+        return redirect()->route('users.index')->with('success', 'Data berhasil diperbarui.');
     }
 
     public function destroy($id)
     {
+        abort_unless(auth()->check() && auth()->user()->isAdmin(), 403);
         $user = User::findOrFail($id);
 
         // Pengaman: Jangan hapus akun sendiri yang sedang login

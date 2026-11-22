@@ -38,23 +38,26 @@
 
         body {
             margin: 0;
-            font-family: Inter, "Segoe UI", Arial, Helvetica, sans-serif;
+
             background: radial-gradient(circle at 85% 0%, rgba(41, 67, 143, .08), transparent 28%), #f5f7fb;
             color: var(--text);
             min-height: 100vh;
         }
 
         a { text-decoration: none; }
-        button, input { font-family: inherit; }
+        button, input {  }
 
         .app {
-            display: grid;
-            grid-template-columns: 280px 1fr;
+            display: flex;
             min-height: 100vh;
         }
 
         /* Sidebar */
         .sidebar {
+            width: 235px;
+            min-width: 235px;
+            flex: 0 0 235px;
+            --sirasi-active-tab-bleed: 20px;
             background: linear-gradient(180deg, #102d70 0%, #173c91 100%);
             color: var(--white);
             padding: 24px 20px;
@@ -162,6 +165,11 @@
 
         /* Main Content */
         .main {
+            flex: 1 1 auto;
+            min-width: 0;
+            width: auto;
+            max-width: none;
+            margin-left: 235px;
             padding: 28px 36px;
             display: flex;
             flex-direction: column;
@@ -356,13 +364,14 @@
         }
 
         .stat-icon {
-            width: 44px;
-            height: 44px;
+            width: 42px;
+            height: 42px;
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
+        .stat-icon svg { width: 20px; height: 20px; }
 
         .icon-blue { background: #eaf0ff; color: #173c91; }
         .icon-green { background: #eaf8ef; color: #159447; }
@@ -478,35 +487,259 @@
             color: var(--white);
         }
 
+        .notification-wrapper { position: relative; }
+        .notification-btn {
+            width: 40px; height: 40px; border-radius: 10px;
+            background: var(--primary-soft); border: 1px solid var(--border);
+            color: var(--primary); display: flex; align-items: center; justify-content: center;
+            cursor: pointer; position: relative; transition: all .2s ease;
+        }
+        .notification-btn:hover { background: var(--primary-light); }
+        .notification-dot {
+            position: absolute; top: 8px; right: 8px; width: 8px; height: 8px;
+            border-radius: 50%; background: var(--red); border: 2px solid var(--white);
+        }
+        .notification-dropdown {
+            position: absolute; top: 50px; right: 0; width: 320px; max-height: 380px;
+            overflow-y: auto; background: var(--white); border: 1px solid var(--border);
+            border-radius: 14px; box-shadow: var(--shadow-lg); display: none; z-index: 1000;
+        }
+        .notification-dropdown.show { display: block; }
+        .notification-header {
+            padding: 12px 16px; border-bottom: 1px solid var(--border);
+            font-size: 13px; font-weight: 700; display: flex; justify-content: space-between; align-items: center;
+        }
+        .notification-item {
+            display: flex; gap: 10px; padding: 12px 16px;
+            border-bottom: 1px solid var(--border); transition: background .15s ease; text-decoration: none;
+        }
+        .notification-item:hover { background: #f8faff; }
+        .notification-item.unread { background: #f0f7ff; }
+        .notification-item-icon {
+            width: 34px; height: 34px; border-radius: 8px;
+            background: var(--primary-light); color: var(--primary);
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .notification-item-content strong { display: block; font-size: 12.5px; color: var(--text); margin-bottom: 2px; }
+        .notification-item-content p { font-size: 12px; color: var(--muted); line-height: 1.4; }
+        .notification-item-content small { display: block; font-size: 10.5px; color: #94a3b8; margin-top: 4px; }
+        .notification-empty { padding: 24px 16px; text-align: center; color: var(--muted); font-size: 12.5px; }
+
         @media (max-width: 1100px) {
             .stat-grid { grid-template-columns: repeat(2, 1fr); }
             .hero-banner { flex-direction: column; align-items: flex-start; gap: 18px; }
         }
 
+        @media (max-width: 900px) {
+            .sidebar { width: 78px; min-width: 78px; flex-basis: 78px; padding: 18px 10px; align-items: center; }
+            .main { margin-left: 78px; }
+            .brand { justify-content: center; margin-bottom: 18px; padding-bottom: 14px; }
+            .brand-name, .brand-subtitle, .menu-title, .menu-label, .menu-badge { display: none !important; }
+            .menu-item, .logout-button { justify-content: center; padding: 12px 0; font-size: 0; }
+        }
+
         @media (max-width: 768px) {
-            .app { grid-template-columns: 1fr; }
-            .sidebar { display: none; }
             .stat-grid { grid-template-columns: 1fr; }
-            .main { padding: 18px; }
+            .main { padding: 18px 14px; }
+            .header { flex-direction: column; align-items: flex-start; gap: 12px; padding: 16px; }
+            .profile-area { width: 100%; justify-content: flex-end; }
         }
     </style>
     @include('partials.theme')
+    <style>
+        body.dashboard-admin,
+        body.dashboard-admin * {
+            font-family: Inter, "Plus Jakarta Sans", sans-serif !important;
+        }
+
+        html body.dashboard-admin .main {
+            padding: 0 36px 28px;
+            gap: 28px;
+        }
+
+        html body.dashboard-admin .main > .header {
+            position: sticky !important;
+            top: 0 !important;
+            z-index: 45 !important;
+            min-height: 78px;
+            margin: 0 -36px;
+            padding: 0 36px;
+            border: 0 !important;
+            border-bottom: 1px solid rgba(148, 163, 184, .22) !important;
+            border-radius: 0 !important;
+            background: rgba(255, 255, 255, .88) !important;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, .035) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        body.dashboard-admin .sirasi-global-page-title {
+            font-family: Inter, "Plus Jakarta Sans", sans-serif !important;
+        }
+
+        body.dashboard-admin .sirasi-global-page-title::after {
+            display: none !important;
+        }
+
+        body.dashboard-admin .hero-banner {
+            width: 100%;
+            min-width: 0;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: flex-start;
+            gap: 20px;
+            margin-bottom: 0;
+        }
+
+        body.dashboard-admin .hero-topbar,
+        body.dashboard-admin .hero-school-badge,
+        body.dashboard-admin .hero-date-badge,
+        body.dashboard-admin .hero-main-row,
+        body.dashboard-admin .hero-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        body.dashboard-admin .hero-topbar {
+            position: relative;
+            z-index: 1;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        body.dashboard-admin .hero-school-badge,
+        body.dashboard-admin .hero-date-badge {
+            min-height: 32px;
+            gap: 8px;
+            padding: 6px 12px;
+            border: 1px solid rgba(255, 255, 255, .22);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .1);
+            color: rgba(255, 255, 255, .94);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .07em;
+            text-transform: uppercase;
+        }
+
+        body.dashboard-admin .hero-date-badge {
+            font-size: 11px;
+            letter-spacing: 0;
+            text-transform: none;
+        }
+
+        body.dashboard-admin .hero-school-badge svg,
+        body.dashboard-admin .hero-date-badge svg {
+            width: 15px;
+            height: 15px;
+            flex: 0 0 15px;
+            color: #dbeafe;
+        }
+
+        body.dashboard-admin .hero-main-row {
+            position: relative;
+            z-index: 1;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        body.dashboard-admin .hero-content {
+            min-width: 0;
+            flex: 1 1 420px;
+        }
+
+        body.dashboard-admin .hero-content h2 {
+            margin-bottom: 6px;
+            color: #fff;
+            font-size: clamp(24px, 2.2vw, 30px);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        body.dashboard-admin .hero-content p {
+            max-width: 620px;
+        }
+
+        body.dashboard-admin .hero-actions {
+            position: relative;
+            z-index: 1;
+            justify-content: flex-end;
+            gap: 12px;
+            flex: 0 0 auto;
+            flex-wrap: wrap;
+        }
+
+        body.dashboard-admin .hero-divider {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            border-top: 1px solid rgba(255, 255, 255, .18);
+        }
+
+        @media (max-width: 900px) {
+            html body.dashboard-admin .main { padding: 0 24px 24px; }
+            html body.dashboard-admin .main > .header { margin-right: -24px; margin-left: -24px; padding-right: 24px; padding-left: 24px; }
+        }
+
+        @media (max-width: 768px) {
+            html body.dashboard-admin .main { padding: 0 14px 18px; }
+            html body.dashboard-admin .main > .header { margin-right: -14px; margin-left: -14px; padding-right: 14px; padding-left: 14px; }
+            body.dashboard-admin .hero-main-row { align-items: flex-start; flex-direction: column; }
+            body.dashboard-admin .hero-actions { width: 100%; justify-content: flex-start; }
+        }
+
+        /* Alerts */
+        .alert {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 16px;
+            border-radius: 12px;
+            font-size: 13.5px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .alert svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
+        .alert-success {
+            background: #eaf8f0;
+            color: #16894a;
+            border: 1px solid #b8ebd0;
+        }
+
+        .alert-danger {
+            background: #fff0f0;
+            color: #d64545;
+            border: 1px solid #ffccd0;
+        }
+
+        body.dark-mode .alert-success {
+            background: #173b2b !important;
+            color: #a7edc2 !important;
+            border-color: #2b7250 !important;
+        }
+
+        body.dark-mode .alert-danger {
+            background: #3c2028 !important;
+            color: #ffd0d6 !important;
+            border-color: #74414c !important;
+        }
+    </style>
 </head>
 
-<body>
+<body class="dashboard-admin">
 <div class="app">
     {{-- Sidebar --}}
     <aside class="sidebar">
         <div>
-            <div class="brand">
-                <div class="brand-logo">
-                    <img src="{{ asset('images/logo-smpn2-dramaga.png') }}?v=2" alt="Logo SMP Negeri 2 Dramaga">
-                </div>
-                <div>
-                    <div class="brand-name">SIRASI-BK</div>
-                    <div class="brand-subtitle">Administrator Portal</div>
-                </div>
-            </div>
+            @include('layouts.nav_identity')
 
             <div class="menu-title">Menu Utama</div>
 
@@ -520,7 +753,7 @@
                 @csrf
                 <button type="submit" class="menu-item logout-button">
                     <span class="menu-icon"><i data-lucide="log-out"></i></span>
-                    Logout
+                    <span class="menu-label">Keluar</span>
                 </button>
             </form>
         </div>
@@ -529,13 +762,49 @@
     {{-- Main Area --}}
     <main class="main">
         {{-- Header --}}
-        <header class="header">
+        <header class="header" data-page-title="Dashboard">
             <div class="header-title">
                 <h1>Dashboard Administrator</h1>
                 <p>Pusat Manajemen Pengguna, Master Siswa, & Pengaturan Sistem</p>
             </div>
 
-            <div class="profile-area">
+            <div class="profile-area" style="display: flex; align-items: center; gap: 14px;">
+                <div class="notification-wrapper">
+                    <button type="button" class="notification-btn" id="notificationButton" onclick="toggleNotificationDropdown(event)" title="Notifikasi Sistem">
+                        <i data-lucide="bell" style="width: 18px; height: 18px;"></i>
+                        @if (isset($notifikasis) && $notifikasis->where('dibaca', false)->count() > 0)
+                            <span class="notification-dot" id="notificationDot"></span>
+                        @endif
+                    </button>
+
+                    <div class="notification-dropdown" id="notificationDropdown">
+                        <div class="notification-header">
+                            <span>Notifikasi Sistem</span>
+                            @if (isset($notifikasis) && $notifikasis->where('dibaca', false)->count() > 0)
+                                <button type="button" onclick="markAllNotificationsRead(event)" style="background: none; border: none; color: var(--primary); font-size: 11.5px; font-weight: 600; cursor: pointer;">Tandai Dibaca</button>
+                            @endif
+                        </div>
+
+                        @forelse ($notifikasis ?? [] as $notif)
+                            <a href="{{ route('notifikasi.baca', $notif->id) }}" class="notification-item {{ !$notif->dibaca ? 'unread' : '' }}">
+                                <div class="notification-item-icon">
+                                    <i data-lucide="bell-ring" style="width: 16px; height: 16px;"></i>
+                                </div>
+                                <div class="notification-item-content">
+                                    <strong>{{ $notif->judul }}</strong>
+                                    <p>{{ trim(preg_replace('/\s*\[JADWAL:\d+\]/', '', (string) $notif->pesan)) }}</p>
+                                    <small>{{ $notif->created_at->diffForHumans() }}</small>
+                                </div>
+                            </a>
+                        @empty
+                            <div class="notification-empty">
+                                <i data-lucide="bell-off" style="width: 24px; height: 24px; margin-bottom: 6px; display: inline-block;"></i>
+                                <p>Belum ada notifikasi baru</p>
+                            </div>
+                        @endforelse
+                    </div>
+                </div>
+
                 <div class="profile">
                     <div class="profile-info">
                         <div class="profile-name">{{ auth()->user()->nama }}</div>
@@ -543,7 +812,7 @@
                     </div>
                     <div class="profile-photo">
                         @if (auth()->user()->foto_profil)
-                            <img src="{{ asset('storage/' . auth()->user()->foto_profil) }}" alt="Foto Profil">
+                            <img src="{{ route('profile.photo', basename(auth()->user()->foto_profil)) }}" alt="Foto Profil">
                         @else
                             <i data-lucide="shield"></i>
                         @endif
@@ -552,29 +821,58 @@
             </div>
         </header>
 
+        @if (session('success'))
+            <div class="alert alert-success" role="status" style="margin-top: 14px;">
+                <i data-lucide="check-circle-2"></i>
+                <span>{{ session('success') }}</span>
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger" role="alert" style="margin-top: 14px;">
+                <i data-lucide="alert-circle"></i>
+                <span>{{ session('error') }}</span>
+            </div>
+        @endif
+
         {{-- Hero Banner --}}
         <div class="hero-banner">
-            <div class="hero-content">
-                <h2>Selamat Datang, {{ auth()->user()->nama }}</h2>
-                <p>Anda memiliki hak akses Administrator untuk mengelola akun pengguna (Admin, Guru BK, Wali Kelas) serta mengelola data induk siswa SMP Negeri 2 Dramaga.</p>
+            <div class="hero-topbar">
+                <div class="hero-school-badge">
+                    <i data-lucide="graduation-cap" aria-hidden="true"></i>
+                    SMP NEGERI 2 DRAMAGA &bull; SISTEM ADMINISTRATOR
+                </div>
+                <div class="hero-date-badge">
+                    <i data-lucide="calendar-days" aria-hidden="true"></i>
+                    {{ \Carbon\Carbon::now()->locale('id')->isoFormat('dddd, D MMMM Y') }}
+                </div>
             </div>
-            <div class="hero-actions">
-                <a href="{{ route('users.index') }}" class="btn-light">
-                    <i data-lucide="user-plus"></i> Kelola Pengguna
-                </a>
-                <a href="{{ route('siswa.index') }}" class="btn-outline-light">
-                    <i data-lucide="file-spreadsheet"></i> Master Siswa
-                </a>
+            <div class="hero-main-row">
+                <div class="hero-content">
+                    <h2>Selamat Datang, Administrator <span aria-hidden="true">👋</span></h2>
+                    <p>Anda memiliki hak akses Administrator untuk mengelola akun pengguna (Admin, Guru BK, Wali Kelas) serta mengelola data induk siswa SMP Negeri 2 Dramaga.</p>
+                </div>
+                <div class="hero-actions">
+                    <a href="{{ route('users.index') }}" class="btn-light">
+                        <i data-lucide="user-plus"></i> Kelola Pengguna
+                    </a>
+                    <a href="{{ route('siswa.index') }}" class="btn-outline-light">
+                        <i data-lucide="file-spreadsheet"></i> Master Siswa
+                    </a>
+                </div>
             </div>
+            <div class="hero-divider" aria-hidden="true"></div>
         </div>
 
         {{-- Stat Cards --}}
         <div class="stat-grid">
             <div class="stat-card">
                 <div class="stat-header">
-                    <div class="stat-title">Total Akun Pengguna</div>
-                    <div class="stat-icon icon-purple">
-                        <i data-lucide="users"></i>
+                    <div class="stat-heading-group flex items-center gap-3" style="display: flex; align-items: center; gap: 12px;">
+                        <div class="stat-icon icon-purple">
+                            <i data-lucide="users"></i>
+                        </div>
+                        <div class="stat-title">Total Akun Pengguna</div>
                     </div>
                 </div>
                 <div class="stat-value">{{ $totalUser }}</div>
@@ -587,9 +885,11 @@
 
             <div class="stat-card">
                 <div class="stat-header">
-                    <div class="stat-title">Total Siswa Terdaftar</div>
-                    <div class="stat-icon icon-blue">
-                        <i data-lucide="graduation-cap"></i>
+                    <div class="stat-heading-group flex items-center gap-3" style="display: flex; align-items: center; gap: 12px;">
+                        <div class="stat-icon icon-blue">
+                            <i data-lucide="graduation-cap"></i>
+                        </div>
+                        <div class="stat-title">Total Siswa Terdaftar</div>
                     </div>
                 </div>
                 <div class="stat-value">{{ $totalSiswa }}</div>
@@ -601,23 +901,27 @@
 
             <div class="stat-card">
                 <div class="stat-header">
-                    <div class="stat-title">Total Kelas Sekolah</div>
-                    <div class="stat-icon icon-orange">
-                        <i data-lucide="school"></i>
+                    <div class="stat-heading-group flex items-center gap-3" style="display: flex; align-items: center; gap: 12px;">
+                        <div class="stat-icon icon-orange">
+                            <i data-lucide="school"></i>
+                        </div>
+                        <div class="stat-title">Total Kelas Sekolah</div>
                     </div>
                 </div>
                 <div class="stat-value">{{ $totalKelas }}</div>
                 <div class="stat-footer">
                     <i data-lucide="check-circle" style="width: 14px; height: 14px; color: var(--green);"></i>
-                    <span>Tingkat 7, 8, dan 9 (30 Rombel)</span>
+                    <span>Tingkat VII, VIII, dan IX (35 Rombel)</span>
                 </div>
             </div>
 
             <div class="stat-card">
                 <div class="stat-header">
-                    <div class="stat-title">Hak Akses Sistem</div>
-                    <div class="stat-icon icon-green">
-                        <i data-lucide="shield-check"></i>
+                    <div class="stat-heading-group flex items-center gap-3" style="display: flex; align-items: center; gap: 12px;">
+                        <div class="stat-icon icon-green">
+                            <i data-lucide="shield-check"></i>
+                        </div>
+                        <div class="stat-title">Hak Akses Sistem</div>
                     </div>
                 </div>
                 <div class="stat-value" style="font-size: 20px; color: var(--green);">Least Privilege</div>
@@ -688,6 +992,48 @@
 
 <script>
     lucide.createIcons();
+
+    function toggleNotificationDropdown(event) {
+        event.stopPropagation();
+        const dropdown = document.getElementById('notificationDropdown');
+        if (dropdown) {
+            dropdown.classList.toggle('show');
+            const dot = document.getElementById('notificationDot') || document.querySelector('.notification-dot');
+            if (dot) {
+                dot.style.display = 'none';
+                fetch('{{ route("notifikasi.markAllRead") }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json'
+                    }
+                }).catch(() => {});
+            }
+        }
+    }
+
+    function markAllNotificationsRead(event) {
+        event.stopPropagation();
+        fetch('{{ route("notifikasi.markAllRead") }}', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json'
+            }
+        }).then(() => {
+            const dot = document.getElementById('notificationDot');
+            if (dot) dot.style.display = 'none';
+            document.querySelectorAll('.notification-item.unread').forEach(el => el.classList.remove('unread'));
+        });
+    }
+
+    window.addEventListener('click', function(event) {
+        const dropdown = document.getElementById('notificationDropdown');
+        const btn = document.getElementById('notificationButton');
+        if (dropdown && btn && !dropdown.contains(event.target) && !btn.contains(event.target)) {
+            dropdown.classList.remove('show');
+        }
+    });
 </script>
 </body>
 </html>

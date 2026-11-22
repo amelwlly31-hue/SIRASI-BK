@@ -80,11 +80,23 @@ class TindakLanjutController extends Controller
             'keterangan' => 'required|string',
         ]);
 
-        $tindakLanjut->update($validated);
+        try {
+            $tindakLanjut->update($validated);
+        } catch (\Throwable $e) {
+            return back()
+                ->withInput()
+                ->with('error', 'Gagal memperbarui tindak lanjut. Silakan periksa kembali data Anda.');
+        }
+
+        $redirectTo = $request->input('redirect_to');
+        if ($redirectTo && (str_starts_with($redirectTo, url('/')) || (str_starts_with($redirectTo, '/') && !str_starts_with($redirectTo, '//')))) {
+            return redirect($redirectTo)
+                ->with('success', 'Data berhasil diperbarui.');
+        }
 
         return redirect()
             ->route('konseling.show', $tindakLanjut->id_konseling)
-            ->with('success', 'Tindak lanjut berhasil diperbarui.');
+            ->with('success', 'Data berhasil diperbarui.');
     }
 
     public function destroy($id)

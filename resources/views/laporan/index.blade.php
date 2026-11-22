@@ -50,11 +50,7 @@
 
             min-height: 100vh;
 
-            font-family:
-                Inter,
-                "Segoe UI",
-                Arial,
-                sans-serif;
+
 
             color: var(--text);
 
@@ -114,7 +110,7 @@
         input,
         select {
 
-            font-family: inherit;
+
 
         }
 
@@ -122,7 +118,7 @@
 
         .sidebar {
 
-            width: 270px;
+            width: 235px;
 
             min-height: 100vh;
 
@@ -386,7 +382,7 @@
 
             min-height: 100vh;
 
-            margin-left: 270px;
+            margin-left: 235px;
 
         }
 
@@ -910,8 +906,8 @@
 
         .report-icon {
 
-            width: 44px;
-            height: 44px;
+            width: 36px;
+            height: 36px;
 
             flex-shrink: 0;
 
@@ -933,6 +929,7 @@
             transition: .22s ease;
 
         }
+        .report-icon svg { width: 18px; height: 18px; }
 
         .report-type.active .report-icon {
 
@@ -947,6 +944,7 @@
                 rgba(23,60,145,.20);
 
         }
+        .report-icon svg { width: 18px; height: 18px; }
 
         .report-content {
 
@@ -1259,6 +1257,137 @@
             background: linear-gradient(135deg, #3564cd, #1a429e) !important;
             border-color: #4f7ee8 !important;
             color: #ffffff !important;
+        }
+
+        .report-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .report-toolbar-button {
+            width: 36px;
+            height: 36px;
+            padding: 0 10px;
+        }
+
+        .download-menu > summary { cursor: pointer; }
+        .download-menu > summary .download-label { margin-right: 1px; }
+
+        .print-button-outline {
+            background: transparent;
+            color: #173c91;
+            box-shadow: none;
+        }
+
+        .print-button-outline:hover {
+            background: #eef3ff;
+            border-color: #173c91;
+            color: #173c91;
+        }
+
+        .download-menu { position: relative; }
+        .download-menu > summary { list-style: none; }
+        .download-menu > summary::-webkit-details-marker { display: none; }
+        .download-menu > summary .chevron { width: 12px; height: 12px; transition: transform .18s ease; }
+        .download-menu[open] > summary .chevron { transform: rotate(180deg); }
+
+        .download-dropdown {
+            position: absolute;
+            z-index: 20;
+            top: calc(100% + 7px);
+            right: 0;
+            min-width: 190px;
+            padding: 6px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--card);
+            box-shadow: 0 12px 28px rgba(20, 37, 74, .16);
+        }
+
+        .download-dropdown a {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 10px;
+            border-radius: 7px;
+            color: var(--text);
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .download-dropdown a:hover { background: rgba(41, 91, 181, .08); }
+        .download-dropdown a:first-child i { color: #d94141; }
+        .download-dropdown a:last-child i { color: #2864bd; }
+        .download-dropdown i { width: 15px; height: 15px; }
+
+        .detail-report-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 9px;
+            border: 1px solid rgba(23, 60, 145, .18);
+            border-radius: 7px;
+            background: transparent;
+            color: #173c91;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+        .detail-report-link:hover { background: #eef3ff; border-color: #173c91; }
+        .detail-report-link i { width: 14px; height: 14px; }
+
+        .report-preview {
+            margin: 0 22px 22px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: var(--card);
+            box-shadow: var(--shadow-sm);
+        }
+        .report-preview[hidden] { display: none !important; }
+        .report-preview-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 13px 16px;
+            border-bottom: 1px solid var(--border);
+        }
+        .report-preview-title { color: var(--text); font-size: 14px; font-weight: 800; }
+        .report-preview-actions { display: flex; align-items: center; gap: 8px; }
+        .preview-action-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            min-height: 34px;
+            padding: 0 11px;
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            background: var(--card);
+            color: var(--text);
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 800;
+        }
+        .preview-action-button.primary { border-color: #173c91; background: #173c91; color: #fff; }
+        .preview-action-button i { width: 14px; height: 14px; }
+        .report-preview-content { min-height: 220px; padding: 16px; background: #eef1f5; }
+        .report-preview-frame { display: block; width: 100%; min-height: 950px; border: 0; background: #fff; }
+        .report-preview-loading, .report-preview-error { padding: 36px 16px; color: var(--muted); text-align: center; }
+
+        @media (max-width: 640px) {
+            .result-header { align-items: flex-start; flex-direction: column; }
+            .report-actions { width: 100%; justify-content: flex-start; flex-wrap: wrap; }
+            .report-preview { margin: 0 12px 14px; }
+            .report-preview-header { align-items: flex-start; flex-direction: column; }
+            .report-preview-content { padding: 8px; }
+            .report-preview-frame { min-height: 760px; }
         }
 
         /* result card */
@@ -1921,6 +2050,8 @@
             .content .report-types,
             .report-mode .parameter-card,
             .result-header,
+            .document-action,
+            .report-preview,
             .show-button,
             .print-button {
                 display: none !important;
@@ -2199,7 +2330,7 @@
         }
 
         /* navbar/sidebar exact match riwayat siswa */
-        .sidebar{width:270px !important;min-height:100vh !important;position:fixed !important;left:0 !important;top:0 !important;bottom:0 !important;z-index:50 !important;display:flex !important;flex-direction:column !important;padding:24px 16px !important;color:white !important;background:linear-gradient(180deg,#193f96 0%,#173887 52%,#112e70 100%) !important;box-shadow:12px 0 35px rgba(15,45,112,.10) !important}
+        .sidebar{width:235px !important;min-height:100vh !important;position:fixed !important;left:0 !important;top:0 !important;bottom:0 !important;z-index:50 !important;display:flex !important;flex-direction:column !important;padding:24px 16px !important;color:white !important;background:linear-gradient(180deg,#193f96 0%,#173887 52%,#112e70 100%) !important;box-shadow:12px 0 35px rgba(15,45,112,.10) !important}
         .brand{display:flex !important;align-items:center !important;gap:13px !important;padding:4px 10px 28px !important}
         .brand-logo{width:55px !important;height:55px !important;display:flex !important;align-items:center !important;justify-content:center !important;border-radius:14px !important;background:rgba(255,255,255,.14) !important;border:1px solid rgba(255,255,255,.20) !important;box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 8px 20px rgba(0,0,0,.10) !important;font-size:20px !important;font-weight:800 !important}
         .brand-name,.brand-title{font-size:19px !important;font-weight:800 !important;letter-spacing:.2px !important}
@@ -2208,13 +2339,13 @@
         .menu{display:flex !important;flex-direction:column !important;gap:5px !important}
         .menu-item,.menu a{min-height:47px !important;display:flex !important;align-items:center !important;gap:13px !important;padding:0 14px !important;border-radius:12px !important;color:#d2dcfa !important;font-size:13.5px !important;font-weight:700 !important;border:1px solid transparent !important;text-decoration:none !important;transition:.2s ease !important;position:relative !important}
         .menu-item:hover,.menu a:hover{color:white !important;background:rgba(255,255,255,.09) !important;transform:translateX(2px) !important}
-        .menu-item.active,.menu a.active{color:white !important;background:linear-gradient(90deg,rgba(255,255,255,.17),rgba(255,255,255,.08)) !important;border-color:rgba(255,255,255,.10) !important;box-shadow:inset 3px 0 0 #9db9ff,0 8px 20px rgba(0,0,0,.08) !important}
+        
         .menu-icon{width:25px !important;height:25px !important;display:flex !important;align-items:center !important;justify-content:center !important;flex-shrink:0 !important;border-radius:8px !important;background:rgba(255,255,255,.07) !important;font-size:14px !important}
         .menu-item::after,.menu a::after{content:"";position:absolute;left:10px;right:10px;bottom:5px;height:2px;border-radius:999px;background:linear-gradient(90deg,transparent,rgba(160,195,255,.75),transparent);transform:scaleX(0);opacity:0;transition:.22s ease;pointer-events:none}
         .menu-item:hover::after,.menu a:hover::after{transform:scaleX(1);opacity:.9}
-        .menu-item.active::after,.menu a.active::after{transform:scaleX(1);opacity:.9}
+        
         .menu-item:hover .menu-icon,.menu a:hover .menu-icon{background:rgba(255,255,255,.15) !important}
-        .menu-item.active .menu-icon,.menu a.active .menu-icon{background:rgba(255,255,255,.14) !important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06) !important}
+        
         .sidebar-logout{margin-top:auto !important;padding-top:20px !important}
         .sidebar-logout button,.logout-button{width:100% !important;min-height:47px !important;border:1px solid transparent !important;border-radius:12px !important;background:transparent !important;color:#d2dcfa !important;cursor:pointer !important;text-align:left !important;padding:0 14px !important;font-size:13.5px !important;font-weight:700 !important;transition:.2s ease !important;position:relative !important;display:flex !important;align-items:center !important;gap:13px !important}
         .sidebar-logout button:hover,.logout-button:hover{color:white !important;background:rgba(255,255,255,.09) !important;transform:translateX(2px) !important;border-color:rgba(255,255,255,.08) !important}
@@ -2244,101 +2375,7 @@
 
     {{-- sidebar --}}
 
-    <aside class="sidebar">
-
-        <div>
-
-            <div class="brand">
-
-                <div class="brand-logo">
-                    <img
-                        src="{{ asset('images/logo-smpn2-dramaga.png') }}"
-                        alt="Logo SMP Negeri 2 Dramaga"
-                    >
-                </div>
-
-                <div>
-
-                    <div class="brand-title">
-                        SIRASI-BK
-                    </div>
-
-                    <div class="brand-subtitle">
-                        Bimbingan & Konseling
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="menu-title">
-                Menu Utama
-            </div>
-
-            <nav class="menu">
-
-                <a
-                    href="{{ route('dashboard') }}">
-                    <span class="menu-icon"><i data-lucide="home"></i></span>
-                    Dashboard
-                </a>
-
-                <a
-                    href="{{ route('siswa.index') }}">
-                    <span class="menu-icon"><i data-lucide="users-round"></i></span>
-                    Data Siswa
-                </a>
-
-                <a
-                    href="{{ route('penjadwalan.index') }}">
-                    <span class="menu-icon"><i data-lucide="calendar-clock"></i></span>
-                    Penjadwalan
-                </a>
-
-                <a
-                    href="{{ route('konseling.index') }}">
-                    <span class="menu-icon"><i data-lucide="clipboard-list"></i></span>
-                    Data Konseling
-                </a>
-
-                <a
-                    href="{{ route('siswa.riwayat') }}">
-                    <span class="menu-icon"><i data-lucide="history"></i></span>
-                    Riwayat Siswa
-                </a>
-
-                <a
-                    href="{{ route('laporan.index', ['jenis' => 'periode']) }}" class="active">
-                    <span class="menu-icon"><i data-lucide="file-chart-column"></i></span>
-                    Laporan
-                </a>
-
-                <a
-                    href="{{ route('pengaturan.index') }}">
-                    <span class="menu-icon"><i data-lucide="settings"></i></span>
-                    Pengaturan
-                </a>
-
-            </nav>
-
-        </div>
-
-        <div class="sidebar-logout">
-
-            <form action="{{ route('logout') }}" method="POST" onsubmit="return confirm('Anda yakin ingin keluar?');">
-
-                @csrf
-
-                <button type="submit" class="logout-button">
-                    <span class="menu-icon"><i data-lucide="log-out"></i></span>
-                    Logout
-                </button>
-
-            </form>
-
-        </div>
-
-    </aside>
+    @include('layouts.sidebar')
 
     {{-- main --}}
 
@@ -2347,23 +2384,6 @@
         {{-- topbar --}}
 
         <header class="topbar">
-
-            <form
-                action="{{ route('siswa.index') }}"
-                method="GET"
-                class="search-box"
-            >
-                <span class="search-icon">
-                    <i data-lucide="search"></i>
-                </span>
-
-                <input
-                    type="text"
-                    name="search"
-                    placeholder="Cari siswa atau data..."
-                    value="{{ request('search') }}"
-                >
-            </form>
 
             <div class="topbar-right">
 
@@ -2377,7 +2397,7 @@
                         <i data-lucide="bell"></i>
 
                         @if (isset($notifikasis) && $notifikasis->where('dibaca', false)->count() > 0)
-                            <span class="notification-dot"></span>
+                            <span class="notification-dot" id="notificationDot"></span>
                         @endif
                     </button>
 
@@ -2393,7 +2413,7 @@
 
                             <a
                                 href="{{ route('notifikasi.baca', $notifikasi->id) }}"
-                                class="notification-item"
+                                class="notification-item {{ !$notifikasi->dibaca ? 'unread' : '' }}"
                             >
                                 <div class="notification-item-icon">
                                     <i data-lucide="clipboard-list"></i>
@@ -2402,7 +2422,7 @@
                                 <div class="notification-item-content">
                                     <strong>{{ $notifikasi->judul }}</strong>
 
-                                    <p>{{ $notifikasi->pesan }}</p>
+                                    <p>{{ preg_replace('/\s*\[JADWAL:\d+\]/', '', $notifikasi->pesan) }}</p>
 
                                     <small>
                                         {{ $notifikasi->created_at->diffForHumans() }}
@@ -2431,7 +2451,7 @@
                         </div>
 
                         <div class="profile-role">
-                            admin
+                            {{ auth()->user()->role ?? 'Guru BK' }}
                         </div>
 
                     </div>
@@ -2522,6 +2542,11 @@
                         </div>
 
                         <div class="print-meta-item">
+                            <dt>NIS</dt>
+                            <dd>{{ $siswaTerpilih->nis ?? '-' }}</dd>
+                        </div>
+
+                        <div class="print-meta-item">
                             <dt>Kelas</dt>
                             <dd>
                                 {{ $siswaTerpilih && $siswaTerpilih->kelas
@@ -2557,29 +2582,6 @@
                     @endif
                 </dl>
             </div>
-
-            {{-- page header --}}
-
-            <div class="page-top">
-
-                <div>
-
-                    <div class="eyebrow">
-                        SIRASI-BK
-                    </div>
-
-                    <h1 class="page-title">
-                        Laporan
-                    </h1>
-
-                    <p class="page-subtitle">
-                        Hasilkan dan unduh rekapitulasi data bimbingan konseling.
-                    </p>
-
-                </div>
-
-            </div>
-
             {{-- report types --}}
 
             <div class="report-types">
@@ -2731,9 +2733,11 @@
                                             @foreach ($siswa as $item)
                                                 <option
                                                     value="{{ $item->id_siswa }}"
+                                                    data-kelas="{{ $item->id_kelas }}"
                                                     {{ (string) $idSiswa === (string) $item->id_siswa ? 'selected' : '' }}
+                                                    @if ($idKelas && (string) $item->id_kelas !== (string) $idKelas) hidden disabled @endif
                                                 >
-                                                    {{ $item->nama_siswa }}
+                                                    {{ $item->nama_siswa }}{{ $item->kelas ? ' — ' . $item->kelas->nama_kelas : '' }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -2760,14 +2764,43 @@
                                 </div>
                             </div>
 
-                            <button
-                                type="button"
-                                class="print-button"
-                                onclick="window.print()"
-                            >
-                                <i data-lucide="printer"></i>
-                                Cetak
-                            </button>
+                            @php
+                                $reportFilters = [
+                                    'tanggal_mulai' => $tanggalMulai,
+                                    'tanggal_akhir' => $tanggalAkhir,
+                                    'id_kelas' => $idKelas,
+                                    'id_siswa' => $idSiswa,
+                                ];
+                            @endphp
+                            <div class="report-actions">
+                                <button
+                                    type="button"
+                                    class="print-button report-toolbar-button"
+                                    onclick="window.print()"
+                                    title="Cetak rekapitulasi"
+                                    aria-label="Cetak rekapitulasi"
+                                >
+                                    <i data-lucide="printer"></i>
+                                </button>
+
+                                <details class="download-menu">
+                                    <summary class="print-button">
+                                        <i data-lucide="download"></i>
+                                        <span class="download-label">Unduh</span>
+                                        <i class="chevron" data-lucide="chevron-down"></i>
+                                    </summary>
+                                    <div class="download-dropdown">
+                                        <a href="{{ route('laporan.export.docx', $reportFilters) }}">
+                                            <i data-lucide="file-text"></i>
+                                            Unduh Laporan (.docx)
+                                        </a>
+                                        <a href="{{ route('laporan.export.excel', $reportFilters) }}">
+                                            <i data-lucide="file-spreadsheet"></i>
+                                            Unduh Rekap (.xlsx)
+                                        </a>
+                                    </div>
+                                </details>
+                            </div>
                         </div>
 
                         @if ($konseling->count() > 0)
@@ -2781,6 +2814,7 @@
                                             <th>Kelas</th>
                                             <th>Jenis Masalah</th>
                                             <th>Status</th>
+                                            <th class="document-action">AKSI</th>
                                         </tr>
                                     </thead>
 
@@ -2821,6 +2855,17 @@
                                                         <span class="status">{{ $item->status ?? '-' }}</span>
                                                     @endif
                                                 </td>
+                                                <td class="document-action">
+                                                    <button
+                                                        type="button"
+                                                        class="detail-report-link js-preview-report"
+                                                        data-preview-url="{{ route('laporan.konseling.cetak', $item->id_konseling) }}"
+                                                        data-student-name="{{ $item->siswa->nama_siswa ?? 'Siswa' }}"
+                                                    >
+                                                        <i data-lucide="eye"></i>
+                                                        Lihat Laporan
+                                                    </button>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -2837,6 +2882,25 @@
                                 </div>
                             </div>
                         @endif
+
+                        <div class="report-preview" id="preview-laporan-container" hidden>
+                            <div class="report-preview-header">
+                                <div class="report-preview-title" id="preview-laporan-title">Preview laporan resmi</div>
+                                <div class="report-preview-actions">
+                                    <button type="button" class="preview-action-button primary" id="preview-cetak-button" disabled>
+                                        <i data-lucide="printer"></i>
+                                        Cetak Dokumen Ini
+                                    </button>
+                                    <button type="button" class="preview-action-button" id="preview-tutup-button">
+                                        <i data-lucide="x"></i>
+                                        Tutup Preview
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="report-preview-content" id="preview-laporan-content">
+                                <div class="report-preview-loading">Pilih siswa untuk memuat preview laporan.</div>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -2897,7 +2961,13 @@
                                 </div>
 
                                 <div class="result-description">
-                                    {{ $siswaTerpilih ? ($siswaTerpilih->kelas->nama_kelas ?? 'Kelas -') : 'Pilih siswa untuk melihat riwayat konseling.' }}
+                                    @if ($siswaTerpilih)
+                                        NIS {{ $siswaTerpilih->nis ?? '-' }}
+                                        &middot;
+                                        Kelas {{ $siswaTerpilih->kelas->nama_kelas ?? '-' }}
+                                    @else
+                                        Pilih siswa untuk melihat riwayat konseling.
+                                    @endif
                                 </div>
                             </div>
 
@@ -2921,6 +2991,8 @@
                                             <th>No</th>
                                             <th>Tanggal</th>
                                             <th>Jenis Masalah</th>
+                                            <th>Diagnosis / Kesimpulan Asesmen</th>
+                                            <th>Hasil Konseling</th>
                                             <th>Tindak Lanjut</th>
                                             <th>Status</th>
                                         </tr>
@@ -2939,8 +3011,26 @@
                                                     {{ $item->jenisMasalah->nama_jenis ?? '-' }}
                                                 </td>
 
+                                                <td>{{ $item->diagnosis ?: 'Belum dicatat' }}</td>
+
+                                                <td>{{ $item->hasil_konseling ?: 'Belum dicatat' }}</td>
+
                                                 <td>
-                                                    {{ $item->tindak_lanjut ?? 'Belum ada tindak lanjut' }}
+                                                    @if ($item->tindakLanjut && $item->tindakLanjut->count() > 0)
+                                                        @foreach ($item->tindakLanjut as $tindakLanjut)
+                                                            <div style="margin-bottom: 8px;">
+                                                                <strong>{{ $tindakLanjut->tindakan ?: 'Tindakan' }}</strong>
+                                                                @if ($tindakLanjut->keterangan)
+                                                                    <div>{{ $tindakLanjut->keterangan }}</div>
+                                                                @endif
+                                                                @if ($tindakLanjut->tanggal)
+                                                                    <small style="color:var(--muted);">{{ \Carbon\Carbon::parse($tindakLanjut->tanggal)->format('d M Y') }}</small>
+                                                                @endif
+                                                            </div>
+                                                        @endforeach
+                                                    @else
+                                                        Belum ada tindak lanjut
+                                                    @endif
                                                 </td>
 
                                                 <td>
@@ -3135,6 +3225,25 @@
 <script>
     lucide.createIcons();
 
+    const filterKelasSelect = document.getElementById('id_kelas');
+    const filterSiswaSelect = document.getElementById('id_siswa');
+
+    if (filterKelasSelect && filterSiswaSelect) {
+        filterKelasSelect.addEventListener('change', function () {
+            const selectedKelas = this.value;
+            Array.from(filterSiswaSelect.options).forEach(function (opt) {
+                if (!opt.value) return;
+                const optKelas = opt.getAttribute('data-kelas');
+                const match = !selectedKelas || optKelas === selectedKelas;
+                opt.hidden = !match;
+                opt.disabled = !match;
+                if (!match && opt.selected) {
+                    filterSiswaSelect.value = '';
+                }
+            });
+        });
+    }
+
     const notificationButton = document.getElementById('notificationButton');
     const notificationDropdown = document.getElementById('notificationDropdown');
 
@@ -3142,6 +3251,17 @@
         notificationButton.addEventListener('click', function (event) {
             event.stopPropagation();
             notificationDropdown.classList.toggle('show');
+            const dot = document.getElementById('notificationDot') || document.querySelector('.notification-dot');
+            if (dot) {
+                dot.style.display = 'none';
+                fetch('{{ route("notifikasi.markAllRead") }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json'
+                    }
+                }).catch(function () {});
+            }
         });
 
         document.addEventListener('click', function (event) {
@@ -3151,6 +3271,99 @@
             ) {
                 notificationDropdown.classList.remove('show');
             }
+        });
+    }
+
+    const reportExportMenu = document.querySelector('.download-menu');
+    if (reportExportMenu) {
+        document.addEventListener('click', function (event) {
+            if (!reportExportMenu.contains(event.target)) {
+                reportExportMenu.open = false;
+            }
+        });
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                reportExportMenu.open = false;
+            }
+        });
+    }
+
+    const reportPreview = document.getElementById('preview-laporan-container');
+    const reportPreviewContent = document.getElementById('preview-laporan-content');
+    const reportPreviewTitle = document.getElementById('preview-laporan-title');
+    const reportPreviewPrint = document.getElementById('preview-cetak-button');
+    const reportPreviewClose = document.getElementById('preview-tutup-button');
+    let reportPreviewFrame = null;
+    let reportPreviewRequestId = 0;
+
+    document.querySelectorAll('.js-preview-report').forEach(function (button) {
+        button.addEventListener('click', async function () {
+            const requestId = ++reportPreviewRequestId;
+            reportPreview.hidden = false;
+            reportPreviewPrint.disabled = true;
+            reportPreviewTitle.textContent = 'Laporan resmi — ' + button.dataset.studentName;
+            reportPreviewContent.innerHTML = '<div class="report-preview-loading">Memuat dokumen resmi...</div>';
+            reportPreview.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            try {
+                const previewUrl = new URL(button.dataset.previewUrl, window.location.href);
+                previewUrl.searchParams.set('preview', '1');
+                const response = await fetch(previewUrl.toString(), {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'text/html' },
+                    credentials: 'same-origin'
+                });
+
+                if (requestId !== reportPreviewRequestId) return;
+
+                if (!response.ok) {
+                    throw new Error('Dokumen tidak dapat dimuat (HTTP ' + response.status + ').');
+                }
+
+                const documentHtml = await response.text();
+                const frame = document.createElement('iframe');
+                frame.className = 'report-preview-frame';
+                frame.title = 'Preview laporan resmi ' + button.dataset.studentName;
+                frame.addEventListener('load', function () {
+                    try {
+                        const previewDocument = frame.contentDocument;
+                        const contentHeight = previewDocument.documentElement.scrollHeight;
+                        frame.style.height = Math.max(contentHeight + 24, 950) + 'px';
+                    } catch (error) {
+                        frame.style.height = '1100px';
+                    }
+                    if (reportPreviewFrame === frame) {
+                        reportPreviewPrint.disabled = false;
+                    }
+                });
+                reportPreviewFrame = frame;
+                frame.srcdoc = documentHtml;
+                reportPreviewContent.replaceChildren(frame);
+            } catch (error) {
+                if (requestId !== reportPreviewRequestId) return;
+                reportPreviewFrame = null;
+                reportPreviewContent.innerHTML = '<div class="report-preview-error"></div>';
+                reportPreviewContent.querySelector('.report-preview-error').textContent = error.message || 'Terjadi kesalahan saat memuat dokumen.';
+            }
+        });
+    });
+
+    if (reportPreviewPrint) {
+        reportPreviewPrint.addEventListener('click', function () {
+            if (reportPreviewFrame && reportPreviewFrame.contentWindow) {
+                reportPreviewFrame.contentWindow.focus();
+                reportPreviewFrame.contentWindow.print();
+            }
+        });
+    }
+
+    if (reportPreviewClose) {
+        reportPreviewClose.addEventListener('click', function () {
+            reportPreviewRequestId++;
+            reportPreview.hidden = true;
+            reportPreviewContent.replaceChildren();
+            reportPreviewFrame = null;
+            reportPreviewPrint.disabled = true;
         });
     }
 </script>

@@ -46,7 +46,7 @@
         }
 
         body {
-            font-family: Inter, "Segoe UI", Arial, sans-serif;
+
             background:
                 radial-gradient(
                     circle at 85% 0%,
@@ -65,7 +65,7 @@
         input,
         select,
         textarea {
-            font-family: inherit;
+
         }
 
         /* app */
@@ -78,7 +78,7 @@
         /* sidebar */
 
         .sidebar {
-            width: 270px;
+            width: 235px;
             min-height: 100vh;
 
             position: fixed;
@@ -292,7 +292,7 @@
             flex: 1;
             min-width: 0;
 
-            margin-left: 270px;
+            margin-left: 235px;
         }
 
         /* header */
@@ -365,6 +365,20 @@
             background: #e14c4c;
         }
 
+        .notification-dropdown { position: absolute; top: 48px; right: 0; width: 340px; max-height: 420px; overflow-y: auto; background: white; border: 1px solid var(--border); border-radius: 14px; box-shadow: 0 15px 35px rgba(23,60,145,.14); display: none; z-index: 1000; }
+        .notification-dropdown.show { display: block; }
+        .notification-header { padding: 15px 17px; border-bottom: 1px solid var(--border); font-size: 13px; color: var(--text); display: flex; align-items: center; justify-content: space-between; }
+        .notification-item { display: flex; gap: 11px; padding: 13px 15px; border-bottom: 1px solid #edf0f4; color: var(--text); text-decoration: none; transition: .2s ease; }
+        .notification-item:hover { background: #f7f9ff; }
+        .notification-item-icon { width: 34px; height: 34px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: 9px; background: var(--primary-soft); color: var(--primary); }
+        .notification-item-content { min-width: 0; }
+        .notification-item-content strong { display: block; font-size: 11px; font-weight: 800; }
+        .notification-item-content p { margin-top: 4px; color: var(--muted); font-size: 10px; line-height: 1.45; }
+        .notification-item-content small { display: block; margin-top: 5px; color: #9aa1ae; font-size: 8px; }
+        .notification-empty { padding: 30px 20px; text-align: center; color: var(--muted); font-size: 11px; }
+        body.dark-mode .notification-dropdown { background: #162238 !important; border-color: #293752 !important; }
+        body.dark-mode .notification-header, body.dark-mode .notification-item { border-color: #293752 !important; color: #edf3ff !important; }
+        body.dark-mode .notification-item:hover { background: #1d2c47 !important; }
         .notification-wrapper {
             position: relative;
         }
@@ -438,12 +452,21 @@
 
         .page-header {
             display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
+            align-items: center;
+            justify-content: flex-end;
 
             gap: 20px;
 
             margin-bottom: 24px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-left: auto;
         }
 
         .eyebrow {
@@ -659,8 +682,8 @@
         }
 
         .filter-icon {
-            width: 34px;
-            height: 34px;
+            width: 36px;
+            height: 36px;
 
             display: flex;
             align-items: center;
@@ -676,8 +699,8 @@
         }
 
         .filter-icon svg {
-            width: 17px;
-            height: 17px;
+            width: 18px;
+            height: 18px;
         }
 
         .filter-title {
@@ -813,8 +836,8 @@
         }
 
         .table-title-icon {
-            width: 35px;
-            height: 35px;
+            width: 36px;
+            height: 36px;
 
             display: flex;
             align-items: center;
@@ -828,8 +851,8 @@
         }
 
         .table-title-icon svg {
-            width: 17px;
-            height: 17px;
+            width: 18px;
+            height: 18px;
         }
 
         .table-title {
@@ -1879,7 +1902,7 @@
             display: none;
             position: fixed;
             inset: 0;
-            z-index: 9999;
+            z-index: 12000;
             align-items: center;
             justify-content: center;
             padding: 24px;
@@ -1892,13 +1915,14 @@
         .penjadwalan-modal-overlay {
             position: absolute;
             inset: 0;
+            z-index: 0;
             background: rgba(10, 25, 55, 0.62);
             backdrop-filter: blur(5px);
         }
 
         .penjadwalan-modal-card {
             position: relative;
-            z-index: 2;
+            z-index: 1;
             width: min(720px, 100%);
             max-height: 90vh;
             overflow-y: auto;
@@ -2093,116 +2117,7 @@
 
     {{-- sidebar --}}
 
-    <aside class="sidebar">
-
-        <div>
-
-            {{-- brand --}}
-
-            <div class="brand">
-
-                <div class="brand-logo">
-
-                    <img
-                        src="{{ asset('images/logo-smpn2-dramaga.png') }}?v=2"
-                        alt="Logo SMP Negeri 2 Dramaga"
-                    >
-
-                </div>
-
-                <div>
-
-                    <div class="brand-name">
-                        SIRASI-BK
-                    </div>
-
-                    <div class="brand-subtitle">
-                        Bimbingan & Konseling
-                    </div>
-
-                </div>
-
-            </div>
-
-            {{-- menu title --}}
-
-            <div class="menu-title">
-                Menu Utama
-            </div>
-
-            {{-- menu --}}
-
-            <nav class="menu">
-
-                <a
-                    href="{{ route('dashboard') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="home"></i></span>
-                        Dashboard
-                </a>
-
-                <a
-                    href="{{ route('siswa.index') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="users-round"></i></span>
-                    Data Siswa
-                </a>
-
-                {{-- penjadwalan aktif --}}
-                <a
-                    href="{{ route('penjadwalan.index') }}" class="menu-item active">
-                    <span class="menu-icon"><i data-lucide="calendar-clock"></i></span>
-                        Penjadwalan
-                </a>
-
-                <a
-                    href="{{ route('konseling.index') }}" class="menu-item">
-                    <span class="menu-icon"> <i data-lucide="clipboard-list"></i></span>
-                        Data Konseling
-                </a>
-
-                <a
-                    href="{{ route('siswa.riwayat') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="history"></i></span>
-                        Riwayat Siswa
-                </a>
-
-                <a
-                    href="{{ route('laporan.index') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="file-chart-column"></i></span>
-                    Laporan
-                </a>
-
-                <a
-                    href="{{ route('pengaturan.index') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="settings"></i></span>
-                    Pengaturan
-                </a>
-
-            </nav>
-
-        </div>
-
-        {{-- logout --}}
-
-        <div class="sidebar-bottom">
-
-            <form
-                action="{{ route('logout') }}"
-                method="POST"
-                onsubmit="return confirm('Anda yakin ingin keluar?');">
-
-                @csrf
-
-                <button
-                    type="submit" class="menu-item logout-button">
-                    <span class="menu-icon"><i data-lucide="log-out"></i></span>
-                        Logout
-                </button>
-
-            </form>
-
-        </div>
-
-    </aside>
+    @include('layouts.sidebar')
 
     {{-- main --}}
 
@@ -2220,10 +2135,29 @@
                     <button
                         type="button"
                         class="notification"
-                        title="Notifikasi"
+                        id="notificationButton" title="Notifikasi"
                     >
                         <i data-lucide="bell"></i>
-                        <span class="notification-dot"></span>
+                        @if (isset($notifikasis) && $notifikasis->where('dibaca', false)->count() > 0)<span class="notification-dot" id="notificationDot"></span>@endif
+                    </button>
+                    <div class="notification-dropdown" id="notificationDropdown">
+                        <div class="notification-header"><strong>Notifikasi</strong></div>
+                        @forelse ($notifikasis ?? [] as $notifikasi)
+                            <a href="{{ route('notifikasi.baca', $notifikasi->id) }}" class="notification-item {{ !$notifikasi->dibaca ? 'unread' : '' }}">
+                                <div class="notification-item-icon"><i data-lucide="clipboard-list"></i></div>
+                                <div class="notification-item-content">
+                                    <strong>{{ $notifikasi->judul }}</strong>
+                                    <p>{{ preg_replace('/\s*\[JADWAL:\d+\]/', '', $notifikasi->pesan) }}</p>
+                                    <small>{{ $notifikasi->created_at->diffForHumans() }}</small>
+                                </div>
+                            </a>
+                        @empty
+                            <div class="notification-empty"><i data-lucide="bell-off"></i><p>Belum ada notifikasi</p></div>
+                        @endforelse
+                    </div>
+                </div>
+                <div style="display:none">
+                    <button type="button">
                     </button>
                 </div>
 
@@ -2270,7 +2204,7 @@
 
             {{-- page header --}}
 
-            <div class="page-header">
+            <div class="page-header" style="flex-wrap: wrap; justify-content: flex-end;">
 
                 <div class="page-title">
 
@@ -2283,18 +2217,38 @@
                     </h1>
 
                     <p>
-                        Kelola dan pantau jadwal bimbingan konseling siswa SMP Negeri 2 Dramaga.
+                        Kelola jadwal mengajar Guru BK, slot ketersediaan konseling (08.00–15.00 WIB), dan jadwal bimbingan siswa SMP Negeri 2 Dramaga.
                     </p>
 
                 </div>
-                <button
-                    type="button"
-                    class="btn btn-primary"
-                    onclick="openPenjadwalanModal('createModal')"
-                >
-                    <i data-lucide="calendar-plus"></i>
-                    Tambah Jadwal
-                </button>
+                <div class="header-actions" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-left: auto; justify-content: flex-end;">
+                    <button
+                        type="button"
+                        class="btn"
+                        onclick="openPenjadwalanModal('mengajarModal')"
+                        style="border-color: #c5d3f5; color: var(--primary); background: var(--primary-soft);"
+                    >
+                        <i data-lucide="book-open"></i>
+                        Jadwal Mengajar BK
+                    </button>
+                    <button
+                        type="button"
+                        class="btn"
+                        onclick="openPenjadwalanModal('slotModal')"
+                        style="border-color: #b7e4c7; color: #159447; background: #eaf8ef;"
+                    >
+                        <i data-lucide="clock-plus"></i>
+                        Buka Slot Konseling
+                    </button>
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        onclick="openPenjadwalanModal('createModal')"
+                    >
+                        <i data-lucide="calendar-plus"></i>
+                        Tambah Jadwal
+                    </button>
+                </div>
             </div>
 
             {{-- Alert Notifikasi Session / Validasi --}}
@@ -2312,14 +2266,20 @@
                 </div>
             @endif
 
-            @if ($errors->any())
+            @php
+                $displayErrors = collect($errors->all())
+                    ->unique()
+                    ->reject(fn ($message) => session('error') === $message)
+                    ->values();
+            @endphp
+            @if ($displayErrors->isNotEmpty())
                 <div style="background: #fff0f0; border: 1px solid #ffd1d1; color: #d64545; padding: 14px 18px; border-radius: 12px; margin-bottom: 20px; font-size: 13.5px;">
                     <div style="font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 8px;">
                         <i data-lucide="alert-triangle" style="width: 18px; height: 18px;"></i>
                         Perhatian: Terdapat kesalahan input jadwal
                     </div>
                     <ul style="margin-left: 24px; margin-top: 4px;">
-                        @foreach ($errors->all() as $err)
+                        @foreach ($displayErrors as $err)
                             <li>{{ $err }}</li>
                         @endforeach
                     </ul>
@@ -2328,42 +2288,324 @@
 
             {{-- summary --}}
 
-            <div class="summary-grid">
+            <div class="summary-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
 
                 <div class="summary-card">
-
-                    <div class="summary-label">
-                        TOTAL JADWAL
-                    </div>
-
-                    <div class="summary-number">
-                        {{ $penjadwalan->total() }}
-                    </div>
-
+                    <div class="summary-label">TOTAL JADWAL BIMBINGAN</div>
+                    <div class="summary-number">{{ $penjadwalan->total() }}</div>
                 </div>
 
                 <div class="summary-card">
-
-                    <div class="summary-label">
-                        DATA DITAMPILKAN
-                    </div>
-
-                    <div class="summary-number">
-                        {{ $penjadwalan->count() }}
-                    </div>
-
+                    <div class="summary-label">SLOT TERSEDIA</div>
+                    <div class="summary-number" style="color: #159447;">{{ $slotStats['tersedia'] ?? 0 }}</div>
                 </div>
 
                 <div class="summary-card">
+                    <div class="summary-label">MENUNGGU DIPROSES</div>
+                    <div class="summary-number" style="color: #c98516;">{{ $slotStats['menunggu'] ?? 0 }}</div>
+                </div>
 
-                    <div class="summary-label">
-                        HALAMAN
+                <div class="summary-card">
+                    <div class="summary-label">SLOT DIPESAN</div>
+                    <div class="summary-number" style="color: var(--primary);">{{ $slotStats['dipesan'] ?? 0 }}</div>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-label">SLOT TIDAK TERSEDIA</div>
+                    <div class="summary-number" style="color: #d64545;">{{ $slotStats['tidak_tersedia'] ?? 0 }}</div>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-label">JADWAL MENGAJAR BK</div>
+                    <div class="summary-number">{{ isset($jadwalMengajar) ? $jadwalMengajar->count() : 0 }}</div>
+                </div>
+
+            </div>
+
+            {{-- =========================================================================
+                 BAGIAN 1 & 2: JADWAL MENGAJAR GURU BK & SLOT KETERSEDIAAN KONSELING
+                 ========================================================================= --}}
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 20px; margin-bottom: 22px;">
+
+                {{-- PANEL 1: JADWAL MENGAJAR GURU BK --}}
+                <div class="table-card">
+                    <div class="table-top" style="padding: 16px 20px; border-bottom: 1px solid var(--border); justify-content: space-between;">
+                        <div class="table-title-area">
+                            <div class="table-title-icon">
+                                <i data-lucide="book-open-check"></i>
+                            </div>
+                            <div>
+                                <div class="table-title">Jadwal Mengajar Guru BK</div>
+                                <div class="table-subtitle">Waktu mengajar kelas yang otomatis dikecualikan dari slot konseling</div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn" onclick="openPenjadwalanModal('mengajarModal')" style="height: 36px; padding: 0 12px; font-size: 11px;">
+                            <i data-lucide="plus"></i>
+                            Tambah Mengajar
+                        </button>
                     </div>
 
-                    <div class="summary-number">
-                        {{ $penjadwalan->currentPage() }}
+                    <div style="padding: 16px 20px;">
+                        @if (isset($jadwalMengajar) && $jadwalMengajar->count() > 0)
+                            <div style="display: flex; flex-direction: column; gap: 10px; max-height: 320px; overflow-y: auto;">
+                                @foreach ($jadwalMengajar as $jm)
+                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; border: 1px solid var(--border); border-radius: 12px; background: #fafbfe;">
+                                        <div>
+                                            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                                                <span style="font-size: 11px; font-weight: 800; color: var(--primary); background: var(--primary-light); padding: 3px 9px; border-radius: 6px;">
+                                                    {{ $jm->hari }}{{ $jm->tanggal ? ' (' . \Carbon\Carbon::parse($jm->tanggal)->format('d/m/Y') . ')' : ' (Rutin)' }}
+                                                </span>
+                                                <strong style="font-size: 12.5px; color: var(--text);">
+                                                    {{ substr($jm->waktu_mulai, 0, 5) }} - {{ substr($jm->waktu_selesai, 0, 5) }} WIB
+                                                </strong>
+                                                @if ($jm->kelas)
+                                                    <span style="font-size: 11px; font-weight: 700; color: #475569;">• Kelas {{ $jm->kelas->nama_kelas }}</span>
+                                                @endif
+                                            </div>
+                                            <div style="font-size: 11.5px; color: var(--muted); margin-top: 4px;">
+                                                {{ $jm->mata_pelajaran }}
+                                                @if ($jm->catatan)
+                                                    — <em>{{ $jm->catatan }}</em>
+                                                @endif
+                                            </div>
+                                        </div>
+
+                                        <div style="display: flex; align-items: center; gap: 6px;">
+                                            <button type="button" class="action-button" title="Edit Jadwal Mengajar" onclick="openPenjadwalanModal('editMengajarModal{{ $jm->id_jadwal_mengajar }}')" style="width: 34px; height: 34px;">
+                                                <i data-lucide="pencil" style="width: 14px; height: 14px;"></i>
+                                            </button>
+                                            <form action="{{ route('penjadwalan.mengajar.destroy', $jm->id_jadwal_mengajar) }}" method="POST" onsubmit="return confirm('Hapus jadwal mengajar ini?');" style="display: inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="action-button delete" title="Hapus Jadwal Mengajar" style="width: 34px; height: 34px;">
+                                                    <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                    {{-- Modal Edit Jadwal Mengajar --}}
+                                    <div id="editMengajarModal{{ $jm->id_jadwal_mengajar }}" class="penjadwalan-modal">
+                                        <div class="penjadwalan-modal-overlay" onclick="closePenjadwalanModal('editMengajarModal{{ $jm->id_jadwal_mengajar }}')"></div>
+                                        <div class="penjadwalan-modal-card">
+                                            <div class="penjadwalan-modal-header">
+                                                <div class="penjadwalan-modal-title">
+                                                    <div class="penjadwalan-modal-icon"><i data-lucide="book-open"></i></div>
+                                                    <div>
+                                                        <h3>Edit Jadwal Mengajar BK</h3>
+                                                        <p>Perbarui jam mengajar Guru BK di kelas.</p>
+                                                    </div>
+                                                </div>
+                                                <button type="button" class="penjadwalan-modal-close" onclick="closePenjadwalanModal('editMengajarModal{{ $jm->id_jadwal_mengajar }}')"><i data-lucide="x"></i></button>
+                                            </div>
+                                            <form action="{{ route('penjadwalan.mengajar.update', $jm->id_jadwal_mengajar) }}" method="POST">
+                                                @csrf
+                                                @method('PUT')
+                                                <div class="penjadwalan-modal-body">
+                                                    <div class="penjadwalan-form-grid">
+                                                        <div class="penjadwalan-form-group">
+                                                            <label>Hari Mengajar <span>*</span></label>
+                                                            <select name="hari" class="penjadwalan-form-input" required>
+                                                                @foreach (['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'] as $hariOpt)
+                                                                    <option value="{{ $hariOpt }}" {{ $jm->hari === $hariOpt ? 'selected' : '' }}>{{ $hariOpt }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                        <div class="penjadwalan-form-group">
+                                                            <label>Tanggal Spesifik (Opsional)</label>
+                                                            <input type="date" name="tanggal" class="penjadwalan-form-input" value="{{ $jm->tanggal }}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="penjadwalan-form-grid">
+                                                        <div class="penjadwalan-form-group">
+                                                            <label>Waktu Mulai <span>*</span></label>
+                                                            <input type="time" name="waktu_mulai" class="penjadwalan-form-input" value="{{ substr($jm->waktu_mulai, 0, 5) }}" required>
+                                                        </div>
+                                                        <div class="penjadwalan-form-group">
+                                                            <label>Waktu Selesai <span>*</span></label>
+                                                            <input type="time" name="waktu_selesai" class="penjadwalan-form-input" value="{{ substr($jm->waktu_selesai, 0, 5) }}" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="penjadwalan-form-grid">
+                                                        <div class="penjadwalan-form-group">
+                                                            <label>Kelas</label>
+                                                            <select name="id_kelas" class="penjadwalan-form-input">
+                                                                <option value="">-- Semua / Umum --</option>
+                                                                @if (isset($kelasList))
+                                                                    @foreach ($kelasList as $kls)
+                                                                        <option value="{{ $kls->id_kelas }}" {{ (int) $jm->id_kelas === (int) $kls->id_kelas ? 'selected' : '' }}>Kelas {{ $kls->nama_kelas }}</option>
+                                                                    @endforeach
+                                                                @endif
+                                                            </select>
+                                                        </div>
+                                                        <div class="penjadwalan-form-group">
+                                                            <label>Kegiatan / Mata Pelajaran</label>
+                                                            <input type="text" name="mata_pelajaran" class="penjadwalan-form-input" value="{{ $jm->mata_pelajaran }}" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="penjadwalan-form-group">
+                                                        <label>Catatan</label>
+                                                        <input type="text" name="catatan" class="penjadwalan-form-input" value="{{ $jm->catatan }}">
+                                                    </div>
+                                                </div>
+                                                <div class="penjadwalan-modal-footer">
+                                                    <button type="button" class="penjadwalan-btn-secondary" onclick="closePenjadwalanModal('editMengajarModal{{ $jm->id_jadwal_mengajar }}')">Batal</button>
+                                                    <button type="submit" class="penjadwalan-btn-primary"><i data-lucide="save"></i> Simpan</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <div style="text-align: center; padding: 24px 12px; color: var(--muted); font-size: 12px;">
+                                Belum ada jadwal mengajar Guru BK yang dimasukkan. Klik <strong>Tambah Mengajar</strong> untuk memasukkan jadwal mengajar.
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+                {{-- PANEL 2: SLOT KETERSEDIAAN KONSELING (08:00 - 15:00 WIB) --}}
+                <div class="table-card">
+                    <div class="table-top" style="padding: 16px 20px; border-bottom: 1px solid var(--border); justify-content: space-between;">
+                        <div class="table-title-area">
+                            <div class="table-title-icon" style="background: #eaf8ef; color: #159447;">
+                                <i data-lucide="clock"></i>
+                            </div>
+                            <div>
+                                <div class="table-title">Slot Ketersediaan Konseling (08.00–15.00 WIB)</div>
+                                <div class="table-subtitle">Hanya slot yang dibuka Guru BK yang dapat dipilih oleh siswa</div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn" onclick="openPenjadwalanModal('slotModal')" style="height: 36px; padding: 0 12px; font-size: 11px; border-color: #b7e4c7; color: #159447; background: #eaf8ef;">
+                            <i data-lucide="plus"></i>
+                            Buka Slot
+                        </button>
                     </div>
 
+                    <div style="padding: 16px 20px;">
+                        @if (isset($slotKonseling) && $slotKonseling->count() > 0)
+                            <div style="display: flex; flex-direction: column; gap: 10px; max-height: 320px; overflow-y: auto;">
+                                @foreach ($slotKonseling as $slot)
+                                    @php
+                                        $effStatus = $slot->effective_status;
+                                        $badgeBg = '#eaf8ef';
+                                        $badgeColor = '#159447';
+                                        $badgeLabel = 'Tersedia';
+                                        if ($effStatus === 'Menunggu_Diproses') {
+                                            $badgeBg = '#fff7e8';
+                                            $badgeColor = '#c98516';
+                                            $badgeLabel = 'Menunggu Diproses';
+                                        } elseif ($effStatus === 'Dipesan') {
+                                            $badgeBg = '#eaf0ff';
+                                            $badgeColor = '#173c91';
+                                            $badgeLabel = 'Dipesan';
+                                        } elseif ($effStatus === 'Tidak_Tersedia') {
+                                            $badgeBg = '#fff0f0';
+                                            $badgeColor = '#d64545';
+                                            $badgeLabel = 'Tidak Tersedia';
+                                        }
+                                    @endphp
+                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; border: 1px solid var(--border); border-radius: 12px; background: #fafbfe;">
+                                        <div>
+                                            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                                                <span style="font-size: 11px; font-weight: 800; color: {{ $badgeColor }}; background: {{ $badgeBg }}; padding: 3px 9px; border-radius: 6px;">
+                                                    {{ $badgeLabel }}
+                                                </span>
+                                                <strong style="font-size: 12.5px; color: var(--text);">
+                                                    {{ \Carbon\Carbon::parse($slot->tanggal)->format('d/m/Y') }} ({{ \Carbon\Carbon::parse($slot->tanggal)->translatedFormat('l') }})
+                                                </strong>
+                                                <span style="font-size: 12px; font-weight: 700; color: var(--primary);">
+                                                    • {{ substr($slot->waktu_mulai, 0, 5) }} - {{ substr($slot->waktu_selesai, 0, 5) }} WIB
+                                                </span>
+                                                <span style="font-size: 10.5px; font-weight: 700; color: #64748b; background: #f1f5f9; padding: 2px 7px; border-radius: 5px;">
+                                                    {{ $slot->formatted_duration }}
+                                                </span>
+                                            </div>
+                                            @if ($slot->catatan)
+                                                <div style="font-size: 11.5px; color: var(--muted); margin-top: 4px;">
+                                                    {{ $slot->catatan }}
+                                                </div>
+                                            @endif
+                                        </div>
+
+                                        <div style="display: flex; align-items: center; gap: 6px;">
+                                            <button type="button" class="action-button" title="Edit Slot Konseling" onclick="openPenjadwalanModal('editSlotModal{{ $slot->id_slot }}')" style="width: 34px; height: 34px;">
+                                                <i data-lucide="pencil" style="width: 14px; height: 14px;"></i>
+                                            </button>
+                                            <form action="{{ route('penjadwalan.slot.destroy', $slot->id_slot) }}" method="POST" onsubmit="return confirm('Hapus slot konseling ini?');" style="display: inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="action-button delete" title="Hapus Slot Konseling" style="width: 34px; height: 34px;">
+                                                    <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                    {{-- Modal Edit Slot Konseling --}}
+                                    <div id="editSlotModal{{ $slot->id_slot }}" class="penjadwalan-modal">
+                                        <div class="penjadwalan-modal-overlay" onclick="closePenjadwalanModal('editSlotModal{{ $slot->id_slot }}')"></div>
+                                        <div class="penjadwalan-modal-card">
+                                            <div class="penjadwalan-modal-header">
+                                                <div class="penjadwalan-modal-title">
+                                                    <div class="penjadwalan-modal-icon"><i data-lucide="clock"></i></div>
+                                                    <div>
+                                                        <h3>Edit Slot Ketersediaan Konseling</h3>
+                                                        <p>Jam operasional konseling 08:00 – 15:00 WIB.</p>
+                                                    </div>
+                                                </div>
+                                                <button type="button" class="penjadwalan-modal-close" onclick="closePenjadwalanModal('editSlotModal{{ $slot->id_slot }}')"><i data-lucide="x"></i></button>
+                                            </div>
+                                            <form action="{{ route('penjadwalan.slot.update', $slot->id_slot) }}" method="POST">
+                                                @csrf
+                                                @method('PUT')
+                                                <div class="penjadwalan-modal-body">
+                                                    <div class="penjadwalan-form-grid">
+                                                        <div class="penjadwalan-form-group">
+                                                            <label>Tanggal Slot <span>*</span></label>
+                                                            <input type="date" name="tanggal" class="penjadwalan-form-input" value="{{ $slot->tanggal }}" required>
+                                                        </div>
+                                                        <div class="penjadwalan-form-group">
+                                                            <label>Status Ketersediaan Slot <span>*</span></label>
+                                                            <select name="status_slot" class="penjadwalan-form-input" required>
+                                                                <option value="Tersedia" {{ $slot->status_slot === 'Tersedia' ? 'selected' : '' }}>Tersedia</option>
+                                                                <option value="Menunggu_Diproses" {{ $slot->status_slot === 'Menunggu_Diproses' ? 'selected' : '' }}>Menunggu Diproses</option>
+                                                                <option value="Dipesan" {{ $slot->status_slot === 'Dipesan' ? 'selected' : '' }}>Dipesan</option>
+                                                                <option value="Tidak_Tersedia" {{ $slot->status_slot === 'Tidak_Tersedia' ? 'selected' : '' }}>Tidak Tersedia</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="penjadwalan-form-grid">
+                                                        <div class="penjadwalan-form-group">
+                                                            <label>Waktu Mulai (08:00 - 15:00) <span>*</span></label>
+                                                            <input type="time" name="waktu_mulai" min="08:00" max="15:00" class="penjadwalan-form-input" value="{{ substr($slot->waktu_mulai, 0, 5) }}" required>
+                                                        </div>
+                                                        <div class="penjadwalan-form-group">
+                                                            <label>Waktu Selesai (08:00 - 15:00) <span>*</span></label>
+                                                            <input type="time" name="waktu_selesai" min="08:00" max="15:00" class="penjadwalan-form-input" value="{{ substr($slot->waktu_selesai, 0, 5) }}" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="penjadwalan-form-group">
+                                                        <label>Catatan Slot</label>
+                                                        <input type="text" name="catatan" class="penjadwalan-form-input" value="{{ $slot->catatan }}" placeholder="Contoh: Ruang Konseling BK 1">
+                                                    </div>
+                                                </div>
+                                                <div class="penjadwalan-modal-footer">
+                                                    <button type="button" class="penjadwalan-btn-secondary" onclick="closePenjadwalanModal('editSlotModal{{ $slot->id_slot }}')">Batal</button>
+                                                    <button type="submit" class="penjadwalan-btn-primary">Simpan Slot</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <div style="text-align: center; padding: 24px 12px; color: var(--muted); font-size: 12px;">
+                                Belum ada slot ketersediaan konseling yang dibuka. Klik <strong>Buka Slot</strong> untuk membuka slot waktu (08.00–15.00 WIB) agar dapat dipilih siswa.
+                            </div>
+                        @endif
+                    </div>
                 </div>
 
             </div>
@@ -2426,21 +2668,21 @@
                             value="Diajukan"
                             {{ request('status') == 'Diajukan' ? 'selected' : '' }}
                         >
-                            Menunggu Wali Kelas
+                            Menunggu Izin Wali Kelas
                         </option>
 
                         <option
                             value="Disetujui_Wali"
                             {{ request('status') == 'Disetujui_Wali' ? 'selected' : '' }}
                         >
-                            Disetujui Wali
+                            Izin Disetujui Wali Kelas
                         </option>
 
                         <option
                             value="Ditolak_Wali"
                             {{ request('status') == 'Ditolak_Wali' ? 'selected' : '' }}
                         >
-                            Ditolak Wali
+                            Belum Diizinkan Wali Kelas
                         </option>
 
                         <option
@@ -2541,7 +2783,7 @@
 
                                                 <span class="status-dot"></span>
 
-                                                Terjadwal
+                                                Jadwal Terjadwal
 
                                             </span>
 
@@ -2561,7 +2803,7 @@
 
                                                 <span class="status-dot"></span>
 
-                                                Menunggu Wali
+                                                Menunggu Izin Wali
 
                                             </span>
 
@@ -2571,7 +2813,7 @@
 
                                                 <span class="status-dot"></span>
 
-                                                Disetujui Wali
+                                                Izin Disetujui Wali Kelas
 
                                             </span>
 
@@ -2581,7 +2823,7 @@
 
                                                 <span class="status-dot"></span>
 
-                                                Ditolak Wali
+                                                Belum Diizinkan Wali
 
                                             </span>
 
@@ -2755,11 +2997,70 @@
                                     </div>
                                 @endif
 
-                                {{-- action --}}
+                                        {{-- action --}}
+                                        @if ($item->status === 'Disetujui_Wali')
+                                            <div class="schedule-note" style="border-left: 3px solid #0e8a4a; background: #f2fbf6; padding: 8px 12px; border-radius: 8px; margin-top: 8px;">
+                                                <div class="info-label" style="font-weight: 700; color: #0e8a4a; margin-bottom: 3px;">
+                                                    <i data-lucide="clock"></i>
+                                                    Jadwal Belum Final
+                                                </div>
+                                                <div class="info-value" style="font-size: 10.5px; color: #2f523f;">
+                                                    @if ($item->hasSubmittedSchedule())
+                                                        Slot konseling telah dipilih siswa. Konfirmasi jadwal untuk mengubah status menjadi <strong>Jadwal Terjadwal</strong>.
+                                                    @else
+                                                        Izin Wali Kelas sudah disetujui, namun siswa belum memilih slot konseling (atau atur jam melalui Edit Jadwal).
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        @endif
 
                                 <div class="schedule-actions">
 
                                     {{-- edit --}}
+                                    @if ($item->status === 'Disetujui_Wali')
+                                        @if (
+                                            $item->hasSubmittedSchedule()
+                                            && \Carbon\Carbon::parse($item->waktu_mulai)->format('H:i') !== '00:00'
+                                            && \Carbon\Carbon::parse($item->waktu_selesai)->format('H:i') !== '00:00'
+                                        )
+                                            <form
+                                                action="{{ route('penjadwalan.update', $item->id_penjadwalan) }}"
+                                                method="POST"
+                                                style="display:inline;flex:1;"
+                                            >
+                                                @csrf
+                                                @method('PUT')
+                                                <input type="hidden" name="id_siswa" value="{{ $item->id_siswa }}">
+                                                <input type="hidden" name="tanggal" value="{{ $item->tanggal }}">
+                                                <input type="hidden" name="waktu_mulai" value="{{ \Carbon\Carbon::parse($item->waktu_mulai)->format('H:i') }}">
+                                                <input type="hidden" name="waktu_selesai" value="{{ \Carbon\Carbon::parse($item->waktu_selesai)->format('H:i') }}">
+                                                <input type="hidden" name="jenis_bimbingan" value="{{ $item->jenis_bimbingan }}">
+                                                <input type="hidden" name="catatan" value="{{ $item->catatan }}">
+                                                <input type="hidden" name="status" value="Terjadwal">
+                                                <input type="hidden" name="redirect_to" value="index">
+                                                <button
+                                                    type="submit"
+                                                    class="action-button"
+                                                    title="Konfirmasi Jadwal Terjadwal"
+                                                    style="width:100%;flex:1;background:#eef4ff;border-color:#c6d7f9;color:#173c91;"
+                                                >
+                                                    <i data-lucide="check-circle-2"></i>
+                                                    Konfirmasi Terjadwal
+                                                </button>
+                                            </form>
+                                        @else
+                                            <button
+                                                type="button"
+                                                class="action-button"
+                                                title="Atur Jam &amp; Konfirmasi Jadwal"
+                                                onclick="openPenjadwalanModal('editModal{{ $item->id_penjadwalan }}')"
+                                                style="flex:1;background:#eef4ff;border-color:#c6d7f9;color:#173c91;"
+                                            >
+                                                <i data-lucide="calendar-check"></i>
+                                                Atur &amp; Konfirmasi
+                                            </button>
+                                        @endif
+                                    @endif
 
                                     <button
                                         type="button"
@@ -2911,7 +3212,17 @@
 
                                                         <option
                                                             value="Individu"
-                                                            {{ $item->jenis_bimbingan == 'Individu' ? 'selected' : '' }}
+                                                            {{ $item->jenis_bimbingan == 'Individu' ? 'selected' : '' }}>Individu</option>
+                                                        @php
+                                                            $extraJenisOptions = ['Konseling Pribadi', 'Konseling Sosial', 'Konseling Belajar', 'Bimbingan Karier', 'Konseling Individu'];
+                                                            if (!empty($item->jenis_bimbingan) && !in_array($item->jenis_bimbingan, array_merge(['Individu', 'Kelompok'], $extraJenisOptions), true)) {
+                                                                array_unshift($extraJenisOptions, $item->jenis_bimbingan);
+                                                            }
+                                                        @endphp
+                                                        @foreach ($extraJenisOptions as $jenisOption)
+                                                            <option value="{{ $jenisOption }}" {{ $item->jenis_bimbingan == $jenisOption ? 'selected' : '' }}>{{ $jenisOption }}</option>
+                                                        @endforeach
+                                                        <option value="Individu" hidden disabled
                                                         >
                                                             Individu
                                                         </option>
@@ -2985,28 +3296,28 @@
                                                         value="Diajukan"
                                                         {{ $item->status == 'Diajukan' ? 'selected' : '' }}
                                                     >
-                                                        Diajukan (Menunggu Wali)
+                                                        Diajukan (Menunggu Izin Wali Kelas)
                                                     </option>
 
                                                     <option
                                                         value="Disetujui_Wali"
                                                         {{ $item->status == 'Disetujui_Wali' ? 'selected' : '' }}
                                                     >
-                                                        Disetujui Wali Kelas
+                                                        Izin Disetujui Wali Kelas (Jadwal Belum Final)
                                                     </option>
 
                                                     <option
                                                         value="Ditolak_Wali"
                                                         {{ $item->status == 'Ditolak_Wali' ? 'selected' : '' }}
                                                     >
-                                                        Ditolak Wali Kelas
+                                                        Belum Diizinkan Wali Kelas
                                                     </option>
 
                                                     <option
                                                         value="Terjadwal"
                                                         {{ $item->status == 'Terjadwal' ? 'selected' : '' }}
                                                     >
-                                                        Terjadwal
+                                                        Jadwal Terjadwal (Sudah Dikonfirmasi)
                                                     </option>
 
                                                     <option
@@ -3153,6 +3464,11 @@
         const modal = document.getElementById(modalId);
 
         if (modal) {
+            // Jadwal edit modal awalnya ada di dalam kartu yang beranimasi dengan
+            // transform. Pindahkan ke body agar tidak terjebak stacking context.
+            if (modal.parentElement !== document.body) {
+                document.body.appendChild(modal);
+            }
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
 
@@ -3165,6 +3481,9 @@
 
         if (modal) {
             modal.classList.remove('active');
+        }
+
+        if (!document.querySelector('.penjadwalan-modal.active')) {
             document.body.style.overflow = '';
         }
     }
@@ -3183,11 +3502,212 @@
 
     });
 
+    function applySlotDuration() {
+        const startInput = document.getElementById('slotWaktuMulai');
+        const durationSelect = document.getElementById('slotDurasiMenit');
+        const endInput = document.getElementById('slotWaktuSelesai');
+
+        if (!startInput || !durationSelect || !endInput) return;
+
+        const durationVal = parseInt(durationSelect.value || '0', 10);
+        if (!durationVal || !startInput.value) return;
+
+        const parts = startInput.value.split(':');
+        if (parts.length < 2) return;
+
+        const startMins = parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
+        let endMins = startMins + durationVal;
+        if (endMins > 15 * 60) {
+            endMins = 15 * 60;
+        }
+
+        const endHours = String(Math.floor(endMins / 60)).padStart(2, '0');
+        const endRem = String(endMins % 60).padStart(2, '0');
+        endInput.value = endHours + ':' + endRem;
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
         lucide.createIcons();
+        applySlotDuration();
+        const notificationButton = document.getElementById('notificationButton');
+        const notificationDropdown = document.getElementById('notificationDropdown');
+        if (notificationButton && notificationDropdown) {
+            notificationButton.addEventListener('click', function (event) {
+                event.stopPropagation();
+                notificationDropdown.classList.toggle('show');
+            const dot = document.getElementById('notificationDot') || document.querySelector('.notification-dot');
+            if (dot) {
+                dot.style.display = 'none';
+                fetch('{{ route("notifikasi.markAllRead") }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json'
+                    }
+                }).catch(function () {});
+            }
+            });
+            document.addEventListener('click', function (event) {
+                if (!notificationButton.contains(event.target) && !notificationDropdown.contains(event.target)) {
+                    notificationDropdown.classList.remove('show');
+                }
+            });
+        }
     });
 
 </script>
+
+{{-- modal tambah jadwal mengajar guru bk --}}
+<div id="mengajarModal" class="penjadwalan-modal">
+    <div class="penjadwalan-modal-overlay" onclick="closePenjadwalanModal('mengajarModal')"></div>
+    <div class="penjadwalan-modal-card">
+        <div class="penjadwalan-modal-header">
+            <div class="penjadwalan-modal-title">
+                <div class="penjadwalan-modal-icon">
+                    <i data-lucide="book-open"></i>
+                </div>
+                <div>
+                    <h3>Tambah Jadwal Mengajar Guru BK</h3>
+                    <p>Masukkan jadwal mengajar kelas agar tidak berbenturan dengan slot konseling.</p>
+                </div>
+            </div>
+            <button type="button" class="penjadwalan-modal-close" onclick="closePenjadwalanModal('mengajarModal')">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+
+        <form action="{{ route('penjadwalan.mengajar.store') }}" method="POST">
+            @csrf
+            <div class="penjadwalan-modal-body">
+                <div class="penjadwalan-form-grid">
+                    <div class="penjadwalan-form-group">
+                        <label>Hari Mengajar <span>*</span></label>
+                        <select name="hari" class="penjadwalan-form-input" required>
+                            @foreach (['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'] as $hariOpt)
+                                <option value="{{ $hariOpt }}">{{ $hariOpt }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="penjadwalan-form-group">
+                        <label>Tanggal Spesifik (Opsional)</label>
+                        <input type="date" name="tanggal" class="penjadwalan-form-input">
+                    </div>
+                </div>
+
+                <div class="penjadwalan-form-grid">
+                    <div class="penjadwalan-form-group">
+                        <label>Waktu Mulai Mengajar <span>*</span></label>
+                        <input type="time" name="waktu_mulai" class="penjadwalan-form-input" value="08:00" required>
+                    </div>
+                    <div class="penjadwalan-form-group">
+                        <label>Waktu Selesai Mengajar <span>*</span></label>
+                        <input type="time" name="waktu_selesai" class="penjadwalan-form-input" value="09:30" required>
+                    </div>
+                </div>
+
+                <div class="penjadwalan-form-grid">
+                    <div class="penjadwalan-form-group">
+                        <label>Kelas</label>
+                        <select name="id_kelas" class="penjadwalan-form-input">
+                            <option value="">-- Pilih Kelas (Opsional) --</option>
+                            @if (isset($kelasList))
+                                @foreach ($kelasList as $kls)
+                                    <option value="{{ $kls->id_kelas }}">Kelas {{ $kls->nama_kelas }}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
+                    <div class="penjadwalan-form-group">
+                        <label>Kegiatan / Mata Pelajaran <span>*</span></label>
+                        <input type="text" name="mata_pelajaran" class="penjadwalan-form-input" value="Bimbingan Klasikal BK" required>
+                    </div>
+                </div>
+
+                <div class="penjadwalan-form-group">
+                    <label>Catatan</label>
+                    <textarea name="catatan" class="penjadwalan-form-input" rows="2" placeholder="Catatan tambahan jadwal mengajar..."></textarea>
+                </div>
+            </div>
+
+            <div class="penjadwalan-modal-footer">
+                <button type="button" class="penjadwalan-btn-secondary" onclick="closePenjadwalanModal('mengajarModal')">Batal</button>
+                <button type="submit" class="penjadwalan-btn-primary">Simpan Jadwal Mengajar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{{-- modal buka slot ketersediaan konseling --}}
+<div id="slotModal" class="penjadwalan-modal">
+    <div class="penjadwalan-modal-overlay" onclick="closePenjadwalanModal('slotModal')"></div>
+    <div class="penjadwalan-modal-card">
+        <div class="penjadwalan-modal-header">
+            <div class="penjadwalan-modal-title">
+                <div class="penjadwalan-modal-icon">
+                    <i data-lucide="clock-plus"></i>
+                </div>
+                <div>
+                    <h3>Buka Slot Ketersediaan Konseling</h3>
+                    <p>Jam operasional 08.00–15.00 WIB (tidak berbenturan dengan jadwal mengajar).</p>
+                </div>
+            </div>
+            <button type="button" class="penjadwalan-modal-close" onclick="closePenjadwalanModal('slotModal')">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+
+        <form action="{{ route('penjadwalan.slot.store') }}" method="POST">
+            @csrf
+            <div class="penjadwalan-modal-body">
+                <div class="penjadwalan-form-grid">
+                    <div class="penjadwalan-form-group">
+                        <label>Tanggal Konseling <span>*</span></label>
+                        <input type="date" name="tanggal" class="penjadwalan-form-input" value="{{ date('Y-m-d') }}" required>
+                    </div>
+                    <div class="penjadwalan-form-group">
+                        <label>Durasi Slot Konseling <span>*</span></label>
+                        <select name="durasi_menit" id="slotDurasiMenit" class="penjadwalan-form-input" onchange="applySlotDuration()">
+                            <option value="60" selected>1 Jam (60 Menit)</option>
+                            <option value="120">2 Jam (120 Menit)</option>
+                            <option value="45">45 Menit</option>
+                            <option value="90">1,5 Jam (90 Menit)</option>
+                            <option value="0">Kustom (Atur Waktu Selesai Manual)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="penjadwalan-form-grid">
+                    <div class="penjadwalan-form-group">
+                        <label>Waktu Mulai (08:00 – 15:00) <span>*</span></label>
+                        <input type="time" id="slotWaktuMulai" name="waktu_mulai" min="08:00" max="15:00" class="penjadwalan-form-input" value="08:00" onchange="applySlotDuration()" required>
+                    </div>
+                    <div class="penjadwalan-form-group">
+                        <label>Waktu Selesai (Maks. 15:00) <span>*</span></label>
+                        <input type="time" id="slotWaktuSelesai" name="waktu_selesai" min="08:00" max="15:00" class="penjadwalan-form-input" value="09:00" required>
+                    </div>
+                </div>
+
+                <div class="penjadwalan-form-group">
+                    <label>Status Awal Slot <span>*</span></label>
+                    <select name="status_slot" class="penjadwalan-form-input" required>
+                        <option value="Tersedia" selected>Tersedia (Dapat Dipilih Siswa yang Sudah Disetujui Wali Kelas)</option>
+                        <option value="Tidak_Tersedia">Tidak Tersedia (Ditutup Sementara)</option>
+                    </select>
+                </div>
+
+                <div class="penjadwalan-form-group">
+                    <label>Catatan Slot (Opsional)</label>
+                    <input type="text" name="catatan" class="penjadwalan-form-input" placeholder="Contoh: Sesi Konseling Individu / Ruang BK">
+                </div>
+            </div>
+
+            <div class="penjadwalan-modal-footer">
+                <button type="button" class="penjadwalan-btn-secondary" onclick="closePenjadwalanModal('slotModal')">Batal</button>
+                <button type="submit" class="penjadwalan-btn-primary">Buka Slot Konseling</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 {{-- modal tambah jadwal --}}
 <div

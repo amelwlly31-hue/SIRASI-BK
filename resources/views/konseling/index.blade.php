@@ -46,7 +46,7 @@
         }
 
         body {
-            font-family: Inter, "Segoe UI", Arial, sans-serif;
+
             background:
                 radial-gradient(
                     circle at 85% 0%,
@@ -64,7 +64,7 @@
         button,
         input,
         select {
-            font-family: inherit;
+
         }
 
         /* app */
@@ -75,7 +75,7 @@
 
         /* sidebar */
         .sidebar {
-            width: 270px;
+            width: 235px;
             min-height: 100vh;
 
             position: fixed;
@@ -246,7 +246,7 @@
         .main {
             flex: 1;
             min-width: 0;
-            margin-left: 270px;
+            margin-left: 235px;
         }
 
         /* header */
@@ -671,17 +671,23 @@
                 );
         }
 
-        .filter-heading {
+        .filter-card-header {
             display: flex;
-            align-items: center;
-            gap: 10px;
-
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
             margin-bottom: 13px;
         }
 
+        .filter-heading-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         .filter-heading-icon {
-            width: 34px;
-            height: 34px;
+            width: 36px;
+            height: 36px;
 
             display: flex;
             align-items: center;
@@ -694,6 +700,7 @@
 
             font-size: 14px;
         }
+        .filter-heading-icon svg { width: 18px; height: 18px; }
 
         .filter-heading-title {
             font-size: 12px;
@@ -728,20 +735,35 @@
 
             padding: 0 12px;
 
-            border: 1px solid var(--border);
-            border-radius: 10px;
+            border: 1px solid #cbd5e1 !important;
+            border-radius: 10px !important;
 
-            background: #f9fafc;
+            background-color: #ffffff !important;
+            background: #ffffff !important;
 
             transition: .2s ease;
         }
 
         .search-box:focus-within {
-            background: white;
-            border-color: #91a8df;
+            background-color: #ffffff !important;
+            background: #ffffff !important;
+            border-color: #2563eb !important;
 
             box-shadow:
-                0 0 0 4px rgba(23,60,145,.05);
+                0 0 0 3px rgba(37, 99, 235, 0.12) !important;
+        }
+
+        body.dark-mode .search-box {
+            background-color: rgba(15, 23, 42, 0.6) !important;
+            background: rgba(15, 23, 42, 0.6) !important;
+            border: 1px solid rgba(148, 163, 184, 0.25) !important;
+        }
+
+        body.dark-mode .search-box:focus-within {
+            background-color: rgba(15, 23, 42, 0.8) !important;
+            background: rgba(15, 23, 42, 0.8) !important;
+            border-color: #2563eb !important;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12) !important;
         }
 
         .search-box span {
@@ -839,8 +861,8 @@
         }
 
         .table-title-icon {
-            width: 38px;
-            height: 38px;
+            width: 36px;
+            height: 36px;
 
             display: flex;
             align-items: center;
@@ -853,6 +875,7 @@
 
             font-size: 16px;
         }
+        .table-title-icon svg { width: 18px; height: 18px; }
 
         .table-title {
             font-size: 14px;
@@ -1204,8 +1227,8 @@
 
         .action-link,
         .action-button {
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
 
             display: inline-flex;
             align-items: center;
@@ -1229,8 +1252,8 @@
 
         .action-link svg,
         .action-button svg {
-            width: 16px;
-            height: 16px;
+            width: 15px;
+            height: 15px;
         }
 
         .action-link:hover,
@@ -1466,7 +1489,7 @@
             }
 
             .search {
-                width: 280px;
+                width: 235px;
             }
 
             .content {
@@ -1632,23 +1655,15 @@ body{
   background:linear-gradient(90deg,rgba(151,190,255,.27),rgba(255,255,255,.10)) !important;
   transform:translateX(1px) scale(.995) !important;
 }
-.menu-item.active,.menu a.active{
-  color:#fff !important;
-  background:linear-gradient(90deg,rgba(255,255,255,.17),rgba(255,255,255,.07)) !important;
-  border-color:rgba(255,255,255,.12) !important;
-  box-shadow:inset 3px 0 0 #a7c3ff,0 9px 22px rgba(5,28,74,.13) !important;
-}
-.menu-item.active::after,.menu a.active::after{transform:scaleX(1);opacity:.9}
+
+
 .menu-icon{
   background:rgba(255,255,255,.085) !important;
   border:1px solid rgba(255,255,255,.035);
   transition:.2s ease;
 }
 .menu-item:hover .menu-icon,.menu a:hover .menu-icon{background:rgba(255,255,255,.15) !important}
-.menu-item.active .menu-icon,.menu a.active .menu-icon{
-  background:rgba(255,255,255,.14) !important;
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);
-}
+
 .sidebar-logout button,.logout-button{
   min-height:46px !important;
   border-radius:13px !important;
@@ -1855,6 +1870,48 @@ body.dark-mode .status-badge.selesai .status-dot {
     background: #55c98a !important;
 }
 
+/* Alert / Toast */
+.alert {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 16px;
+    border-radius: 12px;
+    font-size: 13.5px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.alert svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.alert-success {
+    background: var(--success-bg);
+    color: var(--success);
+    border: 1px solid #b8ebd0;
+}
+
+.alert-danger {
+    background: var(--danger-bg);
+    color: var(--danger);
+    border: 1px solid #ffccd0;
+}
+
+body.dark-mode .alert-success {
+    background: #173b2b !important;
+    color: #a7edc2 !important;
+    border-color: #2b7250 !important;
+}
+
+body.dark-mode .alert-danger {
+    background: #3c2028 !important;
+    color: #ffd0d6 !important;
+    border-color: #74414c !important;
+}
+
 </style>
 </head>
 
@@ -1863,101 +1920,7 @@ body.dark-mode .status-badge.selesai .status-dot {
 <div class="app">
 
     {{-- sidebar --}}
-    <aside class="sidebar">
-
-        <div>
-
-            <div class="brand">
-
-                <div class="brand-logo">
-                    <img
-                        src="{{ asset('images/logo-smpn2-dramaga.png') }}"
-                        alt="Logo SMP Negeri 2 Dramaga"
-                    >
-                </div>
-
-                <div>
-
-                    <div class="brand-name">
-                        SIRASI-BK
-                    </div>
-
-                    <div class="brand-subtitle">
-                        Bimbingan & Konseling
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="menu-title">
-                Menu Utama
-            </div>
-
-            <nav class="menu">
-
-                <a
-                    href="{{ route('dashboard') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="home"></i></span>
-                    Dashboard
-                </a>
-                <a
-                    href="{{ route('siswa.index') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="users-round"></i></span>
-                    Data Siswa
-                </a>
-
-                <a
-                    href="{{ route('penjadwalan.index') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="calendar-clock"></i></span>
-                    Penjadwalan
-                </a>
-
-                <a
-                    href="{{ route('konseling.index') }}" class="menu-item active">
-                   <span class="menu-icon"><i data-lucide="clipboard-list"></i></span>
-                    Data Konseling
-                </a>
-
-                <a
-                    href="{{ route('siswa.riwayat') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="history"></i></span>
-                    Riwayat Siswa
-                </a>
-
-                <a
-                    href="{{ route('laporan.index') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="file-chart-column"></i></span>
-                    Laporan
-                </a>
-
-                <a
-                    href="{{ route('pengaturan.index') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="settings"></i></span>
-                    Pengaturan
-                </a>
-
-            </nav>
-
-        </div>
-
-        <div class="sidebar-bottom">
-
-            <form action="{{ route('logout') }}" method="POST" onsubmit="return confirm('Anda yakin ingin keluar?');">
-
-                @csrf
-
-                <button
-                    type="submit" class="menu-item logout-button">
-                    <span class="menu-icon"><i data-lucide="log-out"></i></span>
-                    Logout
-                </button>
-
-            </form>
-
-        </div>
-
-    </aside>
+    @include('layouts.sidebar')
 
     {{-- main --}}
     <main class="main">
@@ -1965,23 +1928,6 @@ body.dark-mode .status-badge.selesai .status-dot {
         {{-- header --}}
 
         <header class="header">
-
-            <form
-                action="{{ route('konseling.index') }}"
-                method="GET"
-                class="search"
-            >
-                <span class="search-icon">
-                    <i data-lucide="search"></i>
-                </span>
-
-                <input
-                    type="text"
-                    name="search"
-                    value="{{ request('search') }}"
-                    placeholder="Cari nama siswa atau data..."
-                >
-            </form>
 
             <div class="profile-area">
 
@@ -1995,7 +1941,7 @@ body.dark-mode .status-badge.selesai .status-dot {
                         <i data-lucide="bell"></i>
 
                         @if ($notifikasis->where('dibaca', false)->count() > 0)
-                            <span class="notification-dot"></span>
+                            <span class="notification-dot" id="notificationDot"></span>
                         @endif
                     </button>
 
@@ -2011,7 +1957,7 @@ body.dark-mode .status-badge.selesai .status-dot {
 
                             <a
                                 href="{{ route('notifikasi.baca', $notifikasi->id) }}"
-                                class="notification-item"
+                                class="notification-item {{ !$notifikasi->dibaca ? 'unread' : '' }}"
                             >
                                                             <div class="notification-item-icon">
                                     <i data-lucide="clipboard-list"></i>
@@ -2020,7 +1966,7 @@ body.dark-mode .status-badge.selesai .status-dot {
                                 <div class="notification-item-content">
                                     <strong>{{ $notifikasi->judul }}</strong>
 
-                                    <p>{{ $notifikasi->pesan }}</p>
+                                    <p>{{ preg_replace('/\s*\[JADWAL:\d+\]/', '', $notifikasi->pesan) }}</p>
 
                                     <small>
                                         {{ $notifikasi->created_at->diffForHumans() }}
@@ -2074,59 +2020,51 @@ body.dark-mode .status-badge.selesai .status-dot {
         {{-- content --}}
         <section class="content">
 
-            {{-- page header --}}
-
-            <div class="page-heading">
-
-                <div>
-
-                    <div class="eyebrow">
-                        Pengelolaan Konseling
-                    </div>
-
-                    <h1 class="page-title">
-                        Data Konseling
-                    </h1>
-
-                    <p class="page-description">
-                        Kelola seluruh catatan dan sesi bimbingan
-                        konseling siswa dengan mudah.
-                    </p>
-
+            @if (session('success'))
+                <div class="alert alert-success" role="status">
+                    <i data-lucide="check-circle-2"></i>
+                    <span>{{ session('success') }}</span>
                 </div>
+            @endif
 
-                <a
-                    href="{{ route('konseling.create') }}"
-                    class="btn btn-primary"
-                >
-                    <i data-lucide="clipboard-plus"></i>
-                    Tambah Konseling
-                </a>
-
-            </div>
+            @if (session('error'))
+                <div class="alert alert-danger" role="alert">
+                    <i data-lucide="alert-circle"></i>
+                    <span>{{ session('error') }}</span>
+                </div>
+            @endif
 
             {{-- filter --}}
 
             <div class="filter-card">
 
-                <div class="filter-heading">
+                <div class="filter-card-header">
+                    <div class="filter-heading-info">
 
-                    <div class="filter-heading-icon">
-                        <i data-lucide="list-filter"></i>
-                    </div>
-
-                    <div>
-
-                        <div class="filter-heading-title">
-                            Filter Data Konseling
+                        <div class="filter-heading-icon">
+                            <i data-lucide="list-filter"></i>
                         </div>
 
-                        <div class="filter-heading-text">
-                            Gunakan filter untuk menemukan data dengan cepat.
-                        </div>
+                        <div>
 
+                            <div class="filter-heading-title">
+                                Filter Data Konseling
+                            </div>
+
+                            <div class="filter-heading-text">
+                                Gunakan filter untuk menemukan data dengan cepat.
+                            </div>
+
+                        </div>
                     </div>
 
+                    <a
+                        href="{{ route('konseling.create') }}"
+                        class="btn btn-primary"
+                    >
+                        <i data-lucide="clipboard-plus"></i>
+                        Tambah Konseling
+                    </a>
                 </div>
 
                 <form
@@ -2265,7 +2203,7 @@ body.dark-mode .status-badge.selesai .status-dot {
 
                         <span class="data-count-dot"></span>
 
-                        {{ $konseling->count() }} Data
+                        {{ $konseling->total() }} Data
 
                     </div>
 
@@ -2323,7 +2261,7 @@ body.dark-mode .status-badge.selesai .status-dot {
 
                                     {{-- no --}}
                                     <td>
-                                        {{ $index + 1 }}
+                                        {{ $konseling->firstItem() + $index }}
                                     </td>
 
                                     {{-- tanggal --}}
@@ -2420,7 +2358,9 @@ body.dark-mode .status-badge.selesai .status-dot {
 
                                     <td>
 
-                                        @if (
+                                        @if (filled($item->rencana_tindak_lanjut))
+                                            <div class="follow-up">{{ $item->rencana_tindak_lanjut }}</div>
+                                        @elseif (
                                             $item->tindakLanjut &&
                                             $item->tindakLanjut->count()
                                         )
@@ -2635,6 +2575,17 @@ body.dark-mode .status-badge.selesai .status-dot {
         event.stopPropagation();
 
         notificationDropdown.classList.toggle('show');
+            const dot = document.getElementById('notificationDot') || document.querySelector('.notification-dot');
+            if (dot) {
+                dot.style.display = 'none';
+                fetch('{{ route("notifikasi.markAllRead") }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json'
+                    }
+                }).catch(function () {});
+            }
     });
 
     document.addEventListener('click', function (event) {

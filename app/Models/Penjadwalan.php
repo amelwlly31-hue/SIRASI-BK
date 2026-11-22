@@ -14,7 +14,9 @@ class Penjadwalan extends Model
     protected $primaryKey = 'id_penjadwalan';
 
     protected $fillable = [
+        'kode_pengajuan',
         'id_siswa',
+        'id_slot',
         'tanggal',
         'waktu_mulai',
         'waktu_selesai',
@@ -30,9 +32,62 @@ class Penjadwalan extends Model
         'waktu_persetujuan_wali' => 'datetime',
     ];
 
+    protected static function booted()
+    {
+        static::creating(function (self $penjadwalan) {
+            if (empty($penjadwalan->kode_pengajuan)) {
+                $penjadwalan->kode_pengajuan = self::generateKodePengajuan();
+            }
+
+            if (empty($penjadwalan->id_wali) && !empty($penjadwalan->id_siswa)) {
+                $siswa = Siswa::with('kelas.waliKelas')->find($penjadwalan->id_siswa);
+                if ($siswa) {
+                    $wali = $siswa->kelas?->waliKelas
+                        ?? User::where('role', 'wali_kelas')->where('id_kelas', $siswa->id_kelas)->orderByDesc('id_user')->first();
+                    if ($wali) {
+                        $penjadwalan->id_wali = $wali->id_user;
+                    }
+                }
+            }
+        });
+
+        static::updating(function (self $penjadwalan) {
+            if (($penjadwalan->isDirty('id_siswa') || empty($penjadwalan->id_wali)) && !empty($penjadwalan->id_siswa)) {
+                $siswa = Siswa::with('kelas.waliKelas')->find($penjadwalan->id_siswa);
+                if ($siswa) {
+                    $wali = $siswa->kelas?->waliKelas
+                        ?? User::where('role', 'wali_kelas')->where('id_kelas', $siswa->id_kelas)->orderByDesc('id_user')->first();
+                    $penjadwalan->id_wali = $wali ? $wali->id_user : $penjadwalan->id_wali;
+                }
+            }
+        });
+    }
+
+    /**
+     * Menghasilkan kode pengajuan unik yang mudah dicatat oleh siswa SMP (contoh: BK-4829XK).
+     */
+    public static function generateKodePengajuan(): string
+    {
+        $chars = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+        do {
+            $random = '';
+            for ($i = 0; $i < 6; $i++) {
+                $random .= $chars[random_int(0, strlen($chars) - 1)];
+            }
+            $code = 'BK-' . $random;
+        } while (self::where('kode_pengajuan', $code)->exists());
+
+        return $code;
+    }
+
     public function siswa()
     {
         return $this->belongsTo(Siswa::class, 'id_siswa', 'id_siswa');
+    }
+
+    public function slotKonseling()
+    {
+        return $this->belongsTo(SlotKonseling::class, 'id_slot', 'id_slot');
     }
 
     public function waliKelas()
@@ -76,6 +131,15 @@ class Penjadwalan extends Model
     }
 
     /**
+     * Memeriksa apakah permohonan izin ini sudah dilanjutkan dengan pengajuan slot jadwal konseling kepada Guru BK.
+     * Record permohonan izin Tahap 1 belum memiliki id_slot dari Guru BK.
+     */
+    public function hasSubmittedSchedule(): bool
+    {
+        return !empty($this->id_slot) || in_array($this->status, ['Terjadwal', 'Selesai'], true);
+    }
+
+    /**
      * Status yang aktif memblokir slot waktu jadwal konseling.
      * Jadwal dengan status Ditolak_Wali atau Dibatalkan TIDAK memblokir slot.
      */
@@ -115,7 +179,8 @@ class Penjadwalan extends Model
         string $waktuSelesai,
         ?int $excludeId = null,
         ?array $statuses = null,
-        bool $lockForUpdate = false
+        bool $lockForUpdate = false,
+        bool $onlySubmittedSchedules = false
     ): ?self {
         // Normalisasi format jam ke 'H:i:s'
         if (strlen($waktuMulai) === 5) {
@@ -129,8 +194,26 @@ class Penjadwalan extends Model
 
         $query = self::where('tanggal', $tanggal)
             ->whereIn('status', $statuses)
+            ->where(function ($q) {
+                $q->where('waktu_mulai', '!=', '00:00:00')
+                  ->orWhere('waktu_selesai', '!=', '00:00:00');
+            })
+            ->where(function ($q) {
+                // Hanya pengajuan jadwal Tahap 2 atau sesi yang telah dikonfirmasi
+                // yang memblokir rentang waktu. Permohonan izin Tahap 1 dapat
+                // menyimpan tanggal/jam untuk kebutuhan izin tanpa menjadi jadwal.
+                $q->whereNotNull('id_slot')
+                  ->orWhereIn('status', ['Terjadwal', 'Selesai']);
+            })
             ->where('waktu_mulai', '<', $waktuSelesai)
             ->where('waktu_selesai', '>', $waktuMulai);
+
+        if ($onlySubmittedSchedules) {
+            $query->where(function ($q) {
+                $q->whereNotNull('id_slot')
+                  ->orWhereIn('status', ['Terjadwal', 'Selesai']);
+            });
+        }
 
         if ($excludeId) {
             $query->where('id_penjadwalan', '!=', $excludeId);
@@ -140,7 +223,10 @@ class Penjadwalan extends Model
             $query->lockForUpdate();
         }
 
-        return $query->with('siswa')->first();
+        return $query
+            ->orderByRaw("CASE WHEN status IN ('Terjadwal', 'Selesai') THEN 0 ELSE 1 END")
+            ->with('siswa')
+            ->first();
     }
 
     /**

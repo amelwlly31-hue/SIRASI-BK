@@ -30,7 +30,7 @@
         }
 
         body {
-            font-family: Inter, "Segoe UI", Arial, sans-serif;
+
             background: var(--page);
             color: var(--text);
         }
@@ -54,7 +54,7 @@
 
         /* sidebar */
         .sidebar {
-            width: 270px;
+            width: 235px;
             min-height: 100vh;
             position: fixed;
             left: 0;
@@ -236,7 +236,7 @@
         .main {
             flex: 1;
             min-width: 0;
-            margin-left: 270px;
+            margin-left: 235px;
             background:
                 radial-gradient(circle at 90% 0%, rgba(54,91,177,.07), transparent 26%),
                 var(--page);
@@ -638,6 +638,38 @@
             width: 18px;
             height: 18px;
             flex-shrink: 0;
+        }
+
+        .alert-danger {
+            margin-bottom: 20px;
+            padding: 12px 18px;
+            border-radius: 12px;
+            background: var(--danger-bg);
+            color: var(--danger);
+            border: 1px solid #ffd0d6;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .alert-danger svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
+        body.dark-mode .alert-success {
+            background: #173b2b !important;
+            color: #a7edc2 !important;
+            border-color: #2b7250 !important;
+        }
+
+        body.dark-mode .alert-danger {
+            background: #3c2028 !important;
+            color: #ffd0d6 !important;
+            border-color: #74414c !important;
         }
 
         /* detail layout */
@@ -1416,85 +1448,19 @@
 <div class="app">
 
     {{-- sidebar --}}
-    <aside class="sidebar">
-        <div>
-            <div class="brand">
-                <div class="brand-logo">
-                    <img src="{{ asset('images/logo-smpn2-dramaga.png') }}" alt="Logo SMP Negeri 2 Dramaga">
-                </div>
-                <div>
-                    <div class="brand-name">SIRASI-BK</div>
-                    <div class="brand-subtitle">Bimbingan & Konseling</div>
-                </div>
-            </div>
-
-            <div class="menu-title">Menu Utama</div>
-
-            <nav class="menu">
-                <a href="{{ route('dashboard') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="home"></i></span>
-                    <span>Dashboard</span>
-                </a>
-
-                <a href="{{ route('siswa.index') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="users-round"></i></span>
-                    <span>Data Siswa</span>
-                </a>
-
-                <a href="{{ route('penjadwalan.index') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="calendar-clock"></i></span>
-                    <span>Penjadwalan</span>
-                </a>
-
-                <a href="{{ route('konseling.index') }}" class="menu-item active">
-                    <span class="menu-icon"><i data-lucide="clipboard-list"></i></span>
-                    <span>Data Konseling</span>
-                </a>
-
-                <a href="{{ route('siswa.riwayat') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="history"></i></span>
-                    <span>Riwayat Siswa</span>
-                </a>
-
-                <a href="{{ route('laporan.index') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="file-chart-column"></i></span>
-                    <span>Laporan</span>
-                </a>
-
-                <a href="{{ route('pengaturan.index') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="settings"></i></span>
-                    <span>Pengaturan</span>
-                </a>
-            </nav>
-        </div>
-
-        <div class="sidebar-bottom">
-            <form action="{{ route('logout') }}" method="POST" onsubmit="return confirm('Anda yakin ingin keluar?');">
-                @csrf
-                <button type="submit" class="menu-item logout-button">
-                    <span class="menu-icon"><i data-lucide="log-out"></i></span>
-                    <span>Logout</span>
-                </button>
-            </form>
-        </div>
-    </aside>
+    @include('layouts.sidebar')
 
     {{-- main --}}
     <main class="main">
 
         {{-- header --}}
         <header class="header">
-            <div class="search">
-                <span class="search-icon"><i data-lucide="search"></i></span>
-                <input type="text" placeholder="Cari data konseling...">
-            </div>
-
             <div class="profile-area">
                 <div class="notification-wrapper">
                     <button type="button" class="notification" id="notificationButton">
                         <i data-lucide="bell"></i>
                         @if (isset($notifikasis) && $notifikasis->where('dibaca', false)->count() > 0)
-                            <span class="notification-dot"></span>
+                            <span class="notification-dot" id="notificationDot"></span>
                         @endif
                     </button>
 
@@ -1504,7 +1470,7 @@
                         </div>
 
                         @forelse ($notifikasis ?? [] as $notifikasi)
-                            <a href="{{ route('notifikasi.baca', $notifikasi->id) }}" class="notification-item">
+                            <a href="{{ route('notifikasi.baca', $notifikasi->id) }}" class="notification-item {{ !$notifikasi->dibaca ? 'unread' : '' }}">
                                 <div class="notification-item-icon">
                                     @if ($notifikasi->tipe === 'jadwal' || $notifikasi->tipe === 'penjadwalan')
                                         <i data-lucide="calendar-clock"></i>
@@ -1559,9 +1525,16 @@
             </a>
 
             @if (session('success'))
-                <div class="alert-success">
+                <div class="alert-success" role="status">
                     <i data-lucide="check-circle-2"></i>
                     <span>{{ session('success') }}</span>
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert-danger" role="alert">
+                    <i data-lucide="alert-circle"></i>
+                    <span>{{ session('error') }}</span>
                 </div>
             @endif
 
@@ -1691,6 +1664,38 @@
 
                             <div class="detail-card-body">
                                 <p>{{ $konseling->hasil_konseling }}</p>
+                            </div>
+                        </div>
+                    @endif
+
+                    {{-- diagnosis atau kesimpulan asesmen --}}
+                    @if ($konseling->diagnosis)
+                        <div class="detail-card result-card">
+                            <div class="detail-card-header">
+                                <span class="section-icon">
+                                    <i data-lucide="clipboard-check"></i>
+                                </span>
+                                <span>DIAGNOSIS / KESIMPULAN ASESMEN</span>
+                            </div>
+
+                            <div class="detail-card-body">
+                                <p>{{ $konseling->diagnosis }}</p>
+                            </div>
+                        </div>
+                    @endif
+
+                    {{-- rencana tindak lanjut --}}
+                    @if (filled($konseling->rencana_tindak_lanjut))
+                        <div class="detail-card result-card">
+                            <div class="detail-card-header">
+                                <span class="section-icon">
+                                    <i data-lucide="list-checks"></i>
+                                </span>
+                                <span>RENCANA TINDAK LANJUT</span>
+                            </div>
+
+                            <div class="detail-card-body">
+                                <p>{{ $konseling->rencana_tindak_lanjut }}</p>
                             </div>
                         </div>
                     @endif
@@ -1839,6 +1844,17 @@
             notificationButton.addEventListener('click', function (event) {
                 event.stopPropagation();
                 notificationDropdown.classList.toggle('show');
+            const dot = document.getElementById('notificationDot') || document.querySelector('.notification-dot');
+            if (dot) {
+                dot.style.display = 'none';
+                fetch('{{ route("notifikasi.markAllRead") }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json'
+                    }
+                }).catch(function () {});
+            }
             });
 
             document.addEventListener('click', function (event) {

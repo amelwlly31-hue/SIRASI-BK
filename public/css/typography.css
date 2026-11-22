@@ -1,0 +1,37 @@
+:root {
+    --sirasi-font-body: "Plus Jakarta Sans", sans-serif;
+    --sirasi-font-heading: "Playfair Display", Georgia, serif;
+}
+
+body,
+body * {
+    font-family: var(--sirasi-font-body) !important;
+}
+
+body h1,
+body h2,
+body h3,
+body h4,
+body h5,
+body h6,
+body .sirasi-global-page-title,
+body .hero-title,
+body .page-title,
+body .page-title h1,
+body .header-title h1,
+body .card-title,
+body .card-title > *,
+body .modal-title,
+body .modal-title > *,
+body .section-title,
+body .section-title > *,
+body .form-title,
+body .form-title > *,
+body .settings-card-title {
+    font-family: var(--sirasi-font-heading) !important;
+}
+
+body .sidebar,
+body .sidebar * {
+    font-family: var(--sirasi-font-body) !important;
+}

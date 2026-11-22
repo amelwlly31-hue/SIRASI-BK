@@ -3,6 +3,8 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Session\TokenMismatchException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -29,6 +31,43 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
 
+        });
+
+        $this->renderable(function (HttpException $e, $request) {
+            if ($e->getStatusCode() !== 419 && !($e->getPrevious() instanceof TokenMismatchException)) {
+                return null;
+            }
+
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'message' => 'Sesi keamanan halaman telah diperbarui. Silakan muat ulang halaman.',
+                    'token' => csrf_token(),
+                ], 419);
+            }
+
+            if ($request->hasSession()) {
+                $request->session()->regenerateToken();
+            }
+
+            $safeInput = $request->except(['_token', 'password', 'password_confirmation', 'current_password']);
+
+            if ($request->is('portal-siswa/ajukan')) {
+                return redirect()
+                    ->route('portal.siswa.create')
+                    ->withInput($safeInput)
+                    ->with('error', 'Sesi keamanan halaman baru saja disegarkan (misalnya karena aktivitas login/logout di tab lain). Data isian Anda tetap tersimpan, silakan klik tombol Kirim Pengajuan sekali lagi.');
+            }
+
+            if ($request->is('portal-siswa/cek-status')) {
+                return redirect()
+                    ->route('portal.siswa.status')
+                    ->withInput($safeInput);
+            }
+
+            return redirect()
+                ->back()
+                ->withInput($safeInput)
+                ->with('error', 'Sesi keamanan halaman telah diperbarui. Silakan ulangi pengiriman formulir.');
         });
     }
 }

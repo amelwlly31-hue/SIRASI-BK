@@ -43,11 +43,7 @@
 
             min-height: 100vh;
 
-            font-family:
-                Inter,
-                "Segoe UI",
-                Arial,
-                sans-serif;
+
 
             color: var(--text);
 
@@ -107,7 +103,7 @@
         input,
         select {
 
-            font-family: inherit;
+
 
         }
 
@@ -115,7 +111,7 @@
 
         .sidebar {
 
-            width: 270px;
+            width: 235px;
 
             min-height: 100vh;
 
@@ -357,7 +353,7 @@
 
             padding: 0 14px;
 
-            font-family: inherit;
+
             font-size: 13.5px;
             font-weight: 700;
 
@@ -557,7 +553,7 @@
 
             min-height: 100vh;
 
-            margin-left: 270px;
+            margin-left: 235px;
 
         }
 
@@ -1903,7 +1899,7 @@
 
             padding: 8px 11px;
 
-            font-family: inherit;
+
         }
 
         .form-group input:focus {
@@ -2154,23 +2150,15 @@ body{
   background:linear-gradient(90deg,rgba(151,190,255,.27),rgba(255,255,255,.10)) !important;
   transform:translateX(1px) scale(.995) !important;
 }
-.menu-item.active,.menu a.active{
-  color:#fff !important;
-  background:linear-gradient(90deg,rgba(255,255,255,.17),rgba(255,255,255,.07)) !important;
-  border-color:rgba(255,255,255,.12) !important;
-  box-shadow:inset 3px 0 0 #a7c3ff,0 9px 22px rgba(5,28,74,.13) !important;
-}
-.menu-item.active::after,.menu a.active::after{transform:scaleX(1);opacity:.9}
+
+
 .menu-icon{
   background:rgba(255,255,255,.085) !important;
   border:1px solid rgba(255,255,255,.035);
   transition:.2s ease;
 }
 .menu-item:hover .menu-icon,.menu a:hover .menu-icon{background:rgba(255,255,255,.15) !important}
-.menu-item.active .menu-icon,.menu a.active .menu-icon{
-  background:rgba(255,255,255,.14) !important;
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);
-}
+
 .sidebar-logout button,.logout-button{
   min-height:46px !important;
   border-radius:13px !important;
@@ -2730,6 +2718,63 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
             transform: translateY(-1px);
         }
 
+        .password-field {
+            position: relative;
+        }
+
+        .password-field input {
+            padding-right: 48px;
+        }
+
+        .password-toggle {
+            position: absolute;
+            top: 50%;
+            right: 7px;
+            display: grid;
+            width: 34px;
+            height: 34px;
+            padding: 0;
+            place-items: center;
+            border: 0;
+            border-radius: 8px;
+            background: transparent;
+            color: #748098;
+            cursor: pointer;
+            transform: translateY(-50%);
+        }
+
+        .password-toggle:hover,
+        .password-toggle:focus-visible {
+            background: #edf2fa;
+            color: #173c91;
+            outline: none;
+        }
+
+        .password-toggle svg {
+            width: 18px;
+            height: 18px;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-width: 1.8;
+        }
+
+        .password-toggle .eye-off-icon,
+        .password-toggle.is-visible .eye-icon {
+            display: none;
+        }
+
+        .password-toggle.is-visible .eye-off-icon {
+            display: block;
+        }
+
+        body.dark-mode .password-toggle:hover,
+        body.dark-mode .password-toggle:focus-visible {
+            background: #263751;
+            color: #d9e5ff;
+        }
+
         .modal-footer {
             min-height: 70px;
             padding: 14px 22px;
@@ -2925,6 +2970,325 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
                 padding: 13px 18px;
             }
         }
+
+        /* Account settings hub — scoped to the main settings content only */
+        .settings-layout.settings-hub { display:flex; flex-direction:column; gap:22px; }
+        .settings-hub .profile-card {
+            display:block; width:100%; min-height:210px; border:1px solid rgba(32,66,132,.22);
+            border-radius:24px; background:linear-gradient(112deg,#102a5e 0%,#173d83 52%,#315da7 100%);
+            box-shadow:0 20px 46px rgba(20,47,100,.17); cursor:default;
+        }
+        .settings-hub .profile-cover { position:absolute; inset:0; height:auto; background:radial-gradient(circle at 80% 20%,rgba(168,197,255,.25),transparent 28%),linear-gradient(112deg,#102a5e 0%,#173d83 52%,#315da7 100%); }
+        .settings-hub .profile-cover::before { content:""; position:absolute; width:270px; height:270px; right:-68px; top:-176px; border:1px solid rgba(255,255,255,.16); border-radius:50%; box-shadow:0 0 0 24px rgba(255,255,255,.035),0 0 0 50px rgba(255,255,255,.025); }
+        .settings-hub .profile-cover::after { content:""; position:absolute; width:150px; height:150px; left:38%; bottom:-126px; border:1px solid rgba(255,255,255,.12); border-radius:50%; }
+        .settings-hub .profile-body { position:relative; z-index:1; min-height:210px; display:flex; align-items:center; gap:22px; padding:30px 34px; color:#fff; text-align:left; }
+        .settings-hub .profile-avatar { flex:0 0 104px; width:104px; height:104px; margin:0; border:4px solid rgba(255,255,255,.9); border-radius:25px; background:linear-gradient(145deg,#edf3ff,#d7e4ff); color:#214b9a; box-shadow:0 14px 30px rgba(5,20,54,.24); font-size:30px; }
+        .settings-hub .profile-avatar img { border-radius:20px; }
+        .settings-hub .profile-identity { min-width:0; flex:1; }
+        .settings-hub .profile-name { margin:0; color:#fff !important; font-size:25px; font-weight:800; letter-spacing:-.45px; line-height:1.2; }
+        .settings-hub .profile-username { margin:7px 0 15px; color:rgba(226,236,255,.78); font-size:13px; }
+        .settings-hub .profile-badges { display:flex; align-items:center; gap:9px; flex-wrap:wrap; }
+        .settings-hub .role, .settings-hub .account-status { display:inline-flex; align-items:center; gap:6px; min-height:29px; padding:5px 11px; border:1px solid rgba(255,255,255,.24); border-radius:999px; background:rgba(255,255,255,.12); color:#fff; font-size:11px; font-weight:700; backdrop-filter:blur(8px); }
+        .settings-hub .account-status { border-color:rgba(167,243,208,.3); color:#d1fae5; background:rgba(16,185,129,.14); }
+        .settings-hub .profile-aside { flex:0 0 auto; display:flex; align-items:center; gap:10px; padding:11px 15px; border:1px solid rgba(255,255,255,.18); border-radius:15px; background:rgba(255,255,255,.10); color:#e4edff; font-size:11px; font-weight:700; backdrop-filter:blur(10px); }
+        .settings-hub .profile-aside svg { width:17px; height:17px; }
+        .settings-hub .settings-panels { width:100%; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; align-items:stretch; }
+        .settings-hub .settings-panel { min-width:0; padding:21px; border:1px solid #e2e8f2; border-radius:21px; background:linear-gradient(145deg,#fff 0%,#fbfcff 100%); box-shadow:0 10px 28px rgba(28,55,110,.06); }
+        .settings-hub .settings-panel-heading { display:flex; align-items:center; gap:12px; margin-bottom:17px; }
+        .settings-hub .settings-panel-icon { width:42px; height:42px; flex:0 0 42px; display:flex; align-items:center; justify-content:center; border:1px solid #dce7fb; border-radius:13px; background:linear-gradient(145deg,#eff4ff,#e2ebff); color:#315fc4; }
+        .settings-hub .settings-panel-icon svg { width:19px; height:19px; }
+        .settings-hub .settings-panel-heading h2 { color:#17233b; font-size:15px; font-weight:800; letter-spacing:-.15px; }
+        .settings-hub .settings-panel-heading p { margin-top:3px; color:#7a8599; font-size:11px; line-height:1.4; }
+        .settings-hub .options { display:flex; flex-direction:column; grid-template-columns:1fr; gap:10px; }
+        .settings-hub .option-card { min-height:88px; align-items:center; gap:14px; padding:15px; border:1px solid #e5eaf2; border-radius:16px; background:#fff; box-shadow:0 4px 13px rgba(24,48,94,.035); }
+        .settings-hub .option-card::before { opacity:.4; }
+        .settings-hub .option-card:hover { transform:translateY(-2px); border-color:#c8d8f3; box-shadow:0 12px 24px rgba(28,55,110,.09); }
+        .settings-hub .option-icon { width:44px; height:44px; flex:0 0 44px; border-radius:13px; }
+        .settings-hub .option-content { min-width:0; }
+        .settings-hub .option-title { margin-bottom:4px; font-size:13px; }
+        .settings-hub .option-description { font-size:11px; line-height:1.45; }
+        .settings-hub .option-meta { display:inline-flex; align-items:center; gap:5px; margin-top:7px; color:#6d7c95; font-size:10px; font-weight:700; }
+        .settings-hub .option-meta svg { width:12px; height:12px; color:#4b73bd; }
+        .settings-hub .arrow { width:32px; height:32px; flex:0 0 32px; margin:0; border:1px solid #e5ebf4; border-radius:10px; background:#f8faff; color:#8290a8; font-size:16px; }
+        .settings-hub .application-card { grid-column:auto; min-width:0; min-height:82px; margin-top:14px; padding:14px; gap:11px; border:1px solid #e0e7f2; border-radius:16px; background:linear-gradient(135deg,#f8faff,#fff); box-shadow:none; }
+        .settings-hub .application-icon { width:42px; height:42px; flex:0 0 42px; border-radius:12px; }
+        .settings-hub .application-name { font-size:12px; }
+        .settings-hub .application-version { font-size:10.5px; }
+        .settings-hub .logout-btn { display:inline-flex; align-items:center; justify-content:center; gap:7px; min-width:102px; height:38px; padding:0 13px; border:1px solid #efb5bc; border-radius:11px; background:#fff; color:#c33e4c; font-size:11px; font-weight:750; transition:all .2s ease; }
+        .settings-hub .logout-btn:hover { transform:translateY(-2px); border-color:#e78c97; background:#fff6f7; box-shadow:0 8px 16px rgba(195,62,76,.09); }
+        .settings-hub .logout-btn svg { width:15px; height:15px; }
+        body.dark-mode .settings-hub .settings-panel { border-color:#2c3b57; background:linear-gradient(145deg,#18253b,#141f33); box-shadow:0 15px 35px rgba(0,0,0,.18); }
+        body.dark-mode .settings-hub .settings-panel-heading h2 { color:#f1f5ff; }
+        body.dark-mode .settings-hub .settings-panel-heading p, body.dark-mode .settings-hub .option-meta { color:#9eacc4; }
+        body.dark-mode .settings-hub .settings-panel-icon { border-color:#3a5684; background:#20385f; color:#a9c8ff; }
+        body.dark-mode .settings-hub .option-meta svg { color:#a9c8ff; }
+        @media (max-width:900px) {
+            .settings-hub .settings-panels { grid-template-columns:1fr; }
+            .settings-hub .profile-aside { display:none; }
+        }
+        @media (max-width:600px) {
+            .settings-hub .profile-card, .settings-hub .profile-body { min-height:0; }
+            .settings-hub .profile-body { align-items:flex-start; gap:15px; padding:24px 20px; }
+            .settings-hub .profile-avatar { flex-basis:76px; width:76px; height:76px; border-radius:19px; font-size:24px; }
+            .settings-hub .profile-avatar img { border-radius:15px; }
+            .settings-hub .profile-name { font-size:19px; overflow-wrap:anywhere; }
+            .settings-hub .profile-username { margin:5px 0 11px; font-size:11px; }
+            .settings-hub .role, .settings-hub .account-status { min-height:26px; padding:4px 8px; font-size:9.5px; }
+            .settings-hub .settings-panel { padding:15px; border-radius:17px; }
+            .settings-hub .option-card { min-height:80px; padding:12px; gap:10px; }
+            .settings-hub .option-icon { width:39px; height:39px; flex-basis:39px; }
+            .settings-hub .application-card { flex-wrap:wrap; }
+            .settings-hub .application-info { min-width:calc(100% - 60px); }
+            .settings-hub .application-card form { width:100%; }
+            .settings-hub .logout-btn { width:100%; }
+        }
+
+        /* Horizontal account settings tabs (main content only) */
+        .settings-page { padding-top:28px; }
+        .settings-heading { display:flex; justify-content:space-between; align-items:flex-end; gap:18px; margin-bottom:22px; }
+        .settings-eyebrow,.settings-card-kicker { display:block; color:#71809a; font-size:10px; font-weight:800; letter-spacing:1.1px; text-transform:uppercase; }
+        .settings-page .page-title { margin:0; font-size:26px; letter-spacing:-.55px; }
+        .settings-page .page-subtitle { margin-top:7px; }
+        .settings-active-badge { display:inline-flex; align-items:center; gap:7px; padding:9px 13px; border:1px solid #bce8d1; border-radius:999px; background:#ecfbf2; color:#197447; font-size:11px; font-weight:750; white-space:nowrap; }
+        .settings-active-badge svg { width:15px; height:15px; }
+        .settings-tabs { display:flex; gap:5px; padding:5px; margin:22px 0 18px; overflow-x:auto; border:1px solid #e2e8f1; border-radius:15px; background:#fff; box-shadow:0 5px 18px rgba(23,60,145,.04); scrollbar-width:thin; }
+        .settings-tab { position:relative; display:inline-flex; align-items:center; justify-content:center; gap:9px; min-height:46px; padding:0 17px; border:0; border-radius:11px; background:transparent; color:#69758b;  font-size:12px; font-weight:600; white-space:nowrap; cursor:pointer; transition:all .2s ease; }
+        .settings-tab svg { width:17px; height:17px; }
+        .settings-tab:hover { background:#f4f7fc; color:#244c9f; }
+        .settings-tab.active { background:#edf3ff; color:#204ca8; box-shadow:inset 0 0 0 1px #d7e4ff; }
+        .settings-tab-panels { min-width:0; }
+        .settings-tab-panel { animation:settingsPanelIn .22s ease both; }
+        .settings-tab-panel[hidden] { display:none; }
+        @keyframes settingsPanelIn { from { opacity:0; transform:translateY(5px); } to { opacity:1; transform:translateY(0); } }
+        .settings-form-card,.security-tip-card,.about-settings-card { min-width:0; padding:25px; border:1px solid #e2e8f1; border-radius:20px; background:#fff; box-shadow:0 9px 28px rgba(23,60,145,.055); }
+        .tab-card-heading { display:flex; justify-content:space-between; align-items:center; gap:15px; padding-bottom:20px; margin-bottom:20px; border-bottom:1px solid #edf0f5; }
+        .tab-card-heading h2 { margin:5px 0 4px; color:#1b2942; font-size:18px; font-weight:800; letter-spacing:-.25px; }
+        .tab-card-heading p { color:#7b879a; font-size:12px; }
+        .heading-icon { display:grid; place-items:center; width:45px; height:45px; flex:0 0 45px; border:1px solid #dbe7ff; border-radius:14px; background:#eff4ff; color:#315fc4; }
+        .heading-icon svg { width:21px; height:21px; }
+        .heading-icon-violet { color:#6954bd; background:#f2efff; border-color:#e3dcff; }
+        .heading-icon-amber { color:#a56b19; background:#fff7e9; border-color:#f6e5c6; }
+        .profile-upload-row { position:relative; display:flex; align-items:center; gap:16px; padding:16px; margin-bottom:21px; border:1px dashed #d8e1ee; border-radius:15px; background:#f9fbfe; }
+        .upload-avatar { display:grid; place-items:center; width:76px; height:76px; flex:0 0 76px; overflow:hidden; border:3px solid #fff; border-radius:50%; background:#e8efff; color:#315fc4; box-shadow:0 0 0 1px #dbe5f6,0 5px 14px rgba(30,60,120,.12); font-size:22px; font-weight:800; }
+        .upload-avatar img { width:100%; height:100%; object-fit:cover; }
+        .upload-copy { display:flex; align-items:flex-start; flex-direction:column; gap:5px; }
+        .upload-copy strong { color:#25334c; font-size:13px; }
+        .upload-copy p,.upload-hint { color:#7b879a; font-size:11px; }
+        .upload-button { display:inline-flex; align-items:center; gap:6px; padding:7px 10px; margin-top:3px; border:1px solid #d7e2f5; border-radius:9px; background:#fff; color:#3155a1; font-size:11px; font-weight:700; cursor:pointer; transition:.18s ease; }
+        .upload-button:hover { border-color:#a9c0ea; background:#f1f6ff; }
+        .upload-button svg { width:14px; height:14px; }
+        .visually-hidden-file { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; clip-path:inset(50%); }
+        .settings-form-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; }
+        .settings-page .form-group { display:flex; min-width:0; flex-direction:column; gap:8px; margin-bottom:16px; }
+        .settings-page .form-group label { color:#38465d; font-size:12px; font-weight:700; }
+        .settings-page .form-group input { width:100%; min-height:44px; padding:10px 13px; border:1px solid #d5dce7; border-radius:11px; outline:none; background:#fff; color:#1e293b;  font-size:13px; font-weight:400; transition:border-color .18s ease,box-shadow .18s ease; }
+        .settings-page .form-group input:focus { border-color:#4c78d0; box-shadow:0 0 0 3px rgba(76,120,208,.13); }
+        .settings-page .readonly-field { display:flex; align-items:center; gap:8px; min-height:44px; padding:10px 13px; border:1px solid #e2e8f0; border-radius:11px; background:#f7f9fc; color:#66748b; font-size:12px; }
+        .readonly-field svg { width:15px; height:15px; color:#5675b7; }
+        .settings-form-actions { display:flex; justify-content:flex-end; gap:10px; padding-top:17px; margin-top:3px; border-top:1px solid #edf0f5; }
+        .settings-button { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:42px; padding:0 17px; border:1px solid transparent; border-radius:11px; font-size:12px; font-weight:700; cursor:pointer; transition:all .2s ease; }
+        .settings-button svg { width:16px; height:16px; }
+        .settings-button-light { border-color:#dce3ee; background:#fff; color:#56647a; }
+        .settings-button-light:hover { background:#f7f9fc; border-color:#cbd5e1; }
+        .settings-button-primary { background:#2563eb; color:#fff; box-shadow:0 5px 12px rgba(37,99,235,.16); }
+        .settings-button-primary:hover { transform:translateY(-1px); background:#1d4ed8; box-shadow:0 8px 16px rgba(37,99,235,.22); }
+        .settings-button-logout { margin-top:22px; border-color:#efb2bb; background:#fff; color:#bf3f4e; }
+        .settings-button-logout:hover { background:#fff5f6; border-color:#e58b96; }
+        .security-grid { display:grid; grid-template-columns:minmax(0,1.55fr) minmax(230px,.8fr); align-items:stretch; gap:18px; }
+        .security-tip-card { display:flex; align-items:flex-start; flex-direction:column; justify-content:center; background:linear-gradient(145deg,#f4f7ff,#fff); }
+        .security-tip-icon { display:grid; place-items:center; width:45px; height:45px; margin-bottom:18px; border-radius:14px; background:#e7efff; color:#315fc4; }
+        .security-tip-icon svg { width:22px; height:22px; }
+        .security-tip-card h3 { margin:8px 0; color:#20304d; font-size:17px; }
+        .security-tip-card p { color:#6f7d94; font-size:12px; line-height:1.7; }
+        .security-tip-note { display:flex; align-items:flex-start; gap:8px; padding-top:16px; margin-top:18px; border-top:1px solid #e1e8f4; color:#60718d; font-size:10.5px; line-height:1.5; }
+        .security-tip-note svg { width:15px; height:15px; flex:0 0 15px; color:#5275bd; }
+        .preference-section-label { margin:0 0 11px; color:#47556c; font-size:12px; font-weight:750; }
+        .preference-choice-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+        .settings-page .theme-choice { display:flex; align-items:center; gap:13px; min-height:91px; padding:15px; border:1px solid #e2e8f0; border-radius:14px; background:#fff; text-align:left; cursor:pointer; }
+        .settings-page .settings-info-item-icon { display:grid; place-items:center; width:40px; height:40px; flex:0 0 40px; border:1px solid #dce7fb; border-radius:12px; background:#eff4ff; color:#315fc4; }
+        .settings-page .settings-info-item-icon svg { width:19px; height:19px; }
+        .settings-page .settings-info-item-content { display:flex; flex-direction:column; gap:5px; }
+        .settings-page .settings-info-item-title { color:#27364f; font-size:12px; font-weight:750; }
+        .settings-page .settings-info-item-text { color:#7a879a; font-size:11px; line-height:1.45; }
+        .settings-page .theme-choice.active { border-color:#6e91d8; background:#f1f5ff; }
+        .preference-status { padding:11px 13px; margin-top:12px; border:1px dashed #d8e2f1; border-radius:11px; background:#f8faff; color:#75829a; font-size:11px; }
+        .preference-status strong { color:#3155a1; }
+        .settings-responsive-choice { display:flex; align-items:center; gap:12px; min-height:76px; padding:14px 66px 14px 14px !important; margin-top:20px; border:1px solid #e2e8f0; border-radius:14px; background:#fff; }
+        .responsive-choice-icon { display:grid; place-items:center; width:40px; height:40px; flex:0 0 40px; border-radius:12px; background:#edf7f5; color:#258472; }
+        .responsive-choice-icon svg { width:19px; height:19px; }
+        .about-settings-card { display:flex; align-items:center; flex-direction:column; max-width:760px; margin:0 auto; padding:36px; text-align:center; }
+        .about-brand-icon { display:grid; place-items:center; width:66px; height:66px; margin-bottom:15px; border:1px solid #dbe6fb; border-radius:20px; background:linear-gradient(145deg,#eef4ff,#e2ebff); color:#315fc4; }
+        .about-brand-icon svg { width:31px; height:31px; }
+        .about-settings-card h2 { margin:8px 0 10px; color:#1c2b48; font-size:24px; letter-spacing:.2px; }
+        .about-settings-card .app-about-version { padding:6px 11px; border:1px solid #d7e4fb; border-radius:999px; background:#eef4ff; color:#3155a1; font-size:11px; font-weight:750; }
+        .about-settings-card .app-about-description { max-width:560px; margin:17px 0; color:#708097; font-size:12px; line-height:1.7; }
+        .about-details { display:flex; justify-content:center; flex-wrap:wrap; gap:9px; }
+        .about-details span { display:inline-flex; align-items:center; gap:6px; padding:8px 10px; border:1px solid #e5eaf2; border-radius:9px; background:#fafbfd; color:#62718a; font-size:10.5px; }
+        .about-details svg { width:14px; height:14px; color:#5575b8; }
+        body.dark-mode .settings-form-card, body.dark-mode .security-tip-card, body.dark-mode .about-settings-card, body.dark-mode .settings-tabs { border-color:#2c3b57; background:#172238; box-shadow:0 12px 30px rgba(0,0,0,.16); }
+        body.dark-mode .tab-card-heading { border-bottom-color:#30405b; }
+        body.dark-mode .tab-card-heading h2, body.dark-mode .security-tip-card h3, body.dark-mode .about-settings-card h2 { color:#f1f5ff; }
+        body.dark-mode .tab-card-heading p, body.dark-mode .upload-copy p, body.dark-mode .upload-hint, body.dark-mode .security-tip-card p, body.dark-mode .about-settings-card .app-about-description { color:#9eacc4; }
+        body.dark-mode .settings-page .form-group label, body.dark-mode .preference-section-label { color:#c4cee0; }
+        body.dark-mode .settings-page .form-group input { border-color:#344560; background:#111c2e; color:#edf3ff; }
+        body.dark-mode .settings-page .readonly-field, body.dark-mode .profile-upload-row, body.dark-mode .settings-page .theme-choice, body.dark-mode .settings-responsive-choice { border-color:#30405b; background:#142137; color:#c4cee0; }
+        body.dark-mode .settings-page .settings-info-item-title { color:#e4ebf8; }
+        body.dark-mode .settings-page .settings-info-item-text { color:#9eacc4; }
+        body.dark-mode .preference-status { border-color:#354560; background:#162238; color:#9eacc4; }
+        body.dark-mode .preference-status strong { color:#b4ccff; }
+        body.dark-mode .about-details span { border-color:#30405b; background:#142137; color:#b8c4d8; }
+        body.dark-mode .settings-button-light { border-color:#394a65; background:#1b2940; color:#d0d8e8; }
+        body.dark-mode .settings-button-logout { border-color:#d96876; background:#211d28; color:#ff9ba5; }
+        @media (max-width:900px) { .settings-tabs { justify-content:flex-start; } .security-grid { grid-template-columns:1fr; } .security-tip-card { min-height:210px; } }
+        @media (max-width:650px) { .settings-page { padding:20px 15px; } .settings-heading { align-items:flex-start; flex-direction:column; } .settings-page .page-title { font-size:22px; } .settings-active-badge { align-self:flex-start; } .settings-tabs { margin-top:18px; } .settings-tab { min-height:42px; padding:0 12px; font-size:11px; } .settings-form-card,.security-tip-card { padding:17px; border-radius:16px; } .settings-form-grid,.preference-choice-grid { grid-template-columns:1fr; gap:0; } .profile-upload-row { align-items:flex-start; padding:13px; } .upload-avatar { width:60px; height:60px; flex-basis:60px; font-size:18px; } .settings-form-actions { flex-direction:column-reverse; } .settings-form-actions .settings-button { width:100%; } .about-settings-card { padding:25px 18px; } .about-details { flex-direction:column; width:100%; } .about-details span { justify-content:center; } }
+
+        /* Premium visual treatment for settings content only */
+        .settings-page { position:relative; isolation:isolate; background:radial-gradient(ellipse at 88% 2%,rgba(99,143,225,.10),transparent 30%),linear-gradient(180deg,rgba(242,246,252,.72),rgba(247,249,252,.92)); border-radius:28px 28px 0 0; }
+        .settings-page::before { content:""; position:absolute; z-index:-1; inset:0; pointer-events:none; border-radius:inherit; background:radial-gradient(circle at 8% 34%,rgba(194,213,247,.12),transparent 25%); }
+        .settings-heading { align-items:center; }
+        .settings-eyebrow { margin-bottom:7px; color:#7890b6; }
+        .settings-active-badge { position:relative; gap:9px; padding:10px 15px; border-color:rgba(127,205,165,.35); background:rgba(235,250,242,.78); box-shadow:0 5px 18px rgba(31,140,88,.06),inset 0 1px rgba(255,255,255,.8); backdrop-filter:blur(10px); }
+        .settings-active-badge svg { color:#24935d; }
+        .settings-active-badge::before { content:""; width:7px; height:7px; border-radius:50%; background:#22a565; box-shadow:0 0 0 3px rgba(34,165,101,.12); animation:statusPulse 2.2s ease-in-out infinite; }
+        @keyframes statusPulse { 0%,100% { box-shadow:0 0 0 3px rgba(34,165,101,.12); } 50% { box-shadow:0 0 0 6px rgba(34,165,101,.04); } }
+        .settings-tabs { width:max-content; max-width:100%; gap:3px; padding:6px; border:1px solid rgba(220,227,237,.8); border-radius:17px; background:rgba(236,240,246,.88); box-shadow:inset 0 1px 2px rgba(30,48,78,.035); backdrop-filter:blur(12px); }
+        .settings-tab { min-height:43px; padding:0 16px; border-radius:12px; color:#68758a; font-weight:600; }
+        .settings-tab:hover { background:rgba(255,255,255,.58); color:#243754; }
+        .settings-tab.active { color:#285dbb; background:#fff; box-shadow:0 3px 10px rgba(30,55,100,.09),inset 0 0 0 1px rgba(228,234,244,.7); }
+        .settings-tab.active svg { color:#3569c4; }
+        .settings-form-card,.security-tip-card,.about-settings-card { overflow:hidden; border-color:rgba(218,226,238,.9); border-radius:22px; box-shadow:0 14px 40px rgba(34,55,94,.075),0 2px 8px rgba(34,55,94,.035); }
+        .tab-card-heading { margin:-25px -25px 0; padding:23px 25px 17px; border-bottom:0; background:linear-gradient(180deg,#fff,#fbfcfe); }
+        .tab-card-heading h2 { font-size:19px; }
+        .tab-card-heading p { font-size:12px; }
+        .heading-icon { border-radius:15px; box-shadow:0 5px 14px rgba(49,95,196,.08); }
+        .profile-cover-banner { position:relative; min-height:172px; overflow:visible; margin:0 -25px; background:linear-gradient(112deg,#10244d 0%,#17396f 52%,#315d9c 100%); }
+        .profile-cover-banner::before,.profile-cover-banner::after { position:absolute; content:""; border:1px solid rgba(219,233,255,.16); border-radius:50%; pointer-events:none; }
+        .profile-cover-banner::before { width:310px; height:310px; right:-76px; top:-188px; box-shadow:0 0 0 24px rgba(255,255,255,.035),0 0 0 52px rgba(255,255,255,.025); }
+        .profile-cover-banner::after { width:210px; height:210px; left:42%; bottom:-167px; }
+        .profile-cover-art { position:absolute; inset:0; background:radial-gradient(ellipse at 90% 8%,rgba(138,180,255,.24),transparent 32%),linear-gradient(115deg,transparent 35%,rgba(134,171,238,.08)); }
+        .cover-profile-row { position:relative; z-index:1; display:flex; align-items:center; gap:19px; min-height:172px; padding:21px 29px 33px; }
+        .upload-avatar { position:relative; width:94px; height:94px; flex:0 0 94px; overflow:visible; border:4px solid #fff; background:linear-gradient(145deg,#edf3ff,#dbe7ff); color:#2855a7; box-shadow:0 9px 25px rgba(3,16,44,.25),0 0 0 1px rgba(255,255,255,.3); font-size:26px; transform:translateY(19px); }
+        .upload-avatar img { display:block; width:100%; height:100%; border-radius:50%; object-fit:cover; }
+        .upload-avatar > span { display:grid; width:100%; height:100%; place-items:center; }
+        .avatar-camera { position:absolute; right:-3px; bottom:-2px; display:grid; width:31px; height:31px; place-items:center; border:3px solid #183d75; border-radius:50%; background:#fff; color:#315fc4; cursor:pointer; box-shadow:0 3px 9px rgba(2,15,39,.18); transition:.2s ease; }
+        .avatar-camera:hover { transform:scale(1.08); background:#edf4ff; }
+        .avatar-camera svg { width:14px; height:14px; }
+        .cover-identity { display:flex; min-width:0; flex-direction:column; gap:7px; color:#fff; }
+        .cover-eyebrow { color:rgba(216,231,255,.7); font-size:9px; font-weight:800; letter-spacing:1.3px; }
+        .cover-identity > strong { overflow-wrap:anywhere; font-size:20px; font-weight:800; letter-spacing:-.25px; }
+        .cover-badges { display:flex; flex-wrap:wrap; gap:7px; }
+        .cover-badges span { display:inline-flex; align-items:center; gap:5px; padding:5px 9px; border:1px solid rgba(255,255,255,.2); border-radius:999px; background:rgba(255,255,255,.11); color:#eef4ff; font-size:10px; font-weight:650; backdrop-filter:blur(9px); }
+        .cover-badges svg { width:12px; height:12px; }
+        .profile-upload-tools { display:flex; align-items:center; justify-content:flex-end; gap:12px; min-height:74px; padding:13px 4px 15px; border-bottom:1px solid #edf1f6; }
+        .upload-copy { align-items:flex-end; flex-direction:row; flex-wrap:wrap; justify-content:flex-end; gap:6px 10px; text-align:right; }
+        .upload-copy strong { color:#273650; font-size:11px; }
+        .upload-copy p { width:100%; }
+        .upload-button { padding:7px 10px; margin:0; border-color:#dbe5f3; background:#f9fbff; }
+        .delete-photo-button { margin-left:8px; cursor:pointer; color:#b42318; }
+        .upload-hint { font-size:10px; }
+        .settings-form-section { padding-top:20px; }
+        .form-section-heading { display:flex; align-items:center; gap:11px; margin-bottom:15px; }
+        .form-section-heading > div { display:flex; flex-direction:column; gap:3px; }
+        .form-section-heading strong { color:#283750; font-size:12px; font-weight:800; }
+        .form-section-heading span:not(.section-heading-icon) { color:#8995a7; font-size:10.5px; }
+        .section-heading-icon { display:grid; width:32px; height:32px; flex:0 0 32px; place-items:center; border:1px solid #dfe8f9; border-radius:10px; background:#f0f5ff; color:#4269b2; }
+        .section-heading-icon svg { width:16px; height:16px; }
+        .section-heading-icon-teal { border-color:#d8efe9; background:#effaf7; color:#298574; }
+        .settings-form-section .settings-form-grid { gap:15px; }
+        .institutional-section { padding:16px 15px 1px; margin-top:3px; border:1px solid #e8edf4; border-radius:15px; background:linear-gradient(145deg,#fafbfd,#f7f9fc); }
+        .settings-page .form-group { gap:7px; margin-bottom:14px; }
+        .settings-page .form-group input { background:#f8fafc; border-color:#e0e6ef; border-radius:12px; }
+        .settings-page .form-group input:hover { border-color:#cbd7e8; }
+        .settings-page .form-group input:focus { background:#fff; border-color:#4b77cf; box-shadow:0 0 0 3px rgba(59,109,207,.13); }
+        .settings-page .form-group input[type="file"] { display:none; }
+        .readonly-field { position:relative; padding-right:108px !important; border-color:#e5eaf1 !important; background:#f1f4f8 !important; }
+        .verified-tag { position:absolute; right:8px; display:inline-flex; align-items:center; padding:4px 7px; border:1px solid #dce7f3; border-radius:999px; background:#fff; color:#74839a; font-size:9px; font-weight:750; white-space:nowrap; }
+        .settings-form-actions { position:sticky; z-index:2; bottom:-25px; margin:17px -25px -25px; padding:14px 25px 18px; border-top:1px solid rgba(224,231,240,.86); background:rgba(255,255,255,.94); box-shadow:0 -8px 20px rgba(30,50,88,.035); backdrop-filter:blur(12px); }
+        .settings-button { min-height:43px; border-radius:12px; }
+        .settings-button-primary { padding:0 21px; background:linear-gradient(105deg,#2563eb,#4f46e5); box-shadow:0 8px 18px rgba(59,96,220,.21); }
+        .settings-button-primary:hover { background:linear-gradient(105deg,#1d4ed8,#4338ca); box-shadow:0 10px 22px rgba(59,96,220,.27); }
+        .settings-button-primary:active { transform:scale(.97); }
+        .security-tip-card { position:relative; overflow:hidden; background:radial-gradient(circle at 100% 0%,rgba(110,151,226,.15),transparent 36%),linear-gradient(145deg,#f6f8ff,#fff); }
+        .security-tip-card::after { position:absolute; right:-50px; bottom:-80px; width:190px; height:190px; border:1px solid rgba(75,115,190,.12); border-radius:50%; content:""; box-shadow:0 0 0 22px rgba(75,115,190,.035); pointer-events:none; }
+        .security-tip-note { padding:12px; border:1px solid #e1e9f6; border-radius:12px; background:rgba(255,255,255,.72); }
+        .settings-page .theme-choice { background:linear-gradient(145deg,#fff,#f8faff); box-shadow:0 5px 14px rgba(30,55,100,.04); }
+        .settings-page .theme-choice:hover { transform:translateY(-2px); }
+        .settings-page .theme-choice.active { border-color:#8da9df; background:linear-gradient(135deg,#f2f6ff,#fff); box-shadow:0 8px 20px rgba(47,91,170,.1),0 0 0 3px rgba(77,115,200,.07); }
+        .settings-responsive-choice { box-shadow:0 5px 14px rgba(30,55,100,.04); }
+        .about-settings-card { position:relative; overflow:hidden; background:radial-gradient(circle at 50% -5%,rgba(90,135,216,.14),transparent 35%),linear-gradient(145deg,rgba(255,255,255,.98),rgba(247,250,255,.94)); }
+        .about-settings-card::before { position:absolute; top:0; right:0; left:0; height:5px; background:linear-gradient(90deg,#1e3a8a,#3b82f6,#818cf8); content:""; }
+        .about-brand-icon { border-radius:19px; background:rgba(235,242,255,.76); box-shadow:inset 0 1px rgba(255,255,255,.95),0 10px 24px rgba(50,90,160,.1); backdrop-filter:blur(8px); }
+        body.dark-mode .settings-page { background:radial-gradient(ellipse at 88% 2%,rgba(60,96,166,.15),transparent 30%),#111c2e; }
+        body.dark-mode .tab-card-heading { background:linear-gradient(180deg,#172238,#172238); }
+        body.dark-mode .settings-active-badge { border-color:#24573f; background:rgba(22,73,50,.55); color:#a8edc5; }
+        body.dark-mode .profile-upload-tools { border-bottom-color:#30405b; }
+        body.dark-mode .upload-copy strong, body.dark-mode .form-section-heading strong { color:#e3eaf6; }
+        body.dark-mode .form-section-heading span:not(.section-heading-icon) { color:#9eacc4; }
+        body.dark-mode .institutional-section { border-color:#30405b; background:linear-gradient(145deg,#142137,#172238); }
+        body.dark-mode .readonly-field { border-color:#30405b !important; background:#1c2a40 !important; color:#b8c4d8; }
+        body.dark-mode .verified-tag { border-color:#384b67; background:#24334b; color:#b2bfd4; }
+        body.dark-mode .settings-form-actions { border-top-color:#30405b; background:rgba(23,34,56,.95); }
+        body.dark-mode .security-tip-card { background:radial-gradient(circle at 100% 0%,rgba(75,111,177,.18),transparent 36%),linear-gradient(145deg,#18253b,#141f33); }
+        body.dark-mode .security-tip-note { border-color:#30405b; background:rgba(20,33,55,.8); }
+        @media (max-width:650px) {
+            .settings-page { border-radius:20px 20px 0 0; }
+            .settings-tabs { width:100%; gap:2px; }
+            .settings-tab { flex:0 0 auto; padding:0 12px; }
+            .tab-card-heading { margin:-17px -17px 0; padding:18px 17px 14px; }
+            .profile-cover-banner { margin:0 -17px; }
+            .cover-profile-row { gap:13px; padding:20px 17px 29px; }
+            .upload-avatar { width:76px; height:76px; flex-basis:76px; font-size:21px; }
+            .cover-identity > strong { font-size:17px; }
+            .profile-upload-tools { min-height:80px; }
+            .upload-copy { align-items:flex-start; justify-content:flex-start; text-align:left; }
+            .upload-copy p { width:auto; }
+            .settings-form-section .settings-form-grid { gap:0; }
+            .institutional-section { padding:13px 11px 1px; }
+            .settings-form-actions { bottom:-17px; margin:15px -17px -17px; padding:12px 17px 15px; }
+            .settings-form-actions .settings-button { flex:1; padding:0 10px; }
+        }
+
+        /* Alerts */
+        .alert {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 16px;
+            border-radius: 12px;
+            font-size: 13.5px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .alert svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
+        .alert-success {
+            background: #eaf8f0;
+            color: #16894a;
+            border: 1px solid #b8ebd0;
+        }
+
+        .alert-danger {
+            background: #fff0f0;
+            color: #d64545;
+            border: 1px solid #ffccd0;
+        }
+
+        body.dark-mode .alert-success {
+            background: #173b2b !important;
+            color: #a7edc2 !important;
+            border-color: #2b7250 !important;
+        }
+
+        body.dark-mode .alert-danger {
+            background: #3c2028 !important;
+            color: #ffd0d6 !important;
+            border-color: #74414c !important;
+        }
     </style>
 
     @include('partials.theme')
@@ -2936,60 +3300,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
     {{-- sidebar --}}
 
-    <aside class="sidebar">
-
-        <div>
-
-            <div class="brand">
-
-                <div class="brand-logo">
-                    <img
-                        src="{{ asset('images/logo-smpn2-dramaga.png') }}"
-                        alt="Logo SMP Negeri 2 Dramaga"
-                    >
-                </div>
-
-                <div>
-
-                    <div class="brand-title">
-                        SIRASI-BK
-                    </div>
-
-                    <div class="brand-subtitle">
-                        Bimbingan & Konseling
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="menu-title">
-                Menu Utama
-            </div>
-
-            <nav class="menu">
-                @include('partials.sidebar_menu')
-            </nav>
-
-        </div>
-
-        <div class="sidebar-logout">
-
-            <form action="{{ route('logout') }}" method="POST" onsubmit="return confirm('Anda yakin ingin keluar?');">
-
-                @csrf
-
-                <button
-                    type="submit" class="menu-item logout-button">
-                    <span class="menu-icon"><i data-lucide="log-out"></i></span>
-                    Logout
-                </button>
-
-            </form>
-
-        </div>
-
-    </aside>
+    @include('layouts.sidebar')
 
     {{-- main --}}
 
@@ -3011,7 +3322,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
                         <i data-lucide="bell"></i>
 
                         @if (isset($notifikasis) && $notifikasis->where('dibaca', false)->count() > 0)
-                            <span class="notification-dot"></span>
+                            <span class="notification-dot" id="notificationDot"></span>
                         @endif
                     </button>
 
@@ -3027,7 +3338,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
                             <a
                                 href="{{ route('notifikasi.baca', $notifikasi->id) }}"
-                                class="notification-item"
+                                class="notification-item {{ !$notifikasi->dibaca ? 'unread' : '' }}"
                             >
                                 <div class="notification-item-icon">
                                     <i data-lucide="clipboard-list"></i>
@@ -3036,7 +3347,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
                                 <div class="notification-item-content">
                                     <strong>{{ $notifikasi->judul }}</strong>
 
-                                    <p>{{ $notifikasi->pesan }}</p>
+                                    <p>{{ preg_replace('/\s*\[JADWAL:\d+\]/', '', $notifikasi->pesan) }}</p>
 
                                     <small>
                                         {{ $notifikasi->created_at->diffForHumans() }}
@@ -3089,683 +3400,122 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
         {{-- content --}}
 
-        <section class="content">
-
-            <h1 class="page-title">
-                Pengaturan
-            </h1>
-
-            <p class="page-subtitle">
-                Kelola informasi profil dan keamanan akun Anda.
-            </p>
-
-            {{-- success message --}}
-
-            @if (session('success'))
-
-                <div class="success">
-                    {{ session('success') }}
+        <section class="content settings-page">
+            <div class="settings-heading">
+                <div>
+                    <p class="settings-eyebrow">Pusat Pengaturan</p>
+                    <h1 class="page-title">Pengaturan Akun &amp; Sistem</h1>
+                    <p class="page-subtitle">Kelola identitas, keamanan, dan tampilan akun SIRASI-BK Anda.</p>
                 </div>
-
-            @endif
-
-            <div class="settings-layout">
-
-                {{-- profile --}}
-
-                <div class="profile-card">
-
-                    <div class="profile-cover"></div>
-
-                    <div class="profile-body">
-
-                        <div class="profile-avatar">
-                            @if ($user->foto_profil)
-                                <img
-                                    src="{{ asset('storage/' . $user->foto_profil) }}"
-                                    alt="Foto Profil"
-                                >
-                            @else
-                                {{ strtoupper(substr($user->nama, 0, 2)) }}
-                            @endif
-                        </div>
-
-                        <div class="profile-name">
-                            {{ $user->nama }}
-                        </div>
-
-                        <div class="profile-username">
-                            {{ $user->username }}
-                        </div>
-
-                        <div class="profile-row">
-
-                            <span class="profile-label">
-                                Peran
-                            </span>
-
-                            <span class="profile-value role">
-                                {{ $user->role }}
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                {{-- option cards --}}
-
-                <div class="options">
-
-                    {{-- profil --}}
-
-                    <div
-                        class="option-card"
-                        onclick="openModal('profileModal')"
-                    >
-
-                        <div class="option-icon">
-                            <i data-lucide="user-round"></i>
-                        </div>
-
-                        <div class="option-content">
-
-                            <div class="option-title">
-                                Profil
-                            </div>
-
-                            <div class="option-description">
-                                Ubah nama dan username akun Anda.
-                            </div>
-
-                        </div>
-
-                        <div class="arrow">
-                            <i data-lucide="arrow-right"></i>
-                        </div>
-
-                    </div>
-
-                    {{-- password --}}
-
-                    <div
-                        class="option-card"
-                        onclick="openModal('passwordModal')"
-                    >
-
-                        <div class="option-icon">
-                            <i data-lucide="lock-keyhole"></i>
-                        </div>
-
-                        <div class="option-content">
-
-                            <div class="option-title">
-                                Ubah Password
-                            </div>
-
-                            <div class="option-description">
-                                Perbarui kata sandi untuk keamanan akun.
-                            </div>
-
-                        </div>
-
-                        <div class="arrow">
-                            <i data-lucide="arrow-right"></i>
-                        </div>
-
-                    </div>
-
-                    {{-- preferensi --}}
-
-                    <div
-                        class="option-card"
-                        id="preferenceCard"
-                        onclick="openModal('preferenceModal')"
-                    >
-
-                        <div class="option-icon">
-                            <i data-lucide="sliders-horizontal"></i>
-                        </div>
-
-                        <div class="option-content">
-
-                            <div class="option-title">
-                                Preferensi
-                            </div>
-
-                            <div class="option-description">
-                                Pengaturan tampilan antarmuka sistem.
-                            </div>
-
-                        </div>
-
-                        <div class="arrow">
-                            <i data-lucide="arrow-right"></i>
-                        </div>
-
-                    </div>
-
-                    {{-- informasi aplikasi --}}
-
-                    <div
-                        class="option-card"
-                        id="infoCard"
-                        onclick="openModal('infoModal')"
-                    >
-
-                        <div class="option-icon">
-                            <i data-lucide="info"></i>
-                        </div>
-
-                        <div class="option-content">
-
-                            <div class="option-title">
-                                Informasi Aplikasi
-                            </div>
-
-                            <div class="option-description">
-                                Informasi mengenai sistem SIRASI-BK.
-                            </div>
-
-                        </div>
-
-                        <div class="arrow">
-                            <i data-lucide="arrow-right"></i>
-                        </div>
-
-                    </div>
-
-                    {{-- application --}}
-
-                    <div class="application-card">
-
-                        <div class="application-icon">
-                            <i data-lucide="diamond"></i>
-                        </div>
-
-                        <div class="application-info">
-
-                            <div class="application-name">
-                                SIRASI-BK
-                            </div>
-
-                            <div class="application-version">
-                                Version 1.0.0
-                            </div>
-
-                        </div>
-
-                        <form
-                            action="{{ route('logout') }}"
-                            method="POST"
-                        >
-
-                            @csrf
-
-                            <button
-                                type="submit"
-                                class="logout-btn"
-                            >
-                                Logout
-                            </button>
-
-                        </form>
-
-                    </div>
-
-                </div>
-
+                <span class="settings-active-badge"><i data-lucide="circle-check"></i>Status Akun: Aktif</span>
             </div>
 
+            @if (session('success'))
+                <div class="alert alert-success" role="status">
+                    <i data-lucide="check-circle-2"></i>
+                    <span>{{ session('success') }}</span>
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert alert-danger" role="alert">
+                    <i data-lucide="alert-circle"></i>
+                    <span>{{ session('error') }}</span>
+                </div>
+            @endif
+
+            <div class="settings-tabs" role="tablist" aria-label="Pengaturan akun dan sistem">
+                <button class="settings-tab active" id="profileTab" type="button" role="tab" aria-selected="true" aria-controls="profilePanel" data-tab="profilePanel"><i data-lucide="user-round"></i><span>Profil &amp; Biodata</span></button>
+                <button class="settings-tab" id="securityTab" type="button" role="tab" aria-selected="false" aria-controls="securityPanel" data-tab="securityPanel"><i data-lucide="lock-keyhole"></i><span>Keamanan &amp; Kata Sandi</span></button>
+                <button class="settings-tab" id="preferencesTab" type="button" role="tab" aria-selected="false" aria-controls="preferencesPanel" data-tab="preferencesPanel"><i data-lucide="sliders-horizontal"></i><span>Preferensi Tampilan</span></button>
+                <button class="settings-tab" id="aboutTab" type="button" role="tab" aria-selected="false" aria-controls="aboutPanel" data-tab="aboutPanel"><i data-lucide="info"></i><span>Tentang Aplikasi</span></button>
+            </div>
+
+            <div class="settings-tab-panels">
+                <section class="settings-tab-panel active" id="profilePanel" role="tabpanel" aria-labelledby="profileTab">
+                    <form id="deleteProfilePhotoForm" action="{{ route('pengaturan.profil.photo.delete') }}" method="POST" onsubmit="return confirm('Hapus foto profil Anda?')">
+                        @csrf
+                        @method('DELETE')
+                    </form>
+                    <form class="settings-form-card" action="{{ route('pengaturan.profil.update') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        <div class="tab-card-heading"><div><span class="settings-card-kicker">IDENTITAS AKUN</span><h2>Profil &amp; Biodata</h2><p>Pastikan informasi akun Anda selalu terbaru.</p></div><span class="heading-icon"><i data-lucide="contact-round"></i></span></div>
+
+                        <div class="profile-cover-banner">
+                            <div class="profile-cover-art" aria-hidden="true"></div>
+                            <div class="cover-profile-row">
+                                <div class="upload-avatar" id="profilePreview">
+                                    @if ($user->foto_profil)
+                                        <img src="{{ asset('storage/' . $user->foto_profil) }}" alt="Foto Profil {{ $user->nama }}">
+                                    @else
+                                        <span>{{ strtoupper(substr($user->nama, 0, 2)) }}</span>
+                                    @endif
+                                    <label for="settingsPhoto" class="avatar-camera" aria-label="Unggah foto profil"><i data-lucide="camera"></i></label>
+                                </div>
+                                <div class="cover-identity">
+                                    <span class="cover-eyebrow">AKUN SIRASI-BK</span>
+                                    <strong>{{ $user->nama }}</strong>
+                                    <div class="cover-badges"><span><i data-lucide="shield-check"></i>{{ $user->role }}</span><span><i data-lucide="circle-check"></i>Akun aktif</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="profile-upload-tools">
+                            <div class="upload-copy"><strong>Foto Profil</strong><p>Gunakan foto yang jelas agar mudah dikenali.</p><label for="settingsPhoto" class="upload-button"><i data-lucide="upload"></i>Unggah Foto Baru</label>@if ($user->foto_profil) <button type="submit" form="deleteProfilePhotoForm" class="upload-button delete-photo-button"><i data-lucide="trash-2"></i>Hapus Foto</button> @endif<span class="upload-hint">JPG, PNG, atau WebP · Maks. 2 MB</span></div>
+                            <input class="visually-hidden-file" id="settingsPhoto" type="file" name="foto_profil" accept=".jpg,.jpeg,.png,.webp">
+                            @error('foto_profil')<div class="error">{{ $message }}</div>@enderror
+                        </div>
+
+                        <div class="settings-form-section">
+                            <div class="form-section-heading"><span class="section-heading-icon"><i data-lucide="user-round"></i></span><div><strong>Informasi Pribadi</strong><span>Data identitas yang digunakan pada akun Anda.</span></div></div>
+                            <div class="settings-form-grid">
+                                <div class="form-group"><label for="settingsNama">Nama Lengkap</label><input id="settingsNama" type="text" name="nama" value="{{ old('nama', $user->nama) }}" autocomplete="name" required>@error('nama')<div class="error">{{ $message }}</div>@enderror</div>
+                                <div class="form-group"><label for="settingsUsername">Username</label><input id="settingsUsername" type="text" name="username" value="{{ old('username', $user->username) }}" autocomplete="username" required>@error('username')<div class="error">{{ $message }}</div>@enderror</div>
+                            </div>
+                        </div>
+                        <div class="settings-form-section institutional-section">
+                            <div class="form-section-heading"><span class="section-heading-icon section-heading-icon-teal"><i data-lucide="school"></i></span><div><strong>Data Institusi</strong><span>Informasi institusi dan hak akses akun.</span></div></div>
+                            <div class="settings-form-grid">
+                                <div class="form-group"><label>Peran / Hak Akses</label><div class="readonly-field"><i data-lucide="shield-check"></i>{{ $user->role }}<span class="verified-tag">Terverifikasi</span></div></div>
+                                <div class="form-group"><label>Satuan Pendidikan</label><div class="readonly-field"><i data-lucide="school"></i>SMP Negeri 2 Dramaga<span class="verified-tag">Terkunci</span></div></div>
+                            </div>
+                        </div>
+                        <div class="settings-form-actions"><button type="reset" class="settings-button settings-button-light">Batal / Reset</button><button type="submit" class="settings-button settings-button-primary">Simpan Perubahan</button></div>
+                    </form>
+                </section>
+
+                <section class="settings-tab-panel" id="securityPanel" role="tabpanel" aria-labelledby="securityTab" hidden>
+                    <div class="security-grid">
+                        <form class="settings-form-card" action="{{ route('pengaturan.password.update') }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <div class="tab-card-heading"><div><span class="settings-card-kicker">PERLINDUNGAN AKUN</span><h2>Ubah Kata Sandi</h2><p>Pilih kata sandi kuat yang tidak digunakan di tempat lain.</p></div><span class="heading-icon heading-icon-violet"><i data-lucide="key-round"></i></span></div>
+                            <div class="form-group"><label for="password_lama">Password Saat Ini</label><div class="password-field"><input id="password_lama" type="password" name="password_lama" autocomplete="current-password" required><button type="button" class="password-toggle" aria-label="Tampilkan Password Lama" aria-pressed="false" onclick="togglePasswordVisibility('password_lama', this)"><svg class="eye-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><svg class="eye-off-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 3 18 18M10.6 10.6a2 2 0 0 0 2.8 2.8"/><path d="M9.9 5.2A10.7 10.7 0 0 1 12 5c6.4 0 10 7 10 7s-3.6 7-10 7a10 10 0 0 1-4-.8"/></svg></button></div>@error('password_lama')<div class="error">{{ $message }}</div>@enderror</div>
+                            <div class="form-group"><label for="password_baru">Password Baru</label><div class="password-field"><input id="password_baru" type="password" name="password_baru" autocomplete="new-password" required><button type="button" class="password-toggle" aria-label="Tampilkan Password Baru" aria-pressed="false" onclick="togglePasswordVisibility('password_baru', this)"><svg class="eye-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><svg class="eye-off-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 3 18 18M10.6 10.6a2 2 0 0 0 2.8 2.8"/><path d="M9.9 5.2A10.7 10.7 0 0 1 12 5c6.4 0 10 7 10 7s-3.6 7-10 7a10 10 0 0 1-4-.8"/></svg></button></div>@error('password_baru')<div class="error">{{ $message }}</div>@enderror</div>
+                            <div class="form-group"><label for="password_baru_confirmation">Konfirmasi Password Baru</label><div class="password-field"><input id="password_baru_confirmation" type="password" name="password_baru_confirmation" autocomplete="new-password" required><button type="button" class="password-toggle" aria-label="Tampilkan Konfirmasi Password Baru" aria-pressed="false" onclick="togglePasswordVisibility('password_baru_confirmation', this)"><svg class="eye-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><svg class="eye-off-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 3 18 18M10.6 10.6a2 2 0 0 0 2.8 2.8"/><path d="M9.9 5.2A10.7 10.7 0 0 1 12 5c6.4 0 10 7 10 7s-3.6 7-10 7a10 10 0 0 1-4-.8"/></svg></button></div>@error('password_baru_confirmation')<div class="error">{{ $message }}</div>@enderror</div>
+                            <div class="settings-form-actions"><button type="reset" class="settings-button settings-button-light">Batal / Reset</button><button type="submit" class="settings-button settings-button-primary"><i data-lucide="key-round"></i>Perbarui Password</button></div>
+                        </form>
+                        <aside class="security-tip-card"><span class="security-tip-icon"><i data-lucide="shield-check"></i></span><span class="settings-card-kicker">TIPS KEAMANAN</span><h3>Jaga akun tetap aman</h3><p>Gunakan kombinasi huruf, angka, dan simbol. Hindari nama atau tanggal yang mudah ditebak, dan jangan bagikan kata sandi Anda kepada orang lain.</p><div class="security-tip-note"><i data-lucide="lock-keyhole"></i><span>Kata sandi baru akan digunakan setelah perubahan berhasil disimpan.</span></div></aside>
+                    </div>
+                </section>
+
+                <section class="settings-tab-panel" id="preferencesPanel" role="tabpanel" aria-labelledby="preferencesTab" hidden>
+                    <div class="settings-form-card"><div class="tab-card-heading"><div><span class="settings-card-kicker">PENGALAMAN PENGGUNA</span><h2>Preferensi Tampilan</h2><p>Pilihan ini tersimpan pada browser yang sedang Anda gunakan.</p></div><span class="heading-icon heading-icon-amber"><i data-lucide="sliders-horizontal"></i></span></div>
+                        <div class="preference-section-label">Tema antarmuka</div>
+                        <div class="preference-choice-grid"><button type="button" class="settings-info-item theme-choice" data-theme-choice="light" onclick="setTheme('light')"><span class="settings-info-item-icon"><i data-lucide="sun"></i></span><span class="settings-info-item-content"><strong class="settings-info-item-title">Tampilan Terang</strong><span class="settings-info-item-text">Antarmuka cerah untuk penggunaan sehari-hari.</span></span></button><button type="button" class="settings-info-item theme-choice" data-theme-choice="dark" onclick="setTheme('dark')"><span class="settings-info-item-icon"><i data-lucide="moon"></i></span><span class="settings-info-item-content"><strong class="settings-info-item-title">Tampilan Gelap</strong><span class="settings-info-item-text">Warna redup untuk penggunaan di lingkungan minim cahaya.</span></span></button></div>
+                        <div class="preference-status">Tema aktif: <strong id="currentThemeLabel">Tampilan Terang</strong></div>
+                        <div class="responsive-choice settings-responsive-choice" id="responsiveChoice" onclick="toggleResponsive()" role="button" tabindex="0" aria-label="Aktifkan atau nonaktifkan tampilan responsif"><span class="responsive-choice-icon"><i data-lucide="monitor-smartphone"></i></span><span class="settings-info-item-content"><strong class="settings-info-item-title">Tampilan Responsif</strong><span class="settings-info-item-text" id="responsiveDescription">Tampilan menyesuaikan ukuran layar agar tetap nyaman digunakan pada perangkat yang berbeda.</span></span><span class="responsive-toggle" aria-hidden="true"></span></div>
+                        <div class="preference-status">Tampilan responsif: <strong id="responsiveStatusLabel">Aktif</strong></div>
+                    </div>
+                </section>
+
+                <section class="settings-tab-panel" id="aboutPanel" role="tabpanel" aria-labelledby="aboutTab" hidden>
+                    <div class="about-settings-card"><div class="about-brand-icon"><i data-lucide="graduation-cap"></i></div><span class="settings-card-kicker">SISTEM INFORMASI SEKOLAH</span><h2>SIRASI-BK</h2><span class="app-about-version">Version 1.0.0</span><p class="app-about-description">Sistem Informasi Riwayat Siswa untuk membantu pengelolaan data Bimbingan dan Konseling secara lebih terstruktur, rapi, dan mudah digunakan.</p><div class="about-details"><span><i data-lucide="school"></i> SMP Negeri 2 Dramaga</span><span><i data-lucide="shield-check"></i> Layanan Bimbingan &amp; Konseling</span></div><form action="{{ route('logout') }}" method="POST">@csrf<button type="submit" class="settings-button settings-button-logout"><i data-lucide="log-out"></i>Keluar</button></form></div>
+                </section>
+            </div>
         </section>
 
     </main>
-
-</div>
-
-{{-- modal edit profil --}}
-
-<div
-    id="profileModal"
-    class="modal"
->
-
-    <div class="modal-card">
-
-        <div class="modal-header">
-
-            <div class="modal-title">
-                Edit Profil
-            </div>
-
-            <button
-                type="button"
-                class="modal-close"
-                onclick="closeModal('profileModal')"
-            >
-                <i data-lucide="x"></i>
-            </button>
-
-        </div>
-
-        <form
-            action="{{ route('pengaturan.profil.update') }}"
-            method="POST"
-            enctype="multipart/form-data"
-        >
-
-            @csrf
-
-            @method('PUT')
-
-            <div class="modal-body">
-
-                <div class="form-group">
-
-                    <label>
-                        Nama
-                    </label>
-
-                    <input
-                        type="text"
-                        name="nama"
-                        value="{{ old('nama', $user->nama) }}"
-                        required
-                    >
-
-                    @error('nama')
-
-                        <div class="error">
-                            {{ $message }}
-                        </div>
-
-                    @enderror
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>
-                        Username
-                    </label>
-
-                    <input
-                        type="text"
-                        name="username"
-                        value="{{ old('username', $user->username) }}"
-                        required
-                    >
-
-                    @error('username')
-
-                        <div class="error">
-                            {{ $message }}
-                        </div>
-
-                    @enderror
-                </div>
-
-                <div class="form-group">
-                    <label>
-                        Foto Profil
-                    </label>
-
-                    <input
-                        type="file"
-                        name="foto_profil"
-                        accept=".jpg,.jpeg,.png,.webp"
-                    >
-
-                    @error('foto_profil')
-                        <div class="error">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                </div>
-
-            </div>
-
-            <div class="modal-footer">
-
-                <button
-                    type="button"
-                    class="modal-btn"
-                    onclick="closeModal('profileModal')"
-                >
-                    Batal
-                </button>
-
-                <button
-                    type="submit"
-                    class="modal-btn modal-btn-primary"
-                >
-                    Simpan
-                </button>
-
-            </div>
-
-        </form>
-
-    </div>
-
-</div>
-
-{{-- modal ubah password --}}
-
-<div
-    id="passwordModal"
-    class="modal"
->
-
-    <div class="modal-card">
-
-        <div class="modal-header">
-
-            <div class="modal-title">
-                Ubah Password
-            </div>
-
-            <button
-                type="button"
-                class="modal-close"
-                onclick="closeModal('passwordModal')"
-            >
-                <i data-lucide="x"></i>
-            </button>
-
-        </div>
-
-        <form
-            action="{{ route('pengaturan.password.update') }}"
-            method="POST"
-        >
-
-            @csrf
-
-            @method('PUT')
-
-            <div class="modal-body">
-
-                <div class="form-group">
-
-                    <label>
-                        Password Lama
-                    </label>
-
-                    <input
-                        type="password"
-                        name="password_lama"
-                        required
-                    >
-
-                    @error('password_lama')
-
-                        <div class="error">
-                            {{ $message }}
-                        </div>
-
-                    @enderror
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>
-                        Password Baru
-                    </label>
-
-                    <input
-                        type="password"
-                        name="password_baru"
-                        required
-                    >
-
-                    @error('password_baru')
-
-                        <div class="error">
-                            {{ $message }}
-                        </div>
-
-                    @enderror
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>
-                        Konfirmasi Password Baru
-                    </label>
-
-                    <input
-                        type="password"
-                        name="password_baru_confirmation"
-                        required
-                    >
-
-                </div>
-
-            </div>
-
-            <div class="modal-footer">
-
-                <button
-                    type="button"
-                    class="modal-btn"
-                    onclick="closeModal('passwordModal')"
-                >
-                    Batal
-                </button>
-
-                <button
-                    type="submit"
-                    class="modal-btn modal-btn-primary"
-                >
-                    Simpan Password
-                </button>
-
-            </div>
-
-        </form>
-
-    </div>
-
-</div>
-
-{{-- modal preferensi --}}
-
-<div
-    id="preferenceModal"
-    class="modal"
->
-
-    <div class="modal-card">
-
-        <div class="modal-header">
-            <div class="modal-title">
-                Preferensi
-            </div>
-
-            <button
-                type="button"
-                class="modal-close"
-                onclick="closeModal('preferenceModal')"
-            >
-                <i data-lucide="x"></i>
-            </button>
-        </div>
-
-        <div class="modal-body">
-            <p class="settings-modal-intro">
-                Pengaturan tampilan antarmuka yang digunakan pada sistem SIRASI-BK.
-            </p>
-
-            <div class="settings-info-list">
-
-                <div
-                    class="settings-info-item theme-choice"
-                    data-theme-choice="light"
-                    onclick="setTheme('light')"
-                >
-                    <div class="settings-info-item-icon">
-                        <i data-lucide="sun"></i>
-                    </div>
-
-                    <div class="settings-info-item-content">
-                        <div class="settings-info-item-title">Tampilan Terang</div>
-                        <div class="settings-info-item-text">Gunakan tampilan terang untuk antarmuka yang cerah dan nyaman digunakan pada siang hari.</div>
-                    </div>
-                </div>
-
-                <div
-                    class="settings-info-item theme-choice"
-                    data-theme-choice="dark"
-                    onclick="setTheme('dark')"
-                >
-                    <div class="settings-info-item-icon">
-                        <i data-lucide="moon"></i>
-                    </div>
-
-                    <div class="settings-info-item-content">
-                        <div class="settings-info-item-title">Tampilan Gelap</div>
-                        <div class="settings-info-item-text">Gunakan tampilan gelap dengan warna yang lebih redup agar nyaman digunakan pada malam hari.</div>
-                    </div>
-                </div>
-
-                <div
-                    class="settings-info-item responsive-choice"
-                    id="responsiveChoice"
-                    onclick="toggleResponsive()"
-                    role="button"
-                    tabindex="0"
-                    aria-label="Aktifkan atau nonaktifkan tampilan responsif"
-                >
-                    <div class="settings-info-item-icon">
-                        <i data-lucide="monitor"></i>
-                    </div>
-
-                    <div class="settings-info-item-content">
-                        <div class="settings-info-item-title">Tampilan Responsif</div>
-                        <div class="settings-info-item-text" id="responsiveDescription">Tampilan menyesuaikan ukuran layar agar tetap nyaman digunakan pada perangkat yang berbeda.</div>
-                    </div>
-
-                    <span class="responsive-toggle" aria-hidden="true"></span>
-                </div>
-
-            </div>
-
-            <div class="theme-current">
-                Tema yang sedang digunakan: <strong id="currentThemeLabel">Tampilan Terang</strong>
-                <br>
-                Tampilan responsif: <strong id="responsiveStatusLabel">Aktif</strong>
-            </div>
-
-        </div>
-
-        <div class="modal-footer">
-            <button
-                type="button"
-                class="modal-btn modal-btn-primary"
-                onclick="closeModal('preferenceModal')"
-            >
-                Selesai
-            </button>
-        </div>
-
-    </div>
-
-</div>
-
-{{-- modal informasi aplikasi --}}
-
-<div
-    id="infoModal"
-    class="modal"
->
-
-    <div class="modal-card">
-
-        <div class="modal-header">
-            <div class="modal-title">
-                Informasi Aplikasi
-            </div>
-
-            <button
-                type="button"
-                class="modal-close"
-                onclick="closeModal('infoModal')"
-            >
-                <i data-lucide="x"></i>
-            </button>
-        </div>
-
-        <div class="modal-body">
-            <div class="app-about">
-
-                <div class="app-about-icon">
-                    <i data-lucide="info"></i>
-                </div>
-
-                <div class="app-about-title">
-                    SIRASI-BK
-                </div>
-
-                <div class="app-about-version">
-                    Version 1.0.0
-                </div>
-
-                <div class="app-about-description">
-                    Sistem Informasi Riwayat Siswa untuk membantu pengelolaan data Bimbingan dan Konseling secara lebih terstruktur, rapi, dan mudah digunakan.
-                </div>
-
-                <div class="settings-info-list" style="margin-top:18px; text-align:left;">
-
-                    <div class="settings-info-item">
-                        <div class="settings-info-item-icon">
-                            <i data-lucide="school"></i>
-                        </div>
-
-                        <div class="settings-info-item-content">
-                            <div class="settings-info-item-title">
-                                Sistem Sekolah
-                            </div>
-                            <div class="settings-info-item-text">
-                                Digunakan untuk mendukung kebutuhan administrasi dan layanan Bimbingan & Konseling.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="settings-info-item">
-                        <div class="settings-info-item-icon">
-                            <i data-lucide="shield-check"></i>
-                        </div>
-
-                        <div class="settings-info-item-content">
-                            <div class="settings-info-item-title">
-                                Pengelolaan Terpusat
-                            </div>
-                            <div class="settings-info-item-text">
-                                Data dan informasi dikelola melalui satu sistem agar proses kerja lebih terorganisir.
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-
-        <div class="modal-footer">
-            <button
-                type="button"
-                class="modal-btn modal-btn-primary"
-                onclick="closeModal('infoModal')"
-            >
-                Tutup
-            </button>
-        </div>
-
-    </div>
 
 </div>
 
@@ -3856,6 +3606,44 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     }
 
     document.addEventListener('DOMContentLoaded', function() {
+        const settingsTabs = Array.from(document.querySelectorAll('.settings-tab[data-tab]'));
+        settingsTabs.forEach(function(tab, index) {
+            tab.addEventListener('click', function() {
+                settingsTabs.forEach(function(item) {
+                    const active = item === tab;
+                    item.classList.toggle('active', active);
+                    item.setAttribute('aria-selected', String(active));
+                    const panel = document.getElementById(item.dataset.tab);
+                    if (panel) {
+                        panel.hidden = !active;
+                        panel.classList.toggle('active', active);
+                    }
+                });
+            });
+            tab.addEventListener('keydown', function(event) {
+                if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+                    event.preventDefault();
+                    const offset = event.key === 'ArrowRight' ? 1 : -1;
+                    const next = settingsTabs[(index + offset + settingsTabs.length) % settingsTabs.length];
+                    next.focus();
+                    next.click();
+                }
+            });
+        });
+
+        const photoInput = document.getElementById('settingsPhoto');
+        if (photoInput) {
+            photoInput.addEventListener('change', function() {
+                const file = photoInput.files && photoInput.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const preview = document.getElementById('profilePreview');
+                    if (preview) preview.innerHTML = '<img src="' + event.target.result + '" alt="Pratinjau foto profil">';
+                };
+                reader.readAsDataURL(file);
+            });
+        }
 
         const preferenceCard = document.getElementById('preferenceCard');
         const infoCard = document.getElementById('infoCard');
@@ -3914,6 +3702,20 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 <script>
     lucide.createIcons();
 
+    function togglePasswordVisibility(inputId, button) {
+        const input = document.getElementById(inputId);
+        if (!input) return;
+
+        const isVisible = input.type === 'password';
+        input.type = isVisible ? 'text' : 'password';
+        button.classList.toggle('is-visible', isVisible);
+        button.setAttribute('aria-pressed', String(isVisible));
+        button.setAttribute(
+            'aria-label',
+            `${isVisible ? 'Sembunyikan' : 'Tampilkan'} ${button.getAttribute('aria-label').replace(/^(Tampilkan|Sembunyikan) /, '')}`
+        );
+    }
+
     const notificationButton = document.getElementById('notificationButton');
     const notificationDropdown = document.getElementById('notificationDropdown');
 
@@ -3921,6 +3723,17 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
         notificationButton.addEventListener('click', function (event) {
             event.stopPropagation();
             notificationDropdown.classList.toggle('show');
+            const dot = document.getElementById('notificationDot') || document.querySelector('.notification-dot');
+            if (dot) {
+                dot.style.display = 'none';
+                fetch('{{ route("notifikasi.markAllRead") }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json'
+                    }
+                }).catch(function () {});
+            }
         });
 
         document.addEventListener('click', function (event) {

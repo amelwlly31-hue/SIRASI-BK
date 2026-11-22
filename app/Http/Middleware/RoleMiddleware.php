@@ -28,6 +28,13 @@ class RoleMiddleware
             return $next($request);
         }
 
-        abort(403, 'Anda tidak memiliki hak akses ke halaman ini.');
+        if ($request->is('penjadwalan') || $request->is('penjadwalan/*')) {
+            return redirect()->route('dashboard')->with(
+                'error',
+                'Halaman penjadwalan hanya dapat diakses oleh Guru BK atau Administrator.'
+            );
+        }
+
+        abort(403, 'Anda tidak memiliki izin untuk membuka halaman ini.');
     }
 }

@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use App\Models\Kelas;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -11,40 +10,44 @@ class UserSeeder extends Seeder
 {
     public function run()
     {
-        // 1. Akun Admin Uji
-        User::updateOrCreate(
+        // Hapus akun warisan yang memakai identitas Guru BK dengan role Admin.
+        User::where('username', 'adminbk')
+            ->where('nama', 'Guru BK')
+            ->where('role', 'admin')
+            ->delete();
+
+        // Akun default Administrator.
+        $administrator = User::firstOrCreate(
             ['username' => 'admin'],
             [
-                'nama' => 'Administrator Sistem',
+                'nama' => 'Administrator',
                 'password' => Hash::make('password123'),
                 'role' => 'admin',
                 'id_kelas' => null,
             ]
         );
+        $administrator->forceFill([
+            'nama' => 'Administrator',
+            'role' => 'admin',
+            'id_kelas' => null,
+        ])->save();
 
-        // 2. Akun Guru BK Uji
-        User::updateOrCreate(
+        // Akun default Guru BK.
+        $guruBk = User::firstOrCreate(
             ['username' => 'gurubk'],
             [
-                'nama' => 'Guru BK SMPN 2 Dramaga',
-                'password' => Hash::make('password123'),
+                'nama' => 'Guru BK',
+                'password' => Hash::make('gurubk123'),
                 'role' => 'guru_bk',
                 'id_kelas' => null,
             ]
         );
+        $guruBk->forceFill([
+            'nama' => 'Guru BK',
+            'role' => 'guru_bk',
+            'id_kelas' => null,
+        ])->save();
 
-        // 3. Akun Wali Kelas 7.1 Uji
-        $kelas71 = Kelas::where('nama_kelas', '7.1')->first();
-        $idKelas = $kelas71 ? $kelas71->id_kelas : 1;
-
-        User::updateOrCreate(
-            ['username' => 'walikelas71'],
-            [
-                'nama' => 'Wali Kelas 7.1',
-                'password' => Hash::make('password123'),
-                'role' => 'wali_kelas',
-                'id_kelas' => $idKelas,
-            ]
-        );
+        // Akun Wali Kelas yang sudah dibuat untuk sekolah tetap dipertahankan.
     }
 }

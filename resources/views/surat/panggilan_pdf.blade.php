@@ -9,17 +9,22 @@
             margin: 15mm 20mm 15mm 20mm;
         }
 
+        * {
+            font-family: 'Times New Roman', Times, serif;
+        }
+
         body {
             margin: 0;
-            font-family: "Times New Roman", Times, serif;
-            font-size: 11pt;
-            color: #111;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 12pt;
+            line-height: 1.5;
+            color: #000000;
         }
 
         .kop {
             position: relative;
             width: 100%;
-            border-bottom: 2.5px solid #111;
+            border-bottom: 2.5px solid #000000;
             padding-bottom: 8px;
         }
 
@@ -47,23 +52,26 @@
 
         .kop-text h1 {
             margin: 0;
-            font-size: 15pt;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 13pt;
             font-weight: bold;
-            line-height: 1.2;
+            line-height: 1.25;
             text-align: center;
         }
 
         .kop-text h2 {
             margin: 3px 0;
-            font-size: 17pt;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 14pt;
             font-weight: bold;
-            line-height: 1.2;
+            line-height: 1.25;
             text-align: center;
         }
 
         .kop-text p {
             margin: 2px 0 0;
-            font-size: 9.5pt;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 12pt;
             text-align: center;
         }
 
@@ -74,7 +82,9 @@
 
         .judul h3 {
             margin: 0;
-            font-size: 13pt;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 12pt;
+            font-weight: bold;
             text-decoration: underline;
             text-align: center;
         }
@@ -82,13 +92,16 @@
         .judul p {
             margin-top: 4px;
             margin-bottom: 0;
-            font-size: 10pt;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 12pt;
             text-align: center;
         }
 
         .isi {
             margin-top: 20px;
-            line-height: 1.55;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 12pt;
+            line-height: 1.5;
         }
 
         .identitas {
@@ -97,11 +110,15 @@
 
         .identitas table {
             border-collapse: collapse;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 12pt;
         }
 
         .identitas td {
             padding: 2px 0;
             vertical-align: top;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 12pt;
         }
 
         .label {
@@ -115,11 +132,17 @@
         p {
             text-align: justify;
             margin: 0 0 10px;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 12pt;
+            line-height: 1.5;
         }
 
         .isi p {
             text-align: justify;
             margin: 0 0 10px;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 12pt;
+            line-height: 1.5;
         }
 
         .ttd {
@@ -127,11 +150,15 @@
             margin-left: auto;
             margin-top: 30px;
             text-align: center;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 12pt;
         }
 
         .ttd p {
             margin: 0 0 4px;
             text-align: center;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 12pt;
         }
 
         .ttd-space {

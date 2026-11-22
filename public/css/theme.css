@@ -7,6 +7,7 @@
    DARK MODE - ROOTS & BASE
    ========================================================= */
 html.dark-mode,
+html.dark,
 body.dark-mode {
     --bg: #0f1728;
     --white: #172238;
@@ -35,7 +36,11 @@ body.dark-mode .main-content,
 body.dark-mode .app,
 body.dark-mode .content,
 body.dark-mode .settings-main,
-body.dark-mode .container {
+body.dark-mode .container,
+html.dark body,
+html.dark body .main,
+html.dark body .main-content,
+html.dark body .settings-main {
     background: #0f1728 !important;
     color: #edf3ff !important;
 }
@@ -46,7 +51,7 @@ body.dark-mode .sidebar {
     box-shadow: 12px 0 35px rgba(0, 0, 0, .40);
 }
 
-/* Sidebar Logout styling across Light and Dark modes */
+/* Sidebar  styling across Light and Dark modes */
 .sidebar .sidebar-logout button,
 .sidebar .logout-button,
 .sidebar-bottom .logout-button,
@@ -127,6 +132,157 @@ body.dark-mode .header {
     border-bottom-color: #2a3852 !important;
 }
 
+/* Generic compatibility surfaces for views with locally defined layouts. */
+body.dark-mode .header-title h1,
+body.dark-mode .page-heading h1,
+body.dark-mode .page-heading h2 { color:#f1f5ff !important; }
+body.dark-mode .toolbar,
+body.dark-mode .filter-panel,
+body.dark-mode .filter-section,
+body.dark-mode .search-panel,
+body.dark-mode .content-card,
+body.dark-mode .modal-content,
+body.dark-mode .modal-dialog,
+body.dark-mode .modal-card,
+body.dark-mode .dropdown-menu,
+body.dark-mode .notification-dropdown {
+    background:#172238 !important;
+    border-color:#293752 !important;
+    color:#edf3ff !important;
+}
+body.dark-mode .toolbar label,
+body.dark-mode .filter-panel label,
+body.dark-mode .filter-section label,
+body.dark-mode .content-card h1,
+body.dark-mode .content-card h2,
+body.dark-mode .content-card h3,
+body.dark-mode .modal-content h1,
+body.dark-mode .modal-content h2,
+body.dark-mode .modal-content h3 { color:#edf3ff !important; }
+body.dark-mode input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+body.dark-mode select,
+body.dark-mode textarea {
+    background-color:#111c2e !important;
+    border-color:#344560 !important;
+    color:#edf3ff !important;
+}
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder { color:#8291aa; }
+body.dark-mode table thead th,
+body.dark-mode .table thead th { background:#1d2c47 !important; color:#cbd5e1 !important; border-color:#2c3b57 !important; }
+body.dark-mode table tbody td,
+body.dark-mode .table tbody td { background:transparent !important; color:#dbe5f4 !important; border-color:#293752 !important; }
+body.dark-mode table tbody tr,
+body.dark-mode .table tbody tr { background:#172238 !important; }
+body.dark-mode table tbody tr:hover,
+body.dark-mode .table tbody tr:hover { background:#1d2c47 !important; }
+
+/* Public student portal has independent page styles, so theme its shared surfaces here. */
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) {
+    --bg-body:#0f1728;
+    --surface:#172238;
+    --white:#172238;
+    --text-main:#edf3ff;
+    --text-secondary:#cbd5e1;
+    --text-muted:#9aa8c0;
+    --border-color:#293752;
+    background:#0f1728 !important;
+    color:#edf3ff !important;
+}
+html.sirasi-portal.dark-mode body { background:#0f1728 !important; color:#edf3ff !important; }
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .portal-navbar,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .nav-menu-links,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .portal-footer {
+    background:rgba(15,23,40,.94) !important;
+    border-color:#293752 !important;
+    color:#edf3ff !important;
+}
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .nav-link,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .brand-text-name,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .footer-brand-title,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .footer-col-title { color:#edf3ff !important; }
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .brand-text-sub,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .footer-desc,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .footer-info-item,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .footer-bottom { color:#9aa8c0 !important; }
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .main-content,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .empathy-section,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .layanan-section,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .alur-section,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .daily-section,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .about-page,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .status-page,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .schedule-page { background:#0f1728 !important; color:#edf3ff !important; }
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .daily-card,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .empathy-point-card,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .layanan-card,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .step-card,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .about-intro-card,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .tujuan-card,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .prinsip-card,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .workspace-card,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .status-result-card,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .confirmation-card,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .guide-card,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .slot-checker-form {
+    background:#172238 !important;
+    border-color:#293752 !important;
+    color:#edf3ff !important;
+    box-shadow:0 12px 32px rgba(0,0,0,.22) !important;
+}
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .section-title,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .section-heading-center h2,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .daily-card h2,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .workspace-card h2,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .workspace-card h3,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .about-intro-card h2,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .tujuan-card h3,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .prinsip-card h3,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .step-card h3 { color:#f1f5ff !important; }
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .section-desc,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .daily-card p,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .workspace-subtitle,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .about-intro-card p,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .tujuan-card p,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .prinsip-card p,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .step-card p { color:#aab7cc !important; }
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .main-content h1,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .main-content h2,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .main-content h3,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .main-content h4,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .main-content label,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .status-info-label,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .form-field label,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .input-group-item label { color:#e2e8f0 !important; }
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .status-info-item,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .identity-lock-banner,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .access-denied-box,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .status-info-list,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .student-result-header,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .workspace-card-header { background:#1d2c47 !important; border-color:#293752 !important; color:#edf3ff !important; }
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .status-info-value,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .student-result-name,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .workspace-card-header h2,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .workspace-card-header h3 { color:#f1f5ff !important; }
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .form-field,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .hero-search-input,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) input,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) select,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) textarea {
+    background:#111c2e !important;
+    border-color:#344560 !important;
+    color:#edf3ff !important;
+}
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) input::placeholder,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) textarea::placeholder { color:#8291aa !important; }
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .hero-search-bar,
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .hero-search-boundary-container {
+    background:rgba(23,34,56,.96) !important;
+    border-color:#344560 !important;
+    color:#edf3ff !important;
+}
+:is(body.sirasi-portal.dark-mode, html.sirasi-portal.dark-mode body) .portal-theme-toggle { border-color:#334463 !important; background:#18253c !important; color:#bfd0ef !important; }
+
 body.dark-mode .page-title,
 body.dark-mode .topbar-title,
 body.dark-mode .header-title,
@@ -184,8 +340,14 @@ body.dark-mode .notification-item:hover {
     background: #1d2c47 !important;
 }
 
+.notification-item.unread {
+    background: #f0f7ff;
+    border-left: 3px solid #2563eb;
+}
+
 body.dark-mode .notification-item.unread {
     background: #1b2a47 !important;
+    border-left: 3px solid #60a5fa !important;
 }
 
 body.dark-mode .notification-item-content strong {
@@ -979,6 +1141,19 @@ body.dark-mode .login-card .help-text a:hover {
     color: #93c5fd !important;
 }
 
+body.dark-mode .reset-dialog {
+    background:#172238 !important;
+    border-color:#34445f !important;
+    color:#edf3ff !important;
+}
+body.dark-mode .reset-dialog h3,
+body.dark-mode .reset-dialog label { color:#edf3ff !important; }
+body.dark-mode .reset-dialog p { color:#aab7cc !important; }
+body.dark-mode .reset-dialog input,
+body.dark-mode .reset-dialog select { background:#111c2e !important; border-color:#344560 !important; color:#edf3ff !important; }
+body.dark-mode .login-status.success { color:#bbf7d0 !important; background:#14532d !important; }
+body.dark-mode .login-status.failure { color:#fecaca !important; background:#7f1d1d !important; }
+
 body.dark-mode .login-button {
     background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 60%, #1e40af 100%) !important;
     box-shadow: 0 10px 24px rgba(37, 99, 235, .35) !important;
@@ -1080,7 +1255,6 @@ body.dark-mode .main .page-heading h2 {
 }
 
 body.dark-mode .main p,
-body.dark-mode .main span,
 body.dark-mode .main .description,
 body.dark-mode .main .subtitle,
 body.dark-mode .main .text-muted {
@@ -1368,4 +1542,714 @@ body.dark-mode .sidebar {
 
     box-shadow:
         12px 0 35px rgba(5, 20, 55, .22) !important;
+}
+
+/* =========================================================
+   UNIFIED SIDEBAR, HEADER, BADGE & MOBILE STANDARDIZATION
+   (ADMIN, GURU BK, WALI KELAS)
+   ========================================================= */
+.header-actions {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    margin-left: auto !important;
+    gap: 10px !important;
+}
+
+.sidebar .brand {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.sidebar .brand-logo {
+    width: 55px !important;
+    height: 55px !important;
+    border-radius: 15px !important;
+    background: rgba(255, 255, 255, .14) !important;
+    border: 1px solid rgba(255, 255, 255, .20) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 4px !important;
+    flex-shrink: 0 !important;
+    overflow: hidden !important;
+}
+
+.sidebar .brand-logo img {
+    width: 112% !important;
+    height: 112% !important;
+    object-fit: contain !important;
+    max-width: none !important;
+}
+
+.sidebar .menu-item,
+.sidebar .menu a {
+    min-height: 46px;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 0 14px;
+    border-radius: 12px;
+    font-size: 13.5px;
+    text-decoration: none;
+    transition: .2s ease;
+}
+
+.sidebar .menu-item .menu-icon,
+.sidebar .menu a .menu-icon {
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, .07);
+    flex-shrink: 0;
+}
+
+.sidebar .menu-item .menu-icon svg,
+.sidebar .menu a .menu-icon svg,
+.sidebar .logout-button .menu-icon svg {
+    width: 17px;
+    height: 17px;
+}
+
+/* Dark mode support for Admin & Wali Kelas components */
+body.dark-mode .notification-btn {
+    background: #18253c !important;
+    border-color: #334463 !important;
+    color: #9fc0ff !important;
+}
+
+body.dark-mode .notification-btn:hover {
+    background: #20314d !important;
+    border-color: #4a689b !important;
+}
+
+body.dark-mode .profile-photo {
+    background: #1b2942 !important;
+    border-color: #2b3e60 !important;
+    color: #a9c5ff !important;
+}
+
+body.dark-mode .modal-dialog {
+    background: linear-gradient(145deg, #18253b 0%, #121d30 100%) !important;
+    border: 1px solid #34445f !important;
+    color: #edf3ff !important;
+}
+
+body.dark-mode .modal-info-box {
+    background: #141f33 !important;
+    border-color: #2c3b57 !important;
+    color: #edf3ff !important;
+}
+
+body.dark-mode .badge-role.badge-admin {
+    background: #3a2028 !important;
+    color: #ff8f9a !important;
+}
+
+body.dark-mode .badge-role.badge-bk {
+    background: #1d2c47 !important;
+    color: #a9c5ff !important;
+}
+
+body.dark-mode .badge-role.badge-wali {
+    background: #193a2a !important;
+    color: #75d6a0 !important;
+}
+
+body.dark-mode code {
+    background: #141f33 !important;
+    color: #9fc0ff !important;
+    border: 1px solid #293752 !important;
+}
+
+/* High-specificity dark overrides for locally styled admin topbars and filters. */
+html body.dark-mode.dashboard-admin .main > .header,
+html body.dark-mode.admin-users-page .main > .header,
+html body.dark-mode.admin-students-page .main > .header {
+    background:rgba(19,30,50,.88) !important;
+    border-color:#2a3852 !important;
+    color:#edf3ff !important;
+}
+html body.dark-mode.admin-users-page .main > .toolbar,
+html body.dark-mode.admin-students-page .main > .toolbar,
+html body.dark-mode.admin-users-page .main .content-card,
+html body.dark-mode.admin-students-page .main .card {
+    background:#172238 !important;
+    border-color:#293752 !important;
+    color:#edf3ff !important;
+    box-shadow:0 12px 30px rgba(0,0,0,.22) !important;
+}
+html body.dark-mode.admin-users-page .table-responsive tbody tr:nth-child(even),
+html body.dark-mode.admin-users-page .table-responsive tbody tr:nth-child(odd),
+html body.dark-mode.admin-students-page table tbody tr:nth-child(even),
+html body.dark-mode.admin-students-page table tbody tr:nth-child(odd) {
+    background:#172238 !important;
+}
+html body.dark-mode.admin-users-page .table-responsive tbody tr:hover,
+html body.dark-mode.admin-students-page table tbody tr:hover {
+    background:#1d2c47 !important;
+}
+
+/* =========================================================================
+   RESPONSIVE MOBILE & TABLET ADJUSTMENTS (SCOPED TO RESPONSIVE MODE)
+   ========================================================================= */
+@media (max-width: 1100px) {
+    body:not(.responsive-disabled) .topbar .search-box,
+    body:not(.responsive-disabled) .header .search-box,
+    body:not(.responsive-disabled) .header .search,
+    body:not(.responsive-disabled) .header .header-search {
+        width: min(320px, 100%) !important;
+        max-width: 100% !important;
+        flex: 1 1 200px !important;
+        min-width: 0 !important;
+    }
+
+    body:not(.responsive-disabled) .table-wrapper,
+    body:not(.responsive-disabled) .table-wrap,
+    body:not(.responsive-disabled) .table-responsive {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+@media (max-width: 900px) {
+    /* 1. Compact Fixed Icon Sidebar (74px) Across All Internal Pages */
+    body:not(.responsive-disabled) .sidebar {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        bottom: 0 !important;
+        width: 74px !important;
+        min-width: 74px !important;
+        max-width: 74px !important;
+        padding: 18px 8px !important;
+        z-index: 60 !important;
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+    }
+
+    /* Support both flex (.layout/.app-layout) and grid (.app) containers */
+    body:not(.responsive-disabled) .app {
+        display: block !important;
+    }
+
+    body:not(.responsive-disabled) .main,
+    body:not(.responsive-disabled) .main-content,
+    body:not(.responsive-disabled) .settings-main {
+        margin-left: 74px !important;
+        width: calc(100% - 74px) !important;
+        max-width: calc(100vw - 74px) !important;
+        min-width: 0 !important;
+        overflow-x: hidden !important;
+    }
+
+    body:not(.responsive-disabled) .sidebar .brand,
+    body:not(.responsive-disabled) .sidebar .sidebar-brand {
+        justify-content: center !important;
+        padding: 0 0 14px !important;
+        margin-bottom: 14px !important;
+        gap: 0 !important;
+    }
+
+    body:not(.responsive-disabled) .sidebar .brand-name,
+    body:not(.responsive-disabled) .sidebar .brand-title,
+    body:not(.responsive-disabled) .sidebar .brand-subtitle,
+    body:not(.responsive-disabled) .sidebar .brand-text,
+    body:not(.responsive-disabled) .sidebar .menu-title,
+    body:not(.responsive-disabled) .sidebar .menu-section-label,
+    body:not(.responsive-disabled) .sidebar .menu-label,
+    body:not(.responsive-disabled) .sidebar .menu-badge,
+    body:not(.responsive-disabled) .sidebar .sidebar-user-info {
+        display: none !important;
+    }
+
+    body:not(.responsive-disabled) .sidebar .menu-item,
+    body:not(.responsive-disabled) .sidebar .menu a,
+    body:not(.responsive-disabled) .sidebar .logout-button,
+    body:not(.responsive-disabled) .sidebar .logout-btn,
+    body:not(.responsive-disabled) .sidebar .btn-logout {
+        justify-content: center !important;
+        padding: 12px 0 !important;
+        font-size: 0 !important;
+        gap: 0 !important;
+        width: 100% !important;
+    }
+
+    body:not(.responsive-disabled) .sidebar .menu-item svg,
+    body:not(.responsive-disabled) .sidebar .menu a svg,
+    body:not(.responsive-disabled) .sidebar .logout-button svg,
+    body:not(.responsive-disabled) .sidebar .logout-btn svg,
+    body:not(.responsive-disabled) .sidebar .btn-logout svg {
+        width: 18px !important;
+        height: 18px !important;
+        margin: 0 !important;
+        flex-shrink: 0 !important;
+    }
+
+    /* 2. Topbar & Header Responsiveness */
+    body:not(.responsive-disabled) .topbar,
+    body:not(.responsive-disabled) .header {
+        height: auto !important;
+        min-height: 66px !important;
+        padding: 12px 18px !important;
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 10px !important;
+    }
+
+    body:not(.responsive-disabled) .topbar .search-box,
+    body:not(.responsive-disabled) .header .search-box,
+    body:not(.responsive-disabled) .header .search,
+    body:not(.responsive-disabled) .header .header-search {
+        width: auto !important;
+        flex: 1 1 180px !important;
+        min-width: 140px !important;
+        max-width: 100% !important;
+    }
+
+    body:not(.responsive-disabled) .topbar-right,
+    body:not(.responsive-disabled) .header-right,
+    body:not(.responsive-disabled) .user-area {
+        width: auto !important;
+        justify-content: flex-end !important;
+        gap: 10px !important;
+        flex-shrink: 0 !important;
+    }
+
+    /* 3. Content & Container Spacing */
+    body:not(.responsive-disabled) .content,
+    body:not(.responsive-disabled) .page-content,
+    body:not(.responsive-disabled) .container {
+        padding: 20px 18px !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+    }
+
+    /* 4. Page Header & Action Buttons */
+    body:not(.responsive-disabled) .page-header,
+    body:not(.responsive-disabled) .page-head,
+    body:not(.responsive-disabled) .top-section {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 12px !important;
+    }
+
+    body:not(.responsive-disabled) .page-actions,
+    body:not(.responsive-disabled) .header-actions,
+    body:not(.responsive-disabled) .action-group {
+        width: 100% !important;
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Hide long profile text in topbar on smaller tablets/phones to prevent crowding */
+    body:not(.responsive-disabled) .topbar .profile-info,
+    body:not(.responsive-disabled) .header .profile-info,
+    body:not(.responsive-disabled) .topbar .user-info,
+    body:not(.responsive-disabled) .header .user-info {
+        display: none !important;
+    }
+
+    body:not(.responsive-disabled) .topbar .profile,
+    body:not(.responsive-disabled) .header .profile,
+    body:not(.responsive-disabled) .topbar .user-profile,
+    body:not(.responsive-disabled) .header .user-profile {
+        padding-left: 8px !important;
+        border-left: none !important;
+    }
+
+    /* Summary & Stats Grids: 2 columns on tablet/large phone */
+    body:not(.responsive-disabled) .summary-grid,
+    body:not(.responsive-disabled) .stats-grid,
+    body:not(.responsive-disabled) .stat-grid,
+    body:not(.responsive-disabled) .cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 12px !important;
+    }
+
+    /* Filter Forms: single column for easy tapping */
+    body:not(.responsive-disabled) .filter-form,
+    body:not(.responsive-disabled) .filter-grid,
+    body:not(.responsive-disabled) .search-filter-bar {
+        grid-template-columns: 1fr !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 10px !important;
+    }
+
+    body:not(.responsive-disabled) .filter-form .btn,
+    body:not(.responsive-disabled) .filter-form .filter-button,
+    body:not(.responsive-disabled) .filter-actions {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+
+    /* Table headers & pagination footers */
+    body:not(.responsive-disabled) .table-top,
+    body:not(.responsive-disabled) .table-header,
+    body:not(.responsive-disabled) .card-header,
+    body:not(.responsive-disabled) .table-footer,
+    body:not(.responsive-disabled) .pagination-bar,
+    body:not(.responsive-disabled) .pagination-wrap {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 10px !important;
+        padding: 14px 16px !important;
+    }
+
+    /* Form grids */
+    body:not(.responsive-disabled) .form-grid,
+    body:not(.responsive-disabled) .form-row,
+    body:not(.responsive-disabled) .penjadwalan-form-grid,
+    body:not(.responsive-disabled) .grid-2,
+    body:not(.responsive-disabled) .detail-grid {
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
+    }
+
+    /* Footer */
+    body:not(.responsive-disabled) .footer,
+    body:not(.responsive-disabled) footer {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        text-align: left !important;
+        gap: 6px !important;
+        padding: 14px 18px !important;
+    }
+}
+
+@media (max-width: 640px) {
+    /* Ultra-clean 64px Sidebar Rail on Mobile Phones */
+    body:not(.responsive-disabled) .sidebar {
+        width: 62px !important;
+        min-width: 62px !important;
+        max-width: 62px !important;
+        padding: 14px 6px !important;
+    }
+
+    body:not(.responsive-disabled) .main,
+    body:not(.responsive-disabled) .main-content,
+    body:not(.responsive-disabled) .settings-main {
+        margin-left: 62px !important;
+        width: calc(100% - 62px) !important;
+        max-width: calc(100vw - 62px) !important;
+    }
+
+    body:not(.responsive-disabled) .sidebar .brand-logo,
+    body:not(.responsive-disabled) .sidebar .brand-icon,
+    body:not(.responsive-disabled) .sidebar .logo-box {
+        width: 38px !important;
+        height: 38px !important;
+    }
+
+    body:not(.responsive-disabled) .topbar,
+    body:not(.responsive-disabled) .header {
+        padding: 10px 14px !important;
+        gap: 8px !important;
+    }
+
+    body:not(.responsive-disabled) .content,
+    body:not(.responsive-disabled) .page-content,
+    body:not(.responsive-disabled) .container {
+        padding: 16px 14px !important;
+    }
+
+    body:not(.responsive-disabled) .page-title,
+    body:not(.responsive-disabled) .page-header h1,
+    body:not(.responsive-disabled) .page-head h1 {
+        font-size: 20px !important;
+        line-height: 1.25 !important;
+    }
+
+    /* Fixed viewport-safe notification dropdown on mobile */
+    body:not(.responsive-disabled) .notification-dropdown {
+        position: fixed !important;
+        top: 66px !important;
+        left: 70px !important;
+        right: 10px !important;
+        width: auto !important;
+        max-width: calc(100vw - 80px) !important;
+        max-height: 75vh !important;
+        z-index: 9999 !important;
+    }
+
+    /* Modals */
+    body:not(.responsive-disabled) .modal-dialog,
+    body:not(.responsive-disabled) .modal-card,
+    body:not(.responsive-disabled) .penjadwalan-modal-card {
+        width: calc(100vw - 24px) !important;
+        max-width: calc(100vw - 24px) !important;
+        margin: 12px auto !important;
+        max-height: calc(100vh - 24px) !important;
+        overflow-y: auto !important;
+    }
+
+    /* Action buttons in page header stretch cleanly */
+    body:not(.responsive-disabled) .page-actions > .btn,
+    body:not(.responsive-disabled) .page-actions > a,
+    body:not(.responsive-disabled) .page-actions > button,
+    body:not(.responsive-disabled) .header-actions > .btn,
+    body:not(.responsive-disabled) .header-actions > a,
+    body:not(.responsive-disabled) .header-actions > button {
+        flex: 1 1 auto !important;
+        justify-content: center !important;
+        min-height: 38px !important;
+    }
+
+    /* Form footers / button groups on mobile */
+    body:not(.responsive-disabled) .form-actions,
+    body:not(.responsive-disabled) .modal-footer,
+    body:not(.responsive-disabled) .penjadwalan-modal-footer {
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Single column summary cards on narrow phones */
+    body:not(.responsive-disabled) .summary-grid,
+    body:not(.responsive-disabled) .stats-grid,
+    body:not(.responsive-disabled) .stat-grid,
+    body:not(.responsive-disabled) .cards {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* Compact Laravel pagination: keep only the desktop number/arrow controls. */
+body .pagination-container nav,
+body .pagination-wrapper nav,
+body .pagination nav,
+body .table-footer nav {
+    display:flex !important;
+    width:auto !important;
+    min-width:0 !important;
+    align-items:center !important;
+    justify-content:flex-end !important;
+    gap:0 !important;
+    font-size:12px !important;
+    line-height:1.25 !important;
+    padding-top:0 !important;
+    padding-bottom:0 !important;
+}
+body .pagination-container,
+body .pagination-wrapper,
+body .pagination {
+    display:flex !important;
+    align-items:center !important;
+    justify-content:flex-end !important;
+}
+body .pagination-container { justify-content:space-between !important; }
+body .pagination-wrapper { flex:0 0 auto !important; }
+body .pagination { width:100% !important; padding-top:8px; }
+body .pagination-container nav > div:first-child,
+body .pagination-wrapper nav > div:first-child,
+body .pagination nav > div:first-child,
+body .table-footer nav > div:first-child,
+body .pagination-container nav > div:nth-child(2) > div:first-child,
+body .pagination-wrapper nav > div:nth-child(2) > div:first-child,
+body .pagination nav > div:nth-child(2) > div:first-child,
+body .table-footer nav > div:nth-child(2) > div:first-child {
+    display:none !important;
+}
+body .pagination-container nav > div:nth-child(2),
+body .pagination-wrapper nav > div:nth-child(2),
+body .pagination nav > div:nth-child(2),
+body .table-footer nav > div:nth-child(2) {
+    display:flex !important;
+    width:auto !important;
+    flex:0 0 auto !important;
+    align-items:center !important;
+    justify-content:flex-end !important;
+    gap:0 !important;
+}
+body .pagination-container nav > div:nth-child(2) > div:last-child,
+body .pagination-wrapper nav > div:nth-child(2) > div:last-child,
+body .pagination nav > div:nth-child(2) > div:last-child,
+body .table-footer nav > div:nth-child(2) > div:last-child {
+    display:flex !important;
+    align-items:center !important;
+    justify-content:flex-end !important;
+    gap:0 !important;
+    margin-top:0 !important;
+}
+body .pagination-container nav a,
+body .pagination-container nav span,
+body .pagination-wrapper nav a,
+body .pagination-wrapper nav span,
+body .pagination nav a,
+body .pagination nav span,
+body .table-footer nav a,
+body .table-footer nav span {
+    min-width:0 !important;
+    height:auto !important;
+    padding:4px 10px !important;
+    margin:0 0 0 2px !important;
+    font-size:12px !important;
+    line-height:1.25 !important;
+}
+body .pagination-container nav svg,
+body .pagination-wrapper nav svg,
+body .pagination nav svg,
+body .table-footer nav svg {
+    width:14px !important;
+    height:14px !important;
+}
+body .pagination-container nav [aria-current="page"] span,
+body .pagination-wrapper nav [aria-current="page"] span,
+body .pagination nav [aria-current="page"] span,
+body .table-footer nav [aria-current="page"] span {
+    padding:4px 10px !important;
+    font-size:12px !important;
+}
+html body.admin-users-page .main .pagination-container {
+    flex-direction:row !important;
+    align-items:center !important;
+    justify-content:space-between !important;
+    flex-wrap:nowrap !important;
+    gap:10px !important;
+}
+html body.admin-users-page .main .pagination-container > span { flex:1 1 auto; font-size:12px !important; }
+html body.admin-users-page .main .pagination-container nav { flex:0 0 auto !important; }
+body.dark-mode .pagination-container nav a,
+body.dark-mode .pagination-container nav span,
+body.dark-mode .pagination-wrapper nav a,
+body.dark-mode .pagination-wrapper nav span,
+body.dark-mode .pagination nav a,
+body.dark-mode .pagination nav span,
+body.dark-mode .table-footer nav a,
+body.dark-mode .table-footer nav span {
+    color:#cbd5e1 !important;
+    border-color:#334155 !important;
+}
+body.dark-mode .pagination-container nav [aria-current="page"] span,
+body.dark-mode .pagination-wrapper nav [aria-current="page"] span,
+body.dark-mode .pagination nav [aria-current="page"] span,
+body.dark-mode .table-footer nav [aria-current="page"] span {
+    background:#1d4ed8 !important;
+    color:#fff !important;
+}
+
+/* Portal siswa active navigation: keep the selected item blue in both themes. */
+html.sirasi-portal .nav-link.active,
+body.sirasi-portal .nav-link.active {
+    background: rgba(37, 99, 235, 0.14) !important;
+    color: #1d4ed8 !important;
+    border: 1px solid rgba(59, 130, 246, 0.25) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+html.dark.sirasi-portal .nav-link.active,
+html.dark-mode.sirasi-portal .nav-link.active,
+body.dark.sirasi-portal .nav-link.active,
+body.dark-mode.sirasi-portal .nav-link.active {
+    background: rgba(59, 130, 246, 0.22) !important;
+    color: #93c5fd !important;
+    border: 1px solid rgba(96, 165, 250, 0.3) !important;
+}
+
+/* Portal theme switch: soft slate capsule and a clean raised white thumb. */
+html.sirasi-portal .nav-actions > button.sirasi-theme-toggle,
+body.sirasi-portal .nav-actions > button.sirasi-theme-toggle {
+    border: 1px solid rgba(148, 163, 184, .25) !important;
+    outline: none !important;
+    background: rgba(241, 245, 249, .8) !important;
+    color: #475569 !important;
+    box-shadow: inset 0 1px rgba(255, 255, 255, .72) !important;
+}
+html.sirasi-portal .nav-actions > button.sirasi-theme-toggle svg,
+body.sirasi-portal .nav-actions > button.sirasi-theme-toggle svg {
+    color: #475569 !important;
+    stroke: #475569 !important;
+}
+html.sirasi-portal .nav-actions > button.sirasi-theme-toggle::after,
+body.sirasi-portal .nav-actions > button.sirasi-theme-toggle::after {
+    border: 0 !important;
+    background: #fff !important;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, .16), 0 1px 2px rgba(15, 23, 42, .08) !important;
+}
+html.dark.sirasi-portal .nav-actions > button.sirasi-theme-toggle,
+html.dark-mode.sirasi-portal .nav-actions > button.sirasi-theme-toggle,
+body.dark.sirasi-portal .nav-actions > button.sirasi-theme-toggle,
+body.dark-mode.sirasi-portal .nav-actions > button.sirasi-theme-toggle {
+    border-color: rgba(51, 65, 85, .6) !important;
+    background: rgba(30, 41, 59, .8) !important;
+    color: #cbd5e1 !important;
+    box-shadow: inset 0 1px rgba(255, 255, 255, .06) !important;
+}
+html.dark.sirasi-portal .nav-actions > button.sirasi-theme-toggle svg,
+html.dark-mode.sirasi-portal .nav-actions > button.sirasi-theme-toggle svg,
+body.dark.sirasi-portal .nav-actions > button.sirasi-theme-toggle svg,
+body.dark-mode.sirasi-portal .nav-actions > button.sirasi-theme-toggle svg {
+    color: #cbd5e1 !important;
+    stroke: #cbd5e1 !important;
+}
+html.dark.sirasi-portal .nav-actions > button.sirasi-theme-toggle::after,
+html.dark-mode.sirasi-portal .nav-actions > button.sirasi-theme-toggle::after,
+body.dark.sirasi-portal .nav-actions > button.sirasi-theme-toggle::after,
+body.dark-mode.sirasi-portal .nav-actions > button.sirasi-theme-toggle::after {
+    background: #fff !important;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, .18), 0 1px 2px rgba(15, 23, 42, .12) !important;
+}
+/* WhatsApp contact button anchored to each portal footer, matching Beranda. */
+.sirasi-portal .portal-footer { position: relative; }
+.sirasi-portal .portal-footer .whatsapp-float {
+    position: absolute;
+    right: 24px;
+    bottom: 72px;
+    z-index: 50;
+    display: flex;
+    width: 52px;
+    height: 52px;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid rgba(255, 255, 255, .92);
+    border-radius: 50%;
+    background: #25D366;
+    color: #fff;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, .28);
+    transition: transform .2s ease, box-shadow .2s ease;
+    animation: whatsappFloatIn .55s ease-out;
+}
+.sirasi-portal .portal-footer .whatsapp-float:hover { transform: scale(1.05); box-shadow: 0 14px 34px rgba(0, 0, 0, .34); }
+.sirasi-portal .portal-footer .whatsapp-float svg { width: 28px; height: 28px; fill: currentColor; }
+.sirasi-portal .portal-footer .whatsapp-float-tooltip {
+    position: absolute;
+    right: calc(100% + 12px);
+    padding: 8px 11px;
+    border-radius: 9px;
+    background: #0f172a;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateX(5px);
+    pointer-events: none;
+    transition: opacity .18s ease, transform .18s ease;
+}
+.sirasi-portal .portal-footer .whatsapp-float:hover .whatsapp-float-tooltip,
+.sirasi-portal .portal-footer .whatsapp-float:focus-visible .whatsapp-float-tooltip { opacity: 1; transform: translateX(0); }
+@keyframes whatsappFloatIn { from { opacity: 0; transform: translateY(10px) scale(.94); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@media (max-width: 600px) {
+    .sirasi-portal .portal-footer .whatsapp-float { right: 18px; bottom: 72px; width: 48px; height: 48px; border-width: 2px; }
+    .sirasi-portal .portal-footer .whatsapp-float svg { width: 26px; height: 26px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .sirasi-portal .portal-footer .whatsapp-float { animation: none; transition: none; }
+    .sirasi-portal .portal-footer .whatsapp-float-tooltip { transition: none; }
 }

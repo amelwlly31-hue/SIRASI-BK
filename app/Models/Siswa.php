@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Siswa extends Model
 {
@@ -15,6 +16,10 @@ class Siswa extends Model
 
     public $timestamps = false;
 
+    protected $attributes = [
+        'status' => 'Aktif',
+    ];
+
     protected $fillable = [
         'nis',
         'nama_siswa',
@@ -24,6 +29,18 @@ class Siswa extends Model
         'no_telp',
         'status',
     ];
+
+    /** Format names for all model-backed views without changing stored values. */
+    public function getNamaSiswaAttribute($value): string
+    {
+        return Str::title((string) $value);
+    }
+
+    /** Match student names consistently regardless of the input's letter case. */
+    public function scopeWhereNameLike($query, string $search)
+    {
+        return $query->whereRaw('LOWER(nama_siswa) LIKE ?', ['%' . Str::lower(trim($search)) . '%']);
+    }
 
     public function kelas()
     {

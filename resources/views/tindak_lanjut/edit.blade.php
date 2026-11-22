@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Edit Tindak Lanjut - SIRASI-BK</title>
+    @include('partials.theme')
 
     <style>
 
@@ -41,11 +42,7 @@
         body {
             min-height: 100vh;
 
-            font-family:
-                Inter,
-                "Segoe UI",
-                Arial,
-                sans-serif;
+
 
             color: var(--text);
 
@@ -66,7 +63,7 @@
         input,
         select,
         textarea {
-            font-family: inherit;
+
         }
 
         /* page */
@@ -890,8 +887,50 @@
 
         }
 
+        /* Alert / Toast */
+        .alert-success {
+            margin-bottom: 20px;
+            padding: 12px 18px;
+            border-radius: 12px;
+            background: #eaf8f0;
+            color: #16894a;
+            border: 1px solid #c8ebd5;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .alert-danger {
+            margin-bottom: 20px;
+            padding: 12px 18px;
+            border-radius: 12px;
+            background: var(--danger-bg, #fff1f1);
+            color: var(--danger, #d64545);
+            border: 1px solid #ffd0d6;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        body.dark-mode .alert-success {
+            background: #173b2b !important;
+            color: #a7edc2 !important;
+            border-color: #2b7250 !important;
+        }
+
+        body.dark-mode .alert-danger {
+            background: #3c2028 !important;
+            color: #ffd0d6 !important;
+            border-color: #74414c !important;
+        }
+
     </style>
 
+    @include('layouts.page_title_system')
 </head>
 
 <body>
@@ -981,6 +1020,20 @@
 
         <div class="card-body">
 
+            @if (session('success'))
+                <div class="alert-success" role="status">
+                    <i data-lucide="check-circle-2"></i>
+                    <span>{{ session('success') }}</span>
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert-danger" role="alert">
+                    <i data-lucide="alert-circle"></i>
+                    <span>{{ session('error') }}</span>
+                </div>
+            @endif
+
             {{-- notice --}}
 
             <div class="edit-notice">
@@ -1005,11 +1058,12 @@
 
             </div>
 
-            <form action="{{ route('logout') }}" method="POST" onsubmit="return confirm('Anda yakin ingin keluar?');">
+            <form action="{{ route('tindak_lanjut.update', $tindakLanjut->id_tindak_lanjut) }}" method="POST">
 
                 @csrf
 
                 @method('PUT')
+                <input type="hidden" name="redirect_to" value="{{ old('redirect_to', request('redirect_to', url()->previous() != url()->current() ? url()->previous() : route('konseling.show', $tindakLanjut->id_konseling))) }}">
 
                 {{-- section 1 - konseling --}}
 

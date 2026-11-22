@@ -21,6 +21,8 @@ class Konseling extends Model
         'tanggal',
         'masalah',
         'hasil_konseling',
+        'diagnosis',
+        'rencana_tindak_lanjut',
         'catatan',
         'status',
     ];

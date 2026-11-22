@@ -1,0 +1,692 @@
+:root {
+    --sirasi-glass-border: rgba(255, 255, 255, .72);
+    --sirasi-glass-light: rgba(255, 255, 255, .78);
+    --sirasi-glass-shadow: 0 18px 48px rgba(28, 54, 108, .09);
+    --sirasi-accent: #527ce8;
+    --sirasi-active-tab-bleed: 16px;
+    --sirasi-active-content-surface: #eaf0fa;
+}
+
+body:not(.sirasi-portal) .main,
+body:not(.sirasi-portal) .main-content,
+body:not(.sirasi-portal) .settings-main {
+    background:
+        radial-gradient(ellipse at 88% 3%, rgba(169, 198, 255, .38), transparent 34%),
+        radial-gradient(ellipse at 14% 34%, rgba(209, 194, 255, .20), transparent 32%),
+        radial-gradient(ellipse at 72% 88%, rgba(181, 224, 239, .20), transparent 30%),
+        linear-gradient(145deg, #eaf0fa 0%, #e4ebf8 48%, #edf0fa 100%);
+}
+
+html body .sidebar {
+    /* Keep the shared sidebar out of the content flex row. Layouts already
+       reserve its width with their own main margin; placing it in flow adds
+       that width a second time and pushes the dashboard to the right. */
+    position: fixed !important;
+    inset: 0 auto 0 0;
+    flex-shrink: 0;
+    --sirasi-sidebar-surface: rgba(23, 59, 130, .84);
+    border-right: 0 !important;
+    background: linear-gradient(160deg, #133985 0%, #17429e 50%, #1d52bd 100%) !important;
+    box-shadow: 8px 0 22px rgba(23, 59, 130, .16), inset 1px 1px 2px rgba(255, 255, 255, .60) !important;
+    backdrop-filter: blur(16px) saturate(125%) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(125%) !important;
+    isolation: isolate;
+}
+
+html body .sidebar::before {
+    content: none !important;
+}
+
+html body .sidebar > div:first-child {
+    position: relative !important;
+    z-index: 1 !important;
+    overflow: visible !important;
+}
+
+html body .sidebar nav.menu {
+    width: calc(100% + var(--sirasi-active-tab-bleed)) !important;
+    margin-right: calc(-1 * var(--sirasi-active-tab-bleed)) !important;
+    overflow: visible !important;
+}
+
+html body .sidebar nav.menu > .menu-item,
+html body .sidebar nav.menu > a {
+    width: calc(100% - var(--sirasi-active-tab-bleed)) !important;
+    border-color: transparent !important;
+    border-radius: 10px !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: #eaf3ff !important;
+    transition: transform .22s cubic-bezier(.2, .8, .2, 1), background .22s ease, border-color .22s ease, box-shadow .22s ease, color .22s ease !important;
+}
+
+/* Keep legacy underline indicators from competing with the shared pill state. */
+html body .sidebar nav.menu > .menu-item::after,
+html body .sidebar nav.menu > a::after { content: none !important; display: none !important; }
+
+html body .sidebar nav.menu > .menu-item:hover,
+html body .sidebar nav.menu > a:hover {
+    border-color: transparent !important;
+    background: linear-gradient(100deg, rgba(255, 255, 255, .50), rgba(255, 255, 255, .18)) !important;
+    box-shadow: inset 0 1px rgba(255, 255, 255, .70) !important;
+    color: #fff !important;
+    transform: translateY(-1px) !important;
+}
+
+html body .sidebar nav.menu > .menu-item.active,
+html body .sidebar nav.menu > a.active {
+    position: relative !important;
+    z-index: 2 !important;
+    width: 100% !important;
+    margin-right: 0 !important;
+    overflow: visible !important;
+    border-top-left-radius: 9999px !important;
+    border-bottom-left-radius: 9999px !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-color: transparent !important;
+    background: var(--sirasi-active-content-surface) !important;
+    box-shadow: none !important;
+    color: #173b82 !important;
+    font-weight: 700 !important;
+}
+
+
+
+html body .sidebar nav.menu > .menu-item:not(.active):hover .menu-icon,
+html body .sidebar nav.menu > a:not(.active):hover .menu-icon {
+    box-shadow: none !important;
+    color: #fff !important;
+}
+
+html body .sidebar nav.menu > .menu-item.active .menu-icon,
+html body .sidebar nav.menu > a.active .menu-icon {
+    border: 0 !important;
+    outline: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: #173b82 !important;
+}
+
+html body .sidebar nav.menu > .menu-item.active .menu-icon::before,
+html body .sidebar nav.menu > .menu-item.active .menu-icon::after,
+html body .sidebar nav.menu > a.active .menu-icon::before,
+html body .sidebar nav.menu > a.active .menu-icon::after {
+    content: none !important;
+    display: none !important;
+    box-shadow: none !important;
+}
+
+html body .sidebar nav.menu .menu-icon {
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    color: #f3f8ff !important;
+}
+
+html body .sidebar .menu-title,
+html body .sidebar .sirasi-sidebar-user-name { color: #f3f8ff !important; }
+html body .sidebar .sidebar-bottom .logout-button,
+html body .sidebar .sidebar-bottom .logout-button .menu-icon { color: #eaf3ff !important; }
+html body .sidebar .sidebar-bottom .logout-button:hover { color: #fff !important; }
+
+@media (max-width: 1024px) {
+    html body:not(.responsive-disabled) .sidebar { --sirasi-active-tab-bleed: 10px; }
+}
+@media (max-width: 900px) {
+    html body:not(.responsive-disabled) .sidebar { --sirasi-active-tab-bleed: 8px; }
+}
+@media (max-width: 640px) {
+    html body:not(.responsive-disabled) .sidebar { --sirasi-active-tab-bleed: 6px; }
+}
+
+body:not(.sirasi-portal) .main > .header,
+body:not(.sirasi-portal) main > .header,
+body:not(.sirasi-portal) .main > .topbar,
+body:not(.sirasi-portal) main > .topbar {
+    border: 1px solid rgba(255, 255, 255, .86);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, .72);
+    box-shadow: 0 10px 28px rgba(28, 54, 108, .06), inset 0 1px rgba(255, 255, 255, .95);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+body:not(.sirasi-portal) .stat-card,
+body:not(.sirasi-portal) .card-panel,
+body:not(.sirasi-portal) .content-card,
+body:not(.sirasi-portal) .dashboard-card,
+body:not(.sirasi-portal) .main .card,
+body:not(.sirasi-portal) .detail-card,
+body:not(.sirasi-portal) .history-card,
+body:not(.sirasi-portal) .schedule-card,
+body:not(.sirasi-portal) .student-card,
+body:not(.sirasi-portal) .settings-form-card,
+body:not(.sirasi-portal) .settings-form-section,
+body:not(.sirasi-portal) .settings-tab-panel,
+body:not(.sirasi-portal) .form-section,
+body:not(.sirasi-portal) .report-table-card,
+body:not(.sirasi-portal) .import-guide-panel,
+body:not(.sirasi-portal) .about-settings-card,
+body:not(.sirasi-portal) .summary-card,
+body:not(.sirasi-portal) .filter-card,
+body:not(.sirasi-portal) .filter-panel,
+body:not(.sirasi-portal) .workspace-card,
+body:not(.sirasi-portal) .info-card,
+body:not(.sirasi-portal) .profile-card,
+body:not(.sirasi-portal) .table-card,
+body:not(.sirasi-portal) .form-card {
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, .72);
+    background: linear-gradient(135deg, rgba(247, 250, 255, .70), rgba(235, 242, 255, .54));
+    box-shadow: 0 18px 48px rgba(28, 54, 108, .105), inset 0 1px rgba(255, 255, 255, .88), inset 0 -1px rgba(125, 157, 216, .08);
+    backdrop-filter: blur(24px) saturate(145%);
+    -webkit-backdrop-filter: blur(24px) saturate(145%);
+    transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+}
+
+body:not(.sirasi-portal) .stat-card:hover,
+body:not(.sirasi-portal) .card-panel:hover,
+body:not(.sirasi-portal) .content-card:hover,
+body:not(.sirasi-portal) .dashboard-card:hover,
+body:not(.sirasi-portal) .main .card:hover,
+body:not(.sirasi-portal) .detail-card:hover,
+body:not(.sirasi-portal) .history-card:hover,
+body:not(.sirasi-portal) .schedule-card:hover,
+body:not(.sirasi-portal) .student-card:hover,
+body:not(.sirasi-portal) .summary-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(126, 163, 239, .45);
+    box-shadow: 0 22px 48px rgba(38, 69, 132, .13), inset 0 1px rgba(255, 255, 255, .98);
+}
+
+body:not(.sirasi-portal) .stat-card-v2 {
+    border: 1px solid rgba(255, 255, 255, .4);
+    backdrop-filter: blur(22px) saturate(140%);
+    -webkit-backdrop-filter: blur(22px) saturate(140%);
+    box-shadow: 0 18px 42px rgba(29, 52, 103, .12), inset 0 1px rgba(255, 255, 255, .55);
+}
+
+body:not(.sirasi-portal) .table-card table,
+body:not(.sirasi-portal) .table-wrapper table,
+body:not(.sirasi-portal) .table-responsive-wrapper table,
+body:not(.sirasi-portal) .table-container table,
+body:not(.sirasi-portal) table.data-table {
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    border: 1px solid rgba(145, 167, 207, .18);
+    border-radius: 15px;
+    background: rgba(255, 255, 255, .32);
+}
+
+body:not(.sirasi-portal) .table-card thead th,
+body:not(.sirasi-portal) .table-wrapper thead th,
+body:not(.sirasi-portal) .table-responsive-wrapper thead th,
+body:not(.sirasi-portal) .table-container thead th,
+body:not(.sirasi-portal) table.data-table thead th {
+    background: linear-gradient(120deg, rgba(218, 231, 255, .72), rgba(231, 228, 255, .62));
+    border-bottom: 1px solid rgba(126, 153, 207, .22);
+}
+
+body:not(.sirasi-portal) .table-card tbody tr,
+body:not(.sirasi-portal) .table-container tbody tr,
+body:not(.sirasi-portal) table.data-table tbody tr { transition: background .18s ease; }
+
+body:not(.sirasi-portal) .table-card tbody tr:hover,
+body:not(.sirasi-portal) .table-wrapper tbody tr:hover,
+body:not(.sirasi-portal) .table-responsive-wrapper tbody tr:hover,
+body:not(.sirasi-portal) .table-container tbody tr:hover,
+body:not(.sirasi-portal) table.data-table tbody tr:hover { background: rgba(122, 158, 231, .09); }
+
+body:not(.sirasi-portal) .filter-card input,
+body:not(.sirasi-portal) .filter-card select,
+body:not(.sirasi-portal) .filter-panel input,
+body:not(.sirasi-portal) .filter-panel select,
+body:not(.sirasi-portal) .filter-panel textarea,
+body:not(.sirasi-portal) .search-box input,
+body:not(.sirasi-portal) .main input[type="text"],
+body:not(.sirasi-portal) .main input[type="search"],
+body:not(.sirasi-portal) .main input[type="email"],
+body:not(.sirasi-portal) .main input[type="number"],
+body:not(.sirasi-portal) .main input[type="date"],
+body:not(.sirasi-portal) .main input[type="time"],
+body:not(.sirasi-portal) .main select,
+body:not(.sirasi-portal) .main textarea,
+body:not(.sirasi-portal) .form-card input,
+body:not(.sirasi-portal) .form-card select,
+body:not(.sirasi-portal) .form-card textarea,
+body:not(.sirasi-portal) .sirasi-global-search {
+    border-color: rgba(125, 151, 199, .26);
+    background: rgba(255, 255, 255, .62);
+    box-shadow: inset 0 1px 3px rgba(39, 62, 109, .035), 0 5px 14px rgba(39, 62, 109, .035);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+}
+
+body:not(.sirasi-portal) .filter-card input:focus,
+body:not(.sirasi-portal) .filter-card select:focus,
+body:not(.sirasi-portal) .filter-panel input:focus,
+body:not(.sirasi-portal) .filter-panel select:focus,
+body:not(.sirasi-portal) .filter-panel textarea:focus,
+body:not(.sirasi-portal) .search-box input:focus,
+body:not(.sirasi-portal) .main input[type="text"]:focus,
+body:not(.sirasi-portal) .main input[type="search"]:focus,
+body:not(.sirasi-portal) .main input[type="email"]:focus,
+body:not(.sirasi-portal) .main input[type="number"]:focus,
+body:not(.sirasi-portal) .main input[type="date"]:focus,
+body:not(.sirasi-portal) .main input[type="time"]:focus,
+body:not(.sirasi-portal) .main select:focus,
+body:not(.sirasi-portal) .main textarea:focus,
+body:not(.sirasi-portal) .form-card input:focus,
+body:not(.sirasi-portal) .form-card select:focus,
+body:not(.sirasi-portal) .form-card textarea:focus {
+    border-color: rgba(83, 124, 220, .62);
+    background: rgba(255, 255, 255, .86);
+    box-shadow: 0 0 0 4px rgba(83, 124, 220, .12), 0 10px 22px rgba(45, 73, 135, .07);
+    outline: none;
+}
+
+body:not(.sirasi-portal) .modal-content,
+body:not(.sirasi-portal) .modal-dialog,
+body:not(.sirasi-portal) .notification-dropdown,
+body:not(.sirasi-portal) .dropdown-menu {
+    border: 1px solid rgba(255, 255, 255, .78);
+    background: linear-gradient(145deg, rgba(250, 252, 255, .94), rgba(237, 243, 255, .88));
+    box-shadow: 0 24px 64px rgba(22, 42, 85, .22), inset 0 1px rgba(255, 255, 255, .96);
+    backdrop-filter: blur(24px) saturate(150%);
+    -webkit-backdrop-filter: blur(24px) saturate(150%);
+}
+
+body:not(.sirasi-portal) .pagination a,
+body:not(.sirasi-portal) .pagination button {
+    border: 1px solid rgba(131, 156, 203, .20);
+    background: rgba(255, 255, 255, .48);
+    box-shadow: inset 0 1px rgba(255, 255, 255, .75);
+    transition: transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
+}
+
+body:not(.sirasi-portal) .pagination a:hover,
+body:not(.sirasi-portal) .pagination button:hover {
+    transform: translateY(-2px);
+    border-color: rgba(83, 124, 220, .36);
+    background: linear-gradient(135deg, rgba(223, 235, 255, .88), rgba(239, 232, 255, .78));
+    box-shadow: 0 8px 18px rgba(50, 75, 134, .12), inset 0 1px rgba(255, 255, 255, .9);
+}
+
+body:not(.sirasi-portal) .main button:not(.sirasi-theme-toggle):not(.notification-btn),
+body:not(.sirasi-portal) .main a[class*="btn-"] {
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
+}
+body:not(.sirasi-portal) .main button:not(.sirasi-theme-toggle):not(.notification-btn):hover,
+body:not(.sirasi-portal) .main a[class*="btn-"]:hover {
+    transform: translateY(-2px);
+    filter: saturate(1.06);
+    box-shadow: 0 9px 22px rgba(34, 61, 115, .15);
+}
+
+body:not(.sirasi-portal) .stat-grid > .stat-card:nth-child(4n + 1) { background-image: linear-gradient(135deg, rgba(226, 239, 255, .68), rgba(242, 247, 255, .46)); }
+body:not(.sirasi-portal) .stat-grid > .stat-card:nth-child(4n + 2) { background-image: linear-gradient(135deg, rgba(241, 232, 255, .63), rgba(249, 245, 255, .45)); }
+body:not(.sirasi-portal) .stat-grid > .stat-card:nth-child(4n + 3) { background-image: linear-gradient(135deg, rgba(255, 237, 231, .62), rgba(255, 248, 244, .45)); }
+body:not(.sirasi-portal) .stat-grid > .stat-card:nth-child(4n) { background-image: linear-gradient(135deg, rgba(225, 246, 242, .64), rgba(242, 251, 249, .46)); }
+
+body:not(.sirasi-portal) .sidebar nav.menu > .menu-item.active,
+body:not(.sirasi-portal) .sidebar nav.menu > a.active {
+    box-shadow: none !important;
+}
+
+body:not(.sirasi-portal) .hero-welcome-card,
+body:not(.sirasi-portal) .hero-banner {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(212, 229, 255, .4);
+    background-image:
+        radial-gradient(ellipse at 82% 0%, rgba(196, 220, 255, .2), transparent 42%),
+        linear-gradient(125deg, #142f68 0%, #1b438e 52%, #315fb5 100%);
+    box-shadow: 0 22px 48px rgba(23, 55, 117, .2), inset 0 1px rgba(255, 255, 255, .18);
+}
+
+body:not(.sirasi-portal) .hero-welcome-card::after,
+body:not(.sirasi-portal) .hero-banner::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 8%;
+    width: 84%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .72), transparent);
+    pointer-events: none;
+}
+
+.sirasi-theme-toggle {
+    position: relative;
+    display: flex !important;
+    width: 56px !important;
+    height: 34px !important;
+    flex: 0 0 56px !important;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 7px !important;
+    overflow: hidden;
+    border-radius: 999px !important;
+    background: linear-gradient(145deg, rgba(255, 255, 255, .98), rgba(232, 240, 255, .88)) !important;
+}
+
+.sirasi-theme-toggle::before {
+    content: "";
+    position: absolute;
+    inset: 1px 2px auto;
+    height: 42%;
+    border-radius: inherit;
+    background: linear-gradient(180deg, rgba(255, 255, 255, .76), transparent);
+    pointer-events: none;
+}
+
+.sirasi-theme-toggle svg { position: relative; z-index: 1; }
+.sirasi-theme-toggle svg { width: 14px !important; height: 14px !important; }
+.sirasi-theme-toggle .theme-icon-moon,
+.sirasi-theme-toggle .theme-icon-sun { display: block !important; }
+.sirasi-theme-toggle::after {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #fff, #e9f0ff);
+    box-shadow: 0 2px 7px rgba(28, 51, 93, .2), inset 0 1px #fff;
+    transition: transform .25s cubic-bezier(.2, .8, .2, 1);
+}
+.sirasi-theme-toggle[aria-pressed="true"]::after { transform: translateX(22px); }
+
+body.dark-mode:not(.sirasi-portal) .main,
+body.dark-mode:not(.sirasi-portal) .main-content,
+body.dark-mode:not(.sirasi-portal) .settings-main {
+    background:
+        radial-gradient(ellipse at 88% 2%, rgba(61, 95, 164, .17), transparent 36%),
+        linear-gradient(145deg, #121d31 0%, #17243a 58%, #121d31 100%);
+}
+
+body.dark-mode:not(.sirasi-portal) .main > .header,
+body.dark-mode:not(.sirasi-portal) main > .header,
+body.dark-mode:not(.sirasi-portal) .main > .topbar,
+body.dark-mode:not(.sirasi-portal) main > .topbar,
+body.dark-mode:not(.sirasi-portal) .stat-card,
+body.dark-mode:not(.sirasi-portal) .card-panel,
+body.dark-mode:not(.sirasi-portal) .content-card,
+body.dark-mode:not(.sirasi-portal) .dashboard-card,
+body.dark-mode:not(.sirasi-portal) .filter-card,
+body.dark-mode:not(.sirasi-portal) .table-card,
+body.dark-mode:not(.sirasi-portal) .form-card {
+    border-color: rgba(170, 194, 238, .13);
+    background: linear-gradient(145deg, rgba(34, 50, 77, .92), rgba(25, 39, 63, .94));
+    box-shadow: 0 18px 44px rgba(3, 10, 23, .22), inset 0 1px rgba(255, 255, 255, .045);
+}
+
+body.dark-mode:not(.sirasi-portal) .hero-welcome-card,
+body.dark-mode:not(.sirasi-portal) .hero-banner {
+    border-color: rgba(190, 211, 255, .2);
+    background-image:
+        radial-gradient(ellipse at 82% 0%, rgba(159, 192, 255, .18), transparent 42%),
+        linear-gradient(125deg, #182d52 0%, #203d70 52%, #2a4b84 100%);
+}
+
+html body.dark-mode .sidebar {
+    --sirasi-sidebar-surface: rgba(23, 52, 96, .86);
+    --sirasi-active-content-surface: #121d31;
+    border-right: 0 !important;
+    background: linear-gradient(160deg, #133985 0%, #17429e 50%, #1d52bd 100%) !important;
+    box-shadow: 8px 0 24px rgba(0, 10, 30, .22), inset 1px 1px 2px rgba(255, 255, 255, .22) !important;
+    backdrop-filter: blur(16px) saturate(125%) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(125%) !important;
+}
+
+html body.dark-mode .sidebar nav.menu > .menu-item,
+html body.dark-mode .sidebar nav.menu > a {
+    border-color: transparent !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: #c8bdc5 !important;
+}
+
+html body.dark-mode .sidebar nav.menu > .menu-item:hover,
+html body.dark-mode .sidebar nav.menu > a:hover {
+    border-radius: 10px !important;
+    background: linear-gradient(100deg, rgba(236, 218, 229, .12), rgba(236, 218, 229, .04)) !important;
+    box-shadow: inset 0 1px rgba(255, 255, 255, .08) !important;
+    color: #f0e5ed !important;
+}
+
+html body.dark-mode .sidebar nav.menu > .menu-item.active,
+html body.dark-mode .sidebar nav.menu > a.active {
+    border-top-left-radius: 9999px !important;
+    border-bottom-left-radius: 9999px !important;
+    border-color: transparent !important;
+    background: var(--sirasi-active-content-surface) !important;
+    box-shadow: none !important;
+    color: #60a5fa !important;
+    font-weight: 600 !important;
+    color: #fff5fb !important;
+    font-weight: 700 !important;
+}
+
+html body.dark-mode .sidebar nav.menu .menu-icon,
+html body.dark-mode .sidebar nav.menu > .menu-item:hover .menu-icon,
+html body.dark-mode .sidebar nav.menu > a:hover .menu-icon,
+html body.dark-mode .sidebar nav.menu > .menu-item.active .menu-icon,
+html body.dark-mode .sidebar nav.menu .menu-icon,
+html body.dark-mode .sidebar nav.menu > .menu-item:hover .menu-icon,
+html body.dark-mode .sidebar nav.menu > a:hover .menu-icon { border:0 !important; border-radius:0 !important; background:transparent !important; box-shadow:none !important; color:#fff !important; }
+html body.dark-mode .sidebar nav.menu > .menu-item.active .menu-icon,
+html body.dark-mode .sidebar nav.menu > a.active .menu-icon { border:0 !important; border-radius:0 !important; background:transparent !important; box-shadow:none !important; color:#60a5fa !important; }
+html body.dark-mode .sidebar .menu-title,
+html body.dark-mode .sidebar .sirasi-sidebar-user-name,
+html body.dark-mode .sidebar .sidebar-bottom .logout-button,
+html body.dark-mode .sidebar .sidebar-bottom .logout-button .menu-icon { color:#f3f8ff !important; }
+html body.dark-mode .sidebar .sidebar-bottom .logout-button:hover { color:#fff !important; background:rgba(219,234,254,.12) !important; }
+
+html body.dark-mode:not(.sirasi-portal) .stat-card,
+html body.dark-mode:not(.sirasi-portal) .card-panel,
+html body.dark-mode:not(.sirasi-portal) .content-card,
+html body.dark-mode:not(.sirasi-portal) .dashboard-card,
+html body.dark-mode:not(.sirasi-portal) .main .card,
+html body.dark-mode:not(.sirasi-portal) .detail-card,
+html body.dark-mode:not(.sirasi-portal) .history-card,
+html body.dark-mode:not(.sirasi-portal) .schedule-card,
+html body.dark-mode:not(.sirasi-portal) .student-card,
+html body.dark-mode:not(.sirasi-portal) .settings-form-card,
+html body.dark-mode:not(.sirasi-portal) .settings-form-section,
+html body.dark-mode:not(.sirasi-portal) .settings-tab-panel,
+html body.dark-mode:not(.sirasi-portal) .form-section,
+html body.dark-mode:not(.sirasi-portal) .report-table-card,
+html body.dark-mode:not(.sirasi-portal) .import-guide-panel,
+html body.dark-mode:not(.sirasi-portal) .about-settings-card,
+html body.dark-mode:not(.sirasi-portal) .summary-card,
+html body.dark-mode:not(.sirasi-portal) .filter-card,
+html body.dark-mode:not(.sirasi-portal) .filter-panel,
+html body.dark-mode:not(.sirasi-portal) .workspace-card,
+html body.dark-mode:not(.sirasi-portal) .info-card,
+html body.dark-mode:not(.sirasi-portal) .profile-card,
+html body.dark-mode:not(.sirasi-portal) .table-card,
+html body.dark-mode:not(.sirasi-portal) .form-card {
+    border-color: rgba(178, 198, 237, .19);
+    background: linear-gradient(135deg, rgba(38, 57, 87, .78), rgba(28, 45, 72, .70));
+    box-shadow: 0 20px 48px rgba(0, 6, 20, .28), inset 0 1px rgba(255, 255, 255, .09), inset 0 -1px rgba(116, 146, 205, .10);
+    backdrop-filter: blur(24px) saturate(135%);
+    -webkit-backdrop-filter: blur(24px) saturate(135%);
+}
+
+html body.dark-mode:not(.sirasi-portal) .filter-panel {
+    border-color: rgba(178, 198, 237, .19) !important;
+    background: linear-gradient(135deg, rgba(38, 57, 87, .82), rgba(28, 45, 72, .76)) !important;
+    box-shadow: 0 20px 48px rgba(0, 6, 20, .28), inset 0 1px rgba(255, 255, 255, .09), inset 0 -1px rgba(116, 146, 205, .10) !important;
+    backdrop-filter: blur(24px) saturate(135%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(135%) !important;
+}
+
+html body.dark-mode:not(.sirasi-portal) .filter-panel-heading strong { color: #e7efff !important; }
+html body.dark-mode:not(.sirasi-portal) .filter-panel-heading small { color: #a9bad6 !important; }
+
+html body.dark-mode:not(.sirasi-portal) .table-card table,
+html body.dark-mode:not(.sirasi-portal) .table-wrapper table,
+html body.dark-mode:not(.sirasi-portal) .table-responsive-wrapper table,
+html body.dark-mode:not(.sirasi-portal) .table-container table,
+html body.dark-mode:not(.sirasi-portal) table.data-table {
+    border-color: rgba(170, 192, 232, .17);
+    background: rgba(19, 32, 53, .34);
+}
+html body.dark-mode:not(.sirasi-portal) .table-card thead th,
+html body.dark-mode:not(.sirasi-portal) .table-wrapper thead th,
+html body.dark-mode:not(.sirasi-portal) .table-responsive-wrapper thead th,
+html body.dark-mode:not(.sirasi-portal) .table-container thead th,
+html body.dark-mode:not(.sirasi-portal) table.data-table thead th {
+    background: linear-gradient(120deg, rgba(69, 91, 132, .60), rgba(73, 73, 124, .52));
+    border-color: rgba(172, 193, 231, .18);
+}
+html body.dark-mode:not(.sirasi-portal) .table-card tbody tr:hover,
+html body.dark-mode:not(.sirasi-portal) .table-wrapper tbody tr:hover,
+html body.dark-mode:not(.sirasi-portal) .table-responsive-wrapper tbody tr:hover,
+html body.dark-mode:not(.sirasi-portal) .table-container tbody tr:hover,
+html body.dark-mode:not(.sirasi-portal) table.data-table tbody tr:hover { background: rgba(110, 150, 222, .11); }
+
+html body.dark-mode:not(.sirasi-portal) .filter-card input,
+html body.dark-mode:not(.sirasi-portal) .filter-card select,
+html body.dark-mode:not(.sirasi-portal) .filter-panel input,
+html body.dark-mode:not(.sirasi-portal) .filter-panel select,
+html body.dark-mode:not(.sirasi-portal) .filter-panel textarea,
+html body.dark-mode:not(.sirasi-portal) .search-box input,
+html body.dark-mode:not(.sirasi-portal) .filter-select,
+html body.dark-mode:not(.sirasi-portal) .main input[type="text"],
+html body.dark-mode:not(.sirasi-portal) .main input[type="search"],
+html body.dark-mode:not(.sirasi-portal) .main input[type="email"],
+html body.dark-mode:not(.sirasi-portal) .main input[type="number"],
+html body.dark-mode:not(.sirasi-portal) .main input[type="date"],
+html body.dark-mode:not(.sirasi-portal) .main input[type="time"],
+html body.dark-mode:not(.sirasi-portal) .main select,
+html body.dark-mode:not(.sirasi-portal) .main textarea,
+html body.dark-mode:not(.sirasi-portal) .form-card input,
+html body.dark-mode:not(.sirasi-portal) .form-card select,
+html body.dark-mode:not(.sirasi-portal) .form-card textarea {
+    border-color: rgba(161, 186, 232, .24);
+    background: rgba(14, 27, 47, .58);
+    color: #edf3ff;
+}
+html body.dark-mode:not(.sirasi-portal) .filter-card input:focus,
+html body.dark-mode:not(.sirasi-portal) .filter-card select:focus,
+html body.dark-mode:not(.sirasi-portal) .filter-panel input:focus,
+html body.dark-mode:not(.sirasi-portal) .filter-panel select:focus,
+html body.dark-mode:not(.sirasi-portal) .filter-panel textarea:focus,
+html body.dark-mode:not(.sirasi-portal) .search-box input:focus,
+html body.dark-mode:not(.sirasi-portal) .filter-select:focus,
+html body.dark-mode:not(.sirasi-portal) .main input[type="text"]:focus,
+html body.dark-mode:not(.sirasi-portal) .main input[type="search"]:focus,
+html body.dark-mode:not(.sirasi-portal) .main input[type="email"]:focus,
+html body.dark-mode:not(.sirasi-portal) .main input[type="number"]:focus,
+html body.dark-mode:not(.sirasi-portal) .main input[type="date"]:focus,
+html body.dark-mode:not(.sirasi-portal) .main input[type="time"]:focus,
+html body.dark-mode:not(.sirasi-portal) .main select:focus,
+html body.dark-mode:not(.sirasi-portal) .main textarea:focus,
+html body.dark-mode:not(.sirasi-portal) .form-card input:focus,
+html body.dark-mode:not(.sirasi-portal) .form-card select:focus,
+html body.dark-mode:not(.sirasi-portal) .form-card textarea:focus {
+    border-color: rgba(134, 170, 240, .68);
+    background: rgba(20, 36, 61, .84);
+    box-shadow: 0 0 0 4px rgba(101, 143, 226, .15), 0 10px 22px rgba(0, 5, 18, .20);
+}
+
+html body.dark-mode:not(.sirasi-portal) .modal-content,
+html body.dark-mode:not(.sirasi-portal) .modal-dialog,
+html body.dark-mode:not(.sirasi-portal) .notification-dropdown,
+html body.dark-mode:not(.sirasi-portal) .dropdown-menu {
+    border-color: rgba(177, 198, 237, .20);
+    background: linear-gradient(145deg, rgba(37, 54, 82, .96), rgba(25, 40, 65, .94));
+    box-shadow: 0 24px 64px rgba(0, 4, 16, .40), inset 0 1px rgba(255, 255, 255, .08);
+}
+
+body.dark-mode .sirasi-theme-toggle {
+    border-color: rgba(161, 184, 226, .25) !important;
+    background: linear-gradient(145deg, #2b3d5e, #1d2d49) !important;
+    color: #d8e5ff !important;
+    box-shadow: 0 5px 16px rgba(2, 8, 19, .22), inset 0 1px rgba(255, 255, 255, .10) !important;
+}
+body.dark-mode .sirasi-theme-toggle::after {
+    background: linear-gradient(145deg, #b9cbf5, #829bd1);
+    box-shadow: 0 2px 8px rgba(2, 8, 19, .32), inset 0 1px rgba(255, 255, 255, .25);
+}
+
+body.sirasi-portal {
+    --bg-body: #f3f6fc;
+    --surface: rgba(255, 255, 255, .84);
+    --text-main: #16233c;
+    --text-secondary: #41516c;
+    --text-muted: #72809a;
+    background:
+        radial-gradient(ellipse at 12% 18%, rgba(161, 193, 255, .2), transparent 30%),
+        radial-gradient(ellipse at 90% 54%, rgba(191, 176, 255, .15), transparent 32%),
+        linear-gradient(145deg, #f7f9ff, #eef3fb 58%, #f8f8fd);
+    color: var(--text-main);
+}
+
+.sirasi-portal .portal-navbar {
+    border-color: rgba(255, 255, 255, .78);
+    background: rgba(248, 250, 255, .78);
+    box-shadow: 0 12px 32px rgba(32, 56, 103, .08), inset 0 1px rgba(255, 255, 255, .9);
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+}
+
+.sirasi-portal .nav-link { transition: color .22s ease, background .22s ease, transform .22s ease, box-shadow .22s ease, border-color .22s ease; }
+.sirasi-portal .nav-link:hover { transform: translateY(-1px); background: linear-gradient(100deg, rgba(125, 101, 112, .09), rgba(255, 255, 255, .30)); box-shadow: inset 0 1px rgba(255, 255, 255, .72); color: #574452; }
+.sirasi-portal .nav-link.active {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(59, 130, 246, .25);
+    border-radius: 10px;
+    background: rgba(37, 99, 235, .14);
+    box-shadow: 0 3px 9px rgba(37, 99, 235, .08), inset 0 1px rgba(255, 255, 255, .82);
+    color: #1d4ed8;
+    font-weight: 700;
+}
+body.dark-mode.sirasi-portal .daily-card h2,
+body.dark-mode.sirasi-portal .workspace-card-header h2,
+body.dark-mode.sirasi-portal .guide-card h2,
+body.dark-mode.sirasi-portal .section-title,
+body.dark-mode.sirasi-portal .layanan-card-title,
+body.dark-mode.sirasi-portal .page-banner h1,
+body.dark-mode.sirasi-portal .page-banner p,
+body.dark-mode.sirasi-portal .about-intro-card h2,
+body.dark-mode.sirasi-portal .tujuan-card h3,
+body.dark-mode.sirasi-portal .prinsip-card h2,
+body.dark-mode.sirasi-portal .form-section h2 { color: #f0f5ff; }
+body.dark-mode.sirasi-portal .daily-card p,
+body.dark-mode.sirasi-portal .workspace-card p,
+body.dark-mode.sirasi-portal .guide-card p,
+body.dark-mode.sirasi-portal .section-desc,
+body.dark-mode.sirasi-portal .layanan-card-desc,
+body.dark-mode.sirasi-portal .step-card p,
+body.dark-mode.sirasi-portal .about-intro-card p,
+body.dark-mode.sirasi-portal .tujuan-card p,
+body.dark-mode.sirasi-portal .prinsip-card p,
+body.dark-mode.sirasi-portal label { color: #b7c5df; }
+body.dark-mode.sirasi-portal input,
+body.dark-mode.sirasi-portal select,
+body.dark-mode.sirasi-portal textarea {
+    border-color: rgba(169, 191, 232, .22);
+    background: rgba(14, 25, 43, .64);
+    color: #edf3ff;
+}
+body.dark-mode.sirasi-portal input::placeholder,
+body.dark-mode.sirasi-portal textarea::placeholder { color: #8799b8; }
+body.dark-mode.sirasi-portal .footer { background: rgba(14, 24, 41, .82); }
+
+@media (prefers-reduced-motion: reduce) {
+    body:not(.sirasi-portal) *,
+    body.sirasi-portal * { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+}
+
+@media (max-width: 600px) {
+    .sirasi-theme-toggle { width: 50px !important; flex-basis: 50px !important; }
+    .sirasi-theme-toggle[aria-pressed="true"]::after { transform: translateX(16px); }
+}

@@ -43,7 +43,7 @@
         }
 
         body {
-            font-family: Inter, "Segoe UI", Arial, sans-serif;
+
             background:
                 radial-gradient(
                     circle at 85% 0%,
@@ -62,7 +62,7 @@
         input,
         select,
         textarea {
-            font-family: inherit;
+
         }
 
         /* app */
@@ -75,7 +75,7 @@
         /* sidebar */
 
         .sidebar {
-            width: 270px;
+            width: 235px;
             min-height: 100vh;
 
             position: fixed;
@@ -230,7 +230,7 @@
         .main {
             flex: 1;
             min-width: 0;
-            margin-left: 270px;
+            margin-left: 235px;
         }
 
         /* header */
@@ -1474,6 +1474,48 @@
             color: #ff9b9b !important;
         }
 
+        /* Alert / Toast */
+        .alert {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 16px;
+            border-radius: 12px;
+            font-size: 13.5px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .alert svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
+        .alert-success {
+            background: var(--green-bg);
+            color: var(--green);
+            border: 1px solid #b8ebd0;
+        }
+
+        .alert-danger {
+            background: var(--red-bg);
+            color: var(--red);
+            border: 1px solid #ffccd0;
+        }
+
+        body.dark-mode .alert-success {
+            background: #173b2b !important;
+            color: #a7edc2 !important;
+            border-color: #2b7250 !important;
+        }
+
+        body.dark-mode .alert-danger {
+            background: #3c2028 !important;
+            color: #ffd0d6 !important;
+            border-color: #74414c !important;
+        }
+
     </style>
 </head>
 
@@ -1483,97 +1525,7 @@
 
     {{-- sidebar --}}
 
-    <aside class="sidebar">
-
-        <div>
-
-            <div class="brand">
-
-                <div class="brand-logo">
-                    <img src="{{ asset('images/logo-smpn2-dramaga.png') }}" alt="Logo SMP Negeri 2 Dramaga">
-                </div>
-
-                <div>
-
-                    <div class="brand-name">
-                        SIRASI-BK
-                    </div>
-
-                    <div class="brand-subtitle">
-                        Bimbingan & Konseling
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="menu-title">
-                Menu Utama
-            </div>
-
-            <nav class="menu">
-
-                <a
-                    href="{{ route('dashboard') }}"class="menu-item sirasi-nav-link">
-                    <span class="menu-icon"><i data-lucide="home"></i></span>
-                    Dashboard
-                </a>
-
-                <a
-                    href="{{ route('siswa.index') }}" class="menu-item active">
-                    <span class="menu-icon"><i data-lucide="users-round"></i></span>
-                    Data Siswa
-                </a>
-
-                <a
-                    href="{{ route('penjadwalan.index') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="calendar-clock"></i></span>
-                    Penjadwalan
-                </a>
-
-                <a
-                    href="{{ route('konseling.index') }}" class="menu-item sirasi-nav-link">
-                    <span class="menu-icon"><i data-lucide="clipboard-list"></i></span>
-                    Data Konseling
-                </a>
-
-                <a
-                    href="{{ route('siswa.riwayat') }}" class="menu-item">
-                    <span class="menu-icon"><i data-lucide="history"></i></span>
-                    Riwayat Siswa
-                </a>
-
-                <a
-                    href="{{ route('laporan.index') }}"class="menu-item sirasi-nav-link">
-                    <span class="menu-icon"><i data-lucide="file-chart-column"></i></span>
-                    Laporan
-                </a>
-
-                <a
-                    href="{{ route('pengaturan.index') }}"class="menu-item sirasi-nav-link">
-                    <span class="menu-icon"><i data-lucide="settings"></i></span>
-                    Pengaturan
-                </a>
-
-            </nav>
-
-        </div>
-
-        <div class="sidebar-bottom" style="margin-top: auto;">
-
-            <form action="{{ route('logout') }}" method="POST" onsubmit="return confirm('Anda yakin ingin keluar?');">
-                @csrf
-
-                <button
-                    type="submit" class="menu-item logout-button">
-                    <span class="menu-icon"><i data-lucide="log-out"></i></span>
-                    Logout
-                </button>
-            </form>
-
-        </div>
-
-    </aside>
+    @include('layouts.sidebar')
 
     {{-- main --}}
 
@@ -1582,19 +1534,6 @@
         {{-- header --}}
 
         <header class="header">
-
-            <div class="search-box">
-
-                <span class="search-icon">
-                    <i data-lucide="search"></i>
-                </span>
-
-                <input
-                    type="text"
-                    placeholder="Cari siswa atau data..."
-                >
-
-            </div>
 
             <div class="profile-area">
 
@@ -1607,7 +1546,7 @@
                         <i data-lucide="bell"></i>
 
                         @if (isset($notifikasis) && $notifikasis->where('dibaca', false)->count() > 0)
-                            <span class="notification-dot"></span>
+                            <span class="notification-dot" id="notificationDot"></span>
                         @endif
                     </button>
 
@@ -1622,7 +1561,7 @@
                         @forelse ($notifikasis ?? [] as $notifikasi)
                             <a
                                 href="{{ route('notifikasi.baca', $notifikasi->id) }}"
-                                class="notification-item"
+                                class="notification-item {{ !$notifikasi->dibaca ? 'unread' : '' }}"
                             >
                                 <div class="notification-item-icon">
                                     <i data-lucide="clipboard-list"></i>
@@ -1630,7 +1569,7 @@
 
                                 <div class="notification-item-content">
                                     <strong>{{ $notifikasi->judul }}</strong>
-                                    <p>{{ $notifikasi->pesan }}</p>
+                                    <p>{{ preg_replace('/\s*\[JADWAL:\d+\]/', '', $notifikasi->pesan) }}</p>
                                     <small>{{ $notifikasi->created_at->diffForHumans() }}</small>
                                 </div>
                             </a>
@@ -1731,6 +1670,20 @@
 
                     <div class="form-body">
 
+                        @if (session('success'))
+                            <div class="alert alert-success" role="status">
+                                <i data-lucide="check-circle-2"></i>
+                                <span>{{ session('success') }}</span>
+                            </div>
+                        @endif
+
+                        @if (session('error'))
+                            <div class="alert alert-danger" role="alert">
+                                <i data-lucide="alert-circle"></i>
+                                <span>{{ session('error') }}</span>
+                            </div>
+                        @endif
+
                         @if ($errors->any())
 
                             <div class="error-summary">
@@ -1762,6 +1715,7 @@
 
                             @csrf
                             @method('PUT')
+                            <input type="hidden" name="redirect_to" value="{{ old('redirect_to', request('redirect_to', url()->previous() != url()->current() ? url()->previous() : route('siswa.index'))) }}">
 
                             <div class="section-label">
                                 Data Utama Siswa
@@ -2150,6 +2104,17 @@
         notificationButton.addEventListener('click', function (event) {
             event.stopPropagation();
             notificationDropdown.classList.toggle('show');
+            const dot = document.getElementById('notificationDot') || document.querySelector('.notification-dot');
+            if (dot) {
+                dot.style.display = 'none';
+                fetch('{{ route("notifikasi.markAllRead") }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json'
+                    }
+                }).catch(function () {});
+            }
         });
 
         document.addEventListener('click', function (event) {

@@ -7,6 +7,7 @@ use App\Models\Siswa;
 use App\Models\JenisMasalah;
 use App\Models\Kelas;
 use App\Models\Notifikasi;
+use App\Models\Penjadwalan;
 use Illuminate\Http\Request;
 
 class KonselingController extends Controller
@@ -26,8 +27,13 @@ class KonselingController extends Controller
                 $q->where('masalah', 'like', '%' . $search . '%')
                     ->orWhere('hasil_konseling', 'like', '%' . $search . '%')
                     ->orWhere('catatan', 'like', '%' . $search . '%')
+                    ->orWhere('rencana_tindak_lanjut', 'like', '%' . $search . '%')
                     ->orWhereHas('siswa', function ($siswa) use ($search) {
-                        $siswa->where('nama_siswa', 'like', '%' . $search . '%');
+                        $siswa->whereNameLike($search)
+                            ->orWhere('nis', 'like', '%' . $search . '%')
+                            ->orWhereHas('kelas', function ($kelas) use ($search) {
+                                $kelas->where('nama_kelas', 'like', '%' . $search . '%');
+                            });
                     })
                     ->orWhereHas('jenisMasalah', function ($jenis) use ($search) {
                         $jenis->where('nama_jenis', 'like', '%' . $search . '%');
@@ -95,7 +101,10 @@ class KonselingController extends Controller
     public function create(Request $request)
     {
         $siswa = Siswa::with('kelas')
-            ->orderBy('nama_siswa')
+            ->whereHas('penjadwalan', function ($query) {
+                $query->where('status', 'Terjadwal');
+            })
+            ->orderBy('nama_siswa', 'asc')
             ->get();
 
         $jenisMasalah = JenisMasalah::orderBy('nama_jenis')->get();
@@ -112,12 +121,18 @@ class KonselingController extends Controller
             'tanggal' => 'required|date',
             'masalah' => 'required|string',
             'hasil_konseling' => 'required|string',
+            'diagnosis' => 'nullable|string',
+            'rencana_tindak_lanjut' => 'nullable|string',
             'catatan' => 'nullable|string',
+            'status' => 'required|in:Proses,Selesai',
         ]);
 
-        $validated['status'] = 'Proses';
         $konseling = Konseling::create($validated);
         $siswa = Siswa::find($validated['id_siswa']);
+
+        Penjadwalan::where('id_siswa', $validated['id_siswa'])
+            ->where('status', 'Terjadwal')
+            ->update(['status' => 'Selesai']);
 
         Notifikasi::create([
             'judul' => 'Konseling Baru',
@@ -162,53 +177,160 @@ class KonselingController extends Controller
             'tanggal' => 'required|date',
             'masalah' => 'required|string',
             'hasil_konseling' => 'required|string',
+            'diagnosis' => 'nullable|string',
+            'rencana_tindak_lanjut' => 'nullable|string',
             'catatan' => 'nullable|string',
             'status' => 'required|string|max:30',
         ]);
 
-        $konseling->update($validated);
+        try {
+            $konseling->update($validated);
+        } catch (\Throwable $e) {
+            return back()
+                ->withInput()
+                ->with('error', 'Gagal memperbarui catatan konseling. Silakan periksa kembali data Anda.');
+        }
+
+        $redirectTo = $request->input('redirect_to');
+        if ($redirectTo && (str_starts_with($redirectTo, url('/')) || (str_starts_with($redirectTo, '/') && !str_starts_with($redirectTo, '//')))) {
+            return redirect($redirectTo)
+                ->with('success', 'Data berhasil diperbarui.');
+        }
 
         return redirect()
             ->route('konseling.show', $konseling->id_konseling)
-            ->with('success', 'Catatan konseling berhasil diperbarui.');
+            ->with('success', 'Data berhasil diperbarui.');
     }
 
     public function bacaNotifikasi($id)
     {
         $notifikasi = Notifikasi::findOrFail($id);
-
-        $notifikasi->update([
-            'dibaca' => true,
-        ]);
-
         $user = auth()->user();
 
-        if ($notifikasi->id_konseling) {
-            if ($user && $user->isGuruBK()) {
-                return redirect()->route('konseling.show', $notifikasi->id_konseling);
+        if ($user && $user->isWaliKelas()) {
+            if ($notifikasi->id_konseling || in_array($notifikasi->tipe, ['konseling', 'reset_password'], true)) {
+                return redirect()->route('dashboard');
             }
-            return redirect()->route('dashboard');
+
+            $idKelas = $user->id_kelas
+                ?? Kelas::whereHas('waliKelas', fn($q) => $q->where('id_user', $user->id_user))->value('id_kelas');
+
+            $isAllowed = ($idKelas && (int) $notifikasi->id_kelas === (int) $idKelas)
+                || ((int) $notifikasi->id_user === (int) $user->id_user);
+
+            if (!$isAllowed) {
+                return redirect()->route('wali.pengajuan.index');
+            }
+
+            $notifikasi->update([
+                'dibaca' => true,
+                'updated_at' => now(),
+            ]);
+
+            return redirect()->route('wali.pengajuan.index');
         }
 
-        if ($notifikasi->tipe === 'siswa') {
-            if ($user && ($user->isAdmin() || $user->isGuruBK())) {
+        if ($user && $user->isAdmin()) {
+            if ($notifikasi->id_konseling || in_array($notifikasi->tipe, ['konseling', 'jadwal', 'penjadwalan'], true) || $notifikasi->id_kelas !== null) {
+                return redirect()->route('dashboard');
+            }
+
+            $isAllowed = in_array($notifikasi->tipe, ['reset_password', 'siswa', 'user'], true)
+                || ((int) $notifikasi->id_user === (int) $user->id_user);
+
+            if ($isAllowed) {
+                $notifikasi->update([
+                    'dibaca' => true,
+                    'updated_at' => now(),
+                ]);
+            }
+
+            if (in_array($notifikasi->tipe, ['reset_password', 'user'], true)) {
+                return redirect()->route('users.index');
+            }
+
+            if ($notifikasi->tipe === 'siswa') {
                 return redirect()->route('siswa.index');
             }
-            return redirect()->route('dashboard');
-        }
 
-        if ($notifikasi->tipe === 'jadwal' || $notifikasi->tipe === 'penjadwalan') {
-            if ($user && ($user->isAdmin() || $user->isGuruBK())) {
-                return redirect()->route('penjadwalan.index');
-            }
             return redirect()->route('dashboard');
         }
 
         if ($user && $user->isGuruBK()) {
+            $isAllowed = $notifikasi->tipe !== 'reset_password'
+                && $notifikasi->id_kelas === null
+                && ($notifikasi->id_user === null || (int) $notifikasi->id_user === (int) $user->id_user);
+
+            if ($isAllowed) {
+                $notifikasi->update([
+                    'dibaca' => true,
+                    'updated_at' => now(),
+                ]);
+            }
+
+            if ($notifikasi->id_konseling) {
+                return redirect()->route('konseling.show', $notifikasi->id_konseling);
+            }
+
+            if ($notifikasi->tipe === 'siswa') {
+                return redirect()->route('siswa.index');
+            }
+
+            if ($notifikasi->tipe === 'jadwal' || $notifikasi->tipe === 'penjadwalan') {
+                return redirect()->route('penjadwalan.index');
+            }
+
             return redirect()->route('konseling.index');
         }
 
         return redirect()->route('dashboard');
+    }
+
+    public function markAllRead(Request $request)
+    {
+        $user = auth()->user();
+        if ($user) {
+            $query = Notifikasi::where('dibaca', false);
+            if ($user->isWaliKelas()) {
+                $idKelas = $user->id_kelas
+                    ?? Kelas::whereHas('waliKelas', fn($q) => $q->where('id_user', $user->id_user))->value('id_kelas');
+                $query->whereNotIn('tipe', ['konseling', 'reset_password'])
+                    ->whereNull('id_konseling')
+                    ->where(function ($q) use ($user, $idKelas) {
+                        if ($idKelas) {
+                            $q->where('id_kelas', $idKelas)
+                              ->orWhere('id_user', $user->id_user);
+                        } else {
+                            $q->where('id_user', $user->id_user);
+                        }
+                    });
+            } elseif ($user->isAdmin()) {
+                $query->where(function ($q) use ($user) {
+                        $q->whereIn('tipe', ['reset_password', 'siswa', 'user'])
+                          ->orWhere('id_user', $user->id_user);
+                    })
+                    ->whereNotIn('tipe', ['konseling', 'jadwal', 'penjadwalan'])
+                    ->whereNull('id_konseling')
+                    ->whereNull('id_kelas');
+            } elseif ($user->isGuruBK()) {
+                $query->where('tipe', '!=', 'reset_password')
+                    ->whereNull('id_kelas')
+                    ->where(function ($q) use ($user) {
+                        $q->whereNull('id_user')
+                          ->orWhere('id_user', $user->id_user);
+                    });
+            }
+            $query->update([
+                'dibaca' => true,
+                'updated_at' => now(),
+            ]);
+        }
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json(['success' => true]);
+        }
+
+        return back();
     }
 
     public function destroy($id)

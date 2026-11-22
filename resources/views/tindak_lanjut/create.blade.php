@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Tambah Tindak Lanjut - SIRASI-BK</title>
+    @include('partials.theme')
 
     <style>
 
@@ -43,11 +44,7 @@
         body {
             min-height: 100vh;
 
-            font-family:
-                Inter,
-                "Segoe UI",
-                Arial,
-                sans-serif;
+
 
             color: var(--text);
 
@@ -69,7 +66,7 @@
         input,
         select,
         textarea {
-            font-family: inherit;
+
         }
 
         /* page */
@@ -826,6 +823,7 @@
 
     </style>
 
+    @include('layouts.page_title_system')
 </head>
 
 <body>
@@ -936,7 +934,7 @@
 
         <div class="card-body">
 
-            <form action="{{ route('logout') }}" method="POST" onsubmit="return confirm('Anda yakin ingin keluar?');">
+            <form action="{{ route('tindak_lanjut.store') }}" method="POST">
 
                 @csrf
 

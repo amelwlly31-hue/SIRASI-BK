@@ -14,7 +14,7 @@
             margin: 0;
             padding: 30px;
             background: #f1f5f9;
-            font-family: "Times New Roman", Times, serif;
+
             color: #111827;
         }
 
@@ -153,7 +153,7 @@
             padding: 10px 18px;
             border-radius: 8px;
             cursor: pointer;
-            font-family: Arial, sans-serif;
+
             font-size: 13px;
             font-weight: 600;
             text-decoration: none;
@@ -210,7 +210,7 @@
             align-items: center;
             gap: 10px;
             padding: 11px 16px;
-            font-family: Arial, sans-serif;
+
             font-size: 13px;
             font-weight: 500;
             color: #1f2937;
@@ -305,6 +305,9 @@
                 transform: none;
             }
         }
+    </style>
+    <style>
+        .page, .page * { font-family: 'Times New Roman', Times, serif !important; }
     </style>
 </head>
 

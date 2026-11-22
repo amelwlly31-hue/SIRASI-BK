@@ -27,14 +27,18 @@ class Kelas extends Model
 
     public function waliKelas()
     {
-        return $this->hasOne(User::class, 'id_kelas', 'id_kelas')->where('role', 'wali_kelas');
+        return $this->hasOne(User::class, 'id_kelas', 'id_kelas')
+            ->where('role', 'wali_kelas')
+            ->orderByDesc('id_user');
     }
 
     protected static function booted()
     {
         static::addGlobalScope('order_numerik', function ($builder) {
             $builder->orderBy('tingkat')
-                ->orderByRaw("CAST(SUBSTRING_INDEX(nama_kelas, '.', -1) AS UNSIGNED) ASC");
+                ->orderByRaw("CASE WHEN SUBSTRING_INDEX(nama_kelas, '-', -1) REGEXP '^[0-9]+$' THEN 0 ELSE 1 END ASC")
+                ->orderByRaw("CAST(SUBSTRING_INDEX(nama_kelas, '-', -1) AS UNSIGNED) ASC")
+                ->orderBy('nama_kelas');
         });
     }
 }

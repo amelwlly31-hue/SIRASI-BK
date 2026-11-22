@@ -298,7 +298,7 @@ class AntiBentrokJadwalTest extends TestCase
         $this->assertEquals('15:00:00', $jadwalB->waktu_mulai);
     }
 
-    public function test_wali_kelas_approval_fails_if_slot_conflicts_with_confirmed_schedule()
+    public function test_wali_kelas_grants_permission_while_guru_bk_checks_slot_conflict_when_scheduling()
     {
         // Guru BK sudah memiliki jadwal resmi: 08:00 - 09:00
         Penjadwalan::create([
@@ -310,7 +310,7 @@ class AntiBentrokJadwalTest extends TestCase
             'status' => 'Terjadwal',
         ]);
 
-        // Siswa 2 mengajukan waktu yang bertabrakan: 08:30 - 09:30
+        // Siswa 2 memiliki pengajuan di waktu 08:30 - 09:30
         $pengajuanB = Penjadwalan::create([
             'id_siswa' => $this->siswa2->id_siswa,
             'tanggal' => $this->testDate,
@@ -320,19 +320,48 @@ class AntiBentrokJadwalTest extends TestCase
             'status' => 'Diajukan',
         ]);
 
-        // Wali Kelas mencoba menyetujui Pengajuan B -> HARUS DITOLAK karena bentrok
+        // Wali Kelas hanya memberikan izin siswa mengikuti konseling (bukan memeriksa ketersediaan slot Guru BK)
         $response = $this->actingAs($this->waliKelas)->patch(
             route('wali.pengajuan.approve', $pengajuanB->id_penjadwalan),
-            ['catatan_wali' => 'Mencoba approve jadwal bentrok']
+            ['catatan_wali' => 'Diizinkan keluar kelas untuk konseling']
         );
 
         $response->assertStatus(302);
-        $response->assertSessionHas('error');
+        $response->assertSessionHas('success');
 
-        // Status Pengajuan B HARUS TETAP 'Diajukan'
         $pengajuanB->refresh();
-        $this->assertEquals('Diajukan', $pengajuanB->status);
-        $this->assertNull($pengajuanB->id_wali);
+        $this->assertEquals('Disetujui_Wali', $pengajuanB->status);
+        $this->assertEquals($this->waliKelas->id_user, $pengajuanB->id_wali);
+
+        // Saat Guru BK menetapkan jadwal, pemeriksaan ketersediaan dilakukan oleh Guru BK (tolak jika jam masih bentrok)
+        $bkConflictAttempt = $this->actingAs($this->guruBk)->put(
+            route('penjadwalan.update', $pengajuanB->id_penjadwalan),
+            [
+                'id_siswa' => $this->siswa2->id_siswa,
+                'tanggal' => $this->testDate,
+                'waktu_mulai' => '08:30',
+                'waktu_selesai' => '09:30',
+                'jenis_bimbingan' => 'Pengajuan Siswa 2',
+                'status' => 'Terjadwal',
+            ]
+        );
+        $bkConflictAttempt->assertSessionHasErrors(['waktu_mulai']);
+
+        // Guru BK menetapkan jadwal pada slot yang tersedia (09:00 - 10:00) -> BERHASIL
+        $bkValidSchedule = $this->actingAs($this->guruBk)->put(
+            route('penjadwalan.update', $pengajuanB->id_penjadwalan),
+            [
+                'id_siswa' => $this->siswa2->id_siswa,
+                'tanggal' => $this->testDate,
+                'waktu_mulai' => '09:00',
+                'waktu_selesai' => '10:00',
+                'jenis_bimbingan' => 'Pengajuan Siswa 2',
+                'status' => 'Terjadwal',
+            ]
+        );
+        $bkValidSchedule->assertSessionHas('success');
+        $pengajuanB->refresh();
+        $this->assertEquals('Terjadwal', $pengajuanB->status);
     }
 
     public function test_concurrent_submissions_prevent_double_booking_via_transaction()
